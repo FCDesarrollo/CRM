@@ -19,65 +19,153 @@ session_start();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Mi Consultor</title>
     
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+    <!------ Include the above in your HEAD tag ---------->
 
-    <!-- Custom styles for this template 
-    <link href="css/freelancer.min.css" rel="stylesheet">-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+
 
     <!-- Estilos Propios -->
     <link rel="stylesheet" type="text/css" href="css/estilos.css" media="screen" />
-
-    <script>
-        //var ws = "http://localhost/ApiConsultorMX/miconsultor/public/";
-        //var ws = "http://apicrm.dublock.com/public/";
-    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 </head>
 <body onload="CargaListaEmpresas('<?php echo $_SESSION['idusuario']; ?>')">
 
     <?php include("varglobales.php"); ?>
-    <?php // include("nav.php"); ?>
-    <?php include("vincularempresa.php"); ?>
 
-    <div class="container-fluid">
-        <div class="container">
-            <div class="row">
-                <h5 id="usuariolog"></h5>
+    <div class="container">      
+        <div style="margin-top:15px"></div>  
+        <div class="row">
+            <div class="col-8">
+                <form id="FormListEmp" action="DashEmpresa/" method="POST">
+                    <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php echo $_SESSION['idusuario']; ?>" />    
+                    <input type="hidden" name="idempresalog" id="idempresalog" />                        
+                </form>                                  
+            </div>   
+            <div class="col-4 text-right">                
+                
+            </div>  
+        </div>  
+        <hr>
+    </div>
+    <div class="container">        
+        <div class="row">    
+            <div class="col-md-10 col-md-offset-1">            
+                <div class="panel panel-default panel-table">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col col-xs-4">
+                                <h3 class="panel-title" id="usuariolog"></h3>
+                            </div>
+                            <div class="col col-xs-8 text-right">
+                                <button type="button" class="btn btn-sm btn-primary btn-create">Agregar Empresa</button>                            
+                                <button type="button" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-list" id="lista-empresa">
+                            <thead>
+                                <tr>
+                                    <th style="display:none"></th>
+                                    <th>Empresa</th>
+                                    <th class="hidden-xs">RFC</th>
+                                    <th><em class="fa fa-cog"></em> Acciones</th>
+                                </tr> 
+                            </thead>
+                        </table>                
+                    </div>
+                     <div class="panel-footer">
+                        <div class="row">
+                        <!-- <div class="col col-xs-4">Page 1 of 5 -->
+                        </div>
+                        <div class="col col-xs-8">
+                            <!-- <ul class="pagination hidden-xs pull-right">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            </ul>
+                            <ul class="pagination visible-xs pull-right">
+                                <li><a href="#">«</a></li>
+                                <li><a href="#">»</a></li>
+                            </ul> -->
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-    <div id="listado-empresas">
-      <!-- Aqui se carga el listado de empresas del usuario -->       
-    </div>
-    
+    </div>    
+ 
+    <!-- <div id="DesvinculaModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"> 
+                    <label>¿Desea Desvincular la empresa seleccionada?</label>
+                    <div class="btn-group btn-group-justified btn-group-emp"> 
+                        <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $_SESSION['idusuario']; ?>" />    
+                        <div class="btn-group btn-listemp" role="group">
+                            <button type="button" onclick="DesvinculaEmpresa()" class="btn btn-danger btn-listemp">Desvincular</button>
+                        </div>
+                        <div class="btn-group btn-listemp" role="group">    
+                            <button type="button" id="cerrar" data-dismiss="modal" class="btn btn-secondary btn-listemp">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  -->
+ 
+
+   
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+
+
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
-    <!-- Contact Form JavaScript 
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>-->
 
-    <!-- Custom scripts for this template 
-    <script src="js/freelancer.min.js"></script>-->
-
-    <!-- Validacion de Correo --> 
     <script src="js/app.js"></script>   
     <!--<script src="usuarioadmin/usuarioslog.js"></script>   --> 
+
+
+    <script>
+
+    function AbreEmpresa(){
+        $('body').on('click', '#lista-empresa a', function(){
+            var select = $(this).attr('value');            
+            if(select!=""){                        
+                $("#idempresalog").val(select);
+                $("#FormListEmp").submit();
+            }else{
+                alert("Seleccione Empresa");
+            }                
+        });        
+    }
+
+    // function Desvincula(){
+    //     $('body').on('click', '#lista-empresa a', function(){
+    //         var btnElimina = $(this).attr('value');
+    //         if(btnElimina != ""){                  
+    //             $('#DesvinculaModal').modal('show');
+    //         }else{                
+    //             //$('#DesvinculaModal').modal('hide');
+    //         }  
+    //     });              
+    // }    
+
+    </script>
 </body>
 </html>

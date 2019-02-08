@@ -1,17 +1,17 @@
 
-function AbreEmpresa(){
-	var select = document.getElementById("sel2").value;
+// function AbreEmpresa(){
+// 	var select = document.getElementById("sel2").value;
 	
-	if(select!=""){
-		$("#idempresalog").val(select);
-		//console.log(select);
-		//console.log($("#idusuariolog").val());
-		$("#FormListEmp").submit();
-	}else{
-		alert("Seleccione Empresa");
-	}
+// 	if(select!=""){
+// 		$("#idempresalog").val(select);
+// 		//console.log(select);
+// 		//console.log($("#idusuariolog").val());
+// 		$("#FormListEmp").submit();
+// 	}else{
+// 		alert("Seleccione Empresa");
+// 	}
 	
-}
+// }
 
 function DesvinculaEmpresa(){
 	var select = document.getElementById("sel2");
@@ -47,14 +47,27 @@ function CargaListaEmpresas(idusuario){
 			idusuario = usuario[0].idusuario;
 			tipo = usuario[0].tipo;
 
-			var listEmp = document.getElementById("sel2");
+			//var listEmp = document.getElementById("sel2");
 			
 			$.get(ws + "ListaEmpresas", { idusuario: idusuario, tipo: tipo }, function(data){
 				var empresas = JSON.parse(data).empresas;
 				for(var x in empresas)
-				{					
-					document.getElementById("sel2").innerHTML += "<option value='"+empresas[x].idempresa+"'>"+empresas[x].nombreempresa+"</option>";
+				{				
+					document.getElementById("lista-empresa").innerHTML += 
+					"<tbody> \
+						<tr> \
+							<td>"+empresas[x].nombreempresa+"</td> \
+							<td class='hidden-xs'>"+empresas[x].RFC+"</td> \
+							<td align='center'> \
+								<a id='btn-abr"+empresas[x].idempresa+"' onclick='AbreEmpresa()' value='"+empresas[x].idempresa+"' class='btn btn-primary'><em class='fa fa-play-circle'></em></a> \
+								<a id='btn-mod"+empresas[x].idempresa+"' value='"+empresas[x].idempresa+"' class='btn btn-default'><em class='fa fa-pencil'></em></a> \
+								<a id='btn-eli"+empresas[x].idempresa+"' onclick='Desvincula()' value='"+empresas[x].idempresa+"'class='btn btn-danger'><em class='fa fa-trash'></em></a> \
+							</td> \
+						</tr> \
+					</tbody>";
+					//document.getElementById("sel2").innerHTML += "<option value='"+empresas[x].idempresa+"'>"+empresas[x].nombreempresa+"</option>";
 				}
+				
 			});		
 
 		}

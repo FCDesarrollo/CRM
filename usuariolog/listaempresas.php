@@ -8,10 +8,11 @@ session_start();
     } 
 ?>
 
-<div class="container">
+
+<!-- <div class="container">
     <div class="listaempresas">
         <form id="FormListEmp" action="DashEmpresa/" method="POST">
-            <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php echo $_SESSION['idusuario']; ?>" />    
+            <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php //echo $_SESSION['idusuario']; ?>" />    
             <input type="hidden" name="idempresalog" id="idempresalog" />
             <div class="btn-group btn-group-justified btn-group-emp" role="group" aria-label="..."> 
                 <div class="btn-group btn-listemp" role="group">
@@ -27,7 +28,7 @@ session_start();
             </div>
         </form>
     </div>
-</div>
+</div> -->
 
 <div id="DesvinculaModal" class="modal fade">
 	<div class="modal-dialog modalSelect3">

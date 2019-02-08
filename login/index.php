@@ -29,6 +29,7 @@
 </head>
 <body>
 	<?php include("../varglobales.php"); ?>
+	<?php include("registro.php"); ?>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -51,8 +52,8 @@
 					</div>
 
 					<div class="w-full text-center p-t-27 p-b-239">
-						<a href="#" class="txt3">Registrate</a>	
-						<span class="txt1"> / </span><a href="#" class="txt2">Olvidaste tu Contraseña?</a>						
+						<a href="#RegistroModal" id="registro" data-toggle="modal" class="txt3">Registrate</a>	
+						<span class="txt1"> / </span><a href="restablecerpwd/" class="txt2">Olvidaste tu Contraseña?</a>						
 					</div>
 				</form>
 
@@ -89,6 +90,8 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
+
+	<script src="../js/crearusuario.js"></script>
 
 </body>
 </html>
