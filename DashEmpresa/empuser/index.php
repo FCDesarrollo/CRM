@@ -1,3 +1,15 @@
+<?php
+session_start();  
+    // $user = $_SESSION['idusuario'];
+    // $user1 = $_SESSION['usuario21'];
+    // $user2 = $_SESSION['tipo'];
+    if($_SESSION["usuario21"] == "")
+    {
+        //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
+      session_destroy(); echo "<script> window.location='index.php' </script>";
+      exit(); 
+    } 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,6 +38,21 @@
     <meta property="og:image:height" content="600">
 
     <!-- Meta -->
+    <!-- vendor css -->
+    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../lib/Ionicons/css/ionicons.css" rel="stylesheet">
+    <link href="../lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+    <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
+    <link href="../lib/highlightjs/github.css" rel="stylesheet">
+    <link href="../lib/datatables/jquery.dataTables.css" rel="stylesheet">
+    <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
+
+
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="../css/bracket.css">
+
+
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
@@ -38,13 +65,16 @@
     <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
     <link href="../lib/chartist/chartist.css" rel="stylesheet">
+    <link href="../lib/datatables/jquery.dataTables.css" rel="stylesheet">
+
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
   </head>
 
   <body>
-
+    <?php include("../../varglobales.php"); ?>
+    
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>bracket<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
@@ -118,14 +148,14 @@
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Forms</span>
+            <span class="menu-item-label">Administrar</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="form-elements.html" class="nav-link">Form Elements</a></li>
-          <li class="nav-item"><a href="form-layouts.html" class="nav-link">Form Layouts</a></li>
-          <li class="nav-item"><a href="form-validation.html" class="nav-link">Form Validation</a></li>
+          <li class="nav-item"><a  class="nav-link">Empresa</a></li>
+          <li class="nav-item"><a href="#" onclick="loadDiv('../divsadministrar/divadmusuarios.php');" class="nav-link">Usuarios</a></li>
+          <li class="nav-item"><a href="#" onclick="loadDiv('../divsadministrar/divadmperfiles.php');" class="nav-link">Perfiles</a></li>
           <li class="nav-item"><a href="form-wizards.html" class="nav-link">Form Wizards</a></li>
           <li class="nav-item"><a href="form-editor-code.html" class="nav-link">Code Editor</a></li>
           <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
@@ -763,6 +793,11 @@
 
     <!-- ########## START: MAIN PANEL ########## -->
     
+    <div class="br-mainpanel">  
+        <!-- AQUI SE CARGA UN ARCHIVO PHP DEPENDIENDO DE LA ACCION -->
+    </div>
+
+
     <script src="../lib/jquery/jquery.js"></script>
     <script src="../lib/popper.js/popper.js"></script>
     <script src="../lib/bootstrap/bootstrap.js"></script>
@@ -780,7 +815,9 @@
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
+    <script src="../js/globales.js" ></script>
     <script>
+      
       $(function(){
         'use strict'
 

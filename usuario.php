@@ -67,6 +67,7 @@ session_start();
                             </div> 
                         </div>
                     </div>
+                  
                     <div class="panel-body">
                         <table class="table table-striped table-bordered table-list" id="lista-empresa">
                             <thead>
@@ -146,7 +147,7 @@ session_start();
     function AbreEmpresa(){
         $('body').on('click', '#lista-empresa a', function(){
             var select = $(this).attr('value');            
-            if(select!=""){                        
+            if(select!=""){                 
                 $("#idempresalog").val(select);
                 $("#FormListEmp").submit();
             }else{
