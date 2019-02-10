@@ -219,8 +219,8 @@
 				<div class="text-inner">
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2">
-							<h1 class="to-animate">Consulta Aquí</h1>
-							<h2 class="to-animate">Tenemos para ti una alta gama de servivios <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank"></a></h2>
+							<h1 class="to-animate">CONSULTA  AQUÍ</h1>
+							<h2 class="to-animate">Tenemos para ti una alta gama de servicios <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank"></a></h2>
 						</div>
 					</div>
 				</div>
