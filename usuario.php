@@ -143,7 +143,7 @@ session_start();
 
 
     <script>
-
+        loadPDF();
     function AbreEmpresa(){
         $('body').on('click', '#lista-empresa a', function(){
             var select = $(this).attr('value');            

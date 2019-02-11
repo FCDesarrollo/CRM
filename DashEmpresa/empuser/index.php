@@ -121,8 +121,8 @@ session_start();
 
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
-            <span class="menu-item-label">FINANZAS</span>
+            <i class="menu-item-icon icon fa fa-balance-scale tx-20"></i>
+            <span class="menu-item-label">&nbsp FINANZAS</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
@@ -130,6 +130,41 @@ session_start();
           <li class="nav-item"><a href="chart-morris.html" class="nav-link">Indicadores Financieros</a></li>
           <li class="nav-item"><a href="chart-flot.html" class="nav-link">Asesor de Flujos de Efectivo</a></li>
           <li class="nav-item"><a href="chart-chartjs.html" class="nav-link">Análisis de Proyectos</a></li>
+        </ul>
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon fa fa-credit-card tx-20"></i>
+            <span class="menu-item-label">&nbsp COMPRAS</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="table-basic.html" class="nav-link">Requerimientos</a></li>
+          <li class="nav-item"><a href="table-datatable.html" class="nav-link">Autorizaciones</a></li>
+          <li class="nav-item"><a href="table-basic.html" class="nav-link">Recepción de compras</a></li>
+        </ul>
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-cloud tx-24"></i>
+            <span class="menu-item-label">ALMACEN DIGITAL</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="#" onclick="openPDF();" class="nav-link">Notificaciones de Autoridades</a></li>
+          <li class="nav-item"><a href="../gestordearchivos/visorpdf.php"  class="nav-link">Expedientes Digitales</a></li>
+           </ul>
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-briefcase-outline tx-22"></i>
+            <span class="menu-item-label">RECEPCIÓN POR LOTES</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Producción</a></li>
+          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Compras</a></li>
+          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Ventas</a></li>
         </ul>
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
@@ -146,45 +181,10 @@ session_start();
           <li class="nav-item"><a href="form-editor-code.html" class="nav-link">Code Editor</a></li>
           <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
         </ul>
-        <a href="#" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-bookmarks-outline tx-20"></i>
-            <span class="menu-item-label">COMPRAS</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="table-basic.html" class="nav-link">Requerimientos</a></li>
-          <li class="nav-item"><a href="table-datatable.html" class="nav-link">Autorizaciones</a></li>
-          <li class="nav-item"><a href="table-basic.html" class="nav-link">Recepción de compras</a></li>
-        </ul>
-        <a href="#" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-navigate-outline tx-24"></i>
-            <span class="menu-item-label">ALMACEN DIGITAL</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="map-google.html" class="nav-link">Notificaciones de Autoridades</a></li>
-          <li class="nav-item"><a href="map-leaflet.html" class="nav-link">Expedientes Digitales</a></li>
-           </ul>
-        <a href="#" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-briefcase-outline tx-22"></i>
-            <span class="menu-item-label">RECEPCIÓN POR LOTES</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Producción</a></li>
-          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Compras</a></li>
-          <li class="nav-item"><a href="background.html" class="nav-link">Proceso de Ventas</a></li>
-        </ul>
         <a href="pages.html" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
-            <span class="menu-item-label">CONOCIMIENTOS</span>
+            <i class="menu-item-icon icon ion-chatbubble-working tx-22"></i>
+            <span class="menu-item-label">AYUDA</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
@@ -804,7 +804,9 @@ session_start();
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
     <script>
-      
+      function openPDF(){
+          window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
+      }
       $(function(){
         'use strict'
 
