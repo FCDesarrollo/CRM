@@ -32,7 +32,7 @@
 	<?php include("registro.php"); ?>
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100">
+			<div class="wrap-login100" id="recargable">
 				<form id="FormLogin" class="login100-form validate-form" action="../session.php" method="post">					
 					<input type="hidden" name="tipo" id="txttipo" />
 					<input type="hidden" name="idusuario" id="txtIdCliente" />					
@@ -55,13 +55,19 @@
 						<a href="#RegistroModal" id="registro" data-toggle="modal" class="txt3">Registrate</a>	
 						<span class="txt1"> / </span><a href="restablecerpwd/" class="txt2">Olvidaste tu Contraseña?</a>						
 					</div>
+					<div id="Alertas" class="">
+						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span id="btnAlerta" aria-hidden="true"></span>
+						</button>                        
+					</div> 						
 				</form>
 
 				<div class="login100-more" style="background-image: url('images/bg-01.jpg');"></div>
 			</div>
 		</div>
-	</div>
 	
+	</div>
+
 	
 
 	<div id="dropDownSelect1"></div>

@@ -101,10 +101,4 @@ function ObtenerUsuario($identificador){
 	return id;	
 }
 
-function FormValidacion(){
-	var correo = $('#txtUsuario').val();
-	$('#myModal').modal('hide');
-	$('#ModalValidacion').modal('show');
-	$("#correo").val(correo);
-}
 

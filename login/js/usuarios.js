@@ -10,7 +10,7 @@ function Login()
             $.post(ws + "Login", $("#FormLogin").serialize(), function(data){
                 
                 var usuario = JSON.parse(data).usuario;                
-                if(usuario.length>0){                    
+                if(usuario.length>0){                                       
                     $("#txtIdCliente").val(usuario[0].idusuario);
                     $("#txttipo").val(usuario[0].tipo);                   
                     if(usuario[0].tipo>0){  
@@ -405,5 +405,14 @@ function Login()
             }
             
         });
+    }
+
+    function FormValidacion(){
+        var correo = $('#txtUsuario').val();
+        $('#recargable').load('validausuario.php');
+        console.log(correo);
+        // var correo = $('#txtUsuario').val();
+        // $('#myModal').modal('hide');
+        // $('#ModalValidacion').modal('show');        
     }
    
