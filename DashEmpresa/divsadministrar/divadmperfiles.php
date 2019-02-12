@@ -45,30 +45,31 @@ session_start();
 
 <script>
     var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>'
-    
-    $.get(ws + "PerfileEmpresa/" + sIDEmpresa, function(data){
-		var perfiles = JSON.parse(data).perfiles;
-        for(var x in perfiles)
-        {
-            document.getElementById("listPerfiles").innerHTML += 
-					"<tbody> \
-						<tr role='row' class='odd'> \
-							<td>"+perfiles[x].nombre+"</td> \
-                            <td >"+perfiles[x].descripcion+"</td> \
-                            <td >" + (perfiles[x].status==1 ? "Activo" : "Inactivo") + "</td> \
-							<td align='center'> \
-								<a  onclick='DatosPerfilesUser(" + sIDEmpresa +");' value='"+perfiles[x].idperfil+"' class='btn btn-success'><em class='fa fa-pencil'></em></a> \
-								<a  onclick='EliminarPerfilEmpresaTable(" + sIDEmpresa +");' value='"+perfiles[x].idperfil+"'class='btn btn-danger'><em class='fa fa-trash'></em></a> \
-							</td> \
-						</tr> \
-					</tbody>";
-            
-        }            
-    });
-
+    if (sIDEmpresa > 0) {
+        $.get(ws + "PerfileEmpresa/" + sIDEmpresa, function(data){
+            var perfiles = JSON.parse(data).perfiles;
+            for(var x in perfiles)
+            {
+                document.getElementById("listPerfiles").innerHTML += 
+                        "<tbody> \
+                            <tr role='row' class='odd'> \
+                                <td style='display:none;>"+perfiles[x].idperfil+"</td> \
+                                <td>"+perfiles[x].nombre+"</td> \
+                                <td >"+perfiles[x].descripcion+"</td> \
+                                <td >" + (perfiles[x].status==1 ? "Activo" : "Inactivo") + "</td> \
+                                <td align='center'> \
+                                    <a  onclick='DatosPerfilesUser(" + sIDEmpresa +");' value='"+perfiles[x].idperfil+"' class='btn btn-success'><em class='fa fa-pencil'></em></a> \
+                                    <a  onclick='EliminarPerfilEmpresaTable(" + sIDEmpresa +");' value='"+perfiles[x].idperfil+"'class='btn btn-danger'><em class='fa fa-trash'></em></a> \
+                                </td> \
+                            </tr> \
+                        </tbody>";
+                
+            }            
+        });    
+    }
     function EliminarPerfilEmpresaTable(sIDEmpresa){
-        $('body').on('click', '#listPerfiles a', function(){
-            var sIDPerfil = $(this).attr('value'); 
+        $("table tbody tr").click( function(){
+            var sIDPerfil = $(this).find("td").eq(0).text(); 
             if(sIDPerfil>0){
                 $.post(ws + "EliminarPerfilEmpresa",{ idperfil: sIDPerfil, idempresa : sIDEmpresa}, function(data, status){
                     if(data>0){

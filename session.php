@@ -25,6 +25,7 @@ session_start();
        // echo "<script> window.location='form.php' </script>";
     }else if($_POST["tipo"] == 3){
         echo "<script> window.location='usuario.php' </script>";
+        
     }else{
         //echo "<script> alert('confirmar su cuenta'); </script>";
     }

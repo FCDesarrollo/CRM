@@ -52,6 +52,7 @@ session_start();
             document.getElementById("ListaUsuarioslog").innerHTML += 
 					"<tbody> \
 						<tr role='row' class='odd'> \
+                            <td style='display:none;'>"+ usuarios[x].iduser+"</td> \
 							<td>"+ usuarios[x].nombre + " " + usuarios[x].apellidop + " " + usuarios[x].apellidom +"</td> \
                             <td >"+ (usuarios[x].status==1 ? "Activo" : "Inactivo") +"</td> \
 							<td align='center'> \
@@ -64,8 +65,8 @@ session_start();
     });
 
     function EliminaUserlog(idempresa){
-        $('body').on('click', '#ListaUsuarioslog a', function(){
-            var sIDUser = $(this).attr('value'); 
+        $("table tbody tr").click( function(){
+            var sIDUser = $(this).find("td").eq(0).text(); 
             if(sIDUser>0){
                 $.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
                     if(data>0){
@@ -79,9 +80,9 @@ session_start();
     }
     
     function DatosUsuarioUser(){
-        loadDiv('../divsadministrar/divadmeditarusuario.php');
-        $('body').on('click', '#ListaUsuarioslog a', function(){
-            var sIDUser = $(this).attr('value'); 
+        $("table tbody tr").click( function(){
+            loadDiv('../divsadministrar/divadmeditarusuario.php');
+            var sIDUser = $(this).find("td").eq(0).text();  
             IDUSER= sIDUser
             $.get(ws + "DatosUsuario/" + sIDUser, function(data){
                 var usuario = JSON.parse(data).usuario;
@@ -106,7 +107,7 @@ session_start();
         });
     }
 
-    function permisoUser(idusuario){
+    function permisoUser(idusuario){ 
         $("#ListaPermisoslog tr").remove();
         $('#ListaPermisoslog tbody').html("");
         $.get(ws + "PermisosUsuario",{ idempresa: idempresa, idusuario : idusuario }, function(data){
