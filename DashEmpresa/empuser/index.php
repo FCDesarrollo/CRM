@@ -3,12 +3,21 @@ session_start();
     // $user = $_SESSION['idusuario'];
     // $user1 = $_SESSION['usuario21'];
     // $user2 = $_SESSION['tipo'];
-    if($_SESSION["usuario21"] == "")
+    if (isset($_SESSION["usuario21"]))
     {
-        //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
-      session_destroy(); echo "<script> window.location='index.php' </script>";
-      exit(); 
-    } 
+      if($_SESSION["usuario21"] == "")
+      {
+          //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
+        session_destroy(); echo "<script> window.location='../../index.php' </script>";
+        exit(); 
+      } 
+    }else{
+        $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
+        session_destroy(); 
+        header("Location: ../../login/index.php?em=$IdEm'&nar=ResultadosDiarios310119.pdf"); 
+        //echo "<script> window.location='../../login/index.php?em=1' </script>";
+        exit(); 
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +83,6 @@ session_start();
 
   <body>
     <?php include("../../varglobales.php"); ?>
-    
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>bracket<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
@@ -86,7 +94,7 @@ session_start();
             <span class="menu-item-label">INICIO</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="mailbox.html" class="br-menu-link">
+        <a href="#" onclick="enviarReporte();" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
             <span class="menu-item-label"> MENSAJES</span>
@@ -139,7 +147,7 @@ session_start();
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="table-basic.html" class="nav-link">Requerimientos</a></li>
+          <li class="nav-item"><a href="../gestordearchivos/manejadorarchivos.php" class="nav-link">Requerimientos</a></li>
           <li class="nav-item"><a href="table-datatable.html" class="nav-link">Autorizaciones</a></li>
           <li class="nav-item"><a href="table-basic.html" class="nav-link">Recepción de compras</a></li>
         </ul>
@@ -803,9 +811,24 @@ session_start();
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
+    
     <script>
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
+      }
+      
+      function enviarReporte(){
+        $.post("../../login/validarcorreo/valida.php",
+              {
+                      //parametros
+                      destinatarios: "arturo.gallegos@dublock.com",
+                      mensaje: "http://localhost/crm/DashEmpresa/gestordearchivos/visorpdf.php?em=2nar=ResultadosDiarios310119.pdf" + 
+                                "<br/>http://localhost/crm/DashEmpresa/archivospdf/ResultadosDiarios310119.pdf",
+                      asunto: "Correo Prueba Expediente",
+
+                  },
+                  function(data,status){                  
+                  });
       }
       $(function(){
         'use strict'

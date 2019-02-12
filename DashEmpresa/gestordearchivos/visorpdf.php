@@ -1,3 +1,20 @@
+<?php
+session_start();  
+    // $user = $_SESSION['idusuario'];
+    // $user1 = $_SESSION['usuario21'];
+    // $user2 = $_SESSION['tipo'];
+    if($_SESSION["usuario21"] == "")
+    {
+        //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
+      session_destroy();
+      $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
+      header("Location: ../empuser/index.php?em=$IdEm'&nar=ResultadosDiarios310119.pdf");
+      exit(); 
+    }else{
+      $nameArchivo = $_GET['nar'];
+      $sar= "../archivospdf/$nameArchivo"; 
+    } 
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -810,8 +827,8 @@
       
      
         <div id="pdfvista" class='embed-responsive' style='padding-bottom:150%'>
-        <embed src="../archivospdf/ResultadosDiarios310119.pdf" type="application/pdf"   height="300px" width="100%" class="responsive">
-        <a href="../archivospdf/ResultadosDiarios310119.pdf">download</a>
+        <embed src=<?php echo $sar ?> type="application/pdf"   height="300px" width="100%" class="responsive">
+        <a href=<?php echo $sar ?>>download</a>
         </div>
       <!-- br-pagebody -->
     </div><!-- br-mainpanel -->

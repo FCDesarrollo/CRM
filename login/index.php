@@ -35,7 +35,9 @@
 			<div class="wrap-login100" id="recargable">
 				<form id="FormLogin" class="login100-form validate-form" action="../session.php" method="post">					
 					<input type="hidden" name="tipo" id="txttipo" />
-					<input type="hidden" name="idusuario" id="txtIdCliente" />					
+					<input type="hidden" name="idusuario" id="txtIdCliente" />
+					<input type="hidden" name="idempresa" id="txtIdEmpresa" value="<?php echo isset($_GET['em']) ? $_GET['em'] : 0 ?>"/>				
+					<input type="hidden" name="namear" id="txtnamear" value="<?php echo isset($_GET['nar']) ? $_GET['nar'] : "" ?>"/>
 					<span class="login100-form-title p-b-34">Cuenta de Ingreso</span>
 					
 					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Introduzca su correo">
@@ -98,7 +100,7 @@
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
-	<script src="../js/crearusuario.js"></script>
-
+	<script src="../js/crearusuario.js"></script>	
 </body>
+
 </html>
