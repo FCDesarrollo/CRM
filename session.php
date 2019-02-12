@@ -7,6 +7,8 @@ session_start();
     $_SESSION['tipo'] = $_POST["tipo"];    
     $_SESSION['idempresalog'] = $_POST["idempresa"];
     
+    //Prueba Rama
+    $_SESSION['idempresalog'] = $_POST["idempresa"];
     if($_SESSION['idempresalog'] != 0){
         $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
       header("Location: DashEmpresa/gestordearchivos/visorpdf.php?em=$IdEm'&nar=ResultadosDiarios310119.pdf"); 
