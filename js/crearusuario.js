@@ -56,6 +56,18 @@ function soloNumeros(e){
 	return (key >= 48 && key <= 57);
 }
 
+function LimpiaElementos(){
+    document.getElementById("txtnombre").style.borderColor="#ced4da"; 
+    document.getElementById("txtapellidop").style.borderColor="#ced4da"; 
+    document.getElementById("txtapellidom").style.borderColor="#ced4da"; 
+    document.getElementById("txtcelular").style.borderColor="#ced4da"; 
+    //document.getElementById("txtcorreo").style.borderColor="#ced4da"; 
+    document.getElementById("txtcontrasena").style.borderColor="#ced4da"; 
+
+    $('#Alertas').removeClass('alert alert-danger');        
+    document.getElementById("Alertas").innerHTML = "";    
+}
+
 function ValidarForm(){   
     var nombre, apellidop, apellidom, celular, correo, contraseña;
     nombre = document.getElementById("txtnombre").value;
@@ -65,30 +77,33 @@ function ValidarForm(){
     correo = document.getElementById("txtcorreo").value;
     contraseña = document.getElementById("txtcontrasena").value;
 
-    document.getElementById("txtcorreo").style.borderColor="#ced4da";  
-
     FormValidado = 1;
 
-    if(nombre === "" || apellidop === "" || apellidom === "" || celular === "" || correo === "" || contraseña === ""){
-        alert("Todos los campos son obligatorios");
+    if(nombre === "" || apellidop === "" || apellidom === "" || celular === "" || correo === "" || contraseña === ""){        
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "Todos los campos son obligatorios";
         FormValidado = 0;
+        return false;
     }
-
     // En caso de querer validar cadenas con espacios usar: /^[a-zA-Z\s]*$/
     if(!/^[a-zA-Z\s]*$/.test(nombre)){
-        document.getElementById("txtnombre").style.borderColor="#FF0000";  
-        document.getElementById("txtnombre").focus();
+        document.getElementById("txtnombre").style.borderColor="#FF0000";          
         FormValidado = 0;  
+        return false;
     }
     if(!/^[a-zA-Z\s]*$/.test(apellidop)){
         document.getElementById("txtapellidop").style.borderColor="#FF0000";  
-        document.getElementById("txtapellidop").focus();
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "Apellido paterno no valido";                
         FormValidado = 0;  
+        return false;
     }
     if(!/^[a-zA-Z\s]*$/.test(apellidom)){
-        document.getElementById("txtapellidom").style.borderColor="#FF0000";  
-        document.getElementById("txtapellidom").focus();
+        document.getElementById("txtapellidom").style.borderColor="#FF0000"; 
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "Apellido materno no valido";                
         FormValidado = 0;  
+        return false;
     }         
 
 
@@ -97,29 +112,40 @@ function ValidarForm(){
     if(celular.length>=10){
         if(celular.length<=15){
             if(!/^([0-9])*$/.test(celular)){            
-                document.getElementById("txtcelular").style.borderColor="#FF0000";  
-                document.getElementById("txtcelular").focus();
+                document.getElementById("txtcelular").style.borderColor="#FF0000";
+                $('#Alertas').addClass('alert alert-danger');        
+                document.getElementById("Alertas").innerHTML = "Numero no valido.";                          
                 FormValidado = 0;      
-                //console.log("no es un numero");
+                return false;
             }
         }else{
             document.getElementById("txtcelular").style.borderColor="#FF0000";  
-            document.getElementById("txtcelular").focus();
-            FormValidado = 0;      
-            //console.log("Deben ser menos de 15 digitos");            
+            $('#Alertas').addClass('alert alert-danger');        
+            document.getElementById("Alertas").innerHTML = "Numero exede la longitud digitos(15).";                    
+            FormValidado = 0;                
+            return false;
         }        
     }else{
-        document.getElementById("txtcelular").style.borderColor="#FF0000";  
-        document.getElementById("txtcelular").focus();            
-        //console.log("deben de ser 10 digitos");
+        document.getElementById("txtcelular").style.borderColor="#FF0000";            
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "Numero incorrecto, debe contener al menos 10 digitos.";                            
         FormValidado = 0;
+        return false;
     }   
+
+    if(CorreoExistente === 0){
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "El correo ya esta en uso."; 
+        return false;        
+    }
 
     //Verificar longitud de contraseña
     if(contraseña.length<8 || contraseña.length>20){
         document.getElementById("txtcontrasena").style.borderColor="#FF0000";  
-        document.getElementById("txtcontrasena").focus();            
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "La contraseña debe tener entre 8 y 32 caracteres.";                    
         FormValidado = 0;
+        return false;
     }            
 }
 
@@ -132,17 +158,20 @@ function ValidaCorreo(){
             var usuario = JSON.parse(data).usuario;
             if(usuario.length>0){ 
                 document.getElementById("txtcorreo").style.borderColor="#FF0000";  
-                document.getElementById("demo2").innerHTML = "El correo proporcionado ya esta en uso.";
+                $('#Alertas').addClass('alert alert-danger');        
+                document.getElementById("Alertas").innerHTML = "El correo ya esta en uso.";                                                    
                 CorreoExistente = 0; //Existe                                                  
             }else{                
                 document.getElementById("txtcorreo").style.borderColor="#ced4da";         
-                document.getElementById("demo2").innerHTML = "";
+                $('#Alertas').removeClass('alert alert-danger'); 
+                document.getElementById("Alertas").innerHTML = "";
                 CorreoExistente = 1; //No Existe                
             }
         });           
     }else{
-        document.getElementById("demo2").innerHTML = "Favor de introducir un correo valido.";
-        document.getElementById("txtcorreo").style.borderColor="#FF0000";                          
+        document.getElementById("txtcorreo").style.borderColor="#FF0000";       
+        $('#Alertas').addClass('alert alert-danger');        
+        document.getElementById("Alertas").innerHTML = "Favor de introducir un correo valido";                                               
         FormValidado = 0;
     }        
 

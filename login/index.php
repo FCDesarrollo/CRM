@@ -68,6 +68,7 @@
 
 	<div id="dropDownSelect1"></div>
 	
+	<script scr="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

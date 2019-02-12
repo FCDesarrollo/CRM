@@ -63,7 +63,7 @@ session_start();
                             </div>
                             <div class="col col-xs-8 text-right">
                                 <button type="button" class="btn btn-sm btn-primary btn-create">Agregar Empresa</button>                            
-                                <button type="button" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
+                                <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
                             </div> 
                         </div>
                     </div>
@@ -143,6 +143,7 @@ session_start();
 
 
     <script>
+        
     function AbreEmpresa(){
         $('body').on('click', '#lista-empresa a', function(){
             var select = $(this).attr('value');            
@@ -153,6 +154,10 @@ session_start();
                 alert("Seleccione Empresa");
             }                
         });        
+    }
+
+    function CerrarSession(){
+        window.location='index.php';         
     }
 
     // function Desvincula(){

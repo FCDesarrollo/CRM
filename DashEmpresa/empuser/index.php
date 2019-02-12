@@ -816,6 +816,7 @@ session_start();
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
       }
+      
       function enviarReporte(){
         $.post("../../login/validarcorreo/valida.php",
               {
