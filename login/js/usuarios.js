@@ -410,7 +410,6 @@ function Login()
     function FormValidacion(){
         var correo = $('#txtUsuario').val();
         $('#recargable').load('validausuario.php');
-        console.log(correo);
         // var correo = $('#txtUsuario').val();
         // $('#myModal').modal('hide');
         // $('#ModalValidacion').modal('show');        

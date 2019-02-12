@@ -57,11 +57,7 @@
 						<a href="#RegistroModal" id="registro" data-toggle="modal" class="txt3">Registrate</a>	
 						<span class="txt1"> / </span><a href="restablecerpwd/" class="txt2">Olvidaste tu Contraseña?</a>						
 					</div>
-					<div id="Alertas" class="">
-						<button  type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span id="btnAlerta" aria-hidden="true"></span>
-						</button>                        
-					</div> 						
+ 						
 				</form>
 
 				<div class="login100-more" style="background-image: url('images/bg-01.jpg');"></div>
@@ -73,8 +69,8 @@
 	
 
 	<div id="dropDownSelect1"></div>
-	
-	<script scr="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+<!--===============================================================================================-->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
