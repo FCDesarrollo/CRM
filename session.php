@@ -5,8 +5,13 @@ session_start();
     $_SESSION['usuario21'] = $_POST["correo"];
     $_SESSION['idusuario'] = $_POST["idusuario"];
     $_SESSION['tipo'] = $_POST["tipo"];    
-    $_SESSION['idempresalog'] = 1;
+    $_SESSION['idempresalog'] = $_POST["idempresa"];
     
+    if($_SESSION['idempresalog'] != 0){
+        $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
+      header("Location: DashEmpresa/gestordearchivos/visorpdf.php?em=$IdEm'&nar=ResultadosDiarios310119.pdf"); 
+    }
+
     if($_POST["tipo"] == 4){
         echo "<script> 
         window.location='AdminBoost/admin.php' </script>";

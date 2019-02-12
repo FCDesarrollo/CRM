@@ -45,7 +45,10 @@ if($_POST){
 		RestablecerContraseña();
 	}elseif($datos['identificador']!=""){
 		CorreoValidacion();
-	}
+	}elseif($datos['destinatarios'] !=""){
+		EnviarLink($datos['destinatarios'], $datos['asunto'],$datos['mensaje']);
+	}		
+	
 }
 
 
