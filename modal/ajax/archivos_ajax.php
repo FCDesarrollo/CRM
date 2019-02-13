@@ -18,12 +18,13 @@
 
     // try to create the directory $dir
     if (ftp_mkdir($conn_id, $nom)) {
-        echo "successfully created $nom\n";
+        echo "successfully created $nom\n";        
+//        echo " successfully created $nom\n";
     } else {
         echo "There was a problem while creating $nom\n";
     }
 
-    $file = $certificado["name"]["tmp_name"];
+    $file = $certificado["tmp_name"];
     $remote_file = $nom.'/'.$certificado["name"];
 
     // upload a file
@@ -35,7 +36,7 @@
         }
     }
 
-    $file = $llave["name"]["tmp_name"];
+    $file = $llave["tmp_name"];
     $remote_file = $nom.'/'.$llave["name"];
 
 
@@ -46,6 +47,7 @@
             echo "There was a problem while uploading $file\n";
         }
     }
+    
 
     // close the connection
     ftp_close($conn_id);
