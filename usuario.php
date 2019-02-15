@@ -36,7 +36,8 @@ session_start();
 <body onload="CargaListaEmpresas('<?php echo $_SESSION['idusuario']; ?>')">
 
     <?php include("varglobales.php"); ?>
-
+    <?php include("modal/registrarEmpresa.php"); ?>
+    
     <div class="container">      
         <div style="margin-top:15px"></div>  
         <div class="row">
@@ -63,7 +64,7 @@ session_start();
                                 <h3 class="panel-title" id="usuariolog"></h3>
                             </div>
                             <div class="col col-xs-8 text-right">
-                                <button type="button" class="btn btn-sm btn-primary btn-create">Agregar Empresa</button>                            
+                                <button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-primary btn-create">Agregar Empresa</button>                            
                                 <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
                             </div> 
                         </div>
@@ -104,8 +105,10 @@ session_start();
 
             </div>
         </div>
+        
+        
     </div>    
- 
+    
     <!-- <div id="DesvinculaModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -139,12 +142,13 @@ session_start();
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
 
-    <script src="js/app.js"></script>   
+    <script src="js/app.js"></script> 
+       
     <!--<script src="usuarioadmin/usuarioslog.js"></script>   --> 
 
-
     <script>
-        
+
+
     function AbreEmpresa(){
         $("table tbody tr").click( function(){
             var select = $(this).find("td").eq(0).text();     

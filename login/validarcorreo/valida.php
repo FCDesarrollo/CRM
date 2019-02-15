@@ -19,7 +19,7 @@ require 'Mailer/PHPMailerAutoload.php';
 //$nombre_BD = "dublockc_mcgenerales";
 //Configuracion del servidor de correo
 //$url_activacion = 'http://localhost/WebConsultorMX/validarcorreo/valida.php';
-$url_activacion = 'http://dublock.com/crm/login/restablecerpwd/';
+$url_activacion = 'http://dublock.com/CRM/login/restablecerpwd/';
 //$url_activacion = 'http://localhost/crm/login/restablecerpwd/';
 
 

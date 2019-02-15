@@ -38,9 +38,10 @@ function EnviarCorreo(form){
         type: 'POST',
         url: 'validarcorreo/valida.php',            
         success:function(response){
-            alert("Usuario Registrado Correctamente. El Codigo de verificacion ha sido enviado a su correo.");
+            swal("Usuario Registrado Correctamente.!", "El Codigo de verificacion ha sido enviado a su correo.", "success");
+            //alert("Usuario Registrado Correctamente. El Codigo de verificacion ha sido enviado a su correo.");
             $('#RegistroModal').modal('hide');
-            $("#ModalValidacion").modal('show');
+            $('#recargable').load('validausuario.php');
         }
     });      
 }   
