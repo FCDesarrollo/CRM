@@ -44,7 +44,7 @@ session_start();
 
 <script>
     var idempresa ='<?php echo $_SESSION["idempresalog"]; ?>'
-    
+     idempresa=1;
 	$.get(ws + "ListaUsuarios/" + idempresa, function(data){
 		var usuarios = JSON.parse(data).usuarios;
         for(var x in usuarios)

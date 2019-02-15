@@ -9,5 +9,6 @@
             var ws = 'http://localhost/ApiConsultorMX/miconsultor/public/';
             //var ws = 'http://apicrm.dublock.com/public/';
             var gIDEmpresa = 0;
+            var gNombreEmpresa = '';
         </script>";
 ?>
