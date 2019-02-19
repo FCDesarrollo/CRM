@@ -681,11 +681,12 @@ session_start();
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
-    <script src="../../Permisos/clpermisos.js"></script>
+    <script src="../js/permisos_user.js" ></script>
     
     <script>
-      var gPermisos = new UserPermisos();
-      gPermisos.cPerModulos(1, 4);
+
+      //loadDiv("../divsadministrar/divadmpermisos.php");
+
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
       }
