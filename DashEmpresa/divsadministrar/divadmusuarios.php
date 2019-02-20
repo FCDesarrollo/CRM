@@ -10,6 +10,7 @@ session_start();
       exit(); 
     } 
 ?>
+
 <div class="br-section-wrapper">
           <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Lista Usuarios</h6>
           
@@ -40,7 +41,7 @@ session_start();
                 <a class="paginate_button " aria-controls="datatable1" data-dt-idx="5" tabindex="0">5</a>
                 <a class="paginate_button " aria-controls="datatable1" data-dt-idx="6" tabindex="0">6</a></span>
                 <a class="paginate_button next" aria-controls="datatable1" data-dt-idx="7" tabindex="0" id="datatable1_next">Next</a></div></div>
-          </div><!-- table-wrapper -->
+</div><!-- table-wrapper -->
 
 <script>
     var idempresa ='<?php echo $_SESSION["idempresalog"]; ?>'
@@ -79,35 +80,10 @@ session_start();
         });    
     }
     
-    function DatosUsuarioUser(){
-        $("table tbody tr").click( function(){
-            loadDiv('../divsadministrar/divadmeditarusuario.php');
-            var sIDUser = $(this).find("td").eq(0).text();  
-            IDUSER= sIDUser
-            $.get(ws + "DatosUsuario/" + sIDUser, function(data){
-                var usuario = JSON.parse(data).usuario;
-                if(usuario.length>0){
-                    $('#txtidusuario').val(usuario[0].idusuario);
-                    $('#txtnombre').val(usuario[0].nombre);
-                    $('#txtapellidop').val(usuario[0].apellidop);
-                    $('#txtapellidom').val(usuario[0].apellidom);
-                    $("#txtcelular").val(usuario[0].cel);
-                    $("#txtcorreo").val(usuario[0].correo);
-                    $("#txtcontrasena").val(usuario[0].password);
-                    $('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
-                    $("#txtstatus2").val(usuario[0].status);
-                    $("#txttipo2").val(usuario[0].tipo);
 
-                    //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
-                    permisoUser(usuario[0].idusuario);
-                }else{
-                    alert("No se encontro el usuario");
-                }
-            });
-        });
-    }
 
     function permisoUser(idusuario){ 
+        
         $("#ListaPermisoslog tr").remove();
         $('#ListaPermisoslog tbody').html("");
         $.get(ws + "PermisosUsuario",{ idempresa: idempresa, idusuario : idusuario }, function(data){
