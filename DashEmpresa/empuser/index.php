@@ -66,7 +66,7 @@ session_start();
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Bracket Responsive Bootstrap 4 Admin Template</title>
+    <title>CRM</title>
 
     <!-- vendor css -->
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -682,7 +682,8 @@ session_start();
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
-    
+    <script src="../js/permisos_user.js" ></script>
+    <script src="../js/permisos_perfiles.js" ></script>
     <script>
       
       function openPDF(){
