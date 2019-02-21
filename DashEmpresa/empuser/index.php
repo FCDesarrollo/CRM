@@ -82,7 +82,7 @@ session_start();
     <link rel="stylesheet" href="../css/bracket.css">
   </head>
 
-  <body>
+  <body >
     <?php include("../../varglobales.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href="">Nombre Empresa</a></div>
