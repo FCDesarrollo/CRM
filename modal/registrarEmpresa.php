@@ -74,7 +74,16 @@
     {        
         //alert(ws + "BDDisponible");   
         if (validarCampos() != 0){  
-            $.get(ws + "BDDisponible", function(data){
+            
+            if(document.getElementById("archivoCer").value == "" || document.getElementById("archivoKey").value == ""){
+                alert("Seleccione los archivos")
+            }
+            else{
+                subirArchivos();
+            }
+            
+
+            /*$.get(ws + "BDDisponible", function(data){
                 var resultado = JSON.parse(data).basedatos;             
                 if (resultado.length > 0){
                     var id = resultado[0].id;                
@@ -91,11 +100,11 @@
                 } else {
                     alert("Ocurrio un problema 2");
                 }                  
-            });
+            });*/
         }
     }
 
-    function ResgistraEmpresa()
+ /*   function ResgistraEmpresa()
     {                    
         var status = "1";
         var fechaReg = new Date();              
@@ -106,8 +115,7 @@
             $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
                 if(data>0){       
                     $.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
-                        if(result>0){                            
-                                subirArchivos();
+                        if(result>0){                                                            
                                 $('#NuevaEmpresa').modal('hide');
                                 document.getElementById("FormGuardarEmpresa").reset();
                             }else{
@@ -120,7 +128,7 @@
                 }
             });
           
-    }
+    }*/
 
     function validarCampos(){
         var requerido = 1

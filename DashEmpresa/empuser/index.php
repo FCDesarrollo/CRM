@@ -1,4 +1,5 @@
 <?php
+
 session_start();  
     // $user = $_SESSION['idusuario'];
     // $user1 = $_SESSION['usuario21'];
@@ -85,7 +86,7 @@ session_start();
     <?php include("../../varglobales.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href="">Nombre Empresa</a></div>
-    <?php include("menulateral.php"); ?>
+    <?php include("cpermisos.php"); ?>
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
@@ -681,12 +682,9 @@ session_start();
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
-    <script src="../js/permisos_user.js" ></script>
     
     <script>
-
-      //loadDiv("../divsadministrar/divadmpermisos.php");
-
+      
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
       }
