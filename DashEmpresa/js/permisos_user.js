@@ -207,6 +207,7 @@ function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
                     document.getElementById("t-SubMenus").innerHTML += 
                         "<tbody> \
                             <tr> \
+                                <td class='d-none'>"+idmenu+"</td>\
                                 <td role='row'>"+NombreSubMenu+"</td> \
                                 <td>"+NombreMenu+"</td> \
                                 <td> \
@@ -238,7 +239,7 @@ function UpdatePermisoMod(permiso_modulo){
                 $("#t-Modulos tbody").children().remove();
                 $("#t-Menus tbody").children().remove();
                 $("#t-SubMenus tbody").children().remove();  
-                CargaPermisosUsuario(IDUSER, idempresa)
+                CargaPermisosUsuario(IDUSER, idempresa);
             }else{
                 
             }
@@ -255,9 +256,21 @@ function UpdatePermisoMenu(permiso_menu){
     
         $.post(ws + "UpdatePermisoMenu",{ idempresa: idempresa, idusuario: IDUSER, idmenu: idmenu, tipopermiso: permiso }, function(data){
             if(data>0){
-                
-            }else{
-                
+                if(permiso == 0){                    
+                    var filas = $("#t-SubMenus").find("tr");
+                    for(i=0; i<filas.length; i++){ //Recorre las filas 1 a 1            
+                        var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
+                        var idmenu_td = $(celdas[0]).text();
+                        if(idmenu == idmenu_td){
+                            document.getElementById("t-SubMenus").deleteRow(i);                            
+                            filas = $("#t-SubMenus").find("tr");
+                            i=i-1;
+                        }
+                    }
+                }else{
+                    ListaPermisosSubMenu(idempresa,IDUSER,idmenu); 
+                }
+
             }
         });        
     
@@ -281,3 +294,4 @@ function UpdatePermisosSubMenu(permiso_submenu){
 
 
 }
+

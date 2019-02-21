@@ -127,6 +127,7 @@
                     <table class="table table-bordered" id="t-SubMenus">            
                         <thead>
                             <tr>
+                                <th class="d-none"></th>
                                 <th>SubMenus</th>
                                 <th>Menu</th>
                                 <th align='center'>Permisos</th>
