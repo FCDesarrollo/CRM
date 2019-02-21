@@ -207,6 +207,7 @@ function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
                     document.getElementById("t-SubMenus").innerHTML += 
                         "<tbody> \
                             <tr> \
+                                <td class='d-none'>"+idmenu+"</td>\
                                 <td role='row'>"+NombreSubMenu+"</td> \
                                 <td>"+NombreMenu+"</td> \
                                 <td> \
@@ -238,7 +239,7 @@ function UpdatePermisoMod(permiso_modulo){
                 $("#t-Modulos tbody").children().remove();
                 $("#t-Menus tbody").children().remove();
                 $("#t-SubMenus tbody").children().remove();  
-                CargaPermisosUsuario(IDUSER, idempresa)
+                CargaPermisosUsuario(IDUSER, idempresa);
             }else{
                 
             }
@@ -255,9 +256,21 @@ function UpdatePermisoMenu(permiso_menu){
     
         $.post(ws + "UpdatePermisoMenu",{ idempresa: idempresa, idusuario: IDUSER, idmenu: idmenu, tipopermiso: permiso }, function(data){
             if(data>0){
-                
-            }else{
-                
+                if(permiso == 0){                    
+                    var filas = $("#t-SubMenus").find("tr");
+                    for(i=0; i<filas.length; i++){ //Recorre las filas 1 a 1            
+                        var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
+                        var idmenu_td = $(celdas[0]).text();
+                        if(idmenu == idmenu_td){
+                            document.getElementById("t-SubMenus").deleteRow(i);                            
+                            filas = $("#t-SubMenus").find("tr");
+                            i=i-1;
+                        }
+                    }
+                }else{
+                    ListaPermisosSubMenu(idempresa,IDUSER,idmenu); 
+                }
+
             }
         });        
     
@@ -280,4 +293,29 @@ function UpdatePermisosSubMenu(permiso_submenu){
         });
 
 
+}
+
+
+function BloqueaMenu(permiso_modulo){
+    var permiso = permiso_modulo.value;
+    var id = permiso_modulo.id;
+    var x = id.length;
+    var cadena = permiso_modulo.id,
+        inicio = 7,
+        fin    = x,
+        bIDModulo = cadena.substring(inicio, fin);
+    var filas = $("#t-Menus").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
+    for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1
+        
+        var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
+        var idmodPer = $(celdas[0]).text();
+        var idMenu = $(celdas[1]).text();
+        if(bIDModulo == idmodPer ){
+            if(permiso == 1){
+                $("#rmenu_s"+idMenu).prop("checked", true);
+            }else{
+                $("#rmenu_n"+idMenu).prop("checked", true);
+            }
+        }
+    }
 }
