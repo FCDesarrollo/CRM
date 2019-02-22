@@ -45,6 +45,7 @@ session_start();
 
 <script>
     var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>'
+    sIDEmpresa=1;
     if (sIDEmpresa > 0) {
         $.get(ws + "PerfileEmpresa/" + sIDEmpresa, function(data){
             var perfiles = JSON.parse(data).perfiles;
@@ -53,7 +54,7 @@ session_start();
                 document.getElementById("listPerfiles").innerHTML += 
                         "<tbody> \
                             <tr role='row' class='odd'> \
-                                <td style='display:none;>"+perfiles[x].idperfil+"</td> \
+                                <td style='display:none;'>"+perfiles[x].idperfil+"</td> \
                                 <td>"+perfiles[x].nombre+"</td> \
                                 <td >"+perfiles[x].descripcion+"</td> \
                                 <td >" + (perfiles[x].status==1 ? "Activo" : "Inactivo") + "</td> \

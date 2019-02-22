@@ -48,43 +48,49 @@ session_start();
                     "http://localhost/ApiConsultorMX/miconsultor/public/NombreModulo",
                     array("idmodulo" => $value['idmodulo'])), true);
                 
+                    $PerMod = $value['tipopermiso'];
+                    
                 echo '<div class="br-menu-item">';
                 echo '<span style="color: #87c846;" class="menu-item-label">'.$Modulo[0]['nombre_modulo'].'</span>';
                 echo '</div>';
-
+                
                 $this->data2 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmodulo" => $value['idmodulo']);
                 $resultado2 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoMenus", $this->data2);    
                 $array2 = json_decode($resultado2, true);
                 foreach($array2 as $value2) {
-                    $Menu = json_decode(CallAPI("GET", 
-                    "http://localhost/ApiConsultorMX/miconsultor/public/NombreMenu",
-                    array("idmenu" => $value2['idmenu'])), true);
+                      $PerMenu= ($PerMod == 0) ? 0 : $value2['tipopermiso'];
+                      $Menu = json_decode(CallAPI("GET", 
+                      "http://localhost/ApiConsultorMX/miconsultor/public/NombreMenu",
+                      array("idmenu" => $value2['idmenu'])), true);
+                      $stBloq = ($PerMenu == 0) ? " style='pointer-events:none; '" : "" ;
+                      echo '<a href="#"' .$stBloq. ' class="br-menu-link">';
+                      echo '<div class="br-menu-item">';
+                      echo '<i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>';
+                      echo '<span class="menu-item-label">' .$Menu[0]['nombre_menu']. '</span>';
+                      echo '<i class="menu-item-arrow fa fa-angle-down"></i>';
+                      echo '</div>';
+                      echo '</a>';
+                      $this->data3 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmenu" => $value2['idmenu']);
+                      $resultado3 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoSubMenus", $this->data3);    
+                      $array3 = json_decode($resultado3, true);
+                      echo '<ul class="br-menu-sub nav flex-column">';
+                      foreach($array3 as $value3) {
+                        $PerSubMenu= ($PerMenu == 0) ? 0 : $value3['tipopermiso'];
+                        $stBloq = ($PerSubMenu == 0) ? " style='pointer-events:none; '" : "" ;
+                       
+                        $SubMenu = json_decode(CallAPI("GET", 
+                        "http://localhost/ApiConsultorMX/miconsultor/public/NombreSubMenu",
+                        array("idsubmenu" => $value3['idsubmenu'])), true);
 
-                    echo '<a href="#" class="br-menu-link">';
-                    echo '<div class="br-menu-item">';
-                    echo '<i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>';
-                    echo '<span class="menu-item-label">' .$Menu[0]['nombre_menu']. '</span>';
-                    echo '<i class="menu-item-arrow fa fa-angle-down"></i>';
-                    echo '</div>';
-                    echo '</a>';
-                    $this->data3 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmenu" => $value2['idmenu']);
-                    $resultado3 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoSubMenus", $this->data3);    
-                    $array3 = json_decode($resultado3, true);
-                    echo '<ul class="br-menu-sub nav flex-column">';
-                    foreach($array3 as $value3) {
-                      $SubMenu = json_decode(CallAPI("GET", 
-                      "http://localhost/ApiConsultorMX/miconsultor/public/NombreSubMenu",
-                      array("idsubmenu" => $value3['idsubmenu'])), true);
-
-                        echo '<li class="nav-item"><a href="accordion.html" class="nav-link">'.$SubMenu[0]['nombre_submenu'].'</a></li>';
-                    }
-                    echo '</ul>';
+                          echo '<li class="nav-item"><a' .$stBloq. ' href="accordion.html" class="nav-link">'.$SubMenu[0]['nombre_submenu'].'</a></li>';
+                      }
+                      echo '</ul>';
+                  
                 }
-                
+              }  
             }
             
         }
-    }
 function CallAPI($method, $url, $data = false)
 {
    
