@@ -22,11 +22,14 @@
         const cLecYEsc = 2;
         const cTodo = 3;
         
+        var $sWs; 
         var $cIDEmpresa;
         var $cIDUsuario;
         var $data;
         public function cModulos($cIDEmpresa, $cIDUsuario)
         {
+            $this->sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
+            //$this->sWs = "http://apicrm.dublock.com/";
             $this->cIDEmpresa = $cIDEmpresa;
             $this->cIDUsuario = $cIDUsuario;
             
@@ -34,8 +37,7 @@
             $resultado = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoModulos", $this->data);    
             $array = json_decode($resultado, true);
             foreach($array as $value) {
-                $Modulo = json_decode(CallAPI("GET", 
-                    "http://localhost/ApiConsultorMX/miconsultor/public/NombreModulo",
+                $Modulo = json_decode(CallAPI("GET", $this->sWs + "NombreModulo",
                     array("idmodulo" => $value['idmodulo'])), true);
                 
                     $PerMod = $value['tipopermiso'];
@@ -45,12 +47,11 @@
                 echo '</div>';
                 
                 $this->data2 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmodulo" => $value['idmodulo']);
-                $resultado2 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoMenus", $this->data2);    
+                $resultado2 = CallAPI("GET", $this->sWs + "PermisoMenus", $this->data2);    
                 $array2 = json_decode($resultado2, true);
                 foreach($array2 as $value2) {
                       $PerMenu= ($PerMod == 0) ? 0 : $value2['tipopermiso'];
-                      $Menu = json_decode(CallAPI("GET", 
-                      "http://localhost/ApiConsultorMX/miconsultor/public/NombreMenu",
+                      $Menu = json_decode(CallAPI("GET", $this->sWs + "NombreMenu",
                       array("idmenu" => $value2['idmenu'])), true);
                       $stBloq = ($PerMenu == 0) ? " style='pointer-events:none; '" : "" ;
                       echo '<a href="#"' .$stBloq. ' class="br-menu-link">';
@@ -61,15 +62,14 @@
                       echo '</div>';
                       echo '</a>';
                       $this->data3 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmenu" => $value2['idmenu']);
-                      $resultado3 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoSubMenus", $this->data3);    
+                      $resultado3 = CallAPI("GET", $this->sWs +  "PermisoSubMenus", $this->data3);    
                       $array3 = json_decode($resultado3, true);
                       echo '<ul class="br-menu-sub nav flex-column">';
                       foreach($array3 as $value3) {
                         $PerSubMenu= ($PerMenu == 0) ? 0 : $value3['tipopermiso'];
                         $stBloq = ($PerSubMenu == 0) ? " style='pointer-events:none; '" : "" ;
                        
-                        $SubMenu = json_decode(CallAPI("GET", 
-                        "http://localhost/ApiConsultorMX/miconsultor/public/NombreSubMenu",
+                        $SubMenu = json_decode(CallAPI("GET", $this->sWs + "NombreSubMenu",
                         array("idsubmenu" => $value3['idsubmenu'])), true);
 
                           echo '<li class="nav-item"><a' .$stBloq. ' href="accordion.html" class="nav-link">'.$SubMenu[0]['nombre_submenu'].'</a></li>';
