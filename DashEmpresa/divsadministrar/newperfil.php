@@ -63,7 +63,7 @@ session_start();
 
 <script>
     var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>';
-    var sIDUser= 1;
+    var sIDUser= '<?php echo $_SESSION["idusuario"]; ?>';
     $.get(ws + "Modulos",{idusuario: sIDUser }, function(data){
     var modulos = JSON.parse(data).modulos;
     for(var x in modulos)

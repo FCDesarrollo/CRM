@@ -30,6 +30,7 @@ function DatosUsuarioUser(){
 
                 //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
                 //permisoUser(usuario[0].idusuario);
+                //console.log(idempresa);
                 CargaPermisosUsuario(usuario[0].idusuario,idempresa);
             }else{
                 alert("No se encontro el usuario");

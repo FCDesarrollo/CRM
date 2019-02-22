@@ -1,3 +1,8 @@
+<?php
+session_start();    
+    $_SESSION['idempresalog'] = $_POST["idempresalog"];  
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,7 +33,7 @@
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Bracket Plus Responsive Bootstrap 4 Admin Template</title>
+    <title>CRM</title>
 
   </head>
   <body>

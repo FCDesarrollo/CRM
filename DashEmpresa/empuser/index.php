@@ -6,7 +6,7 @@ session_start();
     // $user2 = $_SESSION['tipo'];
     if (isset($_SESSION["usuario21"]))
     {
-      if($_SESSION["usuario21"] == "")
+      if($_SESSION["usuario21"] == "" && $_SESSION['idempresalog'] == "")
       {
           //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
         session_destroy(); echo "<script> window.location='../../index.php' </script>";
@@ -66,7 +66,7 @@ session_start();
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Bracket Responsive Bootstrap 4 Admin Template</title>
+    <title>CRM</title>
 
     <!-- vendor css -->
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -82,10 +82,11 @@ session_start();
     <link rel="stylesheet" href="../css/bracket.css">
   </head>
 
-  <body>
+  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
     <?php include("../../varglobales.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href="">Nombre Empresa</a></div>
+    
+    <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
     <?php include("cpermisos.php"); ?>
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
@@ -100,11 +101,20 @@ session_start();
           <span class="input-group-btn">
             <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
           </span>
+          
         </div><!-- input-group -->
+<!-- Carga Nombre Empresa -->
+
+      <div class="input-group">
+        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
+        </a>
+      </div>
+
       </div><!-- br-header-left -->
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">
+          <div class="dropdown">            
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
               <!-- start: if statement -->
@@ -234,7 +244,8 @@ session_start();
           </div><!-- dropdown -->
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down">Katherine</span>
+<!-- Carga Nombre Empresa -->
+              <span class="logged-name hidden-md-down" id="nUsuario"></span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
@@ -244,11 +255,12 @@ session_start();
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
-                <li><a href=""><i class="icon ion-power"></i> Sign Out</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>
+                <li><a href=""><i class="icon ion-power"></i> Cerrar Sesion</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
+
         </nav>
         <div class="navicon-right">
           <a id="btnRightMenu" href="" class="pos-relative">
@@ -683,6 +695,9 @@ session_start();
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
     
+    <script src="../js/permisos_user.js"></script>
+    <script src="../js/load.js"></script>
+
     <script>
       
       function openPDF(){
