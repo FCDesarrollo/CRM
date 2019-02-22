@@ -1,3 +1,13 @@
+<?php
+session_start();  
+    if($_SESSION["idusuario"] == "" && $_SESSION["idempresalog"])
+    {
+        //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
+      session_destroy(); echo "<script> window.location='index.php' </script>";
+      exit(); 
+    } 
+?>
+
 <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
@@ -115,7 +125,7 @@ function CallAPI($method, $url, $data = false)
 }
 
     $a = new PermisosUser();
-    $a->cModulos(1, 4);
+    $a->cModulos($_SESSION['idempresalog'], $_SESSION['idusuario']);
    
 ?>
         <a href="#" class="br-menu-link">
