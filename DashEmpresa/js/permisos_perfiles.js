@@ -38,18 +38,19 @@ function DatosUsuarioUser(){
     });
 }
 
-function GuardaUsuariolog(){
-    $("#txtidusuario").val(IDUSER);
-    $("#txtstatus2").val( $('#chEst').is(":checked") ? "1" : "0" );
-    $.post(ws + "GuardaUsuario", $("#FormGuardarUsuario").serialize(), function(data){
-        if(data>0){
-            loadDiv('../divsadministrar/divadmusuarios.php');
-        }else{
-            alert("Ocurrio un error al guardar el usuario");
-        }
-    }); 
-    //document.getElementById("#FormGuardaEmpresa").reset();
-}
+// function GuardaUsuariolog(){
+//     $("#txtidusuario").val(IDUSER);
+//     $("#txtstatus2").val( $('#chEst').is(":checked") ? "1" : "0" );
+//     $.post(ws + "GuardaUsuario", $("#FormGuardarUsuario").serialize(), function(data){
+//         if(data>0){
+//             loadDiv('../divsadministrar/divadmusuarios.php');
+//         }else{
+//             alert("Ocurrio un error al guardar el usuario");
+//         }
+//     }); 
+//     //document.getElementById("#FormGuardaEmpresa").reset();
+// }
+
 
 // function EliminaUserlog(idempresa){
 //     $("table tbody tr").click( function(){

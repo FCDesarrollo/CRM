@@ -7,6 +7,156 @@ var NombreMenu = "";
 var NombreSubMenu = "";
 var DescripcionModulo = "";
 
+function Mod_Notificacion(checkbox){
+    var filas = $("#t-Notificaciones").find("tr");
+    for(i=0; i<filas.length; i++){ //Recorre las filas 1 a 1            
+        var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
+        var idsubmenu_td = $(celdas[0]).text();
+        if(idsubmenu_td === checkbox){
+            console.log(idsubmenu_td);
+        }
+    }
+}
+
+function CargaModalNoti(idempresa,idusuario){
+
+    $.get(ws + "SubMenus", function(datos){    
+        SubMenusArray = datos;
+
+        $.get(ws + "NotificacionesUsuario", { idempresa: idempresa, idusuario : idusuario }, function(data){
+            if(data != ""){                
+                for(var x in data){
+
+                    for (var j = 0; j < SubMenusArray.length; j+=1) {
+                        if(SubMenusArray[j].idsubmenu === data[x].idsubmenu){
+                            NombreSubMenu = SubMenusArray[j].nombre_submenu;                           
+                            break;
+                        }
+                    }                    
+                        
+                    document.getElementById('t-Notificaciones').innerHTML +=
+                    "<tbody> \
+                        <tr> \
+                            <td class='d-none'>"+data[x].idsubmenu+"</td> \
+                            <td role='row'>"+NombreSubMenu+"</td> \
+                            <td> \
+                                <div class='row mg-t-10'> \
+                                    <div class='col-lg-6'> \
+                                        <label class='ckbox'><input value='1' name='email"+data[x].idsubmenu+"' onchange='Mod_Notificacion(this.value)' type='checkbox'><span>Email</span></label> \
+                                    </div> \
+                                    <div class='col-lg-6'> \
+                                        <label class='ckbox'><input value='2' name='sms"+data[x].idsubmenu+"' onchange='Mod_Notificacion(this.value)' type='checkbox'><span>SMS</span></label> \
+                                    </div> \
+                                </div> \
+                            </td> \
+                        </tr> \
+                    </tbody>";
+
+
+                }
+            }
+        });
+
+    });
+
+    
+}
+
+function ValidarCelular(){
+    $('#divdinamico').load('../divs/verificacelular.php');
+}
+
+function EnviaCodigo(){
+
+    var celular = $("#txtcelular").val();
+    var idusuario = $("#txtidusuario").val();
+    var idempresa = $("#txtidempresa").val();
+
+    $.get(ws + "DatosUsuario/" + idusuario, function(data){
+        var usuario = JSON.parse(data).usuario;        
+        if(usuario[0].cel == celular){
+            var identificador = usuario[0].identificador;            
+
+            $.post(ws + "Parametros", function(datos){
+                var parametros = JSON.parse(datos).parametros;
+                
+                if(parametros.length>0){
+                    var url = parametros[0].url;
+                    var domain_ser = parametros[0].domain_ser;
+                    var login = parametros[0].login;
+                    var password = parametros[0].password;
+
+                    EnviarSMS(identificador,url,domain_ser,login,password,celular);
+
+                }else{
+                    console.log("Parametros no configurados");
+                }
+            });
+
+
+        }else{
+            swal("Telefono Movil Incorrecto", "Favor de introducir el Telefono Movil con el que se registro.", "error");
+        }
+
+    });    
+    
+}
+
+
+function EnviarSMS(identificador,url,domain_ser,login,password,celular){
+
+    $.ajax({
+        url: '../empuser/PHPAltiria.php',
+        type: 'POST',
+        data: {identificador: identificador, url: url, dominio: domain_ser, login: login, password: password, cel: celular},
+        success:function(response){
+            respuesta = response;    
+            console.log(respuesta);        
+            if(respuesta.indexOf(celular) != -1){    
+
+                swal("Codigo Enviado", "El codigo de verificacion ha sido enviado a su telefono movil correctamente.", "success");    
+                document.getElementById("msg_valida").innerHTML = "Introduzca su codigo de verificacion."
+                document.getElementById("btncodigo").disabled = true;
+                document.getElementById("txtidentificador").disabled = false;
+                document.getElementById("btnidentificador").disabled = false;        
+
+            }
+            //else if(respuesta.indexOf('credit') != -1){       
+                //la misma plataforma notificara el numero de creditos disponibles
+                //swal("Creditos", "Creditos Insuficientes...", "warning");
+                
+            //}
+            else{
+                swal("Error", "Hubo un error al intentar enviar su codigo de verificacion.", "error");
+            }            
+        }
+    });
+  
+}
+
+
+function VerificaCodigo(){
+    var identificador = $("#txtidentificador").val();
+    var idusuario = $("#txtidusuario").val();
+    var idempresa = $("#txtidempresa").val();
+
+    $.get(ws + "DatosUsuario/" + idusuario, function(data){
+        var usuario = JSON.parse(data).usuario;        
+        if(usuario[0].identificador == identificador){
+            $.post(ws + "VerificaCelular", { idusuario : idusuario, identificador: identificador }, function(datos){
+                if(datos>0){
+                    swal("Codigo Correcto", "Telefono movil verificado correctamente", "success");
+                    loadDiv('../divs/submenus.php');
+                }                
+            });
+        }else{
+            swal("Codigo Incorrecto", "Favor de introducir el codigo enviado a su telefono movil.", "error");
+        }
+
+    });
+
+}
+
 
 function DatosUsuarioUser(){
     $("table tbody tr").click( function(){
@@ -39,19 +189,6 @@ function DatosUsuarioUser(){
     });
 }
 
-function GuardaUsuariolog(){
-    $("#txtidusuario").val(IDUSER);
-    $("#txtstatus2").val( $('#chEst').is(":checked") ? "1" : "0" );
-    $.post(ws + "GuardaUsuario", $("#FormGuardarUsuario").serialize(), function(data){
-        if(data>0){
-            loadDiv('../divsadministrar/divadmusuarios.php');
-        }else{
-            alert("Ocurrio un error al guardar el usuario");
-        }
-    }); 
-    //document.getElementById("#FormGuardaEmpresa").reset();
-}
-
 // function EliminaUserlog(idempresa){
 //     $("table tbody tr").click( function(){
 //         var sIDUser = $(this).find("td").eq(0).text(); 
@@ -66,6 +203,47 @@ function GuardaUsuariolog(){
 //         }                      
 //     });    
 // }
+
+function CargaDatosUsuario(idusuario){ 
+    $.get(ws + "DatosUsuario/" + idusuario, function(data){
+        var usuario = JSON.parse(data).usuario;
+        if(usuario.length>0){            
+            $('#txtnombre').val(usuario[0].nombre);
+            $('#txtapellidop').val(usuario[0].apellidop);
+            $('#txtapellidom').val(usuario[0].apellidom);
+            $("#txtcelular").val(usuario[0].cel);
+            $("#txtcorreo").val(usuario[0].correo);
+            $("#txtcontrasena").val(usuario[0].password);
+            $("#txtidentificador").val(usuario[0].identificador);
+            document.getElementById("txtcorreo").disabled = true;
+            
+            if(usuario[0].verificacel == 0){
+                document.getElementById("msg_verificacion").innerHTML = "Verifique su telefono movil para poder recibir notificaciones.";
+                document.getElementById("link_verificacion").innerHTML = " Click aqui."; 
+            }   
+
+            //$('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
+
+            //$("#txtstatus2").val(usuario[0].status);
+            //$("#txttipo2").val(usuario[0].tipo);
+        }else{
+            alert("No se encontro el usuario");
+        }
+    });    
+}
+
+function EditaUsuario(){
+    $.post(ws + "GuardaUsuario", $("#FormEditaUsuario").serialize(), function(data){
+        if(data>0){
+            console.log("Guardo");
+            //loadDiv('../divsadministrar/divadmusuarios.php');
+        }else{
+            console.log("No Guardo");
+            //alert("Ocurrio un error al guardar el usuario");
+        }
+    }); 
+    //document.getElementById("#FormGuardaEmpresa").reset();
+}
 
 
 function CargaPermisosUsuario(idusuario, idempresa){
@@ -296,3 +474,19 @@ function UpdatePermisosSubMenu(permiso_submenu){
 
 }
 
+function RecargaDiv(div_recarga){
+    var type = div_recarga.id;
+    console.log(type);
+    if(type == "usuarios"){
+        history.pushState(null, "", "?type=1");
+        loadDiv('../divsadministrar/divadmusuarios.php');
+    }else if(type == "perfiles"){
+        history.pushState(null, "", "?type=2");
+        loadDiv('../divsadministrar/divadmperfiles.php');
+    }else{
+
+    }
+    
+
+    
+}

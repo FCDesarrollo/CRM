@@ -49,6 +49,8 @@ session_start();
 	</div>
 </div> 
 
+
+
 <script>
     function Desvincula(){
         var select = document.getElementById("sel2");

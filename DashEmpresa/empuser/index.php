@@ -84,6 +84,7 @@ session_start();
 
   <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
     <?php include("../../varglobales.php"); ?>
+    <?php include("PHPAltiria.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
     
     <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
@@ -96,25 +97,25 @@ session_start();
       <div class="br-header-left">
         <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
-        <div class="input-group hidden-xs-down wd-170 transition">
+        <!-- Carga Nombre Empresa -->
+        <a href="" class="nav-link nav-link-profile d-flex" style="align-items: center;" data-toggle="dropdown">
+          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
+        </a>            
+
+      <!-- BOTON SEARCH  -->
+     <!--   <div class="input-group hidden-xs-down wd-170 transition">
           <input id="searchbox" type="text" class="form-control" placeholder="Search">
           <span class="input-group-btn">
             <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-          </span>
-          
-        </div><!-- input-group -->
-<!-- Carga Nombre Empresa -->
-
-      <div class="input-group">
-        <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
-        </a>
-      </div>
-
+          </span>          
+        </div> input-group -->
       </div><!-- br-header-left -->
+
+
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">            
+          <div class="dropdown">       
+
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
               <!-- start: if statement -->
@@ -251,7 +252,7 @@ session_start();
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href="#" onclick="loadDiv('../divs/submenus.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
@@ -689,6 +690,9 @@ session_start();
     <script src="../lib/d3/d3.js"></script>
     <script src="../lib/rickshaw/rickshaw.min.js"></script>
 
+    <!-- NOTIFICACIONES MODAL -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
@@ -698,8 +702,11 @@ session_start();
     <script src="../js/permisos_user.js"></script>
     <script src="../js/load.js"></script>
     <script src="../js/permisos_perfiles.js" ></script>
+    
     <script>
-      
+           
+
+
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
       }
@@ -744,5 +751,19 @@ session_start();
         }
       });
     </script>
+
+<?php
+
+  // if(isset($_GET["type"]) == 1){
+  //     echo "<script> loadDiv('../divsadministrar/divadmusuarios.php'); </script>";
+  // }else if(isset($_GET["type"]) == 2){
+  //     echo "<script> loadDiv('../divsadministrar/divadmperfiles.php'); </script>";
+  // }else{
+    
+  // }
+  
+?>
+
+
   </body>
 </html>

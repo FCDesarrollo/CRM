@@ -1,6 +1,6 @@
 <?php
 session_start();    
-    $_SESSION['idempresalog'] = $_POST["idempresalog"];  
+    $_SESSION['idempresalog'] = $_POST["idempresalog"];
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,5 @@
 
-function loadDiv(lNameForm){
+function loadDiv(lNameForm){    
     $('.br-mainpanel').load(lNameForm);
-}
+}	
 
