@@ -84,11 +84,12 @@ session_start();
 
   <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
     <?php include("../../varglobales.php"); ?>
-    <?php include("PHPAltiria.php"); ?>
+    <?php //include("PHPAltiria.php"); ?>
+    <?php include("permisosuser.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
     
     <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
-    <?php include("cpermisos.php"); ?>
+    <?php include("menulateral.php"); ?>
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
