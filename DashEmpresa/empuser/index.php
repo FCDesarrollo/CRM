@@ -253,7 +253,7 @@ session_start();
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href="#" onclick="loadDiv('../divs/submenus.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
+                <li><a href="#" onclick="loadDiv('../divs/editarperfil.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
@@ -703,6 +703,8 @@ session_start();
     <script src="../js/permisos_user.js"></script>
     <script src="../js/load.js"></script>
     <script src="../js/permisos_perfiles.js" ></script>
+    <script src="../js/submenus.js"></script>
+
     
     <script>
            

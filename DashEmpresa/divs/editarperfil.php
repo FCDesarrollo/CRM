@@ -1,12 +1,12 @@
 <?php
 	session_start(); 
 ?>
-
-<div class="pd-sm-x-30">
+<!--
+<div class="pd-sm-x-30 pd-t-30">
     <h4 class="tx-gray-800 mg-b-5">Editar Perfil</h4> 
     <p class="mg-b-0"></p>
-</div>			
-<div class="br-pagebody">
+</div>		-->	
+<div class="br-pagebody pd-l-0 pd-r-0">
 	<div class="br-section-wrapper" id="divdinamico">
 
 		<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mb-md-4">Datos Personales</h6>
@@ -87,7 +87,7 @@
 
 
                 <div class="modal-body pd-25">          
-                	<p class="mg-b-5" id="iden">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>        
+                	<p class="mg-b-5" id="iden">En este apartado se enlistan todos los submenus de los cuales podra configurar si desea recibir notificaciones tipo SMS o Email. </p>        
 	
 					<div class="bd bd-gray-300 rounded table-responsive">
 				        <table class="table table-bordered" id="t-Notificaciones">            

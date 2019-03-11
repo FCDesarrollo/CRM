@@ -1,13 +1,16 @@
-<div class="pd-sm-x-30">
-        <h4 class="tx-gray-800 mg-b-5">Permisos del Usuario</h4>
-        <p class="mg-b-0">Configuracion de permisos para el usuario.</p>
-      </div>
-<div class="br-pagebody">
-<div class="br-section-wrapper">
+<!-- <div class="pd-sm-x-30 pd-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Permisos del Usuario</h4>
+    <p class="mg-b-0">Configuracion de permisos para el usuario.</p>
+</div>        
+<div class="br-pagebody pd-l-0 pd-r-0">
+<div class="br-section-wrapper">--> 
 
-    <div id="accordion" class="accordion mg-t-20" role="tablist" aria-multiselectable="true">
-    <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Permisos del Usuario</h6>
-    <p class="mg-b-25 mg-lg-b-30">Configure los permisos del usuario.</p>
+
+    <h3 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Editar Permisos Usuario</h3>    
+    <p class="mg-b-25 mg-lg-b-30" id="permisouser">Configure los permisos de acceso al usuario.</p>
+    
+    <div id="accordion" class="accordion" role="tablist" aria-multiselectable="true">
+    
 
     <div class="card">
         <div class="card-header" role="tab" id="heading2">
@@ -20,7 +23,7 @@
         </div><!-- card-header -->
 
         <div id="collapse2" class="collapse show" role="tabpanel" aria-labelledby="heading2">
-        <div class="card-block pd-20">
+        <div class="card-block pd-t-10">
         <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-bordered" id="t-Modulos">            
             <thead>
@@ -46,7 +49,7 @@
         </div><!-- card-header -->
 
         <div id="collapse3" class="collapse hide" role="tabpanel" aria-labelledby="heading3">
-            <div class="card-block pd-20">
+            <div class="card-block pd-t-10">
                 <div class="bd bd-gray-300 rounded table-responsive">
                 <table class="table table-bordered" id="t-Menus">            
                     <thead>
@@ -75,7 +78,7 @@
         </div><!-- card-header -->
 
         <div id="collapse4" class="collapse hide" role="tabpanel" aria-labelledby="heading4">
-            <div class="card-block pd-20">
+            <div class="card-block pd-t-10">
                 <div class="bd bd-gray-300 rounded table-responsive">
                     <table class="table table-bordered" id="t-SubMenus">            
                         <thead>
@@ -94,6 +97,6 @@
 
     
     <!-- ADD MORE CARD HERE -->
-    </div><!-- accordion -->
+    </div><!-- accordion 
 </div>
-</div>
+</div>-->

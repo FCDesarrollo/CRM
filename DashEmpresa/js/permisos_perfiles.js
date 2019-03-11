@@ -8,35 +8,35 @@ var NombreSubMenu = "";
 var DescripcionModulo = "";
 
 
-function DatosUsuarioUser(){
-    $("table tbody tr").click( function(){
-        //loadDiv('../divsadministrar/divadmeditarusuario.php');
-        loadDiv('../divsadministrar/divadmpermisos.php');
-        var sIDUser = $(this).find("td").eq(0).text();  
-        IDUSER= sIDUser;
-        $.get(ws + "DatosUsuario/" + sIDUser, function(data){
-            var usuario = JSON.parse(data).usuario;
-            if(usuario.length>0){
-                $('#txtidusuario').val(usuario[0].idusuario);
-                $('#txtnombre').val(usuario[0].nombre);
-                $('#txtapellidop').val(usuario[0].apellidop);
-                $('#txtapellidom').val(usuario[0].apellidom);
-                $("#txtcelular").val(usuario[0].cel);
-                $("#txtcorreo").val(usuario[0].correo);
-                $("#txtcontrasena").val(usuario[0].password);
-                $('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
-                $("#txtstatus2").val(usuario[0].status);
-                $("#txttipo2").val(usuario[0].tipo);
+// function DatosUsuarioUser(){
+//     $("table tbody tr").click( function(){
+//         //loadDiv('../divsadministrar/divadmeditarusuario.php');
+//         loadDiv('../divsadministrar/divadmpermisos.php');
+//         var sIDUser = $(this).find("td").eq(0).text();  
+//         IDUSER= sIDUser;
+//         $.get(ws + "DatosUsuario/" + sIDUser, function(data){
+//             var usuario = JSON.parse(data).usuario;
+//             if(usuario.length>0){
+//                 $('#txtidusuario').val(usuario[0].idusuario);
+//                 $('#txtnombre').val(usuario[0].nombre);
+//                 $('#txtapellidop').val(usuario[0].apellidop);
+//                 $('#txtapellidom').val(usuario[0].apellidom);
+//                 $("#txtcelular").val(usuario[0].cel);
+//                 $("#txtcorreo").val(usuario[0].correo);
+//                 $("#txtcontrasena").val(usuario[0].password);
+//                 $('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
+//                 $("#txtstatus2").val(usuario[0].status);
+//                 $("#txttipo2").val(usuario[0].tipo);
 
-                //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
-                //permisoUser(usuario[0].idusuario);
-                CargaPermisosUsuario(usuario[0].idusuario,idempresa);
-            }else{
-                alert("No se encontro el usuario");
-            }
-        });
-    });
-}
+//                 //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
+//                 //permisoUser(usuario[0].idusuario);
+//                 CargaPermisosUsuario(usuario[0].idusuario,idempresa);
+//             }else{
+//                 alert("No se encontro el usuario");
+//             }
+//         });
+//     });
+// }
 
 // function GuardaUsuariolog(){
 //     $("#txtidusuario").val(IDUSER);
@@ -214,59 +214,59 @@ function BloqueaSubMenu(permiso_menu){
     }
 }
 
-function UpdatePermisoMod(permiso_modulo){
-    var permiso = permiso_modulo.value;
-    var id = permiso_modulo.id;
-    var x = id.length;
-    var cadena = permiso_modulo.id,
-        inicio = 7,
-        fin    = x,
-        idmodulo = cadena.substring(inicio, fin);
-        $.post(ws + "UpdatePermisoModulo",{ idempresa: idempresa, idusuario: IDUSER, idmodulo: idmodulo, tipopermiso: permiso }, function(data){
-            if(data>0){                
-                $("#t-Modulos tbody").children().remove();
-                $("#t-Menus tbody").children().remove();
-                $("#t-SubMenus tbody").children().remove();  
-                CargaPermisosUsuario(IDUSER, idempresa)
-            }else{
+// function UpdatePermisoMod(permiso_modulo){
+//     var permiso = permiso_modulo.value;
+//     var id = permiso_modulo.id;
+//     var x = id.length;
+//     var cadena = permiso_modulo.id,
+//         inicio = 7,
+//         fin    = x,
+//         idmodulo = cadena.substring(inicio, fin);
+//         $.post(ws + "UpdatePermisoModulo",{ idempresa: idempresa, idusuario: IDUSER, idmodulo: idmodulo, tipopermiso: permiso }, function(data){
+//             if(data>0){                
+//                 $("#t-Modulos tbody").children().remove();
+//                 $("#t-Menus tbody").children().remove();
+//                 $("#t-SubMenus tbody").children().remove();  
+//                 CargaPermisosUsuario(IDUSER, idempresa)
+//             }else{
                 
-            }
-        });
-}
-function UpdatePermisoMenu(permiso_menu){
-    var permiso = permiso_menu.value;
-    var id = permiso_menu.id;
-    var x = id.length;
-    var cadena = permiso_menu.id,
-        inicio = 7,
-        fin    = x,
-        idmenu = cadena.substring(inicio, fin);   
+//             }
+//         });
+// }
+// function UpdatePermisoMenu(permiso_menu){
+//     var permiso = permiso_menu.value;
+//     var id = permiso_menu.id;
+//     var x = id.length;
+//     var cadena = permiso_menu.id,
+//         inicio = 7,
+//         fin    = x,
+//         idmenu = cadena.substring(inicio, fin);   
     
-        $.post(ws + "UpdatePermisoMenu",{ idempresa: idempresa, idusuario: IDUSER, idmenu: idmenu, tipopermiso: permiso }, function(data){
-            if(data>0){
+//         $.post(ws + "UpdatePermisoMenu",{ idempresa: idempresa, idusuario: IDUSER, idmenu: idmenu, tipopermiso: permiso }, function(data){
+//             if(data>0){
                 
-            }else{
+//             }else{
                 
-            }
-        });        
+//             }
+//         });        
     
-}
-function UpdatePermisosSubMenu(permiso_submenu){
-    var permiso = permiso_submenu.value;
-    var id = permiso_submenu.id;
-    var x = id.length;
-    var cadena = permiso_submenu.id,
-        inicio = 12,
-        fin    = x,
-        idsubmenu = cadena.substring(inicio, fin);
+// }
+// function UpdatePermisosSubMenu(permiso_submenu){
+//     var permiso = permiso_submenu.value;
+//     var id = permiso_submenu.id;
+//     var x = id.length;
+//     var cadena = permiso_submenu.id,
+//         inicio = 12,
+//         fin    = x,
+//         idsubmenu = cadena.substring(inicio, fin);
 
-        $.post(ws + "UpdatePermisoSubMenu",{ idempresa: idempresa, idusuario: IDUSER, idsubmenu: idsubmenu, tipopermiso: permiso }, function(data){
-            if(data>0){
+//         $.post(ws + "UpdatePermisoSubMenu",{ idempresa: idempresa, idusuario: IDUSER, idsubmenu: idsubmenu, tipopermiso: permiso }, function(data){
+//             if(data>0){
                 
-            }else{
+//             }else{
                 
-            }
-        });
+//             }
+//         });
 
 
-}
+// }

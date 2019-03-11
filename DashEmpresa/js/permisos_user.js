@@ -115,7 +115,7 @@ function EnviarSMS(identificador,url,domain_ser,login,password,celular){
             if(respuesta.indexOf(celular) != -1){    
 
                 swal("Codigo Enviado", "El codigo de verificacion ha sido enviado a su telefono movil correctamente.", "success");    
-                document.getElementById("msg_valida").innerHTML = "Introduzca su codigo de verificacion."
+                document.getElementById("msg_valida").innerHTML = "Introduzca su codigo de verificacion.";
                 document.getElementById("btncodigo").disabled = true;
                 document.getElementById("txtidentificador").disabled = false;
                 document.getElementById("btnidentificador").disabled = false;        
@@ -146,7 +146,7 @@ function VerificaCodigo(){
             $.post(ws + "VerificaCelular", { idusuario : idusuario, identificador: identificador }, function(datos){
                 if(datos>0){
                     swal("Codigo Correcto", "Telefono movil verificado correctamente", "success");
-                    loadDiv('../divs/submenus.php');
+                    loadDiv('../divs/editarperfil.php');
                 }                
             });
         }else{
@@ -160,49 +160,43 @@ function VerificaCodigo(){
 
 function DatosUsuarioUser(){
     $("table tbody tr").click( function(){
-        //loadDiv('../divsadministrar/divadmeditarusuario.php');
-        loadDiv('../divsadministrar/divadmpermisos.php');
-        var sIDUser = $(this).find("td").eq(0).text();  
+        
+        //loadDiv('../divsadministrar/divadmpermisos.php');
+        var sIDUser = $(this).find("td").eq(0).text();
+        var sNombreUser = $(this).find("td").eq(1).text();
         IDUSER= sIDUser;
+        
+       // PermisosUsuario
         $.get(ws + "DatosUsuario/" + sIDUser, function(data){
+            $('#divdinamico').load('../divsadministrar/divadmpermisos.php');            
             var usuario = JSON.parse(data).usuario;
             if(usuario.length>0){
-                $('#txtidusuario').val(usuario[0].idusuario);
-                $('#txtnombre').val(usuario[0].nombre);
-                $('#txtapellidop').val(usuario[0].apellidop);
-                $('#txtapellidom').val(usuario[0].apellidom);
-                $("#txtcelular").val(usuario[0].cel);
-                $("#txtcorreo").val(usuario[0].correo);
-                $("#txtcontrasena").val(usuario[0].password);
-                $('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
-                $("#txtstatus2").val(usuario[0].status);
-                $("#txttipo2").val(usuario[0].tipo);
-
-                //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
-                //permisoUser(usuario[0].idusuario);
-                //console.log(idempresa);
                 CargaPermisosUsuario(usuario[0].idusuario,idempresa);
             }else{
-                alert("No se encontro el usuario");
+                swal("Error de Usuario", "No se pudo obtener los datos del usuario, favor de recargar la pagina. Si el problema continua, comunicarlo a sistemas.", "error");
             }
         });
     });
 }
 
-// function EliminaUserlog(idempresa){
-//     $("table tbody tr").click( function(){
-//         var sIDUser = $(this).find("td").eq(0).text(); 
-//         if(sIDUser>0){
-//             $.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
-//                 if(data>0){
-//                     loadDiv('../divsadministrar/divadmusuarios.php');
-//                 }else{
-//                     alert("Ocurrio un error al eliminar el usuario");
-//                 }
-//             });
-//         }                      
-//     });    
-// }
+
+
+function EliminaUserlog(idempresa){
+    $("table tbody tr").click( function(){
+        var sIDUser = $(this).find("td").eq(0).text(); 
+        if(sIDUser>0){
+            $.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
+                if(data>0){
+                    //loadDiv('../divsadministrar/divadmusuarios.php');
+                    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                }else{
+                    alert("Ocurrio un error al eliminar el usuario");
+                }
+            });
+        }                      
+    });    
+}
+
 
 function CargaDatosUsuario(idusuario){ 
     $.get(ws + "DatosUsuario/" + idusuario, function(data){
@@ -235,10 +229,10 @@ function CargaDatosUsuario(idusuario){
 function EditaUsuario(){
     $.post(ws + "GuardaUsuario", $("#FormEditaUsuario").serialize(), function(data){
         if(data>0){
-            console.log("Guardo");
+            swal("Guardado", "Datos actualizados correctamente.", "success");
             //loadDiv('../divsadministrar/divadmusuarios.php');
         }else{
-            console.log("No Guardo");
+            swal("Error", "Hubo un problema y no se guardaron los cambios.", "error");
             //alert("Ocurrio un error al guardar el usuario");
         }
     }); 
@@ -390,7 +384,7 @@ function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
                                 <td role='row'>"+NombreSubMenu+"</td> \
                                 <td>"+NombreMenu+"</td> \
                                 <td> \
-                                    <select onchange='UpdatePermisosSubMenu(this)' class='form-control select2' id='SelPermisos_"+SubMenu[x].idsubmenu+"' data-placeholder='Tipo de Permiso'> \
+                                    <select onclick='UpdatePermisosSubMenu(this)' class='form-control select2' id='SelPermisos_"+SubMenu[x].idsubmenu+"' data-placeholder='Tipo de Permiso'> \
                                         <option value='0' "+ (SubMenu[x].tipopermiso == pBloqueado ? 'selected' : '') +">Bloqueado</option> \
                                         <option value='1' "+ (SubMenu[x].tipopermiso == pLectura ? 'selected' : '') +">Lectura</option> \
                                         <option value='2' "+ (SubMenu[x].tipopermiso == pLecYEsc ? 'selected' : '') +">Lectura y Escritura</option> \
@@ -405,7 +399,7 @@ function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
     });
 }
 
-function UpdatePermisoMod(permiso_modulo){
+function UpdatePermisoMod(permiso_modulo){0    
     var permiso = permiso_modulo.value;
     var id = permiso_modulo.id;
     var x = id.length;
@@ -424,7 +418,9 @@ function UpdatePermisoMod(permiso_modulo){
             }
         });
 }
+
 function UpdatePermisoMenu(permiso_menu){
+    
     var permiso = permiso_menu.value;
     var id = permiso_menu.id;
     var x = id.length;
@@ -432,7 +428,6 @@ function UpdatePermisoMenu(permiso_menu){
         inicio = 7,
         fin    = x,
         idmenu = cadena.substring(inicio, fin);   
-    
         $.post(ws + "UpdatePermisoMenu",{ idempresa: idempresa, idusuario: IDUSER, idmenu: idmenu, tipopermiso: permiso }, function(data){
             if(data>0){
                 if(permiso == 0){                    
@@ -454,6 +449,7 @@ function UpdatePermisoMenu(permiso_menu){
         });        
     
 }
+
 function UpdatePermisosSubMenu(permiso_submenu){
     var permiso = permiso_submenu.value;
     var id = permiso_submenu.id;
@@ -462,7 +458,6 @@ function UpdatePermisosSubMenu(permiso_submenu){
         inicio = 12,
         fin    = x,
         idsubmenu = cadena.substring(inicio, fin);
-
         $.post(ws + "UpdatePermisoSubMenu",{ idempresa: idempresa, idusuario: IDUSER, idsubmenu: idsubmenu, tipopermiso: permiso }, function(data){
             if(data>0){
                 
@@ -474,19 +469,19 @@ function UpdatePermisosSubMenu(permiso_submenu){
 
 }
 
-function RecargaDiv(div_recarga){
-    var type = div_recarga.id;
-    console.log(type);
-    if(type == "usuarios"){
-        history.pushState(null, "", "?type=1");
-        loadDiv('../divsadministrar/divadmusuarios.php');
-    }else if(type == "perfiles"){
-        history.pushState(null, "", "?type=2");
-        loadDiv('../divsadministrar/divadmperfiles.php');
-    }else{
+// function RecargaDiv(div_recarga){
+//     var type = div_recarga.id;
+//     console.log(type);
+//     if(type == "usuarios"){
+//         history.pushState(null, "", "?type=1");
+//         loadDiv('../divsadministrar/divadmusuarios.php');
+//     }else if(type == "perfiles"){
+//         history.pushState(null, "", "?type=2");
+//         loadDiv('../divsadministrar/divadmperfiles.php');
+//     }else{
 
-    }
+//     }
     
 
     
-}
+// }
