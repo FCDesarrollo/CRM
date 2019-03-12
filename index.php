@@ -53,6 +53,7 @@
 	<!-- Bootstrap  -->
 	<link rel="stylesheet" href="css/bootstrap.css">
 
+
 	<!-- 
 	Default Theme Style 
 	You can change the style.css (default color purple) to one of these styles

@@ -8,12 +8,11 @@
 
             <div class="modal-body">
                 <form name="FormGuardarEmpresa" id="FormGuardarEmpresa" action="" method="post" class="was-validated" enctype="multipart/form-data">
-
                         <input type="hidden" name="idempresa" id="txtIdEmpresa" />
                         <input type="hidden" name="status" id="txtStatus" />
                         <input type="hidden" name="fecharegistro" id="txtfecharegistro" />
                         <input type="hidden" name="empresaBD" id="txtempresaBD" />
-
+                        
                         <div class='form-group'>
                             <label for='txtNombre'>Nombre</label>
                             <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE"/>
@@ -54,34 +53,36 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                <button id="Guardar" onclick="GuardaEmpresa()" type="button" class="btn btn-primary">GUARDAR</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>Cerrar</span></button>
+                <button id="Guardar" onclick="GuardaEmpresa()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>
+
             </div>
         </div>
     </div>
 </div>
-
 <script>
 
     var IDEMPRESA = "0";
-
+    
     $('#agregarEmpresa').click('show.bs.modal', function(e) {    
         IDEMPLEADO = $(e.relatedTarget).data('idempresa');
         $("#NuevaEmpresaTitle").text("Nueva Empresa");
     });
-
     function GuardaEmpresa()
-    {        
-        //alert(ws + "BDDisponible");   
+    {           
+        document.getElementById("Guardar").disabled = true;
+        document.getElementById('spanGuardar').innerHTML = 'Procesando...';           
         if (validarCampos() != 0){  
-            
             if(document.getElementById("archivoCer").value == "" || document.getElementById("archivoKey").value == ""){
-                alert("Seleccione los archivos")
+                alert("Seleccione los archivos");
+                document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+                document.getElementById('Guardar').disabled = false;
             }
             else{
+                document.getElementById("Guardar").disabled = true;
+                document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
                 subirArchivos();
-            }
-            
+            }           
 
             /*$.get(ws + "BDDisponible", function(data){
                 var resultado = JSON.parse(data).basedatos;             
@@ -100,11 +101,13 @@
                 } else {
                     alert("Ocurrio un problema 2");
                 }                  
-            });*/
-        }
+            });/////*/
+    }
+        //document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+        //document.getElementById('Guardar').disabled = true;
     }
 
- /*   function ResgistraEmpresa()
+    /*function ResgistraEmpresa()
     {                    
         var status = "1";
         var fechaReg = new Date();              
@@ -157,3 +160,26 @@
 </script>
  <!-- Validacion de Correo --> 
  <script src="modal/js/archivos.js"></script>  
+ <style>
+    .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    border-bottom: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+</style>
