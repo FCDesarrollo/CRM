@@ -46,7 +46,7 @@ session_start();
                 <form id="FormListEmp" action="DashEmpresa/" method="POST">
                     <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php echo $_SESSION['idusuario']; ?>" />    
                     <input type="hidden" name="idempresalog" id="idempresalog" /> 
-                    <input type="hidden" name="nombreempresalog" id="nombreempresalog" />                         
+                    <!--<input type="hidden" name="nombreempresalog" id="nombreempresalog" />-->                         
                 </form>                                  
             </div>   
             <div class="col-4 text-right">                
@@ -155,8 +155,7 @@ session_start();
             var select = $(this).find("td").eq(0).text();     
             gNombreEmpresa = $(this).find("td").eq(1).text();          
             if(select!=""){                 
-                $("#idempresalog").val(select);
-                $("#nombreempresalog").val(gNombreEmpresa);
+                $("#idempresalog").val(select);                
                 $("#FormListEmp").submit();
             }else{
                 alert("Seleccione Empresa");

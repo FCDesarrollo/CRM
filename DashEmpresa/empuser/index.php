@@ -6,7 +6,7 @@ session_start();
     // $user2 = $_SESSION['tipo'];
     if (isset($_SESSION["usuario21"]))
     {
-      if($_SESSION["usuario21"] == "")
+      if($_SESSION["usuario21"] == "" && $_SESSION['idempresalog'] == "")
       {
           //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
         session_destroy(); echo "<script> window.location='../../index.php' </script>";
@@ -66,7 +66,7 @@ session_start();
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Bracket Responsive Bootstrap 4 Admin Template</title>
+    <title>CRM</title>
 
     <!-- vendor css -->
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -82,11 +82,14 @@ session_start();
     <link rel="stylesheet" href="../css/bracket.css">
   </head>
 
-  <body>
+  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
     <?php include("../../varglobales.php"); ?>
+    <?php //include("PHPAltiria.php"); ?>
+    <?php include("permisosuser.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href="">Nombre Empresa</a></div>
-    <?php include("cpermisos.php"); ?>
+    
+    <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
+    <?php include("menulateral.php"); ?>
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
@@ -95,16 +98,25 @@ session_start();
       <div class="br-header-left">
         <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
-        <div class="input-group hidden-xs-down wd-170 transition">
+        <!-- Carga Nombre Empresa -->
+        <a href="" class="nav-link nav-link-profile d-flex" style="align-items: center;" data-toggle="dropdown">
+          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
+        </a>            
+
+      <!-- BOTON SEARCH  -->
+     <!--   <div class="input-group hidden-xs-down wd-170 transition">
           <input id="searchbox" type="text" class="form-control" placeholder="Search">
           <span class="input-group-btn">
             <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-          </span>
-        </div><!-- input-group -->
+          </span>          
+        </div> input-group -->
       </div><!-- br-header-left -->
+
+
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">
+          <div class="dropdown">       
+
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
               <!-- start: if statement -->
@@ -234,21 +246,23 @@ session_start();
           </div><!-- dropdown -->
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down">Katherine</span>
+<!-- Carga Nombre Empresa -->
+              <span class="logged-name hidden-md-down" id="nUsuario"></span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href="#" onclick="loadDiv('../divs/editarperfil.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>
-                <li><a href=""><i class="icon ion-power"></i> Sign Out</a></li>
+                <li><a href=""><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>
+                <li><a href=""><i class="icon ion-power"></i> Cerrar Sesion</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
+
         </nav>
         <div class="navicon-right">
           <a id="btnRightMenu" href="" class="pos-relative">
@@ -677,14 +691,25 @@ session_start();
     <script src="../lib/d3/d3.js"></script>
     <script src="../lib/rickshaw/rickshaw.min.js"></script>
 
+    <!-- NOTIFICACIONES MODAL -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
     
+    <script src="../js/permisos_user.js"></script>
+    <script src="../js/load.js"></script>
+    <script src="../js/permisos_perfiles.js" ></script>
+    <script src="../js/submenus.js"></script>
+
+    
     <script>
-      
+           
+
+
       function openPDF(){
           window.open('../archivospdf/ResultadosDiarios310119.pdf','_blank');
       }
@@ -729,5 +754,19 @@ session_start();
         }
       });
     </script>
+
+<?php
+
+  // if(isset($_GET["type"]) == 1){
+  //     echo "<script> loadDiv('../divsadministrar/divadmusuarios.php'); </script>";
+  // }else if(isset($_GET["type"]) == 2){
+  //     echo "<script> loadDiv('../divsadministrar/divadmperfiles.php'); </script>";
+  // }else{
+    
+  // }
+  
+?>
+
+
   </body>
 </html>

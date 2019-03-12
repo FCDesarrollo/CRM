@@ -1,3 +1,13 @@
+<?php
+session_start();  
+    if($_SESSION["idusuario"] == "" && $_SESSION["idempresalog"])
+    {
+        //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
+      session_destroy(); echo "<script> window.location='index.php' </script>";
+      exit(); 
+    } 
+?>
+
 <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
@@ -22,59 +32,65 @@
         const cLecYEsc = 2;
         const cTodo = 3;
         
+        var $sWs; 
         var $cIDEmpresa;
         var $cIDUsuario;
         var $data;
         public function cModulos($cIDEmpresa, $cIDUsuario)
         {
+            //$this->sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
+            $this->sWs = "http://apicrm.dublock.com/public/";
             $this->cIDEmpresa = $cIDEmpresa;
             $this->cIDUsuario = $cIDUsuario;
             
             $this->data = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario);
-            $resultado = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoModulos", $this->data);    
+            $resultado = CallAPI("GET", $this->sWs ."PermisoModulos", $this->data);   
             $array = json_decode($resultado, true);
             foreach($array as $value) {
-                $Modulo = json_decode(CallAPI("GET", 
-                    "http://localhost/ApiConsultorMX/miconsultor/public/NombreModulo",
+                $Modulo = json_decode(CallAPI("GET", $this->sWs ."NombreModulo",
                     array("idmodulo" => $value['idmodulo'])), true);
                 
+                    $PerMod = $value['tipopermiso'];
+                    
                 echo '<div class="br-menu-item">';
                 echo '<span style="color: #87c846;" class="menu-item-label">'.$Modulo[0]['nombre_modulo'].'</span>';
                 echo '</div>';
-
+                
                 $this->data2 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmodulo" => $value['idmodulo']);
-                $resultado2 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoMenus", $this->data2);    
+                $resultado2 = CallAPI("GET", $this->sWs ."PermisoMenus", $this->data2);    
                 $array2 = json_decode($resultado2, true);
                 foreach($array2 as $value2) {
-                    $Menu = json_decode(CallAPI("GET", 
-                    "http://localhost/ApiConsultorMX/miconsultor/public/NombreMenu",
-                    array("idmenu" => $value2['idmenu'])), true);
+                      $PerMenu= ($PerMod == 0) ? 0 : $value2['tipopermiso'];
+                      $Menu = json_decode(CallAPI("GET", $this->sWs ."NombreMenu",
+                      array("idmenu" => $value2['idmenu'])), true);
+                      $stBloq = ($PerMenu == 0) ? " style='pointer-events:none; '" : "" ;
+                      echo '<a href="#"' .$stBloq. ' class="br-menu-link">';
+                      echo '<div class="br-menu-item">';
+                      echo '<i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>';
+                      echo '<span class="menu-item-label">' .$Menu[0]['nombre_menu']. '</span>';
+                      echo '<i class="menu-item-arrow fa fa-angle-down"></i>';
+                      echo '</div>';
+                      echo '</a>';
+                      $this->data3 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmenu" => $value2['idmenu']);
+                      $resultado3 = CallAPI("GET", $this->sWs ."PermisoSubMenus", $this->data3);    
+                      $array3 = json_decode($resultado3, true);
+                      echo '<ul class="br-menu-sub nav flex-column">';
+                      foreach($array3 as $value3) {
+                        $PerSubMenu= ($PerMenu == 0) ? 0 : $value3['tipopermiso'];
+                        $stBloq = ($PerSubMenu == 0) ? " style='pointer-events:none; '" : "" ;
+                       
+                        $SubMenu = json_decode(CallAPI("GET", $this->sWs ."NombreSubMenu",
+                        array("idsubmenu" => $value3['idsubmenu'])), true);
 
-                    echo '<a href="#" class="br-menu-link">';
-                    echo '<div class="br-menu-item">';
-                    echo '<i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>';
-                    echo '<span class="menu-item-label">' .$Menu[0]['nombre_menu']. '</span>';
-                    echo '<i class="menu-item-arrow fa fa-angle-down"></i>';
-                    echo '</div>';
-                    echo '</a>';
-                    $this->data3 = array("idempresa" => $this->cIDEmpresa, "idusuario" => $this->cIDUsuario, "idmenu" => $value2['idmenu']);
-                    $resultado3 = CallAPI("GET", "http://localhost/ApiConsultorMX/miconsultor/public/PermisoSubMenus", $this->data3);    
-                    $array3 = json_decode($resultado3, true);
-                    echo '<ul class="br-menu-sub nav flex-column">';
-                    foreach($array3 as $value3) {
-                      $SubMenu = json_decode(CallAPI("GET", 
-                      "http://localhost/ApiConsultorMX/miconsultor/public/NombreSubMenu",
-                      array("idsubmenu" => $value3['idsubmenu'])), true);
-
-                        echo '<li class="nav-item"><a href="accordion.html" class="nav-link">'.$SubMenu[0]['nombre_submenu'].'</a></li>';
-                    }
-                    echo '</ul>';
+                          echo '<li class="nav-item"><a' .$stBloq. ' href="accordion.html" class="nav-link">'.$SubMenu[0]['nombre_submenu'].'</a></li>';
+                      }
+                      echo '</ul>';
+                  
                 }
-                
+              }  
             }
             
         }
-    }
 function CallAPI($method, $url, $data = false)
 {
    
@@ -109,7 +125,7 @@ function CallAPI($method, $url, $data = false)
 }
 
     $a = new PermisosUser();
-    $a->cModulos(1, 4);
+    $a->cModulos($_SESSION['idempresalog'], $_SESSION['idusuario']);
    
 ?>
         <a href="#" class="br-menu-link">
