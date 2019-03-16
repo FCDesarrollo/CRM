@@ -210,7 +210,7 @@
 
 		$creditos = $var->getCredit();
 		
-		$var->setPassword("xxxx");		
+		//$var->setPassword("xxxx");		
 		
 		//if($creditos != false){
 			$resultado = $var->sendSMS($celular, $mensaje);
