@@ -167,7 +167,7 @@ function DatosUsuarioUser(){
         $.get(ws + "DatosUsuario/" + sIDUser, function(data){
             var usuario = JSON.parse(data).usuario;
             if(usuario.length>0){
-                $('#txtidusuario').val(usuario[0].idusuario);
+              /*  $('#txtidusuario').val(usuario[0].idusuario);
                 $('#txtnombre').val(usuario[0].nombre);
                 $('#txtapellidop').val(usuario[0].apellidop);
                 $('#txtapellidom').val(usuario[0].apellidom);
@@ -176,7 +176,7 @@ function DatosUsuarioUser(){
                 $("#txtcontrasena").val(usuario[0].password);
                 $('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
                 $("#txtstatus2").val(usuario[0].status);
-                $("#txttipo2").val(usuario[0].tipo);
+                $("#txttipo2").val(usuario[0].tipo);*/
 
                 //loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVinUser");
                 //permisoUser(usuario[0].idusuario);
