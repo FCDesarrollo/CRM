@@ -7,21 +7,50 @@ var NombreMenu = "";
 var NombreSubMenu = "";
 var DescripcionModulo = "";
 
-function Mod_Notificacion(checkbox){
-    var filas = $("#t-Notificaciones").find("tr");
-    for(i=0; i<filas.length; i++){ //Recorre las filas 1 a 1            
-        var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
-        var idsubmenu_td = $(celdas[0]).text();
-        if(idsubmenu_td === checkbox){
-            console.log(idsubmenu_td);
+var sNombreUser = "";
+
+var idempresa = 0;
+var idusuario = 0; 
+var sIDSUB = 0;
+var tiponotificacion = 0;
+
+function Mod_Notificacion(checkbox1){
+
+    $('#t-Notificaciones').on('click', '#'+checkbox1, function(event) {
+        var cadena = $(this).parents('tr').find('td:first-child').text(),
+             separador = ",",
+             arreglo = cadena.split(separador);        
+        sIDSUB = arreglo[0];
+        idempresa = arreglo[1];
+        idusuario = arreglo[2];     
+
+        if($('#sms'+sIDSUB).prop('checked') && $('#email'+sIDSUB).prop('checked')) {
+            tiponotificacion = 3;
+        }else if($('#email'+sIDSUB).prop('checked')){
+            tiponotificacion = 1;
+        }else if($('#sms'+sIDSUB).prop('checked')){
+            tiponotificacion = 2;
+        }else{
+            tiponotificacion = 0;
         }
-    }
+
+        $.post(ws + "ModificaNotificacion", { idempresa: idempresa, idusuario: idusuario, idsubmenu: sIDSUB, tiponotificacion: tiponotificacion }, function(data){
+             if(data>0){
+                 //console.log("Actualizo");    
+             }else{
+                 //console.log("No Actualizo");
+             }            
+         });
+        
+    });
+    
 }
 
-function CargaModalNoti(idempresa,idusuario){
 
+function CargaModalNoti(idempresa,idusuario){   
+    $("#t-Notificaciones tbody").children().remove();
     $.get(ws + "SubMenus", function(datos){    
-        SubMenusArray = datos;
+     SubMenusArray = datos;
 
         $.get(ws + "NotificacionesUsuario", { idempresa: idempresa, idusuario : idusuario }, function(data){
             if(data != ""){                
@@ -36,16 +65,16 @@ function CargaModalNoti(idempresa,idusuario){
                         
                     document.getElementById('t-Notificaciones').innerHTML +=
                     "<tbody> \
-                        <tr> \
-                            <td class='d-none'>"+data[x].idsubmenu+"</td> \
-                            <td role='row'>"+NombreSubMenu+"</td> \
+                        <tr role='row'> \
+                            <td class='d-none'>"+data[x].idsubmenu+","+idempresa+","+idusuario+"</td> \
+                            <td>"+NombreSubMenu+"</td> \
                             <td> \
                                 <div class='row mg-t-10'> \
                                     <div class='col-lg-6'> \
-                                        <label class='ckbox'><input value='1' name='email"+data[x].idsubmenu+"' onchange='Mod_Notificacion(this.value)' type='checkbox'><span>Email</span></label> \
+                                        <label class='ckbox'><input id='email"+data[x].idsubmenu+"' onclick='Mod_Notificacion(this.id)' type='checkbox'><span>Email</span></label> \
                                     </div> \
                                     <div class='col-lg-6'> \
-                                        <label class='ckbox'><input value='2' name='sms"+data[x].idsubmenu+"' onchange='Mod_Notificacion(this.value)' type='checkbox'><span>SMS</span></label> \
+                                        <label class='ckbox'><input id='sms"+data[x].idsubmenu+"' onclick='Mod_Notificacion(this.id)' type='checkbox'><span>SMS</span></label> \
                                     </div> \
                                 </div> \
                             </td> \
@@ -53,13 +82,26 @@ function CargaModalNoti(idempresa,idusuario){
                     </tbody>";
 
 
+                    switch(data[x].notificaciones) {
+                        case 1:
+                            $("#email"+data[x].idsubmenu).attr("checked", true);
+                            break;
+                        case 2:
+                            $("#sms"+data[x].idsubmenu).attr("checked", true);
+                            break;
+                        case 3:
+                            $("#email"+data[x].idsubmenu).attr("checked", true);
+                            $("#sms"+data[x].idsubmenu).attr("checked", true);
+                            break;                        
+                    }
+
+
                 }
             }
         });
 
-    });
+    });    
 
-    
 }
 
 function ValidarCelular(){
@@ -102,7 +144,6 @@ function EnviaCodigo(){
     
 }
 
-
 function EnviarSMS(identificador,url,domain_ser,login,password,celular){
 
     $.ajax({
@@ -134,7 +175,6 @@ function EnviarSMS(identificador,url,domain_ser,login,password,celular){
   
 }
 
-
 function VerificaCodigo(){
     var identificador = $("#txtidentificador").val();
     var idusuario = $("#txtidusuario").val();
@@ -157,29 +197,28 @@ function VerificaCodigo(){
 
 }
 
-
 function DatosUsuarioUser(){
     $("table tbody tr").click( function(){
         
         //loadDiv('../divsadministrar/divadmpermisos.php');
         var sIDUser = $(this).find("td").eq(0).text();
-        var sNombreUser = $(this).find("td").eq(1).text();
+        sNombreUser = $(this).find("td").eq(1).text();
         IDUSER= sIDUser;
         
        // PermisosUsuario
         $.get(ws + "DatosUsuario/" + sIDUser, function(data){
             $('#divdinamico').load('../divsadministrar/divadmpermisos.php');            
             var usuario = JSON.parse(data).usuario;
-            if(usuario.length>0){
+            if(usuario.length>0){                
                 CargaPermisosUsuario(usuario[0].idusuario,idempresa);
             }else{
                 swal("Error de Usuario", "No se pudo obtener los datos del usuario, favor de recargar la pagina. Si el problema continua, comunicarlo a sistemas.", "error");
             }
         });
+
     });
+
 }
-
-
 
 function EliminaUserlog(idempresa){
     $("table tbody tr").click( function(){
@@ -195,8 +234,8 @@ function EliminaUserlog(idempresa){
             });
         }                      
     });    
-}
 
+}
 
 function CargaDatosUsuario(idusuario){ 
     $.get(ws + "DatosUsuario/" + idusuario, function(data){
@@ -224,6 +263,7 @@ function CargaDatosUsuario(idusuario){
             alert("No se encontro el usuario");
         }
     });    
+
 }
 
 function EditaUsuario(){
@@ -237,12 +277,12 @@ function EditaUsuario(){
         }
     }); 
     //document.getElementById("#FormGuardaEmpresa").reset();
+
 }
 
-
+//----------MODULOS
 function CargaPermisosUsuario(idusuario, idempresa){
 
-//----------MODULOS
     $.get(ws + "Modulos", function(datos){    
         ModulosArray = datos;
 
@@ -291,13 +331,12 @@ function CargaPermisosUsuario(idusuario, idempresa){
                             }
                 }
             }else{
-                $('#accordion').addClass('d-none');
+                //$('#accordion').addClass('d-none');
             }
         });        
     });
 
 }
-
 
 //---------- MENUS
 function ListaPermisosMenus(idempresa, idusuario, idmodulo){
@@ -354,7 +393,6 @@ function ListaPermisosMenus(idempresa, idusuario, idmodulo){
     });
 }
 
-
 //----------SUB MENUS
 function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
     $.get(ws + "SubMenus", function(datos){    
@@ -391,12 +429,64 @@ function ListaPermisosSubMenu(idempresa,idusuario,idmenu){
                                         <option value='3' "+ (SubMenu[x].tipopermiso == pTodo ? 'selected' : '') +">Todos</option> \
                                     </select>\
                                 </td> \
+                                <td> \
+                                    <div class='row mg-t-10'> \
+                                        <div class='col-lg-6'> \
+                                            <label class='ckbox'><input id='email"+SubMenu[x].idsubmenu+"' onclick='NotificacionesUser("+SubMenu[x].idsubmenu+","+idusuario+","+idempresa+")' type='checkbox'><span>Email</span></label> \
+                                        </div> \
+                                        <div class='col-lg-6'> \
+                                            <label class='ckbox'><input id='sms"+SubMenu[x].idsubmenu+"' onclick='NotificacionesUser("+SubMenu[x].idsubmenu+","+idusuario+","+idempresa+")' type='checkbox'><span>SMS</span></label> \
+                                        </div> \
+                                    </div> \
+                                </td> \
                             </tr> \
-                        </tbody>"; 
+                        </tbody>";
+
+
+                    switch(SubMenu[x].notificaciones) {
+                        case 1:
+                            $("#email"+SubMenu[x].idsubmenu).attr("checked", true);
+                            break;
+                        case 2:
+                            $("#sms"+SubMenu[x].idsubmenu).attr("checked", true);
+                            break;
+                        case 3:
+                            $("#email"+SubMenu[x].idsubmenu).attr("checked", true);
+                            $("#sms"+SubMenu[x].idsubmenu).attr("checked", true);
+                            break;                        
+                    }
+
 
                 }
         });    
     });
+
+}
+
+function NotificacionesUser(idsubmenu, idusuario, idempresa){
+   // $('#t-SubMenus').on('click', '#'+checkbox1, function(event) {
+
+        //var idsubmenu = $(this).parents('tr').find('td:first-child').text();    
+
+        if($('#sms'+idsubmenu).prop('checked') && $('#email'+idsubmenu).prop('checked')) {
+            tiponotificacion = 3;
+        }else if($('#email'+idsubmenu).prop('checked')){
+            tiponotificacion = 1;
+        }else if($('#sms'+idsubmenu).prop('checked')){
+            tiponotificacion = 2;
+        }else{
+            tiponotificacion = 0;
+        }
+
+        $.post(ws + "ModificaNotificacion", { idempresa: idempresa, idusuario: idusuario, idsubmenu: idsubmenu, tiponotificacion: tiponotificacion }, function(data){
+            if(data>0){
+                //console.log("Actualizo");    
+            }else{
+                //console.log("No Actualizo");
+            }            
+        });
+        
+   // });
 }
 
 function UpdatePermisoMod(permiso_modulo){0    
@@ -417,6 +507,7 @@ function UpdatePermisoMod(permiso_modulo){0
                 
             }
         });
+
 }
 
 function UpdatePermisoMenu(permiso_menu){
@@ -465,7 +556,6 @@ function UpdatePermisosSubMenu(permiso_submenu){
                 
             }
         });
-
 
 }
 

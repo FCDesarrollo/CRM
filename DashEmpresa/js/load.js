@@ -13,3 +13,8 @@ function CargaDatosEmpresa(idusuario, idempresalog){
         }
     });  
 }
+
+
+function CargaContenido(){
+    $('#divdinamico').load('../submenus/contenidos.php');
+}

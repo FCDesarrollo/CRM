@@ -87,6 +87,7 @@
                                 <th>SubMenus</th>
                                 <th>Menu</th>
                                 <th align='center'>Permisos</th>
+                                <th align='center'>Notificaciones</th>
                             </tr>                
                         </thead>
                     </table>
