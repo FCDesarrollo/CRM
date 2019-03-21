@@ -38,7 +38,6 @@ $mail->FromName = 'Mi Consultor MX';                       // Nombre del que env
 $mail->isHTML(true); //Decimos que lo que enviamos es HTML
 $mail->CharSet = 'UTF-8';  // Configuramos el charset 
 
-
 if($_POST){
 	$datos = $_POST;
 	if($datos['rpwd']==="1" && $datos['correo']!=""){
@@ -48,7 +47,6 @@ if($_POST){
 	}elseif($datos['destinatarios'] !=""){
 		EnviarLink($datos['destinatarios'], $datos['asunto'],$datos['mensaje']);
 	}		
-	
 }
 
 
@@ -165,7 +163,6 @@ function EnviarSMS($celular,$identificador){
 		'text' => 'Tu Codigo de Verificacion es: ' . $identificador
 	]);
 }
-
 
 
 ?>

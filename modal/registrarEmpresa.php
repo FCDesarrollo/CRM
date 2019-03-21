@@ -1,3 +1,4 @@
+
 <div id="NuevaEmpresa" class="modal">
     <div class="modal-dialog modalSelect3">
         <div class="modal-content">            
@@ -12,6 +13,7 @@
                         <input type="hidden" name="status" id="txtStatus" />
                         <input type="hidden" name="fecharegistro" id="txtfecharegistro" />
                         <input type="hidden" name="empresaBD" id="txtempresaBD" />
+                        <input type="hidden" name="rutaEmpresa" id="txtrutaEmpresa" />
                         
                         <div class='form-group'>
                             <label for='txtNombre'>Nombre</label>
@@ -36,7 +38,12 @@
                             <label for='txtCP'>Codigo Postal</label>
                             <input type="number" class="form-control" id="txtCP" name="codigopostal" placeholder="Codigo Postal" />
                             <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>                        
+                        </div>           
+                        <div class="form-group">    
+                            <label for='txtcorreo'>Correo</label>                    
+                            <input type="text" class="form-control" name="correo" id="txtcorreo" placeholder="Correo Electronico" required="required">	
+                            <p><span id="demo2"></span></p>    
+                        </div>             
                         <div class='form-group'>
                             <label for='txtContraseña'>Contraseña</label>
                             <input type="password" class="form-control" id="txtContrasena" name="password" placeholder="Contraseña" />
@@ -54,11 +61,45 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>Cerrar</span></button>
-                <button id="Guardar" onclick="GuardaEmpresa()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>
+                <button id="Guardar"  onclick="Correo()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>
 
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="container">
+  <!-- The Modal -->
+  <div class="modal" id="myModal" data-backdrop="static" data-keyboard="false" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Codigo de confirmación</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input type="hidden" name="codigo" id="codigo" />
+            <div class='form-group'>
+                <label for='txtCodigo'>Codigo</label>
+                <input type="text" class="form-control" id="txtCodigo" name="txtCodigo" placeholder="Codigo"/>
+                <div class='invalid-feedback'> Campo Requerido. </div>
+            </div>            
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" onclick="GuardaEmpresa()" class="btn btn-danger" >Continuar</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
 </div>
 <script>
 
@@ -68,70 +109,61 @@
         IDEMPLEADO = $(e.relatedTarget).data('idempresa');
         $("#NuevaEmpresaTitle").text("Nueva Empresa");
     });
-    function GuardaEmpresa()
-    {           
-        document.getElementById("Guardar").disabled = true;
-        document.getElementById('spanGuardar').innerHTML = 'Procesando...';           
-        if (validarCampos() != 0){  
-            if(document.getElementById("archivoCer").value == "" || document.getElementById("archivoKey").value == ""){
-                alert("Seleccione los archivos");
-                document.getElementById('spanGuardar').innerHTML = 'Guardar';           
-                document.getElementById('Guardar').disabled = false;
-            }
-            else{
+    function Correo()
+    {   
+        var form = $("#FormGuardarEmpresa").serialize();
+        $.ajax({                        
+        data: form,
+        type: 'POST',
+        url: 'login/validarcorreo/validaEmpresa.php',            
+        success:function(response){
+            resultado = JSON.parse(response);
+            estatusCorreo = resultado[0];
+            codigo = resultado[1];
+            if (estatusCorreo = true) {
+                alert("Se ha enviado un código de confirmación a su correo, puede demorar algunos segundos.");
                 document.getElementById("Guardar").disabled = true;
                 document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
-                subirArchivos();
-            }           
-
-            /*$.get(ws + "BDDisponible", function(data){
-                var resultado = JSON.parse(data).basedatos;             
-                if (resultado.length > 0){
-                    var id = resultado[0].id;                
-                    var rfc = document.getElementById("txtRFC").value;
-                    var nombre = resultado[0].nombre;   
-                    $("#txtempresaBD").val(nombre);
-                    $.post(ws + "AsignaBD",  { id: id, rfc: rfc }, function(data){    
-                        if(data>0){  
-                            ResgistraEmpresa();
-                        }else{
-                            alert("Ocurrio un problema 1");
-                        }
-                    });	
-                } else {
-                    alert("Ocurrio un problema 2");
-                }                  
-            });/////*/
+                $("#myModal").modal("show");
+                $("#codigo").val(codigo);
+            }else{
+                alert("Ocurrió un problema al mandar el correo");
+            }   
+            
+        }
+    });     
     }
+    
+    function GuardaEmpresa()
+    {   
+        codigoTxt = document.getElementById("txtCodigo").value;    
+        codigo = document.getElementById("codigo").value;
+        if (codigo === codigoTxt) {
+            document.getElementById("Guardar").disabled = true;
+            document.getElementById('spanGuardar').innerHTML = 'Procesando...';           
+            if (validarCampos() != 0){  
+                if(document.getElementById("archivoCer").value == "" || document.getElementById("archivoKey").value == ""){
+                    alert("Seleccione los archivos");
+                    document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+                    document.getElementById('Guardar').disabled = false;
+                }
+                else{
+                    document.getElementById("Guardar").disabled = true;
+                    document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
+                    $("#myModal").modal("hide");
+                    subirArchivos();
+                }                       
+            }
+        }else{
+            document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+            document.getElementById('Guardar').disabled = false;
+            alert("El código es incorrecto");
+            $("#codigo").val(codigo);
+        }
+        
         //document.getElementById('spanGuardar').innerHTML = 'Guardar';           
         //document.getElementById('Guardar').disabled = true;
     }
-
-    /*function ResgistraEmpresa()
-    {                    
-        var status = "1";
-        var fechaReg = new Date();              
-            $("#txtIdEmpresa").val(IDEMPRESA);
-            $("#txtStatus").val(status);
-            $("#txtfecharegistro").val(fechaReg.getFullYear() + "/" + (fechaReg.getMonth() + 1) + "/" + fechaReg.getDate());    
-
-            $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
-                if(data>0){       
-                    $.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
-                        if(result>0){                                                            
-                                $('#NuevaEmpresa').modal('hide');
-                                document.getElementById("FormGuardarEmpresa").reset();
-                            }else{
-                                alert("Ocurrio un error al crear tablas de la empresa");
-                            }
-                    });      
-                }else
-                {
-                    alert("Ocurrio un error al guardar el empleado 3");
-                }
-            });
-          
-    }*/
 
     function validarCampos(){
         var requerido = 1
