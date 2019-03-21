@@ -11,6 +11,7 @@ session_start();
           //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
         session_destroy(); echo "<script> window.location='../../index.php' </script>";
         exit(); 
+        
       } 
     }else{
         $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
@@ -257,8 +258,8 @@ session_start();
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>
-                <li><a href=""><i class="icon ion-power"></i> Cerrar Sesion</a></li>
+                <li><a href="#" onclick="CambiarEmpresa()"><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>
+                <li><a href="#" onclick="CerrarSession()"><i class="icon ion-power"></i> Cerrar Sesion</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->

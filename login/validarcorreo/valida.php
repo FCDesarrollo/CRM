@@ -40,12 +40,12 @@ $mail->CharSet = 'UTF-8';  // Configuramos el charset
 
 if($_POST){
 	$datos = $_POST;
-	if($datos['rpwd']==="1" && $datos['correo']!=""){
-		RestablecerContraseña();
-	}elseif($datos['identificador']!=""){
+	if($datos['identificador'] != ""){
 		CorreoValidacion();
-	}elseif($datos['destinatarios'] !=""){
-		EnviarLink($datos['destinatarios'], $datos['asunto'],$datos['mensaje']);
+	}else if($datos['rpwd'] === "1" && $datos['correo'] != ""){
+		RestablecerContraseña();
+	/*}elseif($datos['destinatarios'] !=""){
+		EnviarLink($datos['destinatarios'], $datos['asunto'],$datos['mensaje']); */
 	}		
 }
 
@@ -119,7 +119,7 @@ function CorreoValidacion(){
 	
 		$mensaje = 'Estimado usuario, su codigo de confirmacion ha sido generado correctamente.<br><br>Codigo de Confirmacion: '.$usuario["identificador"];
 
-		EnviarMail($destino,$asunto,$mensaje, $identificador,$celular);
+		EnviarMail($destino,$asunto,$mensaje,$identificador,$celular);
 
 	
 

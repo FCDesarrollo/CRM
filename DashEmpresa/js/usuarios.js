@@ -16,13 +16,16 @@ function AgregarUsuario(){
     var Identificador = Math.floor(Math.random() * 1000000);   
     var NombreUsuario = document.getElementById("txtnombre").value;  
     var ApellidoP = document.getElementById("txtapellidop").value;  
-    var form = $("#FormAgregarUsuario").serialize();
+    
 
     $("#txtidusuario").val(IDUsuario);
     $("#txtstatus").val(status);
     $("#txtidentificador").val(Identificador);
 
-    ValidarForm(form);
+    ValidarForm();
+
+    var form = $("#FormAgregarUsuario").serialize();    
+    
     if(FormValidado==1){
 	    if(CorreoExistente==1){            	       
 	        $.post(ws + "GuardaUsuario", $("#FormAgregarUsuario").serialize(), function(data){   	        	
@@ -43,7 +46,7 @@ function AgregarUsuario(){
 }
 
 
-function EnviarCorreo(form){       
+function EnviarCorreo(form){     
     $.ajax({                        
         data: form,
         type: 'POST',
@@ -63,7 +66,7 @@ function EnviarCorreo(form){
 }    
 
 
-function ValidarForm(form){   
+function ValidarForm(){   
     var nombre, apellidop, apellidom, celular, correo, contraseña;
     nombre = document.getElementById("txtnombre").value;    
     apellidop = document.getElementById("txtapellidop").value;
