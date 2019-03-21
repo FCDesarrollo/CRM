@@ -11,14 +11,10 @@ session_start();
     } 
 ?>
 <div class="br-section-wrapper">
-          <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Lista Perfiles</h6>
-          
           <div class="table-wrapper">
-            <button onclick="loadDiv('../divsadministrar/newperfil.php');"  class="btn btn-oblong btn-primary">Nuevo</button>
             <div id="datatable1_wrapper" class="dataTables_wrapper no-footer">
                 <div class="dataTables_length" id="datatable1_length">
                     <label>
-                       
                         <div id="datatable1_filter" class="dataTables_filter"><label>
                             Buscar:
                             <input type="search" class="" placeholder="Search..." aria-controls="datatable1"></label></div>

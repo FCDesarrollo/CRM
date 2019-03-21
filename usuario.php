@@ -38,6 +38,7 @@ session_start();
 
     <?php include("varglobales.php"); ?>
     <?php include("modal/registrarEmpresa.php"); ?>
+    <?php include("vincularempresa.php"); ?> 
     
     <div class="container">      
         <div style="margin-top:15px"></div>  
@@ -63,10 +64,12 @@ session_start();
                         <div class="row">
                             <div class="col col-xs-4">
                                 <h3 class="panel-title" id="usuariolog"></h3>
-                            </div>
-                            <div class="col col-xs-8 text-right">
-                                <button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-primary btn-create">Agregar Empresa</button>                            
+                                <button type="button" onclick="Vincularlog()" class="btn btn-sm btn-primary btn-create">Vincular Empresa</button>          
                                 <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
+                                 
+                            </div> 
+                            <div class="col col-xs-8 text-right">
+                            <button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-warning btn-create">Agregar Empresa</button> 
                             </div> 
                         </div>
                     </div>
@@ -144,7 +147,7 @@ session_start();
 
 
     <script src="js/app.js"></script> 
-       
+    <script src="js/vinculacion.js"></script> 
     <!--<script src="usuarioadmin/usuarioslog.js"></script>   --> 
 
     <script>

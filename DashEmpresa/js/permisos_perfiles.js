@@ -214,6 +214,10 @@ function BloqueaSubMenu(permiso_menu){
     }
 }
 
+function NewPerfil(){
+    
+}
+
 // function UpdatePermisoMod(permiso_modulo){
 //     var permiso = permiso_modulo.value;
 //     var id = permiso_modulo.id;

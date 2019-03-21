@@ -1,5 +1,5 @@
-<div id="vincularempresa" class="modal fade" style="display:none;" >
-	<div class="modal-dialog">
+<div id="vincularempresa" class="modal"  >
+	<div class="modal-dialog modalSelect3">
 		<div class="modal-content">
 			<div class="modal-header">			
                 <h5 class="modal-title">Agregar los datos para vincular empresa</h5>	

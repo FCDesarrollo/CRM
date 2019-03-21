@@ -10,15 +10,11 @@ session_start();
       exit(); 
     } 
 ?>
-<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Crear Perfil</h4>
-        <p class="mg-b-0">Configuracion del Nuevo Perfil.</p>
-      </div>
 <div class="br-pagebody">
 <div class="br-section-wrapper">
 
     <form id="FormGuardarPerfil" action="" method="post">
-
+        <h4 class="tx-gray-800 mg-b-5">Crear Perfil</h4>
         <input type="hidden" name="idperfil" id="txtidperfil" />                            
 
         <div class="control-group">
@@ -32,18 +28,9 @@ session_start();
             <input type="text" class="form-control" name="descripcion" id="txtdesPerfil2" placeholder="Descripción" required="required">	
         </div>        
         
-        <div class="control-group mg-t-20">
-            <button type="button" onclick="GuardaUsuariolog();" class="btn btn-outline-primary">Guardar</button>  
-        </div>           
-        
-    </form>
-
-    <hr><hr>
 
     <div id="accordion" class="accordion mg-t-20" role="tablist" aria-multiselectable="true">
     <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Permisos del Perfil</h6>
-    <p class="mg-b-25 mg-lg-b-30">Configure los permisos del Perfil.</p>
-
     <div class="card">
         <div class="card-header" role="tab" id="heading2">
         <h6 class="mg-b-0">
@@ -129,6 +116,11 @@ session_start();
     
     <!-- ADD MORE CARD HERE -->
     </div><!-- accordion -->
+    <div class="control-group mg-t-20">
+            <button type="button" onclick="GuardaUsuariolog();" class="btn btn-primary btn-block mg-b-10">Guardar</button>  
+        </div>           
+        
+    </form>
 </div>
 </div>
 
