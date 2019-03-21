@@ -45,7 +45,6 @@ session_start();
 
 <script>
     var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>'
-    sIDEmpresa=1;
     if (sIDEmpresa > 0) {
         $.get(ws + "PerfileEmpresa/" + sIDEmpresa, function(data){
             var perfiles = JSON.parse(data).perfiles;
