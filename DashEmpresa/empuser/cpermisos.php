@@ -39,7 +39,7 @@ session_start();
         public function cModulos($cIDEmpresa, $cIDUsuario)
         {
             //$this->sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
-            $this->sWs = "http://apicrm.dublock.com/public/";
+            $this->sWs = "http://apicrm.dublock.com/public";
             $this->cIDEmpresa = $cIDEmpresa;
             $this->cIDUsuario = $cIDUsuario;
             

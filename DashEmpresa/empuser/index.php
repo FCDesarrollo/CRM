@@ -701,8 +701,9 @@ session_start();
     <script src="../js/dashboard.js"></script>
     <script src="../js/globales.js" ></script>
     
-    <script src="../js/permisos_user.js"></script>
     <script src="../js/load.js"></script>
+    <script src="../js/permisos_user.js"></script>
+    
     <script src="../js/permisos_perfiles.js" ></script>
     <script src="../js/usuarios.js"></script>
     <script src="../js/submenus.js"></script>
