@@ -39,7 +39,7 @@ session_start();
         public function cModulos($cIDEmpresa, $cIDUsuario)
         {
             //$this->sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
-            $this->sWs = "http://apicrm.dublock.com/public/";
+            //$this->sWs = "http://apicrm.dublock.com/public/";
             $this->cIDEmpresa = $cIDEmpresa;
             $this->cIDUsuario = $cIDUsuario;
             
@@ -124,51 +124,9 @@ function CallAPI($method, $url, $data = false)
 
 }
 
-    $a = new PermisosUser();
-    $a->cModulos($_SESSION['idempresalog'], $_SESSION['idusuario']);
+  //  $a = new PermisosUser();
+   // $a->cModulos($_SESSION['idempresalog'], $_SESSION['idusuario']);
    
 ?>
-        <a href="#" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">ADMINISTRAR</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a  class="nav-link">Empresa</a></li>
-          <li class="nav-item"><a href="#" onclick="loadDiv('../divsadministrar/divadmusuarios.php');" class="nav-link">Usuarios</a></li>
-          <li class="nav-item"><a href="#" onclick="loadDiv('../divsadministrar/divadmperfiles.php');" class="nav-link">Perfiles</a></li>
-          <li class="nav-item"><a href="form-wizards.html" class="nav-link">Form Wizards</a></li>
-          <li class="nav-item"><a href="form-editor-code.html" class="nav-link">Code Editor</a></li>
-          <li class="nav-item"><a href="form-editor-text.html" class="nav-link">Text Editor</a></li>
-        </ul>
-        <a href="pages.html" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-chatbubble-working tx-22"></i>
-            <span class="menu-item-label">AYUDA</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="background.html" class="nav-link">Vídeos</a></li>
-          <li class="nav-item"><a href="background.html" class="nav-link">Noticias Fiscales</a></li>
-          <li class="nav-item"><a href="background.html" class="nav-link">Cartas Técnicas</a></li>
-        </ul>
-        <a href="layouts.html" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-book-outline tx-22"></i>
-            <span class="menu-item-label">Layouts</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        <a href="sitemap.html" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
-            <span class="menu-item-label">Sitemap</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-      </div><!-- br-sideleft-menu -->      
 
-      <br>
-    </div><!-- br-sideleft -->
 
