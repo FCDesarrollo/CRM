@@ -76,4 +76,5 @@
     print_r(json_encode($archivos));
     return json_encode($archivos);
     //var_dump(json_encode($archivos));
+    //prueba
 ?>

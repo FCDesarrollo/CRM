@@ -1,10 +1,4 @@
-function CargaListaUsuarios(){
-	$('#divdinamico').load('../divsadministrar/divadmusuarios.php');
-}
 
-function NuevoUsuario(){
-	$('#divdinamico').load('../divsadministrar/divregistrousuarionuevo.php');
-}
 
 
 var CorreoExistente = 0;
