@@ -26,6 +26,9 @@
         if ($pushd !== false && @ftp_chdir($conn_id, $nom)){
             if(ftp_chdir($conn_id, $pushd) == true){
                 echo "El directorio ya existe";
+                $statusCarpeta = false;
+                $statusCertificado = false;
+                $statusLlave = false;
             }           
         } else{
             if (ftp_mkdir($conn_id, $nom)) {
@@ -33,7 +36,7 @@
                     $statusCarpeta = true;                        
                     if($certificado["type"] == "application/x-x509-ca-cert" && $llave["type"] == "application/octet-stream"){
                         if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
-                            //echo "Archivo $fileCert guardado con extio\n";
+                            //echo "Archivo $fileCert guardado con extio\n";                            
                             $statusCertificado = true;
                         } else {
                             //echo "Ocurrio un problema con el archivo $fileCert\n";
@@ -53,7 +56,7 @@
                             echo "Hubo un problema al eliminar el directorio $nom\n";
                         }
                         echo "Los archivos no corresponden a tipo certificado o llave";
-                    }                                         
+                    }                                        
                 }
             } else {
                 //echo "Ocurrio un problema al crear a carpeta $nom\n";
@@ -68,10 +71,9 @@
     }
     ftp_close($conn_id);
 
-    //$return = array(, $statusCarpeta, $statusCertificado, 'Llave' => $statusLlave);
-    $archivos=array($conexion,$statusCarpeta,$statusLlave,$statusCertificado);
+    $archivos=array($conexion,$statusCarpeta,$statusCertificado,$statusLlave);
     //print_r($archivos);
     print_r(json_encode($archivos));
-    return $archivos;
+    return json_encode($archivos);
     //var_dump(json_encode($archivos));
 ?>

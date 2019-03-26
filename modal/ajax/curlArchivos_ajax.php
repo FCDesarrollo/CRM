@@ -6,6 +6,11 @@ $fileCert = $certificado["tmp_name"];
 $remote_fileCer = '/'.'PruebaSincro/'. $nom.'/'.$certificado["name"];
 $fileKey = $llave["tmp_name"];
 $remote_fileKey = '/'.'PruebaSincro/'.$nom.'/'.$llave["name"];
+//$archivoTxt = '/'.'PruebaSincro/'.$nom.'/'.$nom.".txt";
+$archivoTxt = $nom.".txt";
+$pass = $_POST["password"];
+$local_file = $nom.".txt"; //Nombre archivo en nuestro PC
+$server_file = '/'.'PruebaSincro/'.$nom.'/'.$nom.".txt"; //Nombre archivo en FTP
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom );
@@ -40,14 +45,14 @@ if ($login_result===true){
                 $statusLlave = false;
             }
         }           
-    } else{            
-           
+    } else{                       
             if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
                 //echo "Archivo $fileCert guardado con extio\n";
                 $statusCertificado = true;
             } else {
                 //echo "Ocurrio un problema con el archivo $fileCert\n";
-                $statusCertificado = false;
+                //$statusCertificado = false;
+                $statusCertificado = $remote_fileCer . " " . $fileCert;
             }
             if (ftp_put($conn_id, $remote_fileKey, $fileKey, FTP_BINARY)) {
                 //echo "Archivo $fileKey guardado con extio\n";
@@ -55,7 +60,31 @@ if ($login_result===true){
             } else {
                 //echo "Ocurrio un problema con el archivo $fileKey\n";
                 $statusLlave = false;
+                $statusLlave = $remote_fileKey  . " " . $fileKey;
             }   
+ 
+            if(!file_exists($archivoTxt))
+            {                
+                $mensaje = $pass;
+                if($archivo = fopen($archivoTxt, "a"))
+                {                            
+                    if(fwrite($archivo, $mensaje)){
+                        $archivoC = true;
+                    }
+                    fclose($archivo);
+                    
+                    if (ftp_put($conn_id, $server_file, $local_file, FTP_BINARY)) {
+                        $archivoCS = true; 
+                    } else {
+                        $archivoCS = false; 
+                    }
+                }
+            }else {
+                $archivoC = false; 
+            }
+            if (file_exists($archivoTxt)) { 
+                unlink($archivoTxt);
+            }
    }                    
 }else{
     $conexion = False;
@@ -63,7 +92,7 @@ if ($login_result===true){
 ftp_close($conn_id);
 
 
-$archivos=array($conexion,$statusCertificado,$statusLlave);
+$archivos=array($conexion,$statusCertificado,$statusLlave,$archivoC,$archivoCS);
 print_r(json_encode($archivos));
 return $archivos;
 
