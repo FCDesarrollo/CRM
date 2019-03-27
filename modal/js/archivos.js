@@ -133,10 +133,11 @@ function ResgistraEmpresa()
                     $.post(ws + "CrearTablasEmpresa", {empresaBD: empresaBD}, function(result){
                         if(result>0){
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
-                                if(data>0){      
-                                    $.post(ws + "UsuarioProfile",{ idusuario: usuarioId, empresaBD: empresaBD }, function(data){
-                                        if(data>0){   
-                                            alert(data);                                             
+                                if(data>0){   
+                                    idUserPro = document.getElementById("idusuariolog").value;   
+                                    alert(idUserPro);  
+                                    $.post(ws + "UsuarioProfile",{ idusuario: idUserPro, empresaBD: empresaBD }, function(data){                                        
+                                        if(data>0){                                                                                          
                                             alert("Empresa Registrado Correctamente.!");            
                                             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                                             document.getElementById('Guardar').disabled = false;
