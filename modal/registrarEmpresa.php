@@ -1,5 +1,4 @@
-
-<div id="NuevaEmpresa" class="modal">
+<div id="NuevaEmpresa" class="modal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modalSelect3">
         <div class="modal-content">            
             <div class="modal-header">
@@ -17,45 +16,46 @@
                         
                         <div class='form-group'>
                             <label for='txtNombre'>Nombre</label>
-                            <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE"/>
+                            <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE" required="required"/>
                             <div class='invalid-feedback'> Campo Requerido. </div>
                         </div>
                         <div class='form-group'>
                             <label for='txtRFC'>RFC</label>
-                            <input type="text" class="form-control" id="txtRFC" name="rfc" placeholder="RFC" />
+                            <input type="text" class="form-control" id="txtRFC" name="rfc" placeholder="RFC" required="required"/>
                             <div class='invalid-feedback'> Campo Requerido. </div>
                         </div>
                         <div class='form-group'>
                             <label for='txtDomicilio'>Direccion</label>
-                            <input type="text" class="form-control" id="txtDomicilio" name="direccion" placeholder="Direccion" />
+                            <input type="text" class="form-control" id="txtDomicilio" name="direccion" placeholder="Direccion" required="required"/>
                             <div class='invalid-feedback'> Campo Requerido. </div>
                         </div>
                         <div class='form-group'>
                             <label for='txtTelefono'>Telefono</label>
-                            <input type="number" class="form-control" id="txtTelefono" name="telefono" placeholder="Telefono" />
+                            <input type="number" class="form-control" id="txtTelefono" name="telefono" placeholder="Telefono" required="required"/>
                         </div>
                         <div class='form-group'>
                             <label for='txtCP'>Codigo Postal</label>
-                            <input type="number" class="form-control" id="txtCP" name="codigopostal" placeholder="Codigo Postal" />
+                            <input type="number" class="form-control" id="txtCP" name="codigopostal" placeholder="Codigo Postal" required="required"/>
                             <div class='invalid-feedback'> Campo Requerido. </div>
                         </div>           
                         <div class="form-group">    
                             <label for='txtcorreo'>Correo</label>                    
-                            <input type="text" class="form-control" name="correo" id="txtcorreo" placeholder="Correo Electronico" required="required">	
+                            <input type="text" class="form-control" name="correo" id="txtcorreo" placeholder="Correo Electronico" required="required">	    
+                            <div class='invalid-feedback'> Campo Requerido. </div>
                             <p><span id="demo2"></span></p>    
                         </div>             
                         <div class='form-group'>
-                            <label for='txtContraseña'>Contraseña</label>
-                            <input type="password" class="form-control" id="txtContrasena" name="password" placeholder="Contraseña" />
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>
-                        <div class='form-group'>
-                            <label for='archivoCer'>Certificado</label>
+                            <label for='archivoCer'>FIEL .Cer</label>
                             <input type="file" name="archivoCer" id="archivoCer">
                         </div>
                         <div class='form-group'>
-                            <label for='archivoKey'>Archivo Key</label>
+                            <label for='archivoKey'>FIEL .Key</label>
                             <input type="file" name="archivoKey" id="archivoKey">
+                        </div>
+                        <div class='form-group'>
+                            <label for='txtContraseña'>Contraseña FIEL</label>
+                            <input type="password" class="form-control" id="txtContrasena" name="password" placeholder="Contraseña" required="required"/>
+                            <div class='invalid-feedback'> Campo Requerido. </div>
                         </div>
                 </form>
             </div>
@@ -120,13 +120,13 @@
             resultado = JSON.parse(response);
             estatusCorreo = resultado[0];
             codigo = resultado[1];
-            if (estatusCorreo = true) {
+            if (estatusCorreo == true) {
                 alert("Se ha enviado un código de confirmación a su correo, puede demorar algunos segundos.");
                 document.getElementById("Guardar").disabled = true;
                 document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
                 $("#myModal").modal("show");
                 $("#codigo").val(codigo);
-            }else{
+            }else if (estatusCorreo == false){
                 alert("Ocurrió un problema al mandar el correo");
             }   
             
@@ -149,8 +149,9 @@
                 }
                 else{
                     document.getElementById("Guardar").disabled = true;
-                    document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
+                    document.getElementById('spanGuardar').innerHTML = 'Procesando...';                     
                     $("#myModal").modal("hide");
+                    document.getElementById("txtCodigo").value = "";
                     subirArchivos();
                 }                       
             }
