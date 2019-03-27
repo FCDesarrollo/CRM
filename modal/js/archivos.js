@@ -127,7 +127,6 @@ function ResgistraEmpresa()
             $("#txtrutaEmpresa").val(ruta);
             $("#txtfecharegistro").val(fechaReg.getFullYear() + "/" + (fechaReg.getMonth() + 1) + "/" + fechaReg.getDate());    
             var empresaBD = document.getElementById("txtempresaBD").value;
-            var usuarioId = document.getElementById("idusuariolog").value;
             $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
                 if(data>0){ 
                     ///$.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
