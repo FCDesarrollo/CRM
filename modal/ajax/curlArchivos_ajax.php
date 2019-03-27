@@ -47,20 +47,14 @@ if ($login_result===true){
         }           
     } else{                       
             if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
-                //echo "Archivo $fileCert guardado con extio\n";
                 $statusCertificado = true;
             } else {
-                //echo "Ocurrio un problema con el archivo $fileCert\n";
-                //$statusCertificado = false;
-                $statusCertificado = $remote_fileCer . " " . $fileCert;
+                $statusCertificado = false;
             }
             if (ftp_put($conn_id, $remote_fileKey, $fileKey, FTP_BINARY)) {
-                //echo "Archivo $fileKey guardado con extio\n";
                 $statusLlave = true;
             } else {
-                //echo "Ocurrio un problema con el archivo $fileKey\n";
                 $statusLlave = false;
-                $statusLlave = $remote_fileKey  . " " . $fileKey;
             }   
  
             if(!file_exists($archivoTxt))
@@ -82,6 +76,7 @@ if ($login_result===true){
             }else {
                 $archivoC = false; 
             }
+            
             if (file_exists($archivoTxt)) { 
                 unlink($archivoTxt);
             }

@@ -126,10 +126,12 @@ function ResgistraEmpresa()
             $("#txtStatus").val(status);
             $("#txtrutaEmpresa").val(ruta);
             $("#txtfecharegistro").val(fechaReg.getFullYear() + "/" + (fechaReg.getMonth() + 1) + "/" + fechaReg.getDate());    
-
+            var empresaBD = document.getElementById("txtempresaBD").value;
+            var usuarioId = document.getElementById("idusuariolog").value;
             $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
                 if(data>0){ 
-                    $.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
+                    ///$.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
+                    $.post(ws + "CrearTablasEmpresa", { empresaBD: empresaBD, idusuario: usuarioId }, function(result){
                         if(result>0){
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
                                 if(data>0){                           
