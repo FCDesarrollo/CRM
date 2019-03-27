@@ -130,7 +130,9 @@ function ResgistraEmpresa()
             $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
                 if(data>0){ 
                     ///$.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
+                    alert(usuarioId);
                     $.post(ws + "CrearTablasEmpresa", { empresaBD: empresaBD, idusuario: usuarioId }, function(result){
+                        alert(result);
                         if(result>0){
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
                                 if(data>0){                           
