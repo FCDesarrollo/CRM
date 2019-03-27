@@ -144,7 +144,7 @@ function ResgistraEmpresa()
                                             document.getElementById("FormGuardarEmpresa").reset();
                                             $('#NuevaEmpresa').modal('hide'); 
                                         }else{
-
+                                            alert("Empresa Registrado Correctamente pero no se asignaron perfiles!");  
                                         }
                                     });                                                        
                                 }else{
