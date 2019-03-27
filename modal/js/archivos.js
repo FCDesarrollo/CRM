@@ -131,16 +131,22 @@ function ResgistraEmpresa()
             $.post(ws + "GuardarEmpresa", $("#FormGuardarEmpresa").serialize(), function(data){
                 if(data>0){ 
                     ///$.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
-                    $.post(ws + "CrearTablasEmpresa", { idusuario: usuarioId, empresaBD: empresaBD }, function(result){
+                    $.post(ws + "CrearTablasEmpresa", {empresaBD: empresaBD}, function(result){
                         alert(result);
                         if(result>0){
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
-                                if(data>0){                           
-                                    alert("Empresa Registrado Correctamente.!");            
-                                    document.getElementById('spanGuardar').innerHTML = 'Guardar';           
-                                    document.getElementById('Guardar').disabled = false;
-                                    document.getElementById("FormGuardarEmpresa").reset();
-                                    $('#NuevaEmpresa').modal('hide');                                                                
+                                if(data>0){      
+                                    $.post(ws + "UsuarioProfile",{ idusuario: usuarioId, empresaBD: empresaBD }, function(data){
+                                        if(data>0){                                                
+                                            alert("Empresa Registrado Correctamente.!");            
+                                            document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+                                            document.getElementById('Guardar').disabled = false;
+                                            document.getElementById("FormGuardarEmpresa").reset();
+                                            $('#NuevaEmpresa').modal('hide'); 
+                                        }else{
+
+                                        }
+                                    });                                                        
                                 }else{
                                     alert("Se ha registrado la empresa pero no se ha podido vincular a un usuario");
                                 }                                                                          
