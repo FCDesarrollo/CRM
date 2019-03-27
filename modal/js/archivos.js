@@ -135,7 +135,9 @@ function ResgistraEmpresa()
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
                                 if(data>0){   
                                     idUserPro = document.getElementById("idusuariolog").value;   
+                                    alert(document.getElementById("idusuariolog").value);
                                     alert(idUserPro);  
+                                    alert(usuarioId);
                                     $.post(ws + "UsuarioProfile",{ idusuario: idUserPro, empresaBD: empresaBD }, function(data){                                        
                                         if(data>0){                                                                                          
                                             alert("Empresa Registrado Correctamente.!");            
