@@ -121,7 +121,6 @@ function ResgistraEmpresa()
         var ruta = document.getElementById("txtRFC").value;
         ruta = "dublockc_"+ruta.trim();
         usuarioId = document.getElementById("idusuariolog").value;
-        alert(usuarioId);
         var fechaReg = new Date();              
             $("#txtIdEmpresa").val(IDEMPRESA);
             $("#txtStatus").val(status);
@@ -132,13 +131,12 @@ function ResgistraEmpresa()
                 if(data>0){ 
                     ///$.post(ws + "CrearTablasEmpresa", $("#FormGuardarEmpresa").serialize(), function(result){
                     $.post(ws + "CrearTablasEmpresa", {empresaBD: empresaBD}, function(result){
-                        alert(result);
                         if(result>0){
                             $.post(ws + "UsuarioEmpresa",{ idusuario: usuarioId, idempresa: data }, function(data){
                                 if(data>0){      
-                                    alert(usuarioId);
                                     $.post(ws + "UsuarioProfile",{ idusuario: usuarioId, empresaBD: empresaBD }, function(data){
-                                        if(data>0){                                                
+                                        if(data>0){   
+                                            alert(data);                                             
                                             alert("Empresa Registrado Correctamente.!");            
                                             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                                             document.getElementById('Guardar').disabled = false;
