@@ -62,7 +62,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>Cerrar</span></button>
                 <button id="Guardar"  onclick="Correo()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>
-
+                <!--<button id="Guardar"  onclick="profile()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>-->                
             </div>
         </div>
     </div>
@@ -103,6 +103,23 @@
 </div>
 <script>
 
+    /*function profile()
+    {   
+        usuarioId = document.getElementById("idusuariolog").value;
+        empresaBD = "dublockc_empresa01";        
+        $.post(ws + "UsuarioProfile",{ idusuario: usuarioId, empresaBD: empresaBD }, function(data){                                        
+            if(data>0){    
+                alert(data);                                                                                      
+                alert("Empresa Registrado Correctamente.!");            
+                document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+                document.getElementById('Guardar').disabled = false;
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
+            }else{
+                alert("Empresa Registrado Correctamente pero no se asignaron perfiles!");  
+            }
+        }); 
+    }*/
     var IDEMPRESA = "0";
     
     $('#agregarEmpresa').click('show.bs.modal', function(e) {    
