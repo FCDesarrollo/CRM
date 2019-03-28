@@ -76,7 +76,6 @@ if ($login_result===true){
             }else {
                 $archivoC = false; 
             }
-            
             if (file_exists($archivoTxt)) { 
                 unlink($archivoTxt);
             }
