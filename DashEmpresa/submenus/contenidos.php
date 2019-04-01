@@ -1,3 +1,14 @@
+<?php
+  session_start();
+  if($_SESSION['RFCEmpresa'] == ""){
+    $_SESSION['idempresalog'] = 0;    
+    echo "<script> window.location='../../../../usuario.php' </script>";
+        exit(); 
+  }
+
+?>
+
+
 <div class="d-flex align-items-center justify-content-start mg-b-20 mg-sm-b-30">
 
         <!--<button id="showSubLeft" class="btn btn-secondary mg-r-10 hidden-lg-up"><i class="fa fa-navicon"></i></button>-->
@@ -18,8 +29,8 @@
         <!-- END: DISPLAYED FOR MOBILE ONLY -->
 
         <div class="btn-group hidden-xs-down">
-          <a href="#" class="btn btn-outline-info">Compartir</a>
-          <a href="#" class="btn btn-outline-info">Descargar</a>
+          <a href="#" class="btn btn-outline-info" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
+          <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>
         </div><!-- btn-group
         <div class="btn-group mg-l-10 hidden-xs-down">
           <a href="#" class="btn btn-outline-info">Edit</a>
@@ -52,7 +63,7 @@
       </div>
 <div class="br-pagebody pd-x-0">
         <div class="card bd-0 shadow-base">
-          <table class="table mg-b-0">
+          <table class="table mg-b-0" id="t-Archivos">
             <thead>
               <tr>
                 <th class="wd-5p">
@@ -65,8 +76,16 @@
                 <th class="wd-5p"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+             <tbody>
+                <!--<tr>
+                  <td></td>
+                  <td>
+                    <i class="icon ion-ios-folder-outline tx-24 tx-warning lh-0 valign-middle"></i>
+                    <span class="pd-l-5">No hay archivos disponibles</span>
+                  </td>
+                  <td>DD/MM/YYYY HH/MM/SS</td>
+                </tr>    -->          
+            <!--  <tr>
                 <td class="valign-middle">
                   <label class="ckbox mg-b-0">
                     <input type="checkbox"><span></span>
@@ -88,7 +107,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -113,7 +132,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -138,7 +157,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -163,7 +182,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -188,7 +207,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -213,7 +232,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -238,7 +257,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -263,7 +282,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -288,7 +307,7 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -313,10 +332,11 @@
                       <a href="" class="nav-link">Copy</a>
                       <a href="" class="nav-link">Delete</a>
                     </nav>
-                  </div><!-- dropdown-menu -->
+                  </div>
                 </td>
-              </tr>
-            </tbody>
+              </tr>-->
+            </tbody> 
           </table>
         </div>
       </div>
+

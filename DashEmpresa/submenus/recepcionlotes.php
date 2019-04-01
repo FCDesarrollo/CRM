@@ -7,13 +7,13 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Proceso de Produccion</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Proceso de Produccion</button>
 			</div>
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Proceso de Compras</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Proceso de Compras</button>
 			</div>
 			<div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Proceso de Ventas</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Proceso de Ventas</button>            
 	        </div>
 		</div>
 

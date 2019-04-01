@@ -196,7 +196,7 @@
 		        <div class="navbar-header">
 		        	<!-- Mobile Toggle Menu Button -->
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
-		         <a class="navbar-brand" href="index.html">Elate</a> 
+		         <a class="navbar-brand" href="index.html">Mi Consultor</a> 
 		        </div>
 		        <div id="navbar" class="navbar-collapse collapse">
 		          <ul class="nav navbar-nav navbar-right">
@@ -663,7 +663,7 @@
 	
 	
 	<!-- For demo purposes Only ( You may delete this anytime :-) -->
-	<div id="colour-variations">
+	<div id="colour-variations" class="sleep">
 		<a class="option-toggle"><i class="icon-gear"></i></a>
 		<h3>Preset Colors</h3>
 		<ul>
@@ -717,8 +717,8 @@
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Google Map -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
-	<script src="js/google_map.js"></script>
+	<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
+	<script src="js/google_map.js"></script>-->
 
 	<!-- For demo purposes only styleswitcher ( You may delete this anytime ) -->
 	<script src="js/jquery.style.switcher.js"></script>

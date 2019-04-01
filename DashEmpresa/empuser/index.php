@@ -12,13 +12,11 @@ session_start();
         session_destroy(); echo "<script> window.location='../../index.php' </script>";
         exit(); 
         
+      }else if($_SESSION['idempresalog'] == 0){
+          echo "<script> window.location='../../usuario.php' </script>";
       } 
-    }else{
-        $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
-        session_destroy(); 
-        header("Location: ../../login/index.php?em=$IdEm'&nar=ResultadosDiarios310119.pdf"); 
-        //echo "<script> window.location='../../login/index.php?em=1' </script>";
-        exit(); 
+    }else{      
+        session_destroy(); echo "<script> window.location='../../index.php' </script>";
     }
 ?>
 <!DOCTYPE html>
@@ -81,9 +79,13 @@ session_start();
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
+
+    <link rel="stylesheet" href="../css/estilos.css">
+
   </head>
 
   <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
+    
     <?php include("../../varglobales.php"); ?>
     <?php //include("PHPAltiria.php"); ?>
     <?php include("permisosuser.php"); ?>
@@ -675,6 +677,7 @@ session_start();
     <!-- ########## START: MAIN PANEL ########## -->
     
     <div class="br-mainpanel">  
+      
         <!-- AQUI SE CARGA UN ARCHIVO PHP DEPENDIENDO DE LA ACCION -->
     </div>
 
@@ -694,6 +697,7 @@ session_start();
 
     <!-- NOTIFICACIONES MODAL -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
     <script src="../js/bracket.js"></script>
