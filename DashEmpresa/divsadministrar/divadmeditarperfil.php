@@ -10,20 +10,26 @@ session_start();
       exit(); 
     } 
 ?>
-        <h4 class="tx-gray-800 mg-b-5">Crear Perfil</h4>
-        <input type="hidden" name="idperfil" id="txtidperfil" />                            
+        <h4 class="tx-gray-800 mg-b-5">Editar Perfil</h4>
+        <input type="hidden" name="idperfil" id="txtidperfilE" />                            
 
         <div class="control-group">
             <label class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Nombre Perfil</label>
             <div class="controls">
-                <input type="text" class="form-control" name="nombreperfil" id="txtnombreperfil2" placeholder="Nombre" required="required">		
+                <input type="text" class="form-control" name="nombreperfil" id="txtnombreperfil2E" >		
             </div>
         </div>  
         <div class="controls">
             <label class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Descripción</label>
-            <input type="text" class="form-control" name="descripcion" id="txtdesPerfil2" placeholder="Descripción" required="required">	
+            <input type="text" class="form-control" name="descripcion" id="txtdesPerfil2E" >	
         </div>        
-        
+        <div class="control-group">
+            <div id="activo">
+                <label class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Activo</label>
+                <input class="checkbox" type="checkbox" id="chEst"> 
+                <button type="button" onclick="" class="btn btn-primary btn-block mg-b-10">Guardar</button>   
+            </div>
+        </div>   
 
     <div id="accordion" class="accordion mg-t-20" role="tablist" aria-multiselectable="true">
     <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Permisos del Perfil</h6>
@@ -66,7 +72,7 @@ session_start();
         <div id="collapse3" class="collapse hide" role="tabpanel" aria-labelledby="heading3">
             <div class="card-block pd-20">
                 <div class="bd bd-gray-300 rounded table-responsive">
-                <table class="table table-bordered" id="t-Menus">            
+                <table class="table table-bordered" id="t-MenusPer">            
                     <thead>
                         <tr>
                             <th>Menus</th>
@@ -95,7 +101,7 @@ session_start();
         <div id="collapse4" class="collapse hide" role="tabpanel" aria-labelledby="heading4">
             <div class="card-block pd-20">
                 <div class="bd bd-gray-300 rounded table-responsive">
-                    <table class="table table-bordered" id="t-SubMenus">            
+                    <table class="table table-bordered" id="t-SubMenusPer">            
                         <thead>
                             <tr>
                                 <th class="d-none"></th>
@@ -115,14 +121,8 @@ session_start();
     
     <!-- ADD MORE CARD HERE -->
     </div><!-- accordion -->
-    <div class="control-group mg-t-20">
-            <button type="button" onclick="SavePerfilEmpresa(nIDPerfil, sIDEmpresa);" class="btn btn-primary btn-block mg-b-10">Guardar</button>  
-    </div>           
+            
 
 <script>
-    var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>';
-    var nIDPerfil = 0;
-    CargaModulos();
-    CargaMenus();
-    CargaSubMenu();     
+   
 </script>

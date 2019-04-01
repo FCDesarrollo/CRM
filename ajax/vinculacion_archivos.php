@@ -1,8 +1,8 @@
 <?php
 
-    $nom = $_POST["rfc"];
-    $certificado = $_FILES["archivoCer"];    
-    $llave = $_FILES["archivoKey"]; 
+    $nom = "vinculacion";
+    $certificado = $_FILES["archivoCerV"];    
+    $llave = $_FILES["archivoKeyV"]; 
 
     $fileCert = $certificado["tmp_name"];
     $remote_fileCer = $nom.'/'.$certificado["name"];

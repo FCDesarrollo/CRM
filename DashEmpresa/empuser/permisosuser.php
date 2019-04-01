@@ -22,8 +22,8 @@ class PermisosUsuario
     private $_Modulos;
     private $_Menus;
     private $_SubMenus;
-    protected  $_sWs = "http://apicrm.dublock.com/public/";
-   //protected  $_sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
+    //protected  $_sWs = "http://apicrm.dublock.com/public/";
+   protected  $_sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
     function __construct(int $IDComp,int $IDUse){
         $this->_IDEmprsa = $IDComp;
         $this->_IDUsuario = $IDUse;
