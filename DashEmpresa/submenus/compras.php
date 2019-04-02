@@ -6,13 +6,13 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Requerimientos</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Requerimientos</button>
 			</div>
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Autorizaciones</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Autorizaciones</button>
 			</div>
 			<div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Recepcion de Compras</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Recepcion de Compras</button>            
 	        </div>
 		</div>
 

@@ -6,13 +6,13 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Indicadores Financieros</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Indicadores Financieros</button>
 			</div>
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Asesor de Flujos de Efectivo</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Asesor de Flujos de Efectivo</button>
 			</div>
 			<div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Analisis de Proyectos</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Analisis de Proyectos</button>            
 	        </div>
 		</div>
 

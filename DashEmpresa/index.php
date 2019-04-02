@@ -1,6 +1,17 @@
 <?php
 session_start();    
-    $_SESSION['idempresalog'] = $_POST["idempresalog"];
+    if (isset($_POST["idempresalog"])) {
+        $_SESSION['idempresalog'] = $_POST["idempresalog"];
+        $_SESSION['RFCEmpresa'] = $_POST["rfcempresa"];
+    }else{
+        $_SESSION['idempresalog'] = 0;
+        echo "<script> window.location='../../usuario.php' </script>";
+        //exit();         
+    }
+
+
+
+
 ?>
 
 <!DOCTYPE html>

@@ -1,4 +1,18 @@
+<?php
+	session_start();
+	if($_SESSION['RFCEmpresa'] == ""){
+		$_SESSION['idempresalog'] = 0;		
+		echo "<script> window.location='../../../../usuario.php' </script>";
+      	exit(); 
+	}
+
+?>
+
 <div class="br-pagebody pd-l-0 pd-r-0">
+
+	<!-- ¡Efecto Loading! Quitar clase d-none para mostrar, y agregar para ocultar con javascript -->
+	<div class="d-none" id="loading"></div> 
+	
 	<div class="br-section-wrapper pd-b-0">
 		
 		<h4 class="tx-gray-800">Contabilidad</h4>    
@@ -6,24 +20,29 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-lg-6 col-md-4 col-sm-6">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Estados Financieros</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido(1, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Estados Financieros</button>
 			</div>
 	        <div class="col-lg-6 col-md-4 col-sm-6">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Contabilidad Electronica</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido(2, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Contabilidad Electronica</button>
 			</div>
 			<div class="col-lg-6 col-md-4 col-sm-6">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Expedientes Administrativos</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido(3, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Expedientes Administrativos</button>            
 	        </div>
 			<div class="col-lg-6 col-md-4 col-sm-6">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Expedientes Contables</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido(4, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Expedientes Contables</button>
 	        </div>
 		</div>
-
 	</div>
 
 	<div class="br-section-wrapper" id="divdinamico">
 		
+
 	</div>
+
+
+
+
+
 
 
 </div>
