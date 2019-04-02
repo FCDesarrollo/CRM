@@ -118,8 +118,7 @@ function subirArchivos() {
 function ResgistraEmpresa()
     {                    
         var status = "1";        
-        var ruta = document.getElementById("txtRFC").value;
-        ruta = "dublockc_"+ruta.trim();
+        var ruta = document.getElementById("txtempresaBD").value;
         usuarioId = document.getElementById("idusuariolog").value;
         var fechaReg = new Date();              
             $("#txtIdEmpresa").val(IDEMPRESA);
@@ -142,25 +141,27 @@ function ResgistraEmpresa()
                                             document.getElementById("FormGuardarEmpresa").reset();
                                             $('#NuevaEmpresa').modal('hide'); 
                                         }else{
-                                            alert("Empresa Registrado Correctamente pero no se asignaron perfiles!");  
+                                            alert("Empresa Registrado Correctamente pero no se asignaron perfiles!");                                  
+                                            UsuarioEmpresaEliminar();
                                         }
                                     });                                                        
                                 }else{
                                     alert("Se ha registrado la empresa pero no se ha podido vincular a un usuario");
+                                    EliminaTablasEmpresa();
                                 }                                                                          
                             
                             });
-                        }else{
-                            document.getElementById('spanGuardar').innerHTML = 'Guardar';           
-                            document.getElementById('Guardar').disabled = false;
+                        }else{                                                        
                             alert("Ocurrio un error al crear tablas de la empresa.");
+                            EliminaEmpresa(); 
+                            //libera bd asignada  y eliminar registro de la bd de la empresa
                         }
                     });      
                 }else
-                {
-                    document.getElementById('spanGuardar').innerHTML = 'Guardar';           
-                    document.getElementById('Guardar').disabled = false;
-                    alert("Ocurrio un error al guardar el empleado.");
+                {           
+                    //elimina carpeta curl y libera bd asignada                         
+                    alert("Ocurrio un error al registrar la empresa.");   
+                    AcutalizaAsignaBD();                 
                 }
             });          
     }
@@ -175,14 +176,26 @@ function curlCarpetas(){
         processData: false,
         error: function(response) {
             var datosCurl = JSON.parse(response);
-            if (datosCurl[0] === false){
+            if (datosCurl[0] === false){                
                 alert("No se ha podido conectar con el servidor.");
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
             } else if(datosCurl[1] === false && datosCurl[2] === false){
                 alert("Problemas al guardar el certificado.");
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
             } else if(datosCurl[2] === false){
                 alert("Problemas al guardar el la llave.");
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
             }else if(datosCurl[3] === false){
                 alert("Problemas al crear el archivo TXT.");
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide');                 
             }
         },
         success: function(response){ 
@@ -201,23 +214,36 @@ function curlCarpetas(){
                                 ResgistraEmpresa();
                             }else{
                                 alert("No se pudo asignar base de datos");
+                                eliminarCurl();                                
                             }
                         });	
                     } else {
+                        eliminarCurl();
                         document.getElementById('Guardar').disabled = false;
-                        document.getElementById('spanGuardar').innerHTML = 'Guardar'; 
+                        document.getElementById('spanGuardar').innerHTML = 'Guardar';                                         
+                        document.getElementById("FormGuardarEmpresa").reset();
+                        $('#NuevaEmpresa').modal('hide'); 
                         alert("No hay hay base de datos disponible");
                     }                  
                 });
             }else if (datosCurl[0] === false) {
                 document.getElementById('spanGuardar').innerHTML = 'Guardar';           
-                document.getElementById('Guardar').disabled = false;                    
+                document.getElementById('Guardar').disabled = false;
+                eliminarCurl(); 
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide');                    
             }else if (datosCurl[0] === false) {
                 document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                 document.getElementById('Guardar').disabled = false;
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
             }else if (datosCurl[0] === false){
                 document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                 document.getElementById('Guardar').disabled = false;
+                eliminarCurl();
+                document.getElementById("FormGuardarEmpresa").reset();
+                $('#NuevaEmpresa').modal('hide'); 
             }         
         },
     });  
@@ -273,3 +299,58 @@ function rfcValido(rfc, aceptarGenerico = true) {
         return false;
     return rfcSinDigito + digitoVerificador;
 }
+
+function eliminarCurl() {
+    var parametros = new FormData($("#FormGuardarEmpresa")[0]);
+    $.ajax({
+        type: 'POST',//tipo de petición
+        url: 'modal/ajax/curlEliminarCarpeta.php',
+        data:parametros,
+        cache: false,
+        contentType: false,
+        processData: false,
+        error: function(response) {            
+        },
+        success: function(response){ 
+            document.getElementById('spanGuardar').innerHTML = 'Guardar';           
+            document.getElementById('Guardar').disabled = false;
+            document.getElementById("FormGuardarEmpresa").reset();
+            $('#NuevaEmpresa').modal('hide'); 
+    
+        },
+    });      
+}
+function AcutalizaAsignaBD() {
+    var empresaBD = document.getElementById("txtempresaBD").value;
+    $.post(ws + "EliminaAsignaBD",  { empresaBD: empresaBD }, function(data){    
+        if(data>0){             
+            eliminarCurl();
+        }
+    });	    
+}
+function EliminaEmpresa() {
+    var rfc = document.getElementById("txtRFC").value;
+    $.post(ws + "EliminarRegistro",  { rfc: rfc }, function(data){    
+        if(data>0){             
+            AcutalizaAsignaBD();
+        }
+    });	    
+}
+function EliminaTablasEmpresa() {
+    var empresaBD = document.getElementById("txtempresaBD").value;
+    $.post(ws + "EliminarTablas",  { empresaBD: empresaBD }, function(data){    
+        if(data>0){             
+            EliminaEmpresa();
+        }
+    });	    
+}
+
+function UsuarioEmpresaEliminar() {
+    var usuarioId = document.getElementById("idusuariolog").value;
+    $.post(ws + "EliminarUsuarioEmpresa",  { usuarioId: usuarioId }, function(data){    
+        if(data>0){             
+            EliminaTablasEmpresa();
+        }
+    });	    
+}
+

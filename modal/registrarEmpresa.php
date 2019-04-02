@@ -205,6 +205,10 @@
             $('#txtContrasena').prop("required", true);
             requerido = 0
         }
+        if (document.getElementById("txtcorreo").value == ""){
+            $('#txtcorreo').prop("required", true);
+            requerido = 0
+        }
         return requerido;
     }
 </script>

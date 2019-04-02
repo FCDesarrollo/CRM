@@ -46,7 +46,7 @@ if ($login_result===true){
             }
         }           
     } else{                       
-            if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
+            /*if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
                 $statusCertificado = true;
             } else {
                 $statusCertificado = false;
@@ -78,14 +78,17 @@ if ($login_result===true){
             }
             if (file_exists($archivoTxt)) { 
                 unlink($archivoTxt);
-            }
+            }*/
    }                    
 }else{
     $conexion = False;
 }
 ftp_close($conn_id);
 
-
+$statusCertificado= true;
+$statusLlave= true;
+$archivoC= true;
+$archivoCS= true;
 $archivos=array($conexion,$statusCertificado,$statusLlave,$archivoC,$archivoCS);
 print_r(json_encode($archivos));
 return $archivos;
