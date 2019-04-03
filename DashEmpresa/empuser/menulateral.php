@@ -8,6 +8,7 @@
     $perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
     $perMod->user_Modulos();
     $perMod->user_Menus();
+    $perMod->user_SubMenus();
 
 ?>
 <div class="br-sideleft overflow-y-auto">
