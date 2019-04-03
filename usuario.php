@@ -8,7 +8,9 @@ session_start();
         //Si no hay sesión activa, lo direccionamos al index.php (inicio de sesión) 
       session_destroy(); echo "<script> window.location='index.php' </script>";
       exit(); 
-    } 
+    }else{
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -47,6 +49,7 @@ session_start();
                 <form id="FormListEmp" action="DashEmpresa/" method="POST">
                     <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php echo $_SESSION['idusuario']; ?>" />    
                     <input type="hidden" name="idempresalog" id="idempresalog" /> 
+                    <input type="hidden" name="rfcempresa" id="rfcempresa" />
                     <!--<input type="hidden" name="nombreempresalog" id="nombreempresalog" />-->                         
                 </form>                                  
             </div>   
@@ -155,10 +158,12 @@ session_start();
 
     function AbreEmpresa(){
         $("table tbody tr").click( function(){
-            var select = $(this).find("td").eq(0).text();     
+            var select = $(this).find("td").eq(0).text(); 
+            var rfc = $(this).find("td").eq(2).text();      
             gNombreEmpresa = $(this).find("td").eq(1).text();          
             if(select!=""){                 
                 $("#idempresalog").val(select);                
+                $("#rfcempresa").val(rfc);
                 $("#FormListEmp").submit();
             }else{
                 alert("Seleccione Empresa");
@@ -167,7 +172,16 @@ session_start();
     }
 
     function CerrarSession(){
-        window.location='index.php';         
+        var idempresa = 0;
+        var usuario21 = "";
+        $.ajax({                        
+            data: { idempresa: idempresa, usuario21: usuario21 },
+            type: 'POST',
+            url: 'sessiones_usuario.php',            
+            success:function(response){
+                window.location='index.php';
+            }
+        });       
     }
 
     // function Desvincula(){

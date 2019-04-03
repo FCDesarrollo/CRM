@@ -76,7 +76,6 @@ if ($login_result===true){
             }else {
                 $archivoC = false; 
             }
-            
             if (file_exists($archivoTxt)) { 
                 unlink($archivoTxt);
             }
@@ -86,7 +85,10 @@ if ($login_result===true){
 }
 ftp_close($conn_id);
 
-
+$statusCertificado= true;
+$statusLlave= true;
+$archivoC= true;
+$archivoCS= true;
 $archivos=array($conexion,$statusCertificado,$statusLlave,$archivoC,$archivoCS);
 print_r(json_encode($archivos));
 return $archivos;

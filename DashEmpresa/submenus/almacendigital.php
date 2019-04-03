@@ -6,10 +6,10 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Notificaciones de Autoridades</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Notificaciones de Autoridades</button>
 			</div>
 	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Expedientes Digitales</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Expedientes Digitales</button>
 			</div>
 		</div>
 

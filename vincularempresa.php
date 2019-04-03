@@ -7,18 +7,19 @@
 			</div>
             <div class="modal-body">
                 <form id="FormVincu" action="" method="post" required="required">
-                    <div class="control-group">
-                        <label class="control-label" for="basicinput">RFC de la empresa</label>
-                        <div class="controls">
-                            <input type="text" id="txtrfc" name="rfc" placeholder="Empresa" required="required">
+                <div class='form-group'>
+                            <label for='archivoCerV'>FIEL .Cer</label>
+                            <input type="file" name="archivoCerV" id="archivoCerV">
                         </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="basicinput">Password de la empresa</label>
-                        <div class="controls">
-                            <input type="text" id="txtpass" name="password" placeholder="Password" required="required">
+                        <div class='form-group'>
+                            <label for='archivoKeyV'>FIEL .Key</label>
+                            <input type="file" name="archivoKeyV" id="archivoKeyV">
                         </div>
-                    </div>
+                        <div class='form-group'>
+                            <label for='txtContrasenaV'>Contraseña FIEL</label>
+                            <input type="passwordV" class="form-control" id="txtContrasenaV" name="passwordV" placeholder="Contraseña" required="required"/>
+                            <div class='invalid-feedback'> Campo Requerido. </div>
+                        </div>
                     <div class="control-group">
                         <label class="control-label" for="basicinput">Perfil:</label>
                         <div class="controls">
@@ -28,7 +29,7 @@
                         </div>
                     </div>
                     <hr>
-                    <button type="button" onclick="VinculacionEmpresa(txtrfc.value, txtpass.value, '<?php echo $_SESSION['idusuario']; ?>',seleperfil.value);" class="btn btn-primary">Guardar Vinculación</button>
+                    <button type="button" onclick="VinculacionEmpresa()" class="btn btn-primary">Guardar Vinculación</button>
                 </form>                    
             </div>
         </div>

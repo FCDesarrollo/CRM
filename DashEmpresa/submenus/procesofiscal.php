@@ -6,16 +6,16 @@
 
 		<div class="row justify-content-around">
 	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Pagos Provicionales</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Pagos Provicionales</button>
 			</div>
 	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Pagos Mensuales</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Pagos Mensuales</button>
 			</div>
 			<div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Declaraciones Anuales</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Declaraciones Anuales</button>            
 	        </div>
 			<div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaContenido()">Expedientes Fiscales</button>            
+	            <button class="btn btn-outline-primary btn-block mg-b-10">Expedientes Fiscales</button>            
 	        </div>
 		</div>
 
