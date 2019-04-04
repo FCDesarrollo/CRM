@@ -1,5 +1,5 @@
 <?php  
-$nom = $_POST["rfc"];
+$nom = trim($_POST["rfc"]);
 $certificado = $_FILES["archivoCer"];    
 $llave = $_FILES["archivoKey"]; 
 $fileCert = $certificado["tmp_name"];
@@ -12,15 +12,349 @@ $pass = $_POST["password"];
 $local_file = $nom.".txt"; //Nombre archivo en nuestro PC
 $server_file = '/'.'PruebaSincro/'.$nom.'/'.$nom.".txt"; //Nombre archivo en FTP
 
+
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom );
-curl_setopt($ch, CURLOPT_VERBOSE, 1);
-curl_setopt($ch, CURLOPT_USERPWD, 'admindublock:4u1B6nyy3W');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'MKCOL');
-$httpResponse = curl_exec($ch);
-//var_dump($httpResponse);
-//var_dump(curl_getinfo($ch, CURLINFO_HTTP_CODE) );
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom,
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Contabilidad',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Contabilidad/Estados Financieros',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Contabilidad/Contabilidad electronica',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Contabilidad/Expedientes Administrativos',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Contabilidad/Expedientes Contables',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Proceso Fiscal',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Proceso Fiscal/Pagos Provisionales',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Proceso Fiscal/Pagos Mensuales',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Proceso Fiscal/Declaraciones Anuales',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Proceso Fiscal/Expedientes Fiscales',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Finanzas',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Finanzas/Indicadores Financieros',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Finanzas/Asesor de Flujos de Efectivo',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Contabilidad/Finanzas/Análisis de Proyectos',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Compras',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Compras/Requerimientos',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Compras/Autorizaciones',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Compras/Recepción de compras',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Almacen Digital',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Almacen Digital/Notificaciones de Autoridades',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Almacen Digital/Expedientes Digitales',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Recepcion por Lotes',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Recepcion por Lotes/Proceso de Produccion',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Recepcion por Lotes/Proceso de Compras',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/Entrada/Recepcion por Lotes/Proceso de Ventas',
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch);
+
+    $gestor = fopen($fileCert, "r");
+    $contenido = fread($gestor, filesize($fileCert));
+    fclose($gestor);
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/'. $certificado["name"],
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_POSTFIELDS => $contenido,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_BINARYTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            )
+    );
+    curl_exec($ch);
+
+    $gestor2 = fopen($fileKey, "r");
+    $contenido2 = fread($gestor2, filesize($fileKey));
+    fclose($gestor2);
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/'. $llave["name"],
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_POSTFIELDS => $contenido2,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_BINARYTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'PUT',
+            )
+    );
+    curl_exec($ch);
+
 curl_close($ch);
 
 // Conexión
@@ -45,40 +379,38 @@ if ($login_result===true){
                 $statusLlave = false;
             }
         }           
-    } else{                       
-            if (ftp_put($conn_id, $remote_fileCer, $fileCert, FTP_BINARY)) {
-                $statusCertificado = true;
-            } else {
-                $statusCertificado = false;
-            }
-            if (ftp_put($conn_id, $remote_fileKey, $fileKey, FTP_BINARY)) {
-                $statusLlave = true;
-            } else {
-                $statusLlave = false;
-            }   
- 
-            if(!file_exists($archivoTxt))
-            {                
-                $mensaje = $pass;
-                if($archivo = fopen($archivoTxt, "a"))
-                {                            
-                    if(fwrite($archivo, $mensaje)){
+    } else{       
+        if(!file_exists($archivoTxt)){                
+            $mensaje = $pass;
+            if($archivo = fopen($archivoTxt, "a")){                            
+                if(fwrite($archivo, $mensaje)){
                         $archivoC = true;
-                    }
-                    fclose($archivo);
-                    
-                    if (ftp_put($conn_id, $server_file, $local_file, FTP_BINARY)) {
-                        $archivoCS = true; 
-                    } else {
-                        $archivoCS = false; 
-                    }
                 }
-            }else {
-                $archivoC = false; 
+                fclose($archivo);  
+                $gestor2 = fopen($local_file, "r");
+                    $contenido2 = fread($gestor2, filesize($local_file));
+                    fclose($gestor2);
+                    $ch = curl_init();                
+                    curl_setopt_array($ch,
+                        array(
+                            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/PruebaSincro/'. $nom .'/'. $archivoTxt,
+                            CURLOPT_VERBOSE => 1,
+                            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+                            CURLOPT_POSTFIELDS => $contenido2,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_BINARYTRANSFER => true,
+                            CURLOPT_CUSTOMREQUEST => 'PUT',
+                        )
+                    );
+                    curl_exec($ch);                           
+                    curl_close($ch);
             }
-            if (file_exists($archivoTxt)) { 
-                unlink($archivoTxt);
-            }
+        }else {
+            $archivoC = false; 
+        }
+        if (file_exists($archivoTxt)) { 
+            unlink($archivoTxt);
+        }
    }                    
 }else{
     $conexion = False;
