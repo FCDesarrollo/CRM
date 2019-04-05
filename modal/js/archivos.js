@@ -36,11 +36,11 @@ function subirArchivos() {
                     success: function(data) { 
                         var datos = JSON.parse(data);
                         if (datos['pareja']['result'] == 1 && datos['ArregloCertificado']['result'] == 1 && datos['Arreglofecha']['result'] == 1 && datos['KeyPemR']['result'] == 1){
-                            var fechaCer = datos['Arreglofecha']['fecha'];
+                            var fechaCer = datos['Arreglofecha']['fecha'];                            
                             fecha = formatDate(new Date());
                             var fechauno = new Date(fecha);
-                            var fechados = new Date(fechaCer);                                                        
-                            if (fechauno.getTime() < fechados.getTime()){  
+                            var fechados = new Date(fechaCer);           
+                            if (fechauno.getTime() < fechados.getTime()){                                  
                                 rfcCert = datos['ArregloCertificado']['datos'].replace('"', "");                                
                                 //var array = rfcCert.split(",");    
                                 var array = rfcCert.split("="); 
@@ -53,7 +53,8 @@ function subirArchivos() {
                                     if (rfc != ""){
                                         var rfcCorrecto = rfcValido(rfc.trim());                                  
                                         if (rfcCorrecto){                            
-                                            $("#txtRFC").val(rfc);
+                                            $("#txtRFC").val(rfc.trim());
+                                            $("#txtVigencia").val(formatDate(new Date(fechaCer)));
                                             curlCarpetas();
                                         }else{
                                             alert("RFC Incorrecto");
@@ -61,15 +62,14 @@ function subirArchivos() {
                                             document.getElementById('Guardar').disabled = false;
                                         }
                                     }
-                                }
-                                else{
+                                }else{
                                     alert("Este es un certificado, se requiere la FIEL.");
                                     document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                                     document.getElementById('Guardar').disabled = false; 
                                 }
                             }else{
-                                alert("El certificado está vencido" . fecha);
-                            }                        
+                                alert("El certificado está vencido " + fechaCer);
+                            }                      
                         }else if(datos['KeyPemR']['result'] == 0){   
                             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                             document.getElementById('Guardar').disabled = false;                         
@@ -140,6 +140,8 @@ function ResgistraEmpresa()
                                             document.getElementById('Guardar').disabled = false;
                                             document.getElementById("FormGuardarEmpresa").reset();
                                             $('#NuevaEmpresa').modal('hide'); 
+                                            $('#listado-empresas tbody').children().remove();
+                                            CargaListaEmpresas(usuarioId);
                                         }else{
                                             alert("Empresa Registrado Correctamente pero no se asignaron perfiles!");                                  
                                             UsuarioEmpresaEliminar();
@@ -206,7 +208,7 @@ function curlCarpetas(){
                 var resultado = JSON.parse(data).basedatos;             
                     if (resultado.length > 0){
                         var id = resultado[0].id;           
-                        var rfc = document.getElementById("txtRFC").value;
+                        var rfc = document.getElementById("txtRFC").value.trim();
                         var nombre = resultado[0].nombre;   
                         $("#txtempresaBD").val(nombre);
                         $.post(ws + "AsignaBD",  { id: id, rfc: rfc }, function(data){    
@@ -249,7 +251,7 @@ function curlCarpetas(){
     });  
 }
 
-function formatDate(date) {
+/*function formatDate(date) {
   var monthNames = [
     "January", "February", "March",
     "April", "May", "June", "July",
@@ -260,8 +262,20 @@ function formatDate(date) {
   var day = date.getDate();
   var monthIndex = date.getMonth();
   var year = date.getFullYear();
-
+ 
   return day + '-' + monthNames[monthIndex] + '-' + year;
+}*/
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 function rfcValido(rfc, aceptarGenerico = true) {
     const re       = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
@@ -299,6 +313,8 @@ function rfcValido(rfc, aceptarGenerico = true) {
         return false;
     return rfcSinDigito + digitoVerificador;
 }
+
+
 
 function eliminarCurl() {
     var parametros = new FormData($("#FormGuardarEmpresa")[0]);
