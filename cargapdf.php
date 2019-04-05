@@ -18,6 +18,7 @@
     header('Pragma: public');
     ini_set('zlib.output_compression','0');
 
+    return $content;
     die($content);
 
     echo "<script> console.log('Entro'); </script>";
