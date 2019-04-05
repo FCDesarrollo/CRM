@@ -36,11 +36,11 @@ function subirArchivos() {
                     success: function(data) { 
                         var datos = JSON.parse(data);
                         if (datos['pareja']['result'] == 1 && datos['ArregloCertificado']['result'] == 1 && datos['Arreglofecha']['result'] == 1 && datos['KeyPemR']['result'] == 1){
-                            var fechaCer = datos['Arreglofecha']['fecha'];
+                            var fechaCer = datos['Arreglofecha']['fecha'];                            
                             fecha = formatDate(new Date());
                             var fechauno = new Date(fecha);
-                            var fechados = new Date(fechaCer);                               
-                            if (fechauno.getTime() < fechados.getTime()){  
+                            var fechados = new Date(fechaCer);           
+                            if (fechauno.getTime() < fechados.getTime()){                                  
                                 rfcCert = datos['ArregloCertificado']['datos'].replace('"', "");                                
                                 //var array = rfcCert.split(",");    
                                 var array = rfcCert.split("="); 
@@ -62,14 +62,13 @@ function subirArchivos() {
                                             document.getElementById('Guardar').disabled = false;
                                         }
                                     }
-                                }
-                                else{
+                                }else{
                                     alert("Este es un certificado, se requiere la FIEL.");
                                     document.getElementById('spanGuardar').innerHTML = 'Guardar';           
                                     document.getElementById('Guardar').disabled = false; 
                                 }
                             }else{
-                                alert("El certificado está vencido" . fecha);
+                                alert("El certificado está vencido " + fechaCer);
                             }                      
                         }else if(datos['KeyPemR']['result'] == 0){   
                             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
