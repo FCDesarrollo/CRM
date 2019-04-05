@@ -60,7 +60,8 @@ session_start();
 							</td> \
 						</tr> \
 					</tbody>";   
-        }            
+        }  
+        $('#loading').addClass('d-none');          
     });
     
 

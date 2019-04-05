@@ -13,6 +13,7 @@ session_start();
 ?>
 
 <div class="br-pagebody pd-l-0 pd-r-0">
+	<div class="d-none" id="loading"></div> 
 	<div class="br-section-wrapper">
 		
 		<h4 class="tx-gray-800">Administracion de Perfiles</h4>    
@@ -20,10 +21,10 @@ session_start();
 
 		<div class="row justify-content-around">
 	        <div class="col-lg-6 col-md-4 col-sm-6">
-				<button class="btn btn-outline-primary btn-block mg-b-10" onclick="CargaListaPerfiles()">Lista de Perfiles</button>	    
+				<button   class="btn btn-outline-primary  btn-block mg-b-10"  <?= ($perMod->SubMenu_Permiso(SubMen_Perfiles)==0) ? 'disabled' : ''; ?>   onclick="CargaListaPerfiles()">Lista de Perfiles</button>	    
 			</div>
 	        <div class="col-lg-6 col-md-4 col-sm-6">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="NuevoPerfil()">Crear Perfil</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Perfiles) > 1) ? '' : 'disabled'; ?> onclick="NuevoPerfil()">Crear Perfil</button>
 			</div>
 		</div>
 

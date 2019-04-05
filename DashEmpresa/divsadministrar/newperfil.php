@@ -66,7 +66,7 @@ session_start();
         <div id="collapse3" class="collapse hide" role="tabpanel" aria-labelledby="heading3">
             <div class="card-block pd-20">
                 <div class="bd bd-gray-300 rounded table-responsive">
-                <table class="table table-bordered" id="t-Menus">            
+                <table class="table table-bordered" id="t-MenusPer">            
                     <thead>
                         <tr>
                             <th>Menus</th>
@@ -95,7 +95,7 @@ session_start();
         <div id="collapse4" class="collapse hide" role="tabpanel" aria-labelledby="heading4">
             <div class="card-block pd-20">
                 <div class="bd bd-gray-300 rounded table-responsive">
-                    <table class="table table-bordered" id="t-SubMenus">            
+                    <table class="table table-bordered" id="t-SubMenusPer">            
                         <thead>
                             <tr>
                                 <th class="d-none"></th>
@@ -116,7 +116,7 @@ session_start();
     <!-- ADD MORE CARD HERE -->
     </div><!-- accordion -->
     <div class="control-group mg-t-20">
-            <button type="button" onclick="SavePerfilEmpresa(nIDPerfil, sIDEmpresa);" class="btn btn-primary btn-block mg-b-10">Guardar</button>  
+            <button type="button" onclick="SavePerfilEmpresa(nIDPerfil, sIDEmpresa, 0);" class="btn btn-primary btn-block mg-b-10">Guardar</button>  
     </div>           
 
 <script>
@@ -124,5 +124,5 @@ session_start();
     var nIDPerfil = 0;
     CargaModulos();
     CargaMenus();
-    CargaSubMenu();     
+    CargaSubMenu();  
 </script>

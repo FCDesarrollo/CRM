@@ -5,7 +5,6 @@
     echo "<script> window.location='../../../../usuario.php' </script>";
         exit(); 
   }
-
 ?>
 
 

@@ -45,8 +45,9 @@ session_start();
                             </tr> \
                         </tbody>";
                 
-            }            
-        });    
+            }   
+            $('#loading').addClass('d-none');         
+        });  
     }
     
 

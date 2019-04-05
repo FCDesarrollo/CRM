@@ -67,10 +67,17 @@ var DescripcionModulo = "";
 //     });    
 // }
 
-function SavePerfilEmpresa(sIDPerfil, sIDEmpresa){
+function SavePerfilEmpresa(sIDPerfil, sIDEmpresa, sNew){
+    if(sNew == 1){
+        sIDPerfil = document.getElementById("txtidperfilE").value;
+        snombre = document.getElementById("txtnombreperfil2E").value;  
+        sdes = document.getElementById("txtdesPerfil2E").value;
+    }else{
+        snombre = document.getElementById("txtnombreperfil2").value;  
+        sdes = document.getElementById("txtdesPerfil2").value;
+    }
     //var sIDPerfil = document.getElementById("txtnombreperfil2").value;
-    var snombre = document.getElementById("txtnombreperfil2").value;  
-    var sdes = document.getElementById("txtdesPerfil2").value;
+    
     $.post(ws + "GuardaPerfilEmpresa", {idperfil: sIDPerfil, idempresa: sIDEmpresa,nombre: snombre,desc: sdes}, function(data){
         if(data>0){
             sIDPerfil =  data;
@@ -79,21 +86,20 @@ function SavePerfilEmpresa(sIDPerfil, sIDEmpresa){
                 var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
                 var idmodPer = $(celdas[0]).text();
                 sPermiso = ($("#radio_s"+idmodPer).is(':checked')) ? 1 : 0;
-                $.post(ws + "ModulosPerfil", {id: 0, idempresa: sIDEmpresa, idperfil: sIDPerfil, idmodulo: idmodPer, tipopermiso: sPermiso}, function(data){
+                $.post(ws + "ModulosPerfil", {id: sNew, idempresa: sIDEmpresa, idperfil: sIDPerfil, idmodulo: idmodPer, tipopermiso: sPermiso}, function(data){
                     if(data>0){
     
                     }
                 });
             }
            
-            var filas = $("#t-Menus").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
+            var filas = $("#t-MenusPer").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
             for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1
                 var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
                 var idmodPer = $(celdas[0]).text();
                 var idmenuPer = $(celdas[1]).text();
-                console.log(sIDEmpresa);
                 sPermiso = ($("#rmenu_s"+idmenuPer).is(':checked')) ? 1 : 0;
-                $.post(ws + "MenuPerfil", {id: 0, idempresa: sIDEmpresa, idperfil: sIDPerfil, 
+                $.post(ws + "MenuPerfil", {id: sNew, idempresa: sIDEmpresa, idperfil: sIDPerfil, 
                                 idmodulo: idmodPer,idmenu: idmenuPer, tipopermiso: sPermiso}, function(data){
                     if(data>0){
     
@@ -101,7 +107,7 @@ function SavePerfilEmpresa(sIDPerfil, sIDEmpresa){
                 });
             }
         
-            var filas = $("#t-SubMenus").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
+            var filas = $("#t-SubMenusPer").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
             for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1
                 var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
                 var idmenuPer = $(celdas[0]).text();
@@ -110,7 +116,7 @@ function SavePerfilEmpresa(sIDPerfil, sIDEmpresa){
                 sNotificaEmail = ($("#email"+idSubMenuPer).is(':checked')) ? 1 : 0;
                 sNotificaSms = ($("#sms"+idSubMenuPer).is(':checked')) ? 2 : 0;
                 sNotificacion = parseInt(sNotificaEmail) + parseInt(sNotificaSms)
-                $.post(ws + "SubMenuPerfil", {id: 0, idempresa: sIDEmpresa, idperfil: sIDPerfil, 
+                $.post(ws + "SubMenuPerfil", {id: sNew, idempresa: sIDEmpresa, idperfil: sIDPerfil, 
                     idmenu: idmenuPer,idsubmenu: idSubMenuPer, tipopermiso: sPermiso, notificaciones: sNotificacion}, function(data){
                 if(data>0){
 
@@ -208,19 +214,20 @@ function EditModulosPerfil(eIdempresa, eIdperfil){
                             document.getElementById("t-ModulosPer").innerHTML += 
                             "<tbody> \
                                 <tr> \
+                                    <td class='d-none'>"+data[x].idmodulo+"</td>\
                                     <td role='row'>"+NombreModulo+"</td> \
                                     <td>"+DescripcionModulo+"</td> \
                                     <td> \
                                         <div class='row mg-t-10'> \
                                             <div class='col-lg-6'> \
                                             <label class='rdiobox rdiobox-success'> \
-                                                <input id='radio_s"+data[x].idmodulo+"' value='1' name='rdio_"+data[x].idmodulo+"' onchange='' type='radio' > \
+                                                <input id='radio_s"+data[x].idmodulo+"' value='1' name='rdio_"+data[x].idmodulo+"' onclick='BloqueaMenu(this)' type='radio' > \
                                                 <span>Si</span> \
                                             </label> \
                                             </div> \
                                             <div class='col-lg-6'> \
                                             <label class='rdiobox rdiobox-danger'> \
-                                                <input id='radio_n"+data[x].idmodulo+"' value='0' name='rdio_"+data[x].idmodulo+"' onchange='' type='radio' > \
+                                                <input id='radio_n"+data[x].idmodulo+"' value='0' name='rdio_"+data[x].idmodulo+"' onclick='BloqueaMenu(this)' type='radio' > \
                                                 <span>No</span> \
                                             </label> \
                                             </div> \
@@ -228,13 +235,13 @@ function EditModulosPerfil(eIdempresa, eIdperfil){
                                     </td> \
                                 </tr> \
                             </tbody>";
-
+                                
                             if(permiso != 0){                            
-                                $("#radio_s"+data[x].idmodulo).attr('checked', true); 
-                                EditMenusPerfil(eIdempresa, data[x].idmodulo);                               
+                                $("#radio_s"+data[x].idmodulo).attr('checked', true);                              
                             }else{                        
                                 $("#radio_n"+data[x].idmodulo).attr('checked', true);
                             }
+                           EditMenusPerfil(eIdperfil, eIdempresa, data[x].idmodulo);
                 }
             }else{
                 //$('#accordion').addClass('d-none');
@@ -245,10 +252,10 @@ function EditModulosPerfil(eIdempresa, eIdperfil){
 }
 
 //----------PERMISOS DE LOS MENUS DEL PERFIL
-function EditMenusPerfil(midempresa, midmodulo){
+function EditMenusPerfil(eIdperfil, midempresa, midmodulo){
     $.get(ws + "Menus", function(datos){    
         MenusArray = datos;    
-        $.get(ws + "PermisosMenusPerfil",{ idempresa: midempresa, idmodulo : midmodulo }, function(datosMenu){                                
+        $.get(ws + "PermisosMenusPerfil",{idperfil : eIdperfil, idempresa: midempresa, idmodulo : midmodulo }, function(datosMenu){                                
                 for(var x in datosMenu){                    
                     
                     for (var i = 0; i < ModulosArray.length; i+=1) {
@@ -267,6 +274,8 @@ function EditMenusPerfil(midempresa, midmodulo){
                     document.getElementById("t-MenusPer").innerHTML += 
                         "<tbody> \
                             <tr> \
+                                <td class='d-none'>"+midmodulo+"</td>\
+                                <td class='d-none'>"+datosMenu[x].idmenu+"</td>\
                                 <td role='row'>"+NombreMenu+"</td> \
                                 <td>"+NombreModulo+"</td> \
                                 <td> \
@@ -289,21 +298,21 @@ function EditMenusPerfil(midempresa, midmodulo){
                         </tbody>"; 
                     
                     if(datosMenu[x].tipopermiso != 0){                            
-                        $("#rmenu_s"+datosMenu[x].idmenu).attr('checked', true);
-                        EditSubMenuPerfil(midempresa, datosMenu[x].idmenu);                                                        
+                        $("#rmenu_s"+datosMenu[x].idmenu).attr('checked', true);                                                     
                     }else{                        
                         $("#rmenu_n"+datosMenu[x].idmenu).attr('checked', true);
                     }
+                   EditSubMenuPerfil(eIdperfil, midempresa, datosMenu[x].idmenu);   
                 }
         });    
     });
 }
 
 //----------PERMISOS DE LOS SUBMENUS PERFIL
-function EditSubMenuPerfil(sidempresa, sidmenu){
+function EditSubMenuPerfil(eIdperfil, sidempresa, sidmenu){
     $.get(ws + "SubMenus", function(datos){    
         SubMenusArray = datos;    
-        $.get(ws + "PermisoSubMenusPerfil",{idempresa: sidempresa,  idmenu : sidmenu}, function(SubMenu){                                
+        $.get(ws + "PermisoSubMenusPerfil",{idperfil: eIdperfil, idempresa: sidempresa,  idmenu: sidmenu}, function(SubMenu){                                
                 
                 for(var x in SubMenu){                    
                     
@@ -325,6 +334,7 @@ function EditSubMenuPerfil(sidempresa, sidmenu){
                         "<tbody> \
                             <tr> \
                                 <td class='d-none'>"+sidmenu+"</td>\
+                                <td class='d-none'>"+SubMenu[x].idsubmenu+"</td>\
                                 <td role='row'>"+NombreSubMenu+"</td> \
                                 <td>"+NombreMenu+"</td> \
                                 <td> \
@@ -410,7 +420,7 @@ function CargaModulos(){
 function CargaMenus(){
     $.get(ws + "Menus", function(datos){    
         for(var x in datos){                                  
-            document.getElementById("t-Menus").innerHTML += 
+            document.getElementById("t-MenusPer").innerHTML += 
                 "<tbody> \
                     <tr> \
                         <td style='display:none;'>"+ datos[x].idmodulo+"</td> \
@@ -445,7 +455,7 @@ function CargaMenus(){
 function CargaSubMenu(){
     $.get(ws + "SubMenus", function(datos){          
         for(var x in datos){                    
-            document.getElementById("t-SubMenus").innerHTML += 
+            document.getElementById("t-SubMenusPer").innerHTML += 
                 "<tbody> \
                     <tr> \
                         <td class='d-none'>"+ datos[x].idmenu+"</td> \
@@ -486,7 +496,7 @@ function BloqueaMenu(permiso_modulo){
         inicio = 7,
         fin    = x,
         bIDModulo = cadena.substring(inicio, fin);
-    var filas = $("#t-Menus").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
+    var filas = $("#t-MenusPer").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
     for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1
         
         var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
@@ -510,7 +520,7 @@ function BloqueaSubMenu(permiso_menu){
         inicio = 7,
         fin    = x,
         bIDMenu = cadena.substring(inicio, fin);
-    var filas = $("#t-SubMenus").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
+    var filas = $("#t-SubMenusPer").find("tr"); //devulve las filas del body de tu tabla segun el ejemplo que brindaste
     for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1
         
         var celdas = $(filas[i]).find("td"); //devolverá las celdas de una fila
