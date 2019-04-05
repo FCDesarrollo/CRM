@@ -6,7 +6,7 @@
 	$Archivo = $_POST['ArchivoPDF'];
 	$url = $_POST['ruta'];
 	$url = $url.$Archivo;
-	echo $url;
+	//echo $url;
 	//$url ="../nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/BDDADMW.pdf";
 	//$url ="../../nextclouddata/admindublock/files/PruebaSincro/".$RFC."/".$SubMenu."/".$Archivo."";
 	
