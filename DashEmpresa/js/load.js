@@ -228,7 +228,7 @@ function AbrirPDF(RutaArchivo, Archivo){
     //console.log(RutaArchivo);
     //console.log(Archivo);
     $.ajax({
-         url: '../../cargapdf.php',
+         url: 'http://crm.dublock.com/cargapdf.php',
          type: 'POST',        
          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
          success:function(data){

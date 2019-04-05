@@ -12,6 +12,7 @@
 	
     $content = file_get_contents($url);
     echo $content;
+    echo "Entro";
 
     header('Content-Type: application/pdf');
     header('Content-Length: ' . strlen($content));
