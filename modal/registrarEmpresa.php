@@ -13,7 +13,7 @@
                         <input type="hidden" name="fecharegistro" id="txtfecharegistro" />
                         <input type="hidden" name="empresaBD" id="txtempresaBD" />
                         <input type="hidden" name="rutaEmpresa" id="txtrutaEmpresa" />
-                        
+                        <input type="hidden" name="vigencia" id="txtVigencia" />
                         <div class='form-group'>
                             <label for='txtNombre'>Nombre</label>
                             <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE" required="required"/>
@@ -60,7 +60,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>Cerrar</span></button>
+                <button id="Cerrar"  onclick="Cerrar()" type="button" class="btn btn-secondary"><span>Cerrar</span></button>
                 <button id="Guardar"  onclick="Correo()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>
                 <!--<button id="Guardar"  onclick="profile()" type="button" class="btn btn-primary"><span id="spanGuardar">Guardar</span></button>-->                
             </div>
@@ -126,6 +126,12 @@
         IDEMPLEADO = $(e.relatedTarget).data('idempresa');
         $("#NuevaEmpresaTitle").text("Nueva Empresa");
     });
+    
+    function Cerrar()
+    {
+        document.getElementById("FormGuardarEmpresa").reset();
+        $('#NuevaEmpresa').modal('hide'); 
+    }
     function Correo()
     {   
         var form = $("#FormGuardarEmpresa").serialize();
@@ -203,6 +209,10 @@
         }
         if (document.getElementById("txtContrasena").value == ""){
             $('#txtContrasena').prop("required", true);
+            requerido = 0
+        }
+        if (document.getElementById("txtcorreo").value == ""){
+            $('#txtcorreo').prop("required", true);
             requerido = 0
         }
         return requerido;
