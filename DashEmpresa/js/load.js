@@ -157,7 +157,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     ruta = "../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
     //ruta = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
-    //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"/";
+    //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"";
 
     $.ajax({
         url: '../submenus/leer_carpeta.php',
@@ -228,7 +228,7 @@ function AbrirPDF(RutaArchivo, Archivo){
     //console.log(RutaArchivo);
     //console.log(Archivo);
     $.ajax({
-         url: 'http://crm.dublock.com/cargapdf.php',
+         url: '../../cargapdf.php',
          type: 'POST',        
          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
          success:function(data){

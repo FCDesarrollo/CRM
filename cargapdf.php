@@ -3,12 +3,12 @@
 	//$RFC = $_POST['RFCEmpresa'];
 	//$SubMenu = $_POST['SubMenu'];
 	
-	//$Archivo = $_POST['ArchivoPDF'];
-	//$url = $_POST['ruta'];
+	$Archivo = $_POST['ArchivoPDF'];
+	$url = $_POST['ruta'].$Archivo;
 	//$url = $url.$Archivo;
 	//echo $url;
 
-	$url ="../../nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/Contabilidad/ContabilidadElectronica/PDFNUEVO.pdf";
+	//$url ="../../nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/Contabilidad/ContabilidadElectronica/PDFNUEVO.pdf";
      $content = file_get_contents($url);
 
      header('Content-Type: application/pdf');
