@@ -233,7 +233,8 @@ function AbrirPDF(RutaArchivo, Archivo){
          type: 'POST',        
          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
          success:function(respuestaAjax){
-            document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
+            console.log(respuestaAjax);
+            //document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
          }
     });
     

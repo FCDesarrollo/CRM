@@ -19,6 +19,7 @@
      ini_set('zlib.output_compression','0');
      
      return $content;
+     
      die($content);
 
 
