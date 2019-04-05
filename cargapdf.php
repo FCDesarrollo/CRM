@@ -3,10 +3,10 @@
 	//$RFC = $_POST['RFCEmpresa'];
 	//$SubMenu = $_POST['SubMenu'];
 	
+			
 	$Archivo = $_POST['ArchivoPDF'];
 	$url = $_POST['ruta'].$Archivo;
-	//$url = $url.$Archivo;
-	//echo $url;
+	
 
 	//$url ="../../nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/Contabilidad/ContabilidadElectronica/PDFNUEVO.pdf";
      $content = file_get_contents($url);
@@ -17,10 +17,10 @@
      header('Cache-Control: private, max-age=0, must-revalidate');
      header('Pragma: public');
      ini_set('zlib.output_compression','0');
-
+     
+     return $content;
      die($content);
 
-       
 
 //ABRIR ARCHIVO PDF
 	//$mi_pdf = fopen("ftp://allcrm@crm.dublock.com:4u1B6nyy3W@ftp.dublock.com/nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/Contabilidad/ContabilidadElectronica/PDFNUEVO.pdf", "r");

@@ -159,6 +159,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     //ruta = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
     //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"";
 
+
     $.ajax({
         url: '../submenus/leer_carpeta.php',
         type: 'POST',        
@@ -194,7 +195,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                           </div> \
                         </td> \
                       </tr>";             
-
+                    
                 }
 
                 $('#loading').addClass('d-none');
@@ -231,8 +232,8 @@ function AbrirPDF(RutaArchivo, Archivo){
          url: '../../cargapdf.php',
          type: 'POST',        
          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
-         success:function(data){
-            console.log(data);
+         success:function(respuestaAjax){
+            document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
          }
     });
     

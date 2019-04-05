@@ -5,6 +5,7 @@
     echo "<script> window.location='../../../../usuario.php' </script>";
         exit(); 
   }
+
 ?>
 
 
@@ -338,4 +339,8 @@
           </table>
         </div>
       </div>
+
+        <div id="pdfvista" class='embed-responsive' style='padding-bottom:150%'>
+          <embed src="" type="application/pdf"  height="300px" width="100%" class="responsive">
+        </div>      
 
