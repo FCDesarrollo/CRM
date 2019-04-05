@@ -54,9 +54,8 @@ function subirArchivos() {
                                         var rfcCorrecto = rfcValido(rfc.trim());                                  
                                         if (rfcCorrecto){                            
                                             $("#txtRFC").val(rfc.trim());
-                                            alert(formatDate(new Date(fechaCer)));
                                             $("#txtVigencia").val(formatDate(new Date(fechaCer)));
-                                            //curlCarpetas();
+                                            curlCarpetas();
                                         }else{
                                             alert("RFC Incorrecto");
                                             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
