@@ -13,6 +13,8 @@
 
 	
 	$RFC = $_POST['RFCEmpresa'];
+	$modulo = $_POST['modulo'];
+	$menu = $_POST['menu'];
 	$submenu = $_POST['submenu'];
 
 	$ftp_server = "ftp.dublock.com";
@@ -28,7 +30,7 @@
 
 	if ($login_result===true){
 
-	    $archivos = ftp_nlist($conn_id, "/PruebaSincro/".$RFC."/".$submenu); //Devuelve un array con los nombres de ficheros
+	    $archivos = ftp_nlist($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu); //Devuelve un array con los nombres de ficheros
 
 		$lista=array_reverse($archivos); //Invierte orden del array (ordena array)
 
@@ -43,9 +45,9 @@
 			$pos = strpos($item, $findme);
 		
 			if($pos == true){
-				$tamano=number_format(((ftp_size($conn_id, "/PruebaSincro/".$RFC."/".$submenu."/".$item))/1024),2)." Kb";
+				$tamano=number_format(((ftp_size($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$item))/1024),2)." Kb";
 
-				$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/PruebaSincro/".$RFC."/".$submenu."/".$item));
+				$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$item));
 				
 		        //$data = array("nombre" => $item,"tamano" => $tamano,"fecha" => $fecha);
 		        //array_push($data[$x], $item, $tamano, $fecha);
