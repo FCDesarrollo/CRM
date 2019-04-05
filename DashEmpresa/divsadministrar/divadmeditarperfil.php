@@ -25,9 +25,7 @@ session_start();
         </div>        
         <div class="control-group">
             <div id="activo">
-                <label class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Activo</label>
-                <input class="checkbox" type="checkbox" id="chEst"> 
-                <button type="button" onclick="" class="btn btn-primary btn-block mg-b-10">Guardar</button>   
+               
             </div>
         </div>   
 
@@ -118,11 +116,14 @@ session_start();
         </div>
     </div><!-- card -->    
 
-    
+    <div >
+        <button type="button" onclick="SavePerfilEmpresa(nIDPerfil, sIDEmpresa, 1);" class="btn btn-primary btn-block mg-b-10">Guardar</button>   
+    </div>
     <!-- ADD MORE CARD HERE -->
     </div><!-- accordion -->
             
 
 <script>
-   
+   var sIDEmpresa ='<?php echo $_SESSION["idempresalog"]; ?>';
+   var nIDPerfil = 0; 
 </script>

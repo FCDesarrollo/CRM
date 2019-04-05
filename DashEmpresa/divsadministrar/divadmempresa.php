@@ -63,8 +63,8 @@
 	              </div><!-- col-4 -->
 	            </div><!-- row -->
 	            <div class="form-layout-footer bd pd-20 bd-t-0 d-flex justify-content-center">      		            			      
-	              <button type="button" class="btn btn-info" onclick="">Guardar</button>
-	              <!--<button class="btn btn-secondary">Cancelar</button>				-->
+	              <!--<button type="button" class="btn btn-info" onclick="">Guardar</button>
+	              <button class="btn btn-secondary">Cancelar</button>				-->
 	            </div><!-- form-group -->
 	        </div>
 		</form>
