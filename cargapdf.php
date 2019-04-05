@@ -6,10 +6,12 @@
 	$Archivo = $_POST['ArchivoPDF'];
 	$url = $_POST['ruta'];
 	$url = $url.$Archivo;
+	echo $url;
 	//$url ="../nextclouddata/admindublock/files/PruebaSincro/EmpresaNueva/Contabilidad/BDDADMW.pdf";
 	//$url ="../../nextclouddata/admindublock/files/PruebaSincro/".$RFC."/".$SubMenu."/".$Archivo."";
 	
     $content = file_get_contents($url);
+    echo $content;
 
     header('Content-Type: application/pdf');
     header('Content-Length: ' . strlen($content));
@@ -21,5 +23,4 @@
     return $content;
     die($content);
 
-    echo "<script> console.log('Entro'); </script>";
  ?>
