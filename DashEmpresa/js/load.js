@@ -167,7 +167,8 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
         success:function(data){
             var archivo = "";
             var nombrearchivo = "";
-            var array2 = JSON.parse(data);           
+            var array2 = JSON.parse(data);   
+                    
             if(array2[0].nombre != "Vacio"){
 
                 for (x in array2) {
@@ -181,7 +182,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                           </label> \
                         </td> \
                         <td> \
-                          <a href='#' onclick=AbrirPDF('"+ruta+"','"+array2[x].nombre+"')><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
+                          <a href='"+array2[x].link+"' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
                           <span class='pd-l-5'>"+array2[x].nombre+"</span></a> \
                         </td> \
                         <td class='hidden-xs-down'>"+array2[x].fecha+"</td> \
@@ -189,8 +190,8 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                           <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
                           <div class='dropdown-menu dropdown-menu-right pd-10'> \
                             <nav class='nav nav-style-1 flex-column'> \
-                              <a href='#' onclick='' class='nav-link'>Abrir</a> \
-                              <a href='#' onclick='' class='nav-link'>Descargar</a> \
+                              <a href='"+array2[x].link+"' target='_blank' class='nav-link'>Abrir</a> \
+                              <a href='#' download='' class='nav-link'>Descargar</a> \
                             </nav> \
                           </div> \
                         </td> \

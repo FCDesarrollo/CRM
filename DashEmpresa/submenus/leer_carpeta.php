@@ -45,17 +45,15 @@
 			$pos = strpos($item, $findme);
 		
 			if($pos == true){
-				$tamano=number_format(((ftp_size($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$item))/1024),2)." Kb";
+				//$tamano=number_format(((ftp_size($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$item))/1024),2)." Kb";
 
 				$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$item));
-				
-		        //$data = array("nombre" => $item,"tamano" => $tamano,"fecha" => $fecha);
-		        //array_push($data[$x], $item, $tamano, $fecha);
+				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$item;
 
 
+				$link = getlink($link);
 
-
-		        $data[$x] = array("nombre" => $item,"tamano" => $tamano,"fecha" => $fecha);		        
+		        $data[$x] = array("nombre" => $item,"link" => $link,"fecha" => $fecha);		        
 
 		        $x = $x + 1;	        
 			}
@@ -64,22 +62,61 @@
 		}
 
 		if($x == 0){
-			$data[0] = array("nombre" => "Vacio","tamano" => "Vacio","fecha" => "Vacio");			
+			$data[0] = array("nombre" => "Vacio","link" => "Vacio","fecha" => "Vacio");			
 		}
-	 	//foreach($data as $t){    	
 
-		//	print_r($t['nombre']);    	   	
-	 	//}
 
 	    $conexion = true;
 	}else{
 	    $conexion = False;
-	    $data[0] = array("nombre" => "Vacio","tamano" => "Vacio","fecha" => "Vacio");
+	    $data[0] = array("nombre" => "Vacio","link" => "Vacio","fecha" => "Vacio");
 	}
 
 	ftp_close($conn_id);
 
 	print_r(json_encode($data));
 	return json_encode($data);
+
+
+
+	function getlink($link){
+		   $ch = curl_init();
+
+		   	curl_setopt($ch, CURLOPT_URL, "https://admindublock:4u1B6nyy3W@cloud.dublock.com/ocs/v2.php/apps/files_sharing/api/v1/shares");
+		   	curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		   
+		   	curl_setopt($ch, CURLOPT_USERPWD, "admindublock:4u1B6nyy3W");
+		  	// $contenido = "path=PruebaSincro/EmpresaNueva/BDDADMW.pdf&shareType=3"
+		   	curl_setopt($ch, CURLOPT_POSTFIELDS, "path=PruebaSincro/".$link."&shareType=3");
+
+		   	curl_setopt($ch, CURLOPT_HTTPHEADER, array('OCS-APIRequest:true'));
+		   	curl_setopt($ch, CURLOPT_HEADER, true);
+		   	// Max timeout in seconds to complete http request  
+		   	//curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+		   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		   	curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+
+
+		    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+
+		   	// Set the request as a POST FIELD for curl.
+		   	//curl_setopt($ch, CURLOPT_POSTFIELDS, $COMANDO);
+		   	// Get response from the server.
+		   	$httpResponse = curl_exec($ch);
+
+		    $httpResponse = explode("\n\r\n", $httpResponse);
+
+		    $body = $httpResponse[1];
+		  
+		   	$Respuesta= simplexml_load_string($body);
+		   	//print_r((string)$Respuesta[0]->data->url);
+		   	
+		   	$url = ((string)$Respuesta[0]->data->url);
+		   	curl_close($ch);
+
+		   	return $url;
+
+	}
 
 ?>
