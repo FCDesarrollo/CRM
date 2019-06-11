@@ -182,8 +182,8 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                           </label> \
                         </td> \
                         <td> \
-                          <a href='"+array2[x].link+"' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
-                          <span class='pd-l-5'>"+array2[x].nombre+"</span></a> \
+                          <a id='link_"+nombrearchivo+"' href='"+array2[x].link+"' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
+                          <span id='span_"+nombrearchivo+"' class='pd-l-5'>"+array2[x].nombre+"</span></a> \
                         </td> \
                         <td class='hidden-xs-down'>"+array2[x].fecha+"</td> \
                         <td class='dropdown'> \
@@ -191,7 +191,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                           <div class='dropdown-menu dropdown-menu-right pd-10'> \
                             <nav class='nav nav-style-1 flex-column'> \
                               <a href='"+array2[x].link+"' target='_blank' class='nav-link'>Abrir</a> \
-                              <a href='#' download='' class='nav-link'>Descargar</a> \
+                              <a href='"+array2[x].link+"/download' id='Descargar_"+nombrearchivo+"' class='nav-link'>Descargar</a> \
                             </nav> \
                           </div> \
                         </td> \
@@ -200,9 +200,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                 }
 
                 $('#loading').addClass('d-none');
-                    //document.getElementById("loading").style.display = "none";
-                
-
+                    
             }else{
 
                 document.getElementById("t-Archivos").innerHTML +=
@@ -225,48 +223,100 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
 }
 
-function AbrirPDF(RutaArchivo, Archivo){
+function DescargarArchivos(){
 
-    //console.log(RutaArchivo);
-    //console.log(Archivo);
-    $.ajax({
-         url: '../../cargapdf.php',
-         type: 'POST',        
-         data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
-         success:function(respuestaAjax){
-            console.log(respuestaAjax);
-            //document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
-         }
-    });
-    
+    var filas = $("#t-Archivos").find("tr");
+    var ruta = "../submenus/temporales/";
+    for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1]    
+        celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
+        var name = celdas[0].id;
+        var href = $('#link_'+name).attr('href');
+        if($('#'+name).prop('checked')){
+            window.open(href+"/download");
+        }
+    } 
 }
 
 function CompartirArchivos(){
-    console.log("Compartir");
-}
-
-function DescargarArchivos(RFCEmpresa){
-    $('#ruta').removeClass('d-none');
-    var url = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/";
-    //var url = "../archivospdf/"+RFCEmpresa+"/";
-
-    var checkbox = "";
-    var celdas = "";
     var filas = $("#t-Archivos").find("tr");
+    document.getElementById("textarea_links").innerHTML = "";
     for(i=1; i<filas.length; i++){ //Recorre las filas 1 a 1]    
         celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
-        var id = celdas[0].id;
-        var name = celdas[0].name;
-        //url2 = url+name+"/"+id+".pdf";  
-        
-        if($('#'+id).prop('checked')){
-            /*
-            var doc = "download_"+id;
-            document.getElementById(doc).click(); */
+        var name = celdas[0].id;
+        var href = $('#link_'+name).attr('href');
 
+        //var datos = name+".pdf" + "<br/>"+href+"<br/>";
+        if($('#'+name).prop('checked')){
+            document.getElementById("textarea_links").innerHTML += name+".pdf \n"+href+ "\n\n";
+        }
+    }     
+}
 
-            var rutanueva = showModalDialog("folderDialog.html","","width:400px;height:400px;resizeable:yes;");
+function EnviarLinks(){
+    var destinatarios;
+    var mensaje;
+    var verifica = 0;
+    
+    destinatarios = document.getElementById("destinatarios").value;
+    mensaje = document.getElementById("textarea_links").value;
 
+    if(destinatarios != ""){
+        verifica = ValidaCorreos(destinatarios);        
+        if(verifica != 1){
+            CompartirLinks(destinatarios, mensaje);
+        }else{
+            swal("Destinatarios","Correos no validos.","error");
+        }
+    }else{
+        swal("Destinatario(s)","Ingrese un destinatario o destinatarios.","error");
+    }
+
+}
+
+function CompartirLinks(destinatarios, mensaje){
+    
+    var correos = destinatarios.replace(";", ",");
+     $.ajax({
+          url: '../../login/validarcorreo/valida.php',
+          type: 'POST',        
+          data: {destinatarios: correos, mensaje: mensaje},
+          success:function(response){
+            var respuesta = response;
+            //console.log(respuesta);
+             swal("Compartidos","Archivos compartidos correctamente.","success");
+             $("#CompartirLinks").modal("hide");            
+          }
+     });
+    
+}
+
+function ValidaCorreos(correos){
+    var destinatarios = correos.split(";");
+    var CorreosValidos = 0;
+    for (x=0;x<destinatarios.length;x++){
+        if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/.test(destinatarios[x])){                        
+            CorreosValidos = 0;   
+        }else{            
+            CorreosValidos = 1;
+            return CorreosValidos;
         }
     }
+    return CorreosValidos;    
 }
+
+// function AbrirPDF(RutaArchivo, Archivo){
+
+//     //console.log(RutaArchivo);
+//     //console.log(Archivo);
+//     $.ajax({
+//          url: '../../cargapdf.php',
+//          type: 'POST',        
+//          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
+//          success:function(respuestaAjax){
+//             console.log(respuestaAjax);
+//             //document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
+//          }
+//     });
+    
+// }
+

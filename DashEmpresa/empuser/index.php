@@ -698,8 +698,6 @@ session_start();
     <!-- NOTIFICACIONES MODAL -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-
-
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
@@ -712,6 +710,7 @@ session_start();
     <script src="../js/usuarios.js"></script>
     <script src="../js/submenus.js"></script>
     <script src="../js/empresa.js"></script>
+    <script src="../js/recepcionlotes.js"></script>
     
     <script>
            

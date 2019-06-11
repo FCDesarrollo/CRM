@@ -5,7 +5,7 @@
     echo "<script> window.location='../../../../usuario.php' </script>";
         exit(); 
   }
-
+  //include("../submenus/descargas.php");
 ?>
 
 
@@ -29,9 +29,10 @@
         <!-- END: DISPLAYED FOR MOBILE ONLY -->
 
         <div class="btn-group hidden-xs-down">
-          <a href="#" class="btn btn-outline-info" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
-          <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>
-        </div><!-- btn-group
+          <a href="#" class="btn btn-outline-info" data-toggle="modal" data-target="#CompartirLinks" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
+          <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos()">Descargar</a>
+        </div>
+        <!-- btn-group
         <div class="btn-group mg-l-10 hidden-xs-down">
           <a href="#" class="btn btn-outline-info">Edit</a>
           <a href="#" class="btn btn-outline-info">Delete</a>
@@ -338,9 +339,37 @@
             </tbody> 
           </table>
         </div>
+      </div>     
+
+
+
+<!--MODAL DE VERIFICACION DE NUMERO TELEFONICO-->
+<div class="modal" id="CompartirLinks">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content bd-0">
+        <div class="modal-header pd-y-20 pd-x-25">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Compartir Archivos</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+
+
+        <div class="modal-body pd-25">          
+          <p class="mg-b-5" id="iden">Si desea compartir con mas de un destinatario debera separar los destinatarios con un punto y coma(;).</p>        
+          <div class="form-group">
+            <input type="email" id="destinatarios" class="form-control pd-y-12" placeholder="Introducir Correo(s)">
+          </div> 
+          <div class="form-group">
+              <textarea rows="6" id="textarea_links" class="form-control"></textarea>                        
+          </div>
+        </div>
+
+
+        <div class="modal-footer">  
+          <button type="button" onclick="EnviarLinks()" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Compartir</button>                
+          <button type="button" data-dismiss="modal" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Cancelar</button>
+        </div>
       </div>
-
-        <div id="pdfvista" class='embed-responsive' style='padding-bottom:150%'>
-          <embed src="" type="application/pdf"  height="300px" width="100%" class="responsive">
-        </div>      
-
+    </div><!-- modal-dialog -->
+</div>
