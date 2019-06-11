@@ -41,7 +41,7 @@ function subirArchivos() {
                             var fechauno = new Date(fecha);
                             var fechados = new Date(fechaCer);           
                             if (fechauno.getTime() < fechados.getTime()){                                  
-                                rfcCert = datos['ArregloCertificado']['datos'].replace('"', "");                                
+                                rfcCert = datos['ArregloCertificado']['datoss'].replace('"', "");                                
                                 //var array = rfcCert.split(",");    
                                 var array = rfcCert.split("="); 
                                 var array2  = array[3].split(",");  
