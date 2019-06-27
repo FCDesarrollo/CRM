@@ -343,7 +343,7 @@
 
 
 
-<!--MODAL DE VERIFICACION DE NUMERO TELEFONICO-->
+<!--MODAL-->
 <div class="modal" id="CompartirLinks">
     <div class="modal-dialog" role="document">
       <div class="modal-content bd-0">

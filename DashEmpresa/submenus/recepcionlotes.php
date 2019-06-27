@@ -19,48 +19,15 @@ session_start();
 
 	<div class="br-section-wrapper pd-b-0">
 
-		<h4 class="tx-gray-800">Recepcion por Lotes</h4>    
+		<h4 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Recepcion por Lotes</h4>    
     	<p class="mg-b-30"></p>	
-		
-		<!--<div class="row">					
-			<div class="col-md-4">
-				<select class="form-control select2" id="plantillas" data-placeholder="Seleccione una plantilla" tabindex="-1" aria-hidden="true">
-		            <option label="Seleccione una plantilla"></option>
-		            <option value="1">Remisiones</option>
-		            <option value="2">Consumos Diesel</option>
-		            
-		        </select>		               			
-		        <div class="d-none">
-		        	<a href="../lotes/Remision.xlsx" id="link_1" download></a>	
-		        	<a href="../lotes/Remision.xlsx" id="link_2" download></a>	
-		        </div>		        
-			</div>
 
-		    <div class="col-md-8">					
-		    	<div class="row">
-			       	<div class="col-md-6 col-sm-6 col-6 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-			            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="DescargarPlantilla()">Descargar</button>
-					</div>
-		    		<div class="col-md-4 col-sm-4 col-4 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-						<label class="custom-file">
-				       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
-						  <span class="custom-file-control">Seleccionar..</span>										  
-						</label>				        
-					</div>					
-		    		<!--<div class="col-md-4 col-sm-4 col-4 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-				        <button class="btn btn-outline-success btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Subir</button>
-					</div>	-->				
-				<!--</div>
-			</div>        									
-		</div> -->
-
-	    <div class="card bd-0 shadow-base">
-		
+	    <div class="card bd-0 shadow-base">		
 	      <table class="table table-bordered mg-b-0" id="t-lotes">
 	        <thead>
 	          	<tr>                
-	            	<th class="tx-10-force tx-mont tx-medium">Descargas</th>	            	            
-	            	<th class="tx-10-force tx-mont tx-medium">Procesamiento</th>
+	            	<th class="tx-10-force tx-mont tx-medium">Plantillas Dispoibles.</th>	            	            
+	            	<th class="tx-10-force tx-mont tx-medium">Recepcion para procesamiento.</th>
 	         	</tr>
 	        </thead>
 	        <tbody>
@@ -83,17 +50,7 @@ session_start();
 						    	
 					       	<div class="col-md-5 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
 					            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="DescargarPlantilla()">Descargar</button>
-							</div>
-						    		<!--<div class="col-md-4 col-sm-4 col-4 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-										<label class="custom-file">
-								       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
-										  <span class="custom-file-control">Seleccionar..</span>										  
-										</label>				        
-									</div>					
-						    		<div class="col-md-4 col-sm-4 col-4 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-								        <button class="btn btn-outline-success btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Subir</button>
-									</div>	-->				
-								
+							</div>								
 							
 		            	</div>
 		            </td>
@@ -102,11 +59,9 @@ session_start();
 					        <div class="col-md-7 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">
 								<label class="custom-file">
 						       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
-								  <span class="custom-file-control">Seleccionar..</span>														  	
+								  <span class="custom-file-control">Seleccionar..</span>				  	
 								</label>
-							</div>
-
-					
+							</div>					
 					       	<div class="col-md-5 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
 					            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Cargar</button>
 							</div>	
@@ -116,66 +71,93 @@ session_start();
 						</div>
 		        	</td> 
 		        </tr>
-
 	        </tbody> 
-	      </table>
-	      
+	      </table>	      
 	    </div>
-
-
-
-
-	
-		<!--<div class="row justify-content-around d-none"> 
-	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="RecepcionLotes(ModBandejaEntrada, MenuRecepcionLotes, SubProcesoProduccion)" <?= ($perMod->SubMenu_Permiso(SubMen_Proce_Produc)==0) ? 'disabled' : ''; ?>>Descargar Plantillas</button>
-			</div>
-	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Proce_Compras)==0) ? 'disabled' : ''; ?>>Procesar Plantilla</button>
-			</div>
-			<div class="col-sm-4 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Proce_Ventas)==0) ? 'disabled' : ''; ?>>Proceso de Ventas</button>            
-	        </div>
-		</div> -->
-
-
 	</div>
+	
 
 	<div class="br-section-wrapper" id="divdinamico">
+		<div id="bitacora" class="">
+			<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Listado de los ultimos lotes cargados.</h6>
+			<div id="datatable1_wrapper" class="dataTables_wrapper no-footer">
+				<!--<div class="dataTables_length" id="datatable1_length">
+					<label>
+						<select name="datatable1_length" aria-controls="datatable1" class="select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+							<option value="10">10</option>
+							<option value="25">25</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select>
+						Ultimos cargas:
+						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 48px;">
+							<span class="selection">
+								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-datatable1_length-0a-container">
+									<span class="select2-selection__rendered" id="select2-datatable1_length-0a-container" title="10">10</span>
+									<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+								</span>
+							</span>
+							<span class="dropdown-wrapper" aria-hidden="true"></span>
+						</span> items/page
+					</label>
+				</div> -->
+
+				<!--<div id="datatable1_filter" class="dataTables_filter">
+					Buscar:
+					<label>
+						<input type="search" class="" aria-controls="datatable1">
+					</label>
+				</div>		-->		
+
+				<table class="table display responsive nowrap dataTable no-footer dtr-inline" id="t-Bitacora">
+				    <thead>
+				      	<tr>
+				        	<th class="tx-10-force tx-mont wd-10" id="">Fecha</th>
+				        	<th class="tx-10-force tx-mont tx-medium" id="">Usuario</th>		        	
+				        	<th class="tx-10-force tx-mont tx-medium" id="">Tipo de Documento</th>
+				        	<th class="tx-10-force tx-mont tx-medium" id="">Detalles</th>
+				        	<th class="tx-10-force tx-mont tx-medium" id="">Registros</th>
+				        	<!--<th class="tx-10-force tx-mont tx-medium" id="col5">Estatus</th>-->
+				        	<th class="wd-5p text-center"><em class="fa fa-cog"></em></th>
+				     	</tr>
+				    </thead>
+				    <tbody></tbody>
+				</table>
+
+				<!--<div class="dataTables_info" id="datatable1_info" role="status" aria-live="polite">
+					Showing 1 to 10 of 57 entries
+				</div>-->
+				 <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
+				 	<a class="paginate_button previous disabled" aria-controls="datatable1" data-dt-idx="0" tabindex="0" id="datatable1_previous">Atras</a>
+				 	<span>
+				 		<a class="paginate_button current" aria-controls="datatable1" data-dt-idx="1" tabindex="0">1</a>
+				 		<!--<a class="paginate_button " aria-controls="datatable1" data-dt-idx="2" tabindex="0">2</a>
+				 		<a class="paginate_button " aria-controls="datatable1" data-dt-idx="3" tabindex="0">3</a>-->
+				 	</span>
+				 	<a class="paginate_button next" aria-controls="datatable1" data-dt-idx="7" tabindex="0" id="datatable1_next">	Siguiente
+				 	</a>
+				 </div>
+
+			</div>
+		</div>
+
+
+<!--//////////// PARA MOSTRAR LO CARGADO DESDE EL EXCEL Y PARA MOSTRAR A NIVEL DE DOCUMENTO/////////////////// -->
+
 		<div id="carga-movtos" class="d-none">
 
-
-
-			<!--<div class="form-layout form-layout-1 mg-b-5 pd-y-5 pd-x-15">
-				<div class="row no-gutters mg-t-10">
-	              <div class="col-md-6 col-sm-6">
-	                <div class="form-group">
-	                  <label class="form-control-label">Documento:</label>
-	                  <input class="form-control" type="text" id="tipodoc" disabled>
-	                </div>
-	              </div>
-	              <div class="col-md-2 col-sm-2">
-	                <div class="form-group">
-	                  <label class="form-control-label">Fecha Docto:</label>
-	                  <input class="form-control" type="text" id="fechadoc" disabled>
-	                </div>
-	              </div>
-	              <div class="col-md-2 col-sm-2" >
-	                <div class="form-group">
-	                  <label class="form-control-label">Folio:</label>
-	                  <input class="form-control" type="text" id="foliodoc" disabled>
-	                </div>
-	              </div>
-	              <div class="col-md-2 col-sm-2">
-	                <div class="form-group">
-	                  <label class="form-control-label">Serie:</label>
-	                  <input class="form-control" type="text" id="seriedoc" disabled>
-	                </div>
-	              </div>
-	            </div>
-			</div> -->
-
-
+			<div class="row pd-b-15">
+				<div class="col-sm-1">
+					<a href="#" onclick="CancelaCarga()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+						<div>
+							<i class="fa fa-arrow-left"></i>
+						</div>
+					</a>
+				</div>					
+				<div class="col-sm-11 align-self-sm-center">
+					<h6 id="p_info"></h6>
+				</div>
+			</div>	
 			<table class="table display responsive nowrap dataTable no-footer dtr-inline" id="t-Movtos">
 			    <thead>
 			      	<tr>
@@ -185,7 +167,7 @@ session_start();
 			        	<th class="tx-10-force tx-mont tx-medium" id="col3"></th>
 			        	<th class="tx-10-force tx-mont tx-medium" id="col4">Total</th>
 			        	<th class="tx-10-force tx-mont tx-medium" id="col5">Detalle</th>
-			        	<th class="tx-10-force tx-mont tx-medium" id="col6">Acciones</th>
+			        	<th class="text-center" id="col6"><em class="fa fa-cog"></em></th>
 			        	<th class="d-none"></th> <!-- se asigna codigo para procesar -->
 			     	</tr>
 			    </thead>
@@ -193,25 +175,54 @@ session_start();
 
 			    </tbody>
 			</table>
-
 			<div class="row justify-content-end">
-		    <!--   	<div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-		            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Cargar</button>
-				</div>	-->
-	    		<div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-			        <button class="btn btn-outline-danger btn-block mg-b-10" onclick="CancelaCarga()">Cancelar</button>
+	    		<!--<div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+			        <button class="btn btn-outline-danger btn-block mg-b-10" onclick="CancelaCarga()">Cerrar</button>
+				</div>-->
+			</div>	
+		</div>
+
+
+<!--////////////PARA MOSTRAR A NIVEL DE MOVIMIENTOS/////////////////// -->
+		<div id="nivelmovtos" class="d-none">
+			<div class="row pd-b-15">
+				<div class="col-sm-1">
+					<a href="#" onclick="CancelaCarga()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+						<div>
+							<i class="fa fa-arrow-left"></i>
+						</div>
+					</a>
+				</div>					
+				<div class="col-sm-11 align-self-sm-end">
+					<h6 id="movto_p_info"></h6>
 				</div>
 			</div>			
+			<table class="table display responsive nowrap dataTable no-footer dtr-inline" id="NivelMovtos">
+			    <thead>
+			      	<tr>
+			        	<th class="tx-10-force tx-mont wd-10" id="">Fecha</th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="">Producto</th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="">Cantidad</th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="col_m4"></th>		        	
+			        	<th class="tx-10-force tx-mont tx-medium" id="col_m5"></th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="col_m6"></th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="">Total</th>
+			        	<th class="d-none"></th>
+			     	</tr>
+			    </thead>
+			    <tbody>
 
-			<!--<div class="row justify-content-end">
-			    
-			    <div class="col-sm-3 mg-b-5 mg-sm-t-0">	          
-			        <button class="btn btn-outline-danger btn-block mg-t-10" onclick="CancelaCarga()">Cancelar</button>
-				</div>		
-			</div>-->
-
+			    </tbody>
+			</table>
+			<div class="row justify-content-end">
+	    		<!--<div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+			        <button class="btn btn-outline-danger btn-block mg-b-10" onclick="CancelaCarga()">Cerrar</button>
+				</div>-->
+			</div>	
 		</div>		
-	</div>
 
+
+
+	</div>
 </div>
-										         				
+				         	

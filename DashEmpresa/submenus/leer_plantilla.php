@@ -4,6 +4,19 @@
 
   	// $formatos = array('.xlsx', '.xls');
 
+  	function ValidarFolio($variable){
+        
+	   $permitidos = "0123456789"; 
+	   $flag = true;
+	   for ($i=0; $i<strlen($variable); $i++){ 
+		    if (strpos($permitidos, substr($variable,$i,1))===false){ 
+		        $flag = false;
+		        break;
+		    } 
+	    }
+        return $flag;  		
+  	}
+
   	if (isset($_POST['plantilla'])) {
 
 
@@ -47,7 +60,7 @@
 				
 				for ($row = 7; $row <= $highestRow; $row++){				
 					//$fecha = date($format = "d/m/y", PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell("B".$row)->getValue()));
-					if(is_null($sheet->getCell("K".$row)->getValue()) == false && $sheet->getCell("M".$row)->getValue() != "A"){
+					if(is_null($sheet->getCell("K".$row)->getValue()) == false && is_null($sheet->getCell("H".$row)->getValue()) == false && $sheet->getCell("M".$row)->getValue() != "A"){
 						
 						$fecha = $sheet->getCell("A".$row)->getValue();
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
@@ -75,23 +88,28 @@
 
 						
 						for ($numf = 7; $numf <= $highestRow; $numf++){ //recorremos los movimientos y acumulamos si cumplen los filtros
-						   if(is_null($sheet->getCell("K".$numf)->getValue()) == false && $sheet->getCell("M".$numf)->getValue() != "A"){					   		
+						   if(is_null($sheet->getCell("K".$numf)->getValue()) == false && is_null($sheet->getCell("H".$numf)->getValue()) == false && $sheet->getCell("M".$numf)->getValue() != "A"){					   		
 								$fechamov = $sheet->getCell("A".$numf)->getValue();
 								$fechamov = PHPExcel_Shared_Date::ExcelToPHP($fechamov);
 								$fechamov = date("Y-m-d", $fechamov);					   		
-								if($sheet->getCell("B".$numf)->getValue() == $foliotmp && $fechamov == $fechatmp){					
-									$TotalNeto = $TotalNeto + $sheet->getCell("H".$numf)->getValue();
-									$TotalDesc = $TotalDesc + $sheet->getCell("I".$numf)->getValue();
-									$TotalIVA = $TotalIVA + $sheet->getCell("J".$numf)->getValue();
-									$TotalDoc = $TotalDoc + $sheet->getCell("K".$numf)->getValue();
-									$movtos[$i]["subtotal"] = $TotalNeto;
-									$movtos[$i]["descuento"] = $TotalDesc;
-									$movtos[$i]["iva"] = $TotalIVA;
-									$movtos[$i]["total"] = $TotalDoc;								
-									$sheet->setCellValue("M".$numf, "A");
+								
+								if(ValidarFolio($sheet->getCell("B".$numf)->getValue()) == true){
+									if($sheet->getCell("B".$numf)->getValue() == $foliotmp && $fechamov == $fechatmp){
+
+										$TotalNeto = $TotalNeto + $sheet->getCell("H".$numf)->getValue();
+										$TotalDesc = $TotalDesc + $sheet->getCell("I".$numf)->getValue();
+										$TotalIVA = $TotalIVA + $sheet->getCell("J".$numf)->getValue();
+										$TotalDoc = $TotalDoc + $sheet->getCell("K".$numf)->getValue();
+										$movtos[$i]["subtotal"] = $TotalNeto;
+										$movtos[$i]["descuento"] = $TotalDesc;
+										$movtos[$i]["iva"] = $TotalIVA;
+										$movtos[$i]["total"] = $TotalDoc;								
+										
+										$sheet->setCellValue("M".$numf, "A");
+									}
 								}
 								$foliotmp = $folio;
-								$fechatmp = $fecha;
+								$fechatmp = $fechamov;
 							}
 						}
 						$i = $i + 1;
@@ -164,7 +182,7 @@
 
 					}
 				}else if($idconce == 3){
-					if(is_null($sheet->getCell("K".$row)->getValue()) == false){
+					if(is_null($sheet->getCell("K".$row)->getValue()) == false && is_null($sheet->getCell("H".$row)->getValue()) == false){
 
 						$fecha = $sheet->getCell("A".$row)->getValue();
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);

@@ -118,7 +118,7 @@ session_start();
 
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">       
+          <div class="dropdown d-none">       
 
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
@@ -189,7 +189,7 @@ session_start();
               </div><!-- media-list -->
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
-          <div class="dropdown">
+          <div class="dropdown d-none">
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-bell-outline tx-24"></i>
               <!-- start: if statement -->
@@ -267,7 +267,7 @@ session_start();
           </div><!-- dropdown -->
 
         </nav>
-        <div class="navicon-right">
+        <div class="navicon-right d-none">
           <a id="btnRightMenu" href="" class="pos-relative">
             <i class="icon ion-ios-chatboxes-outline"></i>
             <!-- start: if statement -->

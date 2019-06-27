@@ -10,5 +10,6 @@
             var ws = 'http://apicrm.dublock.com/';
             var gIDEmpresa = 0;
             var gNombreEmpresa = '';
+            var idempresaglobal = 0;
         </script>";
 ?>
