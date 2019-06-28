@@ -287,9 +287,9 @@ function SubirArchivo(idusuario, idempresa){
 function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos, idspan, arraymovtos2){
 
  	$.post(ws + "RegistrarDoctos",{idempresa: idempresa, idusuario: idusuario, codigo: codigo, IDlotes: idlote, tipodocto: tipodocto, doctos: doctos, span: idspan}, function(data){
-        var documento = new Array();
+/*        var documento = new Array();
         documento['id'] = data[0].id;
-        documento['codigo'] = data[0].codigo;
+        documento['codigo'] = data[0].codigo;*/
         
         if(data[0].id > 0){
         	setTimeout(function(){ 
