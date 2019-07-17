@@ -1,3 +1,6 @@
+//variables globales
+var u_btn_sel=1;
+
 function LeerArchivo(idusuario, idempresa){
 
     $('#loading').removeClass('d-none');
@@ -12,7 +15,7 @@ function LeerArchivo(idusuario, idempresa){
     var fileInput = document.getElementById('files');
     var archivo = document.getElementById("files").files[0];
     var filePath = fileInput.value;
-	var allowedExtensions = /(.xlsx|.xls)$/i;
+	var allowedExtensions = /(.xlsm|.xlsm)$/i;
     if(!allowedExtensions.exec(filePath)){
     	if(filePath == ''){            
             $('#loading').addClass('d-none');    		
@@ -118,15 +121,15 @@ function LeerArchivo(idusuario, idempresa){
 																<span class='pd-l-5'>$"+(movtos[x].idconce == 3 ? movtos[x].total : movtos[x].importe)+"</span> \
 											         		</td> \
 											         		<td class='sorting_2'> \
-																<span class='pd-l-5' id='error_"+x+"'>"+(lote[x].estatus == "True" ? "Registro duplicado" : "")+"</span> \
+																<span class='pd-l-5' id='error_"+x+"'>"+(lote[x].estatus == "True" ? (lote[x].procesado == 1 ? "Procesado." : "Registro Duplicado.") : "")+"</span> \
 																<input type='hidden' id='estatus_"+x+"' value='"+lote[x].estatus+"'> \
 											         		</td> \
-											         		<td class='wd-10'> \
+											         		<td class='wd-10 text-center'> \
 											         			<span class='pd-l-5'> \
-											         				<a href='#' class='btn btn-outline-danger btn-icon mg-r-5' name='eliminaL' onclick='EliminaFila("+x+");' title='Eliminar de la lista'> \
+											         				<a href='#' class='btn btn-outline-danger btn-icon mg-r-5' id='eliminaL"+x+"' name='eliminaL"+x+"' onclick='EliminaFila("+x+");' title='Eliminar de la lista'> \
 																		<div><i class='fa fa-minus-circle'></i></div> \
 																	</a> \
-																	<a href='#' class='btn btn-danger btn-icon mg-r-5 mg-r-5' id='eliminaR"+x+"' onclick='EliminaRegistro("+idusuario+","+idempresa+");' title='Eliminar de la base de datos'> \
+																	<a href='#' class='btn btn-danger btn-icon mg-r-5 mg-r-5 "+(lote[x].estatus == "False" ? "d-none" : (lote[x].procesado == 1 ? "d-none" : ""))+"' id='eliminaR"+x+"' onclick='EliminaDocto("+lote[x].iddocto+","+idempresa+","+x+");' title='Eliminar de la base de datoss'> \
 																		<div><i class='fa fa-trash'></i></div> \
 																	</a> \
 																</span> \
@@ -175,9 +178,6 @@ function LeerArchivo(idusuario, idempresa){
     
 }
 
-var success_d = 0;
-var success_m = 0;
-
 function SubirArchivo(idusuario, idempresa){
 
 	$('#loading').removeClass('d-none');
@@ -190,7 +190,7 @@ function SubirArchivo(idusuario, idempresa){
     var movimientos;    
     
     var filePath = fileInput.value;    
-	var allowedExtensions = /(.xlsx|.xls)$/i;
+	var allowedExtensions = /(.xlsm|.xlsm)$/i;
     if(!allowedExtensions.exec(filePath)){
     	if(filePath == ''){            
             $('#loading').addClass('d-none');    		
@@ -224,6 +224,14 @@ function SubirArchivo(idusuario, idempresa){
 	        success: function (responseAJAX) {
 	         	var doctos = JSON.parse(responseAJAX);
 			 	
+				var ArrayDimencional = new Array (2) 
+				ArrayDimencional[0] = doctos;
+				ArrayDimencional[1] = movimientos;
+
+				//console.log(ArrayDimencional[0]);
+
+
+
 			   	if(doctos[0].fecha != "Vacio"){	
 				
 					var arraymovtos = movimientos;				
@@ -231,7 +239,6 @@ function SubirArchivo(idusuario, idempresa){
 						var idlote = resp;				
 						
 						if(idlote[0].id > 0){
-
 							 
 						     for(i=1; i<numero_filas; i++){
 						        var celdas = $(filas[i]).find("td");
@@ -239,28 +246,53 @@ function SubirArchivo(idusuario, idempresa){
 						        var tipodocto = codigo.substr(8,1);			        
 						       	var idinput = $(celdas[4]).find("input")[0].id;
 						       	var idspan = $(celdas[4]).find("span")[0].id;
+						       	var btnEF = $(celdas[5]).find("a")[0].name;
+						       	var btnER = $(celdas[5]).find("a")[1].id;
 
-
-						      	//console.log(movimientos);
+						       	$("#"+btnEF).css("display", "none");	
+				       			$(celdas[5]).addClass('d-none');
 									
-						         if($(celdas[4]).find("input")[0].value == "False"){
+						        if($(celdas[4]).find("input")[0].value == "False"){
 						         	document.getElementById(idinput).value = "True";
 						         	var arraymovtos2 = arraymovtos;						         	
-						         	
-									RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, doctos, idspan, arraymovtos2);
-													
+						         				      
 									
-								 }						
+									for(m=0; m < ArrayDimencional[0].length; m++){
+										var Fec = ArrayDimencional[0][m]['fecha'];
+										Fec = Fec.split("-");
+										var fechag = Fec[0]+Fec[1]+Fec[2];
+
+										if(doctos[0].idconce == 3){
+											
+										}else if(doctos[0].idconce == 2){
+											var cod = fechag+doctos[0].idconce+ArrayDimencional[0][m]['litros']+ArrayDimencional[0][m]['unidad'];
+										}
+										
+										if(cod == codigo){
+											ArrayDimencional[0][m]['codigo'] = codigo;
+											ArrayDimencional[0][m]['span'] = idspan;											
+										}
+
+
+					        			
+					        		}
+						        	
+						        	
+						        	
+								}						
 						     }
 
 						     
+						     //RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, doctos, idspan, arraymovtos2);
+						     RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, ArrayDimencional, idspan);
 
-						     $('#loading').addClass('d-none');
-							 fileInput.value = "";
-							 //console.log(i);
-							 swal("Recepcion Lotes","Se han cargado correctamente los datos.","success");
-
-							 //numreg(idempresa, doctos[0].idconce, idlote[0].id, doctos);
+						     fileInput.value = "";
+				     
+				    //  		 $('#col6').addClass('d-none');
+						     
+							 // fileInput.value = "";
+							 // swal("Recepcion Lotes","Se han cargado correctamente los datos.","success");
+							 // $('#loading').addClass('d-none');
 
 						}else{                
 	                		$('#loading').addClass('d-none');						
@@ -284,31 +316,44 @@ function SubirArchivo(idusuario, idempresa){
 
 }
 
-function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos, idspan, arraymovtos2){
+function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos, idspan){
 
  	$.post(ws + "RegistrarDoctos",{idempresa: idempresa, idusuario: idusuario, codigo: codigo, IDlotes: idlote, tipodocto: tipodocto, doctos: doctos, span: idspan}, function(data){
-/*        var documento = new Array();
-        documento['id'] = data[0].id;
-        documento['codigo'] = data[0].codigo;*/
+      
+        var $bandera = 0;
         
-        if(data[0].id > 0){
-        	setTimeout(function(){ 
-				$.post(ws + "RegistrarMovtos", {idempresa: idempresa, idusuario: idusuario, IDdocto: data[0].id, IDlote: idlote, tipodocto: tipodocto, codigo: data[0].codigo, movtos: arraymovtos2}, function(data){
-			   		if(data[0].id > 0){
-			   			
-			   		}else{
-						
-			   		}
-			   	});
-        	}, 1000);
+    	for (x in data) {
 
-        	document.getElementById(data[0].span).innerHTML = "Cargado.";
-        	document.getElementById(data[0].span).style.color = "green";
-			//RegistrarMovtos(idempresa, idusuario, data[0].id, idlote, tipodocto, data[0].codigo, arraymovtos2);		   	
-        }else{			        	
-			document.getElementById(data[0].span).innerHTML = data[0].error;
-			document.getElementById(data[0].span).style.color = "red";
-        }     
+        	//if(data[0].id > 0){
+					//$.post(ws + "RegistrarMovtos", {idempresa: idempresa, idusuario: idusuario, IDdocto: data[0].id, IDlote: idlote, tipodocto: tipodocto, codigo: data[0].codigo, movtos: arraymovtos2}, function(data2){
+					//	do{
+					//    	$bandera = data2[0].id;		    	    
+				    //	}while($bandera	== 0)					    
+				   	//	if(data2[0].id > 0){}
+				   	//});
+        	//}  
+				 
+        	if(data[x].error > 0){
+				document.getElementById(data[x].span).innerHTML = data[x].error_det;
+				document.getElementById(data[x].span).style.color = "red";
+        	}else{
+        		if(data[x].estatus != 0){
+	        		if(data[x].estatus == 1){
+		        		document.getElementById(data[x].span).innerHTML = "Cargado.";
+		        		document.getElementById(data[x].span).style.color = "green";
+	        		}else if(data[x].estatus == 2){
+		        		document.getElementById(data[x].span).innerHTML = "Actualizado.";
+		        		document.getElementById(data[x].span).style.color = "dodgerblue";
+	        		}
+	        	}
+
+        	}			
+      	
+        }   
+
+ 		 $('#col6').addClass('d-none');
+		 swal("Recepcion Lotes","Se han cargado correctamente los datos.","success");
+		 $('#loading').addClass('d-none');        
         
     });	    
 
@@ -316,9 +361,9 @@ function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos
 function RegistrarMovtos(idempresa, idusuario, iddocto, idlote, tipodocto, codigo, arraymovtos2){
 	$.post(ws + "RegistrarMovtos", {idempresa: idempresa, idusuario: idusuario, IDdocto: iddocto, IDlote: idlote, tipodocto: tipodocto, codigo: codigo, movtos: arraymovtos2}, function(data){
    		if(data[0].id > 0){
-   			success_m = 1;
+   			
    		}else{
-			success_m = 2;
+			
    		}
    	});	
 }
@@ -328,18 +373,167 @@ function numreg(idempresa, tipodocto, idlote, numero_doc){
     });		
 }
 
+function Paginador(posicion){
+	u_btn_sel = posicion; //asignamos valor a la variable global
+
+	var lotes_x_pag = 5;
+	
+	var inicio = (posicion == 1 ? 0 : posicion - 1) * lotes_x_pag; 
+	//var inicio = (posicion - 1) * lotes_x_pag; 
+	$("#loading").removeClass("d-none");
+
+	$.get(ws + "Paginador",{idempresa: idempresaglobal, iniciar: inicio, lotespag: lotes_x_pag}, function(Response){
+		$("#t-Bitacora tbody").children().remove();
+		var nLotes = Response;
+		var tClass = "odd";
+		for (var j = 0; j < nLotes.length; j++) {
+
+			document.getElementById("t-Bitacora").innerHTML +=
+				"<tr id='rowb"+j+"' role='row' class='"+tClass+"' > \
+	         		<td class='sorting_2'> \
+	         			<span class='pd-l-5'>"+nLotes[j].fechadecarga+"</span> \
+	         		</td> \
+	         		<td class=''> \
+	         			<span class='pd-l-5'>"+nLotes[j].usuario+"</span> \
+	         		</td> \
+	         		<td class='sorting_2'> \
+	         			<span class='pd-l-5'>"+(nLotes[j].tipo == 3 ? "Remision" : "Consumo Diesel")+"</span> \
+	         		</td> \
+	         		<td class=''> \
+	         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
+	         		</td> \
+	         		<td class='sorting_2'> \
+	         			<span class='pd-l-5'>Procesados "+nLotes[j].procesados+" de "+nLotes[j].totalcargados+"</span> \
+	         		</td> \
+                    <td class='dropdown text-center'> \
+                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
+                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
+                        <nav class='nav nav-style-1 flex-column'> \
+                          <a href='#' onclick='MostrarDoctos("+nLotes[j].id+","+nLotes[j].tipo+")' class='nav-link'>Nivel de Documentos</a> \
+                          <a href='#' onclick='MostrarMovtos("+nLotes[j].id+","+nLotes[j].tipo+")' class='nav-link'>Nivel de Movimientos</a> \
+                          <a href='#' onclick='EliminaRegistro("+nLotes[j].id+")' class='nav-link'>Eliminar Lote</a> \
+                        </nav> \
+                      </div> \
+                    </td> \
+				 </tr>"; 
+				 
+				 if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
+				 
+		}
+
+		var element = document.getElementById("paginador");
+		var hijos = $('#paginador').find('a');
+ 		var flag = 0;
+ 		hijos.removeClass('current');
+		for(var j = 0; j < element.children.length; j++) {								
+				
+			if(j == (posicion-1)){					
+				$("#btn_"+posicion).addClass('current');
+				flag = 1;
+			}
+			
+			if(flag == 1){
+				break;
+			}
+
+		}		
+
+		if(posicion == 1){									
+			$("#datatable1_previous").addClass('disabled');
+			$("#datatable1_next").removeClass('disabled');
+			document.getElementById('datatable1_previous').onclick = null;
+			document.getElementById('datatable1_next').onclick = SiguientePag;
+
+		}else if(posicion > 1){
+			$("#datatable1_previous").removeClass('disabled');
+			document.getElementById('datatable1_previous').onclick = AnteriorPag;
+			if((posicion-1) == j){
+				$("#datatable1_next").addClass('disabled');
+				document.getElementById('datatable1_next').onclick = null;
+			}
+		}		
+
+		$("#loading").addClass("d-none");
+
+	});
+}
+
+function AnteriorPag(){
+
+	var element = document.getElementById("paginador");	
+	var posicion;
+	for(var j = 1; j <= element.children.length; j++) {								
+	    if ($("#btn_"+j).hasClass('current')){
+
+	        posicion = j - 1;
+	        break;
+        
+	    }	
+	}	
+
+	Paginador(posicion)
+}
+
+function SiguientePag(){
+
+	var element = document.getElementById("paginador");	
+	var posicion;
+	for(var j = 1; j <= element.children.length; j++) {								
+	    if ($("#btn_"+j).hasClass('current')){
+
+	        posicion = j + 1;
+	        break;
+        
+	    }	
+	}	
+
+	Paginador(posicion)
+
+}
+
 function CargarLotes(){
 
 	$("#t-Bitacora tbody").children().remove();
-
+	
+	$("#loading").removeClass("d-none");			
+	
+	var inicio = 1; 
+	
 	$.get(ws + "ConsultarLotes",{idempresa: idempresaglobal}, function(Response){
 		var nLotes = Response;
-		//console.log(nLotes);
-		if(nLotes.length > 0){
-			//swal("Exito","Si hay registros","success");
-			var tClass = "odd";
-			for (var j = 0; j < nLotes.length; j++) {
+		
 
+
+		if(nLotes.length > 0){
+			
+			var total_lotes = nLotes.length;
+			var lotes_x_pag = 5;		
+			var paginas = Math.ceil(total_lotes / lotes_x_pag);
+			var active = "current";
+			
+			//Elimina paginador
+			var element = document.getElementById("paginador");
+			while (element.firstChild) {
+			  element.removeChild(element.firstChild);
+			}
+
+			//Agrega paginador
+			for (var x = 1; x <= paginas; x++) {			
+
+                var a = document.createElement('a');                
+                a.setAttribute("class", "paginate_button "+(x == 1 ? active : "")+"");
+                a.setAttribute("onclick", "Paginador("+x+")");
+                a.setAttribute("href", "#");
+				a.setAttribute("id", "btn_"+x);
+				a.setAttribute("value", x);				             
+                //a.innerHTML="<a href='#' class='paginate_button "+(x == 1 ? active : "")+"' onclick='Paginador("+x+")' aria-controls='datatable1'>"+x+"</a>";
+                document.getElementById("paginador").appendChild(a);				
+                a.innerHTML = x;
+			}
+
+			var tClass = "odd";
+
+			for (var j = 0; j < (nLotes.length > 5 ? lotes_x_pag : nLotes.length); j++) {
 
 				document.getElementById("t-Bitacora").innerHTML +=
 					"<tr id='rowb"+j+"' role='row' class='"+tClass+"' > \
@@ -353,7 +547,7 @@ function CargarLotes(){
 		         			<span class='pd-l-5'>"+(nLotes[j].tipo == 3 ? "Remision" : "Consumo Diesel")+"</span> \
 		         		</td> \
 		         		<td class=''> \
-		         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+"</span> \
+		         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
 		         		</td> \
 		         		<td class='sorting_2'> \
 		         			<span class='pd-l-5'>Procesados "+nLotes[j].procesados+" de "+nLotes[j].totalcargados+"</span> \
@@ -369,9 +563,12 @@ function CargarLotes(){
                           </div> \
                         </td> \
 					 </tr>"; 
-
+					 
 					 if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
+
 			}
+
+			$("#loading").addClass("d-none");
 
 		}else{
             document.getElementById("t-Bitacora").innerHTML +=
@@ -387,7 +584,10 @@ function CargarLotes(){
                     <td></td> \
                     <td></td> \
                   </tr>"; 
+			$("#loading").addClass("d-none");
 		}
+
+				
 
 	});    
 }
@@ -433,7 +633,7 @@ function MostrarDoctos(IDLote, Tipo){
 						<span class='pd-l-5'>$"+doctos[x].total+"</span> \
 	         		</td> \
 	         		<td class='sorting_2'> \
-						<span class='pd-l-5'>"+(doctos[x].estatus == 0 ? "No Procesado" : "Procesado")+"</span> \
+						<span class='pd-l-5'>"+(doctos[x].estatus == 0 ? (doctos[x].error == 0 ? "No Procesado" : doctos[x].detalle_error) : (doctos[x].estatus == 1 ? "Procesado." : (doctos[x].estatus == 2 ? "Eliminado por el Usuario." : "")))+"</span> \
 						<input type='hidden' id='estatus_"+x+"' value='"+doctos[x].estatus+"'> \
 	         		</td> \
 	         		<td class='wd-10'> \
@@ -571,13 +771,22 @@ function EliminaDocto(IDDocum, Tipo, Posicion){
 	    case "Continuar":
 			$.post(ws + "EliminarDocto",{idempresa: idempresaglobal, iddocto: IDDocum}, function(Response){
 				var docto = Response;
-				console.log(docto);
+				
 				if(docto.length > 0){
-					swal("Eliminar Documento","No se puede eliminar el documento por que ya fue procesado.","error");
+					if(docto[0].estatus == 2){
+						swal("Elimina Documento","El Documento ya habia sido eliminado.","warning");
+					}else{
+						swal("Eliminar Documento","No se puede eliminar un documento ya procesado.","warning");	
+					}
+					
 				}else{
-					swal("Eliminado Correctamente", "Correcto", "success");
-					$("#row"+Posicion).remove();
-					//MostrarDoctos(IDDocum, Tipo);
+					swal("Eliminado Correctamente", "El documento se elimino correctamente.", "success");
+					//$("#row"+Posicion).remove();
+					var filas = $("#t-Movtos").find("tr");
+					var celdas = $(filas[Posicion + 1]).find("td");
+					$(celdas[4]).find("span")[0].innerText = "Eliminado por el Usuario.";
+					$(celdas[4]).find("input")[0].value = 2;
+
 				}
 			});
 	     	break;
@@ -631,7 +840,12 @@ function CancelaCarga(){
 	$("#nivelmovtos").addClass("d-none");
 	$("#bitacora").removeClass("d-none");	
 
-	CargarLotes();
+	if(u_btn_sel != 1){
+		Paginador(u_btn_sel);
+	}else{
+		CargarLotes();	
+	}
+	
 												
 
 }

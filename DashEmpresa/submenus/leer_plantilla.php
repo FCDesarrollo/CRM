@@ -118,8 +118,11 @@
 			}else{ //if($idconce == 2){ //Consumo Diesel	
 				//echo "Diesel";		
 				for ($row = 7; $row <= $highestRow; $row++){					
-					if(is_null($sheet->getCell("J".$row)->getValue()) == false){
+					if(is_null($sheet->getCell("A".$row)->getValue()) == false){
+					
+            		
 						$fecha = $sheet->getCell("A".$row)->getValue();
+
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 						$fecha = date("Y-m-d", $fecha);
 						$concepto2 = $sheet->getCell("B".$row)->getValue();
@@ -135,10 +138,8 @@
 
 						$movtos[$i] = array("fecha" => $fecha, "concepto" => $concepto2, "proveedor" => $proveedor, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometro, "horometro" => $horometro, "unidad" => $unidad, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
-
-						$i = $i + 1;
-						//echo "Numero de registros: ".$i."<br>";	
-
+						$i = $i + 1;							
+						
 					}
 				}
 

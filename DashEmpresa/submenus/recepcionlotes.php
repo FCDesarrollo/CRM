@@ -15,7 +15,7 @@ session_start();
 <div class="br-pagebody pd-l-0 pd-r-0">
 
 	<!-- ¡Efecto Loading! Quitar clase d-none para mostrar, y agregar para ocultar con javascript -->
-	<div class="d-none" id="loading"></div>
+	<div class="" id="loading"></div>
 
 	<div class="br-section-wrapper pd-b-0">
 
@@ -44,7 +44,7 @@ session_start();
 						        </select>		               			
 						        <div class="d-none">
 						        	<a href="../lotes/Remision.xlsx" id="link_1" download></a>	
-						        	<a href="../lotes/ConsumoDiesel.xlsx" id="link_2" download></a>	
+						        	<a href="../lotes/ConsumoDiesel.xlsm" id="link_2" download></a>	
 						        </div>		        
 							</div>       				    
 						    	
@@ -79,7 +79,18 @@ session_start();
 
 	<div class="br-section-wrapper" id="divdinamico">
 		<div id="bitacora" class="">
-			<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Listado de los ultimos lotes cargados.</h6>
+			<div class="row justify-content-between">
+				<div class="col-lg-10 mg-t-10 mg-b-10 align-self-center">
+					<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Listado de los ultimos lotes cargados.</h6>
+				</div>	
+				<div class="col-lg-2 mg-t-10 mg-b-10  d-none">
+					
+					<a href="#" style="width: inherit" class="btn btn-outline-dark">
+						<div>Filtrar <i class="fa fa-filter"></i></div>
+					</a>					
+				</div>
+			</div>
+			
 			<div id="datatable1_wrapper" class="dataTables_wrapper no-footer">
 				<!--<div class="dataTables_length" id="datatable1_length">
 					<label>
@@ -128,13 +139,13 @@ session_start();
 					Showing 1 to 10 of 57 entries
 				</div>-->
 				 <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
-				 	<a class="paginate_button previous disabled" aria-controls="datatable1" data-dt-idx="0" tabindex="0" id="datatable1_previous">Atras</a>
-				 	<span>
-				 		<a class="paginate_button current" aria-controls="datatable1" data-dt-idx="1" tabindex="0">1</a>
-				 		<!--<a class="paginate_button " aria-controls="datatable1" data-dt-idx="2" tabindex="0">2</a>
+				 	<a class="paginate_button previous disabled" href="#" aria-controls="datatable1" data-dt-idx="0" tabindex="0"  id="datatable1_previous">Atras</a>
+				 	<span id="paginador">
+				 		<!--<a href="" class="paginate_button current" aria-controls="datatable1" data-dt-idx="1" tabindex="0">1</a>
+				 		<a class="paginate_button " aria-controls="datatable1" data-dt-idx="2" tabindex="0">2</a>
 				 		<a class="paginate_button " aria-controls="datatable1" data-dt-idx="3" tabindex="0">3</a>-->
 				 	</span>
-				 	<a class="paginate_button next" aria-controls="datatable1" data-dt-idx="7" tabindex="0" id="datatable1_next">	Siguiente
+				 	<a class="paginate_button next" href="#" aria-controls="datatable1" data-dt-idx="7" tabindex="0" onclick="SiguientePag()" id="datatable1_next">Siguiente
 				 	</a>
 				 </div>
 

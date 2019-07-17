@@ -103,7 +103,7 @@ session_start();
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
         <!-- Carga Nombre Empresa -->
         <a href="" class="nav-link nav-link-profile d-flex" style="align-items: center;" data-toggle="dropdown">
-          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
+          <span class="logged-name hidden-sm-down" id="nEmpresa"></span>              
         </a>            
 
       <!-- BOTON SEARCH  -->
@@ -250,7 +250,7 @@ session_start();
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
 <!-- Carga Nombre Empresa -->
-              <span class="logged-name hidden-md-down" id="nUsuario"></span>
+              <span class="logged-name hidden-sm-down" id="nUsuario"></span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
