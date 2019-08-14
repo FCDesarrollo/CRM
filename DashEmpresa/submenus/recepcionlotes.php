@@ -39,12 +39,16 @@ session_start();
 						            <option label="Seleccione una plantilla"></option>
 						            <option value="1">Remisiones</option>
 						            <option value="2">Consumos Diesel</option>
+						            <option value="3">Entradas de Materia Prima</option>
+						            <option value="4">Salidas de Materia Prima</option>
 						            <!--<option value="China">China</option>
 						            <option value="Japan">Japan</option> -->
 						        </select>		               			
 						        <div class="d-none">
-						        	<a href="../lotes/Remision.xlsx" id="link_1" download></a>	
+						        	<a href="../lotes/Remision.xlsm" id="link_1" download></a>	
 						        	<a href="../lotes/ConsumoDiesel.xlsm" id="link_2" download></a>	
+						        	<a href="../lotes/EntradasMateriaPrima.xlsm" id="link_3" download></a>	
+						        	<a href="../lotes/SalidaMateriaPrima.xlsm" id="link_4" download></a>	
 						        </div>		        
 							</div>       				    
 						    	
@@ -176,7 +180,7 @@ session_start();
 			        	<th class="tx-10-force tx-mont tx-medium" id="col2">Concepto</th>
 			        	<!--<th class="tx-10-force tx-mont tx-medium d-md-none">RFC</th>-->
 			        	<th class="tx-10-force tx-mont tx-medium" id="col3"></th>
-			        	<th class="tx-10-force tx-mont tx-medium" id="col4">Total</th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="col4"></th>
 			        	<th class="tx-10-force tx-mont tx-medium" id="col5">Detalle</th>
 			        	<th class="text-center" id="col6"><em class="fa fa-cog"></em></th>
 			        	<th class="d-none"></th> <!-- se asigna codigo para procesar -->
@@ -217,7 +221,7 @@ session_start();
 			        	<th class="tx-10-force tx-mont tx-medium" id="col_m4"></th>		        	
 			        	<th class="tx-10-force tx-mont tx-medium" id="col_m5"></th>
 			        	<th class="tx-10-force tx-mont tx-medium" id="col_m6"></th>
-			        	<th class="tx-10-force tx-mont tx-medium" id="">Total</th>
+			        	<th class="tx-10-force tx-mont tx-medium" id="col_m7">Total</th>
 			        	<th class="d-none"></th>
 			     	</tr>
 			    </thead>
@@ -230,7 +234,108 @@ session_start();
 			        <button class="btn btn-outline-danger btn-block mg-b-10" onclick="CancelaCarga()">Cerrar</button>
 				</div>-->
 			</div>	
-		</div>		
+		</div>	
+
+
+<!--////////////MODAL PARA ENLISTAR LOS PRODUCTOS O CLIENTES/PROVEEDORES NO REGISTRADOS/////////////////// -->
+		<!--MODAL DE VERIFICACION DE NUMERO TELEFONICO-->
+		<div class="modal fade" id="CatalogosModal">
+            <div class="modal-dialog modal-lg mw-100" role="dialog">
+              <div class="modal-content wd-xs-400 wd-sm-600 wd-md-800 wd-900 bd-0">
+                <div class="modal-header pd-y-20 pd-x-25">
+                  <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Catalogos con elementos pendientes por registrar.</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+
+
+                <div class="modal-body wd-auto pd-25">
+                	<!--<div class="bg-light mg-b-15">
+	                	<p class="mg-0 pd-5">Pasos:</p>
+	                	<p class="mg-0 pd-5">1. Seleccione un catalogo para enlistar los elementos pendientes por registrar.</p>
+	                	<p class="mg-0 pd-5">2. Rellene los campos requeridos y precione el boton verde para registrar.</p>
+                	</div> -->
+
+                	<!--<p class="mg-b-5">Alternativa:</p>
+                	<p class="mg-b-5">Si desea hacer una carga masiva de los elementos pendientes por registrar, puede seleccionar una plantilla y presionar el boton de descargar, luego de rellenar la plantilla, volver a este apartado y presionar el boton de cargado para seleccionar la plantilla y registrar los elementos.</p>-->
+          
+                	
+
+	            	<div class="row">
+						<!--<div class="col-md-6 col-sm-5 col-5 mg-md-t-0 mg-sm-b-15 mg-b-10 pd-r-0">
+							<select class="form-control select2" id="combocatalogos" onchange="MostrarElementos()" aria-hidden="true">
+					            <option label="Seleccione un catalogo"></option>
+					            <option value="productos">Productos</option>
+					            <option value="clientes">Clientes/Proovedores</option>					            
+					        </select>		               			
+						</div>  -->
+						<div class="col-12 bd-gray-300 rounded table-responsive">
+					        <table class="table display responsive dtr-inline" id="t-Pendientes">
+					            <thead>
+					                <tr>
+					                	<th>Catalogos</th>					                    
+					                    <th >Pendientes</th>
+					                </tr>                
+					            </thead>
+					            <tbody>
+									<tr role="row" id="fila1">
+						         		<td><span class="pd-l-5"></span><a href="#" onclick="MostrarElementos('productos')">Productos</a></td>
+						         		<td><span class="pd-l-5" id="elemento1"></span></td>
+						         	</tr>
+									<tr role="row" id="fila2">
+						         		<td><span class="pd-l-5"></span><a href="#" id="" onclick="MostrarElementos('clientesproveedores')">Clientes/Proveedores</a></td>
+						         		<td><span class="pd-l-5" id="elemento2"></span></td>
+						         	</tr>					        
+									<tr role="row" id="fila3">
+						         		<td><span class="pd-l-5"></span><a href="#" onclick="MostrarElementos('conceptos')">Conceptos</a></td>
+						         		<td><span class="pd-l-5" id="elemento3"></span></td>
+						         	</tr>					         							         	 	
+									<tr role="row" id="fila4">
+						         		<td><span class="pd-l-5"></span><a href="#" onclick="MostrarElementos('sucursales')">Sucursales</a></td>
+						         		<td><span class="pd-l-5" id="elemento4"></span></td>
+						         	</tr>						         	
+					            </tbody>				            
+
+					        </table>
+						</div>						
+
+					</div>
+
+                	<!--<div class="row">                		
+                		<div class="col-lg-4 col-md-5 col-sm-6 mg-b-15 text-dark" id="elemento1"></div>
+                		<div class="col-lg-4 col-md-5 col-sm-6 mg-b-15 text-dark" id="elemento2"></div>                		
+                	</div>	-->				
+	
+					<div class="bd bd-gray-300 rounded table-responsive">
+				        <table class="table display responsive dtr-inline d-none" id="t-Catalogos">
+				            <thead>
+				                <tr>
+				                	<th></th>
+				                    <th>Elemento</th>
+				                    <th>Accion</th>
+				                    <th id="campo_r1"></th>
+				                    <th id="campo_r2"></th>
+				                    <!--<th id="campo_r3"></th>-->
+				                </tr>                
+				            </thead>
+				            <tbody>
+				            	
+				            </tbody>
+				        </table>
+					</div>
+    
+                </div>
+
+
+                <div class="modal-footer">                  
+					<button type="button" data-dismiss="modal" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" onclick="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">Continuar</button>                	
+                  <button type="button" data-dismiss="modal" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Cerrar</button>
+                </div>
+              </div>
+            </div><!-- modal-dialog -->
+        </div>
+
 
 
 
