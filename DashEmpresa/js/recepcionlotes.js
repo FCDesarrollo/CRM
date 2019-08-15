@@ -405,10 +405,10 @@ function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos
 	        		}else if(data[x].estatus == 2){
 		        		document.getElementById(data[x].span).innerHTML = "Actualizado.";
 		        		document.getElementById(data[x].span).style.color = "dodgerblue";
-	        		}else if(data[x].estatus == 3){
+	        		}/*else if(data[x].estatus == 3){
 		        		document.getElementById(data[x].span).innerHTML = "Duplicado en plantilla.";
 		        		document.getElementById(data[x].span).style.color = "red";	        			
-	        		}
+	        		}*/
 	        	}
 
         	}			
