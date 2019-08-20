@@ -133,7 +133,7 @@ function LeerArchivo(idusuario, idempresa){
 														$("#bitacora").addClass("d-none");
 										         		$("#carga-movtos").removeClass("d-none");
 														$("#t-Movtos tbody").children().remove();
-
+														
 														var folioserie;
 											         	for (x in movtos) {						
 											         		folioserie = movtos[x].folio+(movtos[x].serie == null ? "" : "-"+movtos[x].serie);

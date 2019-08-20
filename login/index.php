@@ -32,19 +32,23 @@
 	<?php include("registro.php"); ?>
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100" id="recargable">
-				<form id="FormLogin" class="login100-form validate-form" action="../session.php" method="post">					
+			<!--<div class="wrap-login100" id="recargable">-->
+			<div id="recargable">
+				<!--<form id="FormLogin" class="login100-form validate-form" action="../session.php" method="post">-->
+				<form id="FormLogin" class="validate-form" action="../session.php" method="post">
 					<input type="hidden" name="tipo" id="txttipo" />
 					<input type="hidden" name="idusuario" id="txtIdCliente" />
 					<input type="hidden" name="idempresa" id="txtIdEmpresa" value="<?php echo isset($_GET['em']) ? $_GET['em'] : 0 ?>"/>				
 					<input type="hidden" name="namear" id="txtnamear" value="<?php echo isset($_GET['nar']) ? $_GET['nar'] : "" ?>"/>
 					<span class="login100-form-title p-b-34">Cuenta de Ingreso</span>
 					
-					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Introduzca su correo">
+					<!--<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Introduzca su correo">-->
+					<div class="wrap-input100 wd-100 validate-input m-b-20" data-validate="Introduzca su correo">
 						<input id="txtUsuario" class="input100" type="text" name="correo" placeholder="Correo Electronico">
 						<span class="focus-input100"></span>
 					</div>
-					<div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Introduzca su contraseña">
+					<!--<div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Introduzca su contraseña">-->
+					<div class="wrap-input100 wd-100 validate-input m-b-20" data-validate="Introduzca su contraseña">	
 						<input class="input100" id="txtContra" type="password" name="contra" placeholder="Contraseña">
 						<span class="focus-input100"></span>
 					</div>
@@ -60,7 +64,7 @@
  						
 				</form>
 
-				<div class="login100-more" style="background-image: url('images/bg-01.jpg');"></div>
+				<div class="login100-more d-none" style="background-image: url('images/bg-01.jpg');"></div>
 			</div>
 		</div>
 	
