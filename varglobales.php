@@ -11,5 +11,6 @@
             var gIDEmpresa = 0;
             var gNombreEmpresa = '';
             var idempresaglobal = 0;
+            var idusuarioglobal = 0;
         </script>";
 ?>

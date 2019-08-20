@@ -33,7 +33,8 @@ const SubProcesoVenta = 19;
 
 function CargaDatosEmpresa(idusuario, idempresalog){   
         
-    idempresaglobal = idempresalog;
+    idempresaglobal = idempresalog; 
+    idusuarioglobal = idusuario;
 
     $.get(ws + "DatosUsuario/" + idusuario, function(data){
         var usuario = JSON.parse(data).usuario;

@@ -19,7 +19,17 @@ session_start();
 
 	<div class="br-section-wrapper pd-b-0">
 
-		<h4 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Recepcion por Lotes</h4>    
+		<div class="row">
+			<div class="col-lg-8 col-md-8 col-sm-8">
+				<h4 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Recepcion por Lotes</h4>    		
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-4 d-inline-flex justify-content-end">				
+              	<button class="btn btn-outline-primary pd-x-15 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10 d-none">
+              		Ir a Catalogos
+              	</button>	            
+			</div>			
+		</div>
+		
     	<p class="mg-b-30"></p>	
 
 	    <div class="card bd-0 shadow-base">		
@@ -130,6 +140,7 @@ session_start();
 				        	<th class="tx-10-force tx-mont wd-10" id="">Fecha</th>
 				        	<th class="tx-10-force tx-mont tx-medium" id="">Usuario</th>		        	
 				        	<th class="tx-10-force tx-mont tx-medium" id="">Tipo de Documento</th>
+				        	<th class="tx-10-force tx-mont tx-medium" id="">Sucursal</th>
 				        	<th class="tx-10-force tx-mont tx-medium" id="">Detalles</th>
 				        	<th class="tx-10-force tx-mont tx-medium" id="">Registros</th>
 				        	<!--<th class="tx-10-force tx-mont tx-medium" id="col5">Estatus</th>-->
@@ -181,6 +192,7 @@ session_start();
 			        	<!--<th class="tx-10-force tx-mont tx-medium d-md-none">RFC</th>-->
 			        	<th class="tx-10-force tx-mont tx-medium" id="col3"></th>
 			        	<th class="tx-10-force tx-mont tx-medium" id="col4"></th>
+			        	<!--<th class="tx-10-force tx-mont tx-medium" id="">Sucursal</th>-->
 			        	<th class="tx-10-force tx-mont tx-medium" id="col5">Detalle</th>
 			        	<th class="text-center" id="col6"><em class="fa fa-cog"></em></th>
 			        	<th class="d-none"></th> <!-- se asigna codigo para procesar -->
@@ -251,25 +263,8 @@ session_start();
 
 
                 <div class="modal-body wd-auto pd-25">
-                	<!--<div class="bg-light mg-b-15">
-	                	<p class="mg-0 pd-5">Pasos:</p>
-	                	<p class="mg-0 pd-5">1. Seleccione un catalogo para enlistar los elementos pendientes por registrar.</p>
-	                	<p class="mg-0 pd-5">2. Rellene los campos requeridos y precione el boton verde para registrar.</p>
-                	</div> -->
-
-                	<!--<p class="mg-b-5">Alternativa:</p>
-                	<p class="mg-b-5">Si desea hacer una carga masiva de los elementos pendientes por registrar, puede seleccionar una plantilla y presionar el boton de descargar, luego de rellenar la plantilla, volver a este apartado y presionar el boton de cargado para seleccionar la plantilla y registrar los elementos.</p>-->
-          
-                	
 
 	            	<div class="row">
-						<!--<div class="col-md-6 col-sm-5 col-5 mg-md-t-0 mg-sm-b-15 mg-b-10 pd-r-0">
-							<select class="form-control select2" id="combocatalogos" onchange="MostrarElementos()" aria-hidden="true">
-					            <option label="Seleccione un catalogo"></option>
-					            <option value="productos">Productos</option>
-					            <option value="clientes">Clientes/Proovedores</option>					            
-					        </select>		               			
-						</div>  -->
 						<div class="col-12 bd-gray-300 rounded table-responsive">
 					        <table class="table display responsive dtr-inline" id="t-Pendientes">
 					            <thead>
@@ -308,13 +303,15 @@ session_start();
                 	</div>	-->				
 	
 					<div class="bd bd-gray-300 rounded table-responsive">
-				        <table class="table display responsive dtr-inline d-none" id="t-Catalogos">
+				        <table class="table table-bordered display responsive dtr-inline d-none" id="t-Catalogos">
+				        	<!--<table class="table display responsive nowrap no-footer dtr-inline collapsed d-none" id="t-Catalogos">-->
+
 				            <thead>
 				                <tr>
-				                	<th></th>
+				                	<!--<th>#</th>-->
 				                    <th>Elemento</th>
-				                    <th>Accion</th>
-				                    <th id="campo_r1"></th>
+				                    <th class="d-none" id="campo_codigorfc">Codigo</th>
+				                    <th id="campo_r1"></th>				                    
 				                    <th id="campo_r2"></th>
 				                    <!--<th id="campo_r3"></th>-->
 				                </tr>                
@@ -329,7 +326,8 @@ session_start();
 
 
                 <div class="modal-footer">                  
-					<button type="button" data-dismiss="modal" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" onclick="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">Continuar</button>                	
+					<!--<button type="button" data-dismiss="modal" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" onclick="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">Continuar</button>--> 
+					<button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" onclick="MostrarElementos('registrarelementos')">Continuar</button>
                   <button type="button" data-dismiss="modal" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Cerrar</button>
                 </div>
               </div>

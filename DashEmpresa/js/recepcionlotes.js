@@ -86,16 +86,15 @@ function LeerArchivo(idusuario, idempresa){
 							        success: function (responseAJAX) {
 							         	var movtos = JSON.parse(responseAJAX);
 							         	
-
 							         	if(movtos[0].fecha == "Vacio"){					         	
 							         		swal("Documento","El documento no tiene movimientos registrados.","error");
 									    	$("#carga-movtos").addClass("d-none");
 									    	$("#bitacora").removeClass("d-none");	
-							         	}else{
-							        	//Validacion Catalogos
+							         	}else{							        		
+							        		//Validacion Catalogos
 											$.post(ws + "ChecarCatalogos",{array: movtos, idempresa: idempresa}, function(val){
 												respuestacatalogos = val;
-												
+												movtos = respuestacatalogos[0];
 												if(respuestacatalogos[1]['status'] == 0){
 
 									         		var tClass = "odd";
@@ -177,22 +176,32 @@ function LeerArchivo(idusuario, idempresa){
 									         	}else{						
 
 													$("#CatalogosModal").modal();
-													var n2 =  0;
+													var n2 = 0;
+													var n3 = 0;
 													var coleccion2 = [];
+													var coleccion3 = [];
 													productos = 0;
 													clientesproveedores = 0;
 													conceptos = 0;
 													sucursales = 0;
 													for (j in respuestacatalogos[0]) {
-														if(respuestacatalogos[0][j].prodreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){																													
+														if(respuestacatalogos[0][j].prodreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){
 															coleccion2[n2] = respuestacatalogos[0][j].codigoproducto;
 															productos = productos + 1;
 															n2 = n2 + 1;
 														}
-														if(respuestacatalogos[0][j].clienprovreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].rfc) == -1){														
-															coleccion2[n2] =respuestacatalogos[0][j].rfc;
-															clientesproveedores = clientesproveedores + 1;
-															n2 = n2 + 1;
+														if(respuestacatalogos[0][j].clienprovreg == 1){														
+															if(respuestacatalogos[0][j].rfc == "XAXX010101000" && coleccion3.indexOf(respuestacatalogos[0][j].razonsocial) == -1){
+																coleccion3[n3] =respuestacatalogos[0][j].razonsocial;
+																coleccion2[n2] =respuestacatalogos[0][j].rfc;
+																clientesproveedores = clientesproveedores + 1;
+																n3 = n3 + 1;
+																n2 = n2 + 1;
+															}else if(coleccion2.indexOf(respuestacatalogos[0][j].rfc) == -1){
+																coleccion2[n2] =respuestacatalogos[0][j].rfc;
+																clientesproveedores = clientesproveedores + 1;
+																n2 = n2 + 1;
+															}
 														} 
 														if(respuestacatalogos[0][j].conceptoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoconcepto) == -1){
 															coleccion2[n2] =respuestacatalogos[0][j].codigoconcepto;
@@ -258,7 +267,8 @@ function LeerArchivo(idusuario, idempresa){
 	        }
 
 	    });  
-		
+
+		//fileInput.value = "";
 	}
     
 }
@@ -316,10 +326,10 @@ function SubirArchivo(idusuario, idempresa){
 			   	if(doctos[0].fecha != "Vacio"){	
 				
 					var arraymovtos = movimientos;				
-			        $.post(ws + "RegistrarLote",{idempresa: idempresa, idusuario: idusuario, tipodocto: doctos[0].idconce}, function(resp){
-						var idlote = resp;				
+			        //$.post(ws + "RegistrarLote",{idempresa: idempresa, idusuario: idusuario, tipodocto: doctos[0].idconce}, function(resp){
+						//var idlote = resp;				
 						
-						if(idlote[0].id > 0){
+						//if(idlote[0].id > 0){
 							 
 						     for(i=1; i<numero_filas; i++){
 						        var celdas = $(filas[i]).find("td");
@@ -362,16 +372,18 @@ function SubirArchivo(idusuario, idempresa){
 								}								
 						     }
 				
-						     RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, ArrayDimencional, idspan);
+							
+						     //RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, ArrayDimencional, idspan);
+						     RegistrarDoctos(idempresa, idusuario, codigo, doctos[0].idconce, ArrayDimencional, idspan);
 
 						     fileInput.value = "";
 
-						}else{                
-	                		$('#loading').addClass('d-none');						
-							swal("¡Error desconocido!","Recargue la pagina, si el problema continua, reportar a sistemas.","error");
-						}
+						//}else{                
+	                	//	$('#loading').addClass('d-none');						
+						//	swal("¡Error desconocido!","Recargue la pagina, si el problema continua, reportar a sistemas.","error");
+						//}
 
-			    	}); 
+			    	//}); 
 
 				}else{                
 	                $('#loading').addClass('d-none');					
@@ -386,9 +398,9 @@ function SubirArchivo(idusuario, idempresa){
 
 }
 
-function RegistrarDoctos(idempresa, idusuario, codigo, idlote, tipodocto, doctos, idspan){
+function RegistrarDoctos(idempresa, idusuario, codigo, tipodocto, doctos, idspan){
 
- 	$.post(ws + "RegistrarDoctos",{idempresa: idempresa, idusuario: idusuario, codigo: codigo, IDlotes: idlote, tipodocto: tipodocto, doctos: doctos, span: idspan}, function(data){
+ 	$.post(ws + "RegistrarDoctos",{idempresa: idempresa, idusuario: idusuario, codigo: codigo, tipodocto: tipodocto, doctos: doctos, span: idspan}, function(data){
       
         var $bandera = 0;
         
@@ -610,12 +622,15 @@ function CargarLotes(){
 		         			<span class='pd-l-5'>"+nLotes[j].tipodet+"</span> \
 		         		</td> \
 		         		<td class=''> \
-		         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
+		         			<span class='pd-l-5'>"+nLotes[j].sucursal+"</span> \
 		         		</td> \
 		         		<td class='sorting_2'> \
+		         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
+		         		</td> \
+		         		<td class=''> \
 		         			<span class='pd-l-5'>Procesados "+nLotes[j].procesados+" de "+nLotes[j].totalcargados+"</span> \
 		         		</td> \
-                        <td class='dropdown text-center'> \
+                        <td class='dropdown text-center sorting_2'> \
                           <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
                           <div class='dropdown-menu dropdown-menu-right pd-10'> \
                             <nav class='nav nav-style-1 flex-column'> \
@@ -698,8 +713,9 @@ function MostrarDoctos(IDLote, Tipo){
 
 
 			var tClass = "odd";
+			var folioserie = "";
 			for (var x = 0; x < doctos.length; x++) {
-
+				folioserie = (Tipo == 3 ? doctos[x].folio+(doctos[x].serie == null ? "" : "-"+doctos[x].serie) : "");
          		document.getElementById("t-Movtos").innerHTML +=
          		"<tr id='row"+x+"' role='row' class='"+tClass+"' > \
 	         		<td class='sorting_2'> \
@@ -709,7 +725,7 @@ function MostrarDoctos(IDLote, Tipo){
 	         			<span class='pd-l-5'>"+doctos[x].concepto+"</span> \
 	         		</td> \
 	         		<td class='sorting_2'> \
-	         			<span class='pd-l-5'>"+(Tipo == 3 ? doctos[x].folio+"-"+doctos[x].serie : doctos[x][elemento])+"</span> \
+	         			<span class='pd-l-5'>"+(Tipo == 3 ? folioserie : doctos[x][elemento])+"</span> \
 	         		</td> \
 	         		<td class='text-right'> \
 						<span class='pd-l-5'>"+doctos[x][elemento1]+"</span> \
@@ -964,42 +980,181 @@ function CancelaCarga(){
 }
 
 function MostrarElementos(cod){
-	//var cod = document.getElementById("combocatalogos").value;
-	$("#t-Catalogos").removeClass('d-none');
-	$("#t-Catalogos tbody").children().remove();
 
+	//cat_actual = cod;
 
 	//if(cod != ""){
 		switch (cod) {
-		  case "productos":
-			document.getElementById("campo_r1").innerHTML = "Codigo del Producto";
-			document.getElementById("campo_r2").innerHTML = "Nombre del Producto";
-			//$("#campo_r3").addClass('d-none');
-			CargaElementos(1);		  		
-		    break;
-		  case "clientesproveedores":
-			document.getElementById("campo_r1").innerHTML = "RFC";
-			document.getElementById("campo_r2").innerHTML = "Razon Social";
-			//document.getElementById("campo_r3").innerHTML = "Cliente o Proovedor";
-			//$("#campo_r3").removeClass('d-none');		  
-		  	CargaElementos(2);
-		    break;
-		  case "conceptos":
-			document.getElementById("campo_r1").innerHTML = "Codigo del Concepto";
-			document.getElementById("campo_r2").innerHTML = "Nombre del Concepto";
-			//document.getElementById("campo_r3").innerHTML = "Cliente o Proovedor";
-			//$("#campo_r3").removeClass('d-none');		  
-		  	CargaElementos(3);
-		    break;		    
-		  case "sucursales":
-			document.getElementById("campo_r1").innerHTML = "Sucursal";
-			//document.getElementById("campo_r2").innerHTML = "Nombre del Concepto";		  
-		  	CargaElementos(4);
-		    break;		    
+			case "productos":
+				document.getElementById("campo_r1").innerHTML = "Codigo del Producto";
+				document.getElementById("campo_r2").innerHTML = "Nombre del Producto";
+				$("#t-Catalogos").removeClass('d-none');
+				$("#t-Catalogos tbody").children().remove();	
+				$("#campo_codigorfc").addClass('d-none');			
+				cat_actual = cod;
+				CargaElementos(1);		  		
+			    break;
+			case "clientesproveedores":
+				$("#campo_codigorfc").removeClass('d-none');
+				document.getElementById("campo_r1").innerHTML = "RFC";
+				document.getElementById("campo_r2").innerHTML = "Razon Social";				
+				$("#t-Catalogos").removeClass('d-none');
+				$("#t-Catalogos tbody").children().remove();	  
+				cat_actual = cod;
+			  	CargaElementos(2);
+			    break;
+			case "conceptos":
+				document.getElementById("campo_r1").innerHTML = "Codigo del Concepto";
+				document.getElementById("campo_r2").innerHTML = "Nombre del Concepto";
+				$("#campo_codigorfc").addClass('d-none');
+				$("#t-Catalogos").removeClass('d-none');
+				$("#t-Catalogos tbody").children().remove();	  				
+				cat_actual = cod;
+			  	CargaElementos(3);
+			    break;		    
+			case "sucursales":
+				document.getElementById("campo_r1").innerHTML = "Sucursal";
+				$("#campo_codigorfc").addClass('d-none');
+				$("#t-Catalogos").removeClass('d-none');
+				$("#t-Catalogos tbody").children().remove();	  				
+				cat_actual = cod;
+			  	CargaElementos(4);
+			    break;		
+			case "registrarelementos":
+				//cat_actual = "";
+				RegistrarElementos();
+			  	break;    
 	    }
 	//}else{
 		//swal("Seleccione plantilla","Debe seleccionar una plantilla.","error");
 	//}	
+}
+
+function RegistrarElementos(){
+	var filas = $("#t-Catalogos").find("tr");
+	var numero_filas = filas.length;
+	var bandera = true;
+	var array1 = [];
+	
+	var j = 0;
+
+	var array = new Array (numero_filas-1);
+	
+	if(numero_filas > 1){
+		
+		for (var i = 1; i < numero_filas; i++) {
+			if(cat_actual == "sucursales"){
+				document.getElementById("txtcampo2_"+j).value = $("#txtcampo1_"+j).val();				
+			}
+			if($("#txtcampo1_"+j).val() == "" || $("#txtcampo2_"+j).val() == ""){
+				bandera = false;
+				if(cat_actual == "productos"){
+					if($("#txtcampo1_"+j).val() == ""){
+						swal("Campo Vacio","Favor de introducir el codigo del producto.","warning");	
+					}else if($("#txtcampo2_"+j).val() == ""){
+						swal("Campo Vacio","Favor de introducir el nombre del producto.","warning");	
+					}			
+				}else if(cat_actual == "clientesproveedores"){
+					if($("#txtcampo1_"+j).val() == ""){
+						swal("Campos Vacios", "Favor de introducir el RFC del cliente o proveedor.","warning");	
+					}else if($("#txtcampo2_"+j).val() == ""){
+						swal("Campos Vacios", "Favor de introducir la Razon Social del cliente o proveedor.","warning");						
+					}
+				}else if(cat_actual == "conceptos"){
+					if($("#txtcampo1_"+j).val() == ""){
+						swal("Campo Vacio","Favor de introducir el codigo del concepto.","warning");	
+					}else if($("#txtcampo2_"+j).val() == ""){
+						swal("Campo Vacio","Favor de introducir el nombre del concepto.","warning");	
+					}			
+				}else if(cat_actual == "sucursales"){
+					if($("#txtcampo1_"+j).val() == ""){
+						swal("Campo Vacio","Favor de introducir la sucursal.","warning");	
+					}
+				}
+				break;		
+			}else{
+				if(cat_actual == "clientesproveedores"){
+					if($("#txtcamporfc_"+j).val() == ""){					
+						swal("Campos Vacios", "Favor de introducir el codigo del cliente o proveedor.","warning");					
+						bandera = false;
+						break;
+					}else if($("#txtcamporfc_"+j).val() == "XAXX010101000"){
+						swal("Campos Vacios", "El codigo no puede ser el mismo que el RFC Generico.","warning");					
+						bandera = false;
+						break;
+					}
+				}
+			}
+
+			var fila = $("#rowele_"+j).find("td")[0]; //obtengo las filas	
+		    var elemento = $(fila).find("span")[0].innerText; //especifico la fila		    			
+			var filarfc = $("#rowele_"+j).find("td")[1];
+			var fila1 = $("#rowele_"+j).find("td")[2];
+			var fila2 = $("#rowele_"+j).find("td")[3];
+			var campo1 = $(fila1).find("input")[0].value;
+			var campo2 = $(fila2).find("input")[0].value;
+			var camporfc = $(filarfc).find("input")[0].value;
+
+			array[j] = new Array(6);			
+			
+			array[j][0] = campo1;
+			array[j][1] = campo2;
+			array[j][2] = tipodocto
+			array[j][3] = tipodoctodet;
+			array[j][4] = elemento;
+			if(cat_actual == "clientesproveedores"){
+				array[j][5] = camporfc;
+			}
+									
+			j = j + 1;
+		}
+		
+		if(bandera == true){			
+					
+			$.post(ws + "RegistrarElemento",{idempresa: idempresaglobal, tipo: cat_actual, datos: array}, function(Response){
+			
+				var respuesta = Response;
+				
+				for (var j = 0; j < respuesta.length; j++) {
+					
+					if(respuesta[j]["registrado"] == 1){
+						if(cat_actual == "productos"){						
+							productos = productos - 1;
+							document.getElementById("elemento1").innerHTML = productos;						
+						}else if(cat_actual == "clientesproveedores"){						
+							clientesproveedores = clientesproveedores - 1;
+							document.getElementById("elemento2").innerHTML = clientesproveedores;
+						}else if(cat_actual == "conceptos"){
+							conceptos = conceptos - 1;
+							document.getElementById("elemento3").innerHTML = conceptos;						
+						}else if(cat_actual == "sucursales"){
+							sucursales = sucursales - 1;
+							document.getElementById("elemento4").innerHTML = sucursales;						
+						}
+						$("#rowele_"+j).remove();
+					}
+					//swal("Elemento","Elemento registrado correctamente.","success");
+				}
+
+				if(productos > 0){
+					MostrarElementos("productos");
+				}else if(clientesproveedores > 0){
+					MostrarElementos("clientesproveedores");
+				}else if(conceptos > 0){
+					MostrarElementos("conceptos");
+				}else if(sucursales > 0){
+					MostrarElementos("sucursales");
+				}else{
+					$("#CatalogosModal").modal("hide");
+					LeerArchivo(idusuarioglobal, idempresaglobal); //se ejecuta cuando ya no haya productos pendientes por registrar
+				}
+
+
+			});	
+			
+		}
+
+	}
 }
 
 
@@ -1008,6 +1163,7 @@ function CargaElementos(tipoele){
 	var tClass = "odd";
 	var coleccion = [];
 	var n = 0;
+	var j = 0;
 	var mostrar;
 
 	switch(tipoele){
@@ -1020,6 +1176,7 @@ function CargaElementos(tipoele){
 			mostrar = "clienprovreg";
 			elemento = "rfc";
 			elemento2 = "razonsocial";
+			elemento3 = "";
 			break;
 		case 3:
 			mostrar = "conceptoreg";
@@ -1035,96 +1192,99 @@ function CargaElementos(tipoele){
 	
 
  	for (x in respuestacatalogos[0]) {
- 		
-// 		if((tipoele == 1 ? respuestacatalogos[0][x].prodreg : respuestacatalogos[0][x].clienprovreg) == 1){
- 		
- 		if(respuestacatalogos[0][x][mostrar] == 1){
- 			
-// 			if(coleccion.indexOf((tipoele == 1 ? respuestacatalogos[0][x].producto : respuestacatalogos[0][x].proveedor)) == -1){
-			if(coleccion.indexOf(respuestacatalogos[0][x][elemento]) == -1){
+
+ 		if(respuestacatalogos[0][x][mostrar] == 1){			
+
+			if(coleccion.indexOf(respuestacatalogos[0][x][elemento]) == -1 && respuestacatalogos[0][x][elemento] != "XAXX010101000"){	
 	     		document.getElementById("t-Catalogos").innerHTML +=
-	     		"<tr role='row' id='rowele_"+n+"' class='"+tClass+"' > \
+	     		"<tr role='row' id='rowele_"+j+"' class='"+tClass+"' > \
 	         		<td class='sorting_2'> \
-	         			<span class='pd-l-5'>"+num+"</span> \
-	         		</td> \
-	         		<td> \
 	         			<span class='pd-l-5'>"+(respuestacatalogos[0][x][elemento])+"</span> \
 	         		</td> \
-	         		<td class='wd-10 text-center sorting_2'> \
-	         			<span class='pd-l-5'> \
-	         				<a href='#' class='btn btn-outline-success btn-icon mg-r-5' id='btnreg_"+n+"' onclick='RegistrarElemento("+n+","+tipoele+")' title='Agregar'> \
-								<div><i class='fa fa-plus'></i></div> \
-							</a> \
-						</span> \
+					<td class='"+(tipoele == 2 ? "" : "d-none")+"'> \
+						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
 					</td> \
-					<td> \
-						<input class='form-control wd-auto' id='txtcampo1_"+n+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
+					<td class='sorting_2'> \
+						<input class='form-control wd-auto' id='txtcampo1_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
 					</td> \
-					<td class='sorting_2' id='td_nombre'> \
-						<input class='form-control wd-auto' id='txtcampo2_"+n+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento2])+"'></input> \
+					<td id='td_nombre'> \
+						<input class='form-control wd-auto' id='txtcampo2_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento2] != null ? respuestacatalogos[0][x][elemento2] : "")+"'></input> \
 					</td> \
 				</tr>";		
-				num = num + 1;						         		
-	     		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
-	     		coleccion[n] = respuestacatalogos[0][x][elemento];
+				coleccion[n] = respuestacatalogos[0][x][elemento];
 	     		n = n + 1;
+	     		j = j + 1;
+	     		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
+	     	}else if(coleccion.indexOf(respuestacatalogos[0][x][elemento2]) == -1  && respuestacatalogos[0][x][elemento] == "XAXX010101000"){ //para cuando es RFC GENERICO
+	     		document.getElementById("t-Catalogos").innerHTML +=
+	     		"<tr role='row' id='rowele_"+j+"' class='"+tClass+"' > \
+	         		<td class='sorting_2'> \
+	         			<span class='pd-l-5'>"+(respuestacatalogos[0][x][elemento])+"</span> \
+	         		</td> \
+					<td class='"+(tipoele == 2 ? "" : "d-none")+"'> \
+						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' style='text-transform:uppercase;' type='text' value=''> \
+					</td> \
+					<td class='sorting_2'> \
+						<input class='form-control wd-auto' id='txtcampo1_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
+					</td> \
+					<td id='td_nombre'> \
+						<input class='form-control wd-auto' id='txtcampo2_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento2] != null ? respuestacatalogos[0][x][elemento2] : "")+"'></input> \
+					</td> \
+				</tr>";	
+				coleccion[n] = respuestacatalogos[0][x][elemento2];
+				n = n + 1;
+				coleccion[n] = respuestacatalogos[0][x][elemento];
+	     		n = n + 1;
+	     		j = j + 1;
+	     		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
 	     	}
+	     	
+     		
+     		
+
  		}
  	}
 
  	if(tipoele == 4){
 		$("#campo_r2").addClass('d-none');
 		$("#td_nombre").addClass('d-none'); 		
+		
+ 	}else if(tipoele == 2){
+		$("#campo_r2").removeClass('d-none');
+		$("#td_nombre").removeClass('d-none');
+ 		$("#campo_codigorfc").removeClass('d-none');
+ 		
  	}else{
 		$("#campo_r2").removeClass('d-none');
 		$("#td_nombre").removeClass('d-none'); 		
+		$("#campo_codigorfc").addClass('d-none');
+		
  	}
 }
+
+var cat_actual;
 
 function RegistrarElemento(posicion, tipo){
 	
 	var campo1 = document.getElementById("txtcampo1_"+posicion).id;
 	var campo2 = document.getElementById("txtcampo2_"+posicion).id;
-	//var campo3 = document.getElementById("txtcampo3_"+posicion).id;
-
-	/*var filas = $("#t-Catalogos").find("tr"); //obtengo las filas
-    var celda = $(filas[posicion+1]).find("td"); //especifico la fila
-    var codigo = $(celda[1]); */
-
 	var fila = $("#rowele_"+posicion).find("td")[1]; //obtengo las filas
     var elemento = $(fila).find("span")[0].innerText; //especifico la fila
-    //console.log(celda[0].innerText);    
-    //var elemento = codigo[0].innerText;
-
-    /*console.log(posicion);
-    console.log(tipo);
-    console.log(elemento);*/
-
-	
   	var len = {min:12,max:13};
 
 
   	switch(tipo){
   		case 1:
   			tipo = "productos";
-  			/*$("#campo_r2").removeClass('d-none');
-  			$("#td_nombre").removeClass('d-none');*/
   			break;
   		case 2:
   			tipo = "clientesproveedores";
-  			/*$("#campo_r2").removeClass('d-none');
-  			$("#td_nombre").removeClass('d-none');*/
   			break;
   		case 3:
   			tipo = "conceptos";
-  			/*$("#campo_r2").removeClass('d-none');
-  			$("#td_nombre").removeClass('d-none');*/
   			break;
   		case 4:
   			tipo = "sucursales";
-
-  			
-  			//document.getElementById(campo2).innerHTML = $("#"+campo1).val(); //solo para brinca la validacion
   			break;  	
   	}
 
