@@ -27,7 +27,7 @@
 	$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
 
 	ftp_pasv($conn_id, true);
-
+	
 	if ($login_result===true){
 
 	    $archivos = ftp_nlist($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu); //Devuelve un array con los nombres de ficheros
