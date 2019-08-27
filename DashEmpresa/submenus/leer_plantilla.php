@@ -17,7 +17,7 @@
         return $flag;  		
   	}
 
-  	function NumeroDeSucursales($sheet, $highestRow){
+  	/*function NumeroDeSucursales($sheet, $highestRow){
 		$i = 0;
 		$n_suc = 0;
 		$array_suc = [];
@@ -31,7 +31,7 @@
 		}  
 
 		return $n_suc;
-  	}
+  	} */
 
   	if (isset($_POST['plantilla'])) {
 
@@ -81,27 +81,29 @@
 
 					for ($row = 7; $row <= $highestRow; $row++){				
 						//$fecha = date($format = "d/m/y", PHPExcel_Shared_Date::ExcelToPHP($sheet->getCell("B".$row)->getValue()));
-						if(is_null($sheet->getCell("K".$row)->getValue()) == false && is_null($sheet->getCell("H".$row)->getValue()) == false && $sheet->getCell("Z".$row)->getValue() != "A"){
+						if(is_null($sheet->getCell("M".$row)->getValue()) == false && is_null($sheet->getCell("P".$row)->getValue()) == false && $sheet->getCell("Z".$row)->getValue() != "A"){
 							
-							$fecha = $sheet->getCell("A".$row)->getValue();
+							$suc = $sheet->getCell("A".$row)->getValue();	
+							$fecha = $sheet->getCell("B".$row)->getValue();
 							$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 							$fecha = date("Y-m-d", $fecha);
-							$folio = $sheet->getCell("B".$row)->getValue();
-							$serie = $sheet->getCell("C".$row)->getValue();
-							$rfc = $sheet->getCell("D".$row)->getValue();
-							$razonsocial = $sheet->getCell("E".$row)->getValue();
-							$codigoconcepto = $sheet->getCell("F".$row)->getValue();						
-							$concepto = $sheet->getCell("G".$row)->getValue();
-							$codigoproducto = $sheet->getCell("H".$row)->getValue();
-							$producto = $sheet->getCell("I".$row)->getValue();
-							$cantidad = $sheet->getCell("J".$row)->getValue();
-							$subtotal = $sheet->getCell("K".$row)->getValue();
-							$descuento = $sheet->getCell("L".$row)->getValue();
-							$iva = $sheet->getCell("M".$row)->getCalculatedValue();
-							$total = $sheet->getCell("N".$row)->getCalculatedValue();
-							$suc = $sheet->getCell("O".$row)->getValue();						
+							$folio = $sheet->getCell("C".$row)->getValue();
+							$serie = $sheet->getCell("D".$row)->getValue();
+							$codcliprov = $sheet->getCell("E".$row)->getValue();
+							$rfc = $sheet->getCell("F".$row)->getValue();
+							$razonsocial = $sheet->getCell("G".$row)->getValue();
+							$codigoconcepto = $sheet->getCell("H".$row)->getValue();						
+							$concepto = $sheet->getCell("I".$row)->getValue();
+							$codigoproducto = $sheet->getCell("J".$row)->getValue();
+							$producto = $sheet->getCell("K".$row)->getValue();
+							$cantidad = $sheet->getCell("L".$row)->getValue();
+							$subtotal = $sheet->getCell("M".$row)->getValue();
+							$descuento = $sheet->getCell("N".$row)->getValue();
+							$iva = $sheet->getCell("O".$row)->getCalculatedValue();
+							$total = $sheet->getCell("P".$row)->getCalculatedValue();
+												
 
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc ,"idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc ,"idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$TotalNeto = 0; 
 							$TotalDesc = 0;
@@ -114,18 +116,18 @@
 
 							
 							for ($numf = 7; $numf <= $highestRow; $numf++){ //recorremos los movimientos y acumulamos si cumplen los filtros
-							   if(is_null($sheet->getCell("N".$numf)->getValue()) == false && is_null($sheet->getCell("K".$numf)->getValue()) == false && $sheet->getCell("Z".$numf)->getValue() != "A"){					   		
-									$fechamov = $sheet->getCell("A".$numf)->getValue();
+							   if(is_null($sheet->getCell("P".$numf)->getValue()) == false && is_null($sheet->getCell("M".$numf)->getValue()) == false && $sheet->getCell("Z".$numf)->getValue() != "A"){					   		
+									$fechamov = $sheet->getCell("B".$numf)->getValue();
 									$fechamov = PHPExcel_Shared_Date::ExcelToPHP($fechamov);
 									$fechamov = date("Y-m-d", $fechamov);					   		
 									
-									if(ValidarFolio($sheet->getCell("B".$numf)->getValue()) == true){
-										if($sheet->getCell("B".$numf)->getValue() == $foliotmp && $fechamov == $fechatmp && $sheet->getCell("O".$numf)->getValue() == $suctemp){
+									if(ValidarFolio($sheet->getCell("C".$numf)->getValue()) == true){
+										if($sheet->getCell("C".$numf)->getValue() == $foliotmp && $fechamov == $fechatmp && $sheet->getCell("A".$numf)->getValue() == $suctemp){
 
-											$TotalNeto = $TotalNeto + $sheet->getCell("K".$numf)->getValue();
-											$TotalDesc = $TotalDesc + $sheet->getCell("L".$numf)->getValue();
-											$TotalIVA = $TotalIVA + $sheet->getCell("M".$numf)->getCalculatedValue();
-											$TotalDoc = $TotalDoc + $sheet->getCell("N".$numf)->getCalculatedValue();
+											$TotalNeto = $TotalNeto + $sheet->getCell("M".$numf)->getValue();
+											$TotalDesc = $TotalDesc + $sheet->getCell("N".$numf)->getValue();
+											$TotalIVA = $TotalIVA + $sheet->getCell("O".$numf)->getCalculatedValue();
+											$TotalDoc = $TotalDoc + $sheet->getCell("P".$numf)->getCalculatedValue();
 											$movtos[$i]["subtotal"] = $TotalNeto;
 											$movtos[$i]["descuento"] = $TotalDesc;
 											$movtos[$i]["iva"] = $TotalIVA;
@@ -146,79 +148,88 @@
 				}else if($idconce == 2){  //Consumo Diesel	
 				
 					for ($row = 7; $row <= $highestRow; $row++){					
-						if(is_null($sheet->getCell("A".$row)->getValue()) == false){				
-							$fecha = $sheet->getCell("A".$row)->getValue();
+						if(is_null($sheet->getCell("B".$row)->getValue()) == false){				
+							$suc = $sheet->getCell("A".$row)->getValue();	
+							$fecha = $sheet->getCell("B".$row)->getValue();
 							$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 							$fecha = date("Y-m-d", $fecha);
-							$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-							$concepto = $sheet->getCell("C".$row)->getValue();
-							$rfc = $sheet->getCell("D".$row)->getValue();
-							$razonsocial = $sheet->getCell("E".$row)->getValue();
-							$codigoproducto = $sheet->getCell("F".$row)->getValue();
-							$producto = $sheet->getCell("G".$row)->getValue();
-							$almacen = $sheet->getCell("H".$row)->getValue();
-							$litros = $sheet->getCell("I".$row)->getValue();
-							$importe = $sheet->getCell("J".$row)->getValue();
-							$kilometros = $sheet->getCell("K".$row)->getValue();
-							$horometros = $sheet->getCell("L".$row)->getValue();
-							$unidad = $sheet->getCell("M".$row)->getValue();
-							$suc = $sheet->getCell("N".$row)->getValue();				
+							$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+							$concepto = $sheet->getCell("D".$row)->getValue();
+							$codcliprov = $sheet->getCell("E".$row)->getValue();
+							$rfc = $sheet->getCell("F".$row)->getValue();
+							$razonsocial = $sheet->getCell("G".$row)->getValue();
+							$codigoproducto = $sheet->getCell("H".$row)->getValue();
+							$producto = $sheet->getCell("I".$row)->getValue();
+							$almacen = $sheet->getCell("J".$row)->getValue();
+							$litros = $sheet->getCell("K".$row)->getValue();
+							$importe = $sheet->getCell("L".$row)->getValue();
+							$kilometros = $sheet->getCell("M".$row)->getValue();
+							$horometros = $sheet->getCell("N".$row)->getValue();
+							$unidad = $sheet->getCell("O".$row)->getValue();										
 
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;							
 							
+						}else{
+							break;
 						}
 					}
 
 				}else if($idconce == 4){ //Entradas de Materia Prima
 
 					for ($row = 7; $row <= $highestRow; $row++){
-	        			if(is_null($sheet->getCell("A".$row)->getValue()) == false){
-							$fecha = $sheet->getCell("A".$row)->getValue();
+	        			if(is_null($sheet->getCell("B".$row)->getValue()) == false){
+							$suc = $sheet->getCell("A".$row)->getValue();
+							$fecha = $sheet->getCell("B".$row)->getValue();
 							$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 							$fecha = date("Y-m-d", $fecha);
-							$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-							$concepto = $sheet->getCell("C".$row)->getValue();
-							$rfc = $sheet->getCell("D".$row)->getValue();
-							$razonsocial = $sheet->getCell("E".$row)->getValue();						
-							$codigoproducto = $sheet->getCell("F".$row)->getValue();					
-							$producto = $sheet->getCell("G".$row)->getValue();					
-							$factor = $sheet->getCell("H".$row)->getValue();
-							$almacen = $sheet->getCell("I".$row)->getValue();
-							$cantidad = $sheet->getCell("J".$row)->getValue();
-							$unidad = $sheet->getCell("K".$row)->getValue();
-							$precio = $sheet->getCell("L".$row)->getValue();
-							$suc = $sheet->getCell("M".$row)->getValue();
+							$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+							$concepto = $sheet->getCell("D".$row)->getValue();
+							$codcliprov = $sheet->getCell("E".$row)->getValue();
+							$rfc = $sheet->getCell("F".$row)->getValue();
+							$razonsocial = $sheet->getCell("G".$row)->getValue();						
+							$codigoproducto = $sheet->getCell("H".$row)->getValue();					
+							$producto = $sheet->getCell("I".$row)->getValue();					
+							$factor = $sheet->getCell("J".$row)->getValue();
+							$almacen = $sheet->getCell("K".$row)->getValue();
+							$cantidad = $sheet->getCell("L".$row)->getValue();
+							$unidad = $sheet->getCell("M".$row)->getValue();
+							$precio = $sheet->getCell("N".$row)->getValue();							
 							
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;
+						}else{
+							break;
 						}
 					}
 
 				}else if($idconce == 5){ //Salidas de Materia Prima
 
-					for ($row = 7; $row <= $highestRow; $row++){
-	        			if(is_null($sheet->getCell("A".$row)->getValue()) == false){
-							$fecha = $sheet->getCell("A".$row)->getValue();
+					for ($row = 7; $row <= $highestRow; $row++){						
+	        			if(is_null($sheet->getCell("B".$row)->getValue()) == false){
+							$suc = $sheet->getCell("A".$row)->getValue();
+							$fecha = $sheet->getCell("B".$row)->getValue();
 							$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 							$fecha = date("Y-m-d", $fecha);
-							$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-							$concepto = $sheet->getCell("C".$row)->getValue();
-							$rfc = $sheet->getCell("D".$row)->getValue();						
-							$razonsocial = $sheet->getCell("E".$row)->getValue();
-							$codigoproducto = $sheet->getCell("F".$row)->getValue();					
-							$producto = $sheet->getCell("G".$row)->getValue();					
-							$factor = $sheet->getCell("H".$row)->getValue();
-							$almacen = $sheet->getCell("I".$row)->getValue();
-							$cantidad = $sheet->getCell("J".$row)->getValue();
-							$unidad = $sheet->getCell("K".$row)->getValue();
-							$suc = $sheet->getCell("L".$row)->getValue();						
+							$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+							$concepto = $sheet->getCell("D".$row)->getValue();
+							$codcliprov = $sheet->getCell("E".$row)->getValue();
+							$rfc = $sheet->getCell("F".$row)->getValue();						
+							$razonsocial = $sheet->getCell("G".$row)->getValue();
+							$codigoproducto = $sheet->getCell("H".$row)->getValue();					
+							$producto = $sheet->getCell("I".$row)->getValue();					
+							$factor = $sheet->getCell("J".$row)->getValue();
+							$almacen = $sheet->getCell("K".$row)->getValue();
+							$cantidad = $sheet->getCell("L".$row)->getValue();
+							$unidad = $sheet->getCell("M".$row)->getValue();							
 							
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "factor" => $factor, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "factor" => $factor, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;
+						}else{
+							break;
 						}
 					}
 
@@ -233,7 +244,7 @@
 
 
 //VALIDACION TIPO 3 -> REGRESA UN ARREGLO CON LOS MOVIMIENTOS.
-		}else if($_POST['validacion']==3){ 
+		}else if($_POST['validacion']==3){
 
 			//$numero_sucursales = NumeroDeSucursales($sheet, $highestRow);
 
@@ -242,100 +253,112 @@
   			$i = 0;  			
 			for ($row = 7; $row <= $highestRow; $row++){				
 				if($idconce == 2){
-					if(is_null($sheet->getCell("J".$row)->getValue()) == false){
-
-						$fecha = $sheet->getCell("A".$row)->getValue();
+					if(is_null($sheet->getCell("L".$row)->getValue()) == false){
+						$suc = $sheet->getCell("A".$row)->getValue();
+						$fecha = $sheet->getCell("B".$row)->getValue();
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 						$fecha = date("Y-m-d", $fecha);
-						$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-						$concepto = $sheet->getCell("C".$row)->getValue();
-						$rfc = $sheet->getCell("D".$row)->getValue();
-						$razonsocial = $sheet->getCell("E".$row)->getValue();
-						$codigoproducto = $sheet->getCell("F".$row)->getValue();
-						$producto = $sheet->getCell("G".$row)->getValue();
-						$almacen = $sheet->getCell("H".$row)->getValue();
-						$litros = $sheet->getCell("I".$row)->getValue();
-						$importe = $sheet->getCell("J".$row)->getValue();
-						$kilometros = $sheet->getCell("K".$row)->getValue();
-						$horometros = $sheet->getCell("L".$row)->getValue();
-						$unidad = $sheet->getCell("M".$row)->getValue();
-						$suc = $sheet->getCell("N".$row)->getValue();
-
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc);
-
-						$i = $i + 1; 						
-
-					}
-				}else if($idconce == 3){
-					if(is_null($sheet->getCell("K".$row)->getValue()) == false && is_null($sheet->getCell("N".$row)->getValue()) == false){
-
-						$fecha = $sheet->getCell("A".$row)->getValue();
-						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
-						$fecha = date("Y-m-d", $fecha);
-						$folio = $sheet->getCell("B".$row)->getValue();
-						$serie = $sheet->getCell("C".$row)->getValue();
-						$rfc = $sheet->getCell("D".$row)->getValue();
-						$razonsocial = $sheet->getCell("E".$row)->getValue();
-						$codigoconcepto = $sheet->getCell("F".$row)->getValue();						
-						$concepto = $sheet->getCell("G".$row)->getValue();
+						$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+						$concepto = $sheet->getCell("D".$row)->getValue();
+						$codcliprov = $sheet->getCell("E".$row)->getValue();
+						$rfc = $sheet->getCell("F".$row)->getValue();
+						$razonsocial = $sheet->getCell("G".$row)->getValue();
 						$codigoproducto = $sheet->getCell("H".$row)->getValue();
 						$producto = $sheet->getCell("I".$row)->getValue();
-						$cantidad = $sheet->getCell("J".$row)->getValue();
-						$subtotal = $sheet->getCell("K".$row)->getValue();
-						$descuento = $sheet->getCell("L".$row)->getValue();
-						$iva = $sheet->getCell("M".$row)->getCalculatedValue();
-						$total = $sheet->getCell("N".$row)->getCalculatedValue();
-						$suc = $sheet->getCell("O".$row)->getValue();
+						$almacen = $sheet->getCell("J".$row)->getValue();
+						$litros = $sheet->getCell("K".$row)->getValue();
+						$importe = $sheet->getCell("L".$row)->getValue();
+						$kilometros = $sheet->getCell("M".$row)->getValue();
+						$horometros = $sheet->getCell("N".$row)->getValue();
+						$unidad = $sheet->getCell("O".$row)->getValue();						
 
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc);
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc);
 
 						$i = $i + 1; 						
 
+					}else{
+						break;
+					}
+				}else if($idconce == 3){
+					if(is_null($sheet->getCell("M".$row)->getValue()) == false && is_null($sheet->getCell("P".$row)->getValue()) == false){
+						$suc = $sheet->getCell("A".$row)->getValue();
+						$fecha = $sheet->getCell("B".$row)->getValue();
+						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
+						$fecha = date("Y-m-d", $fecha);
+						$folio = $sheet->getCell("C".$row)->getValue();
+						$serie = $sheet->getCell("D".$row)->getValue();
+						$codcliprov = $sheet->getCell("E".$row)->getValue();
+						$rfc = $sheet->getCell("F".$row)->getValue();
+						$razonsocial = $sheet->getCell("G".$row)->getValue();
+						$codigoconcepto = $sheet->getCell("H".$row)->getValue();						
+						$concepto = $sheet->getCell("I".$row)->getValue();
+						$codigoproducto = $sheet->getCell("J".$row)->getValue();
+						$producto = $sheet->getCell("K".$row)->getValue();
+						$cantidad = $sheet->getCell("L".$row)->getValue();
+						$subtotal = $sheet->getCell("M".$row)->getValue();
+						$descuento = $sheet->getCell("N".$row)->getValue();
+						$iva = $sheet->getCell("O".$row)->getCalculatedValue();
+						$total = $sheet->getCell("P".$row)->getCalculatedValue();
+						
+
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc);
+
+						$i = $i + 1; 						
+
+					}else{
+						break;
 					}					
 				}else if($idconce == 4){
 					
-        			if(is_null($sheet->getCell("A".$row)->getValue()) == false){
-						$fecha = $sheet->getCell("A".$row)->getValue();
+        			if(is_null($sheet->getCell("B".$row)->getValue()) == false){
+						$suc = $sheet->getCell("A".$row)->getValue();
+						$fecha = $sheet->getCell("B".$row)->getValue();
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 						$fecha = date("Y-m-d", $fecha);
-						$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-						$concepto = $sheet->getCell("C".$row)->getValue();
-						$rfc = $sheet->getCell("D".$row)->getValue();
-						$razonsocial = $sheet->getCell("E".$row)->getValue();						
-						$codigoproducto = $sheet->getCell("F".$row)->getValue();					
-						$producto = $sheet->getCell("G".$row)->getValue();					
-						$factor = $sheet->getCell("H".$row)->getValue();
-						$almacen = $sheet->getCell("I".$row)->getValue();
-						$cantidad = $sheet->getCell("J".$row)->getValue();
-						$unidad = $sheet->getCell("K".$row)->getValue();
-						$precio = $sheet->getCell("L".$row)->getValue();
-						$suc = $sheet->getCell("M".$row)->getValue();
+						$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+						$concepto = $sheet->getCell("D".$row)->getValue();
+						$codcliprov = $sheet->getCell("E".$row)->getValue();
+						$rfc = $sheet->getCell("F".$row)->getValue();
+						$razonsocial = $sheet->getCell("G".$row)->getValue();						
+						$codigoproducto = $sheet->getCell("H".$row)->getValue();					
+						$producto = $sheet->getCell("I".$row)->getValue();					
+						$factor = $sheet->getCell("J".$row)->getValue();
+						$almacen = $sheet->getCell("K".$row)->getValue();
+						$cantidad = $sheet->getCell("L".$row)->getValue();
+						$unidad = $sheet->getCell("M".$row)->getValue();
+						$precio = $sheet->getCell("N".$row)->getValue();						
 						
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 						$i = $i + 1;
+					}else{
+						break;
 					}
 					
 				}else if($idconce == 5){
-					if(is_null($sheet->getCell("A".$row)->getValue()) == false){
-						$fecha = $sheet->getCell("A".$row)->getValue();
+					if(is_null($sheet->getCell("B".$row)->getValue()) == false){
+						$suc = $sheet->getCell("A".$row)->getValue();
+						$fecha = $sheet->getCell("B".$row)->getValue();
 						$fecha = PHPExcel_Shared_Date::ExcelToPHP($fecha);
 						$fecha = date("Y-m-d", $fecha);
-						$codigoconcepto = $sheet->getCell("B".$row)->getValue();
-						$concepto = $sheet->getCell("C".$row)->getValue();
-						$rfc = $sheet->getCell("D".$row)->getValue();						
-						$razonsocial = $sheet->getCell("E".$row)->getValue();
-						$codigoproducto = $sheet->getCell("F".$row)->getValue();					
-						$producto = $sheet->getCell("G".$row)->getValue();					
-						$factor = $sheet->getCell("H".$row)->getValue();
-						$almacen = $sheet->getCell("I".$row)->getValue();
-						$cantidad = $sheet->getCell("J".$row)->getValue();
-						$unidad = $sheet->getCell("K".$row)->getValue();
-						$suc = $sheet->getCell("L".$row)->getValue();
+						$codigoconcepto = $sheet->getCell("C".$row)->getValue();
+						$concepto = $sheet->getCell("D".$row)->getValue();
+						$codcliprov = $sheet->getCell("E".$row)->getValue();
+						$rfc = $sheet->getCell("F".$row)->getValue();						
+						$razonsocial = $sheet->getCell("G".$row)->getValue();
+						$codigoproducto = $sheet->getCell("H".$row)->getValue();					
+						$producto = $sheet->getCell("I".$row)->getValue();					
+						$factor = $sheet->getCell("J".$row)->getValue();
+						$almacen = $sheet->getCell("K".$row)->getValue();
+						$cantidad = $sheet->getCell("L".$row)->getValue();
+						$unidad = $sheet->getCell("M".$row)->getValue();
+						
 
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc);
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc);
 
 						$i = $i + 1; 					
+					}else{
+						break;
 					}
 				}
 

@@ -72,7 +72,7 @@ session_start();
 						<div class="row">
 					        <div class="col-md-7 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">
 								<label class="custom-file">
-						       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
+						       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onclick="LimpiarInput()" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
 								  <span class="custom-file-control">Seleccionar..</span>				  	
 								</label>
 							</div>					
@@ -174,7 +174,7 @@ session_start();
 
 			<div class="row pd-b-15">
 				<div class="col-sm-1">
-					<a href="#" onclick="CancelaCarga()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+					<a href="#" onclick="RegresarPagina()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
 						<div>
 							<i class="fa fa-arrow-left"></i>
 						</div>
@@ -214,7 +214,7 @@ session_start();
 		<div id="nivelmovtos" class="d-none">
 			<div class="row pd-b-15">
 				<div class="col-sm-1">
-					<a href="#" onclick="CancelaCarga()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+					<a href="#" onclick="RegresarPagina()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
 						<div>
 							<i class="fa fa-arrow-left"></i>
 						</div>

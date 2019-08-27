@@ -1,4 +1,5 @@
 //variables globales
+var btnregresar=0;
 var u_btn_sel=1;
 var productos;
 var clientesproveedores;
@@ -191,8 +192,8 @@ function LeerArchivo(idusuario, idempresa){
 															n2 = n2 + 1;
 														}
 														if(respuestacatalogos[0][j].clienprovreg == 1){														
-															if(respuestacatalogos[0][j].rfc == "XAXX010101000" && coleccion3.indexOf(respuestacatalogos[0][j].razonsocial) == -1){
-																coleccion3[n3] =respuestacatalogos[0][j].razonsocial;
+															if(respuestacatalogos[0][j].rfc == "XAXX010101000" && coleccion3.indexOf(respuestacatalogos[0][j].codigocliprov) == -1){
+																coleccion3[n3] =respuestacatalogos[0][j].codigocliprov;
 																coleccion2[n2] =respuestacatalogos[0][j].rfc;
 																clientesproveedores = clientesproveedores + 1;
 																n3 = n3 + 1;
@@ -548,7 +549,7 @@ function AnteriorPag(){
 	    }	
 	}	
 
-	Paginador(posicion)
+	Paginador(posicion);
 }
 
 function SiguientePag(){
@@ -564,7 +565,7 @@ function SiguientePag(){
 	    }	
 	}	
 
-	Paginador(posicion)
+	Paginador(posicion);
 
 }
 
@@ -581,7 +582,8 @@ function CargarLotes(){
 
 		if(nLotes.length > 0){
 			
-			var total_lotes = nLotes.length;
+			var total_lotes = (nLotes.length > 20 ? 20 : nLotes.length);
+			//var total_lotes = 20;
 			var lotes_x_pag = 5;		
 			var paginas = Math.ceil(total_lotes / lotes_x_pag);
 			var active = "current";
@@ -592,6 +594,7 @@ function CargarLotes(){
 			  element.removeChild(element.firstChild);
 			}
 
+			$("#datatable1_paginate").removeClass("d-none");
 			//Agrega paginador
 			for (var x = 1; x <= paginas; x++) {			
 
@@ -662,6 +665,7 @@ function CargarLotes(){
                     <td></td> \
                     <td></td> \
                   </tr>"; 
+			$("#datatable1_paginate").addClass("d-none");
 			$("#loading").addClass("d-none");
 		}
 
@@ -736,6 +740,11 @@ function MostrarDoctos(IDLote, Tipo){
 	         		</td> \
 	         		<td class='wd-10'> \
 	         			<span class='pd-l-5'> \
+							<a href='#' class='btn btn-outline-primary btn-icon mg-r-5 mg-r-5' onclick='VerMovtos("+doctos[x].id+","+Tipo+")' title='Ver movimientos'> \
+								<div><i class='fa fa-caret-right'></i></div> \
+							</a> \
+						</span> \
+	         			<span class='pd-l-5'> \
 							<a href='#' class='btn btn-danger btn-icon mg-r-5 mg-r-5' id='eliminaF"+x+"' onclick='EliminaDocto("+doctos[x].id+","+Tipo+","+x+");' title='Eliminar de la base de datos'> \
 								<div><i class='fa fa-trash'></i></div> \
 							</a> \
@@ -745,7 +754,6 @@ function MostrarDoctos(IDLote, Tipo){
 						<input type='hidden' id='movto"+x+"' value='"+doctos[x].codigo+"'> \
 					</td> \
 				</tr>";
-
 
 				if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
 
@@ -763,7 +771,7 @@ function MostrarDoctos(IDLote, Tipo){
 
 //MUESTRA EL LOTE A NIVEL DE MOVIMIENTOS
 function MostrarMovtos(IDLote, Tipo){
-	$.get(ws + "ConsultarMovtos",{idempresa: idempresaglobal, idlote: IDLote}, function(Response){
+	$.get(ws + "ConsultarMovtosLote",{idempresa: idempresaglobal, id: IDLote}, function(Response){
 		var movtos = Response;
 		var elemento;
 		var elemento1;
@@ -771,18 +779,15 @@ function MostrarMovtos(IDLote, Tipo){
 		var elemento3;
 
 		if(movtos.length > 0){
-			//swal("Exito","Si hay registros","success");
+			
 			$("#bitacora").addClass("d-none");
      		$("#nivelmovtos").removeClass("d-none");
 			$("#NivelMovtos tbody").children().remove();	
 
+
+			CabezeraMovtos(Tipo);
+
 			if(Tipo == 3){
-				document.getElementById("col_m4").innerHTML = "Subtotal";
-				document.getElementById("col_m5").innerHTML = "Desc.";
-				document.getElementById("col_m6").innerHTML = "Iva";				
-				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Remision";
-				$("#col_m6").removeClass('d-none');
-				$("#col_m7").removeClass('d-none');
 				elemento = "subtotal";
 				elemento1 = "descuento";
 				elemento2 = "iva";
@@ -790,12 +795,6 @@ function MostrarMovtos(IDLote, Tipo){
 				clase2 = "";
 				clase3 = "";				
 			}else if(Tipo == 2){
-				document.getElementById("col_m4").innerHTML = "Kilometros";
-				document.getElementById("col_m5").innerHTML = "Horometros";
-				document.getElementById("col_m6").innerHTML = "Unidad";				
-				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
-				$("#col_m6").removeClass('d-none');
-				$("#col_m7").removeClass('d-none');
 				elemento = "kilometros";
 				elemento1 = "horometro";
 				elemento2 = "unidad";
@@ -803,24 +802,12 @@ function MostrarMovtos(IDLote, Tipo){
 				clase2 = "";
 				clase3 = "";
 			}else if(Tipo == 4){
-				document.getElementById("col_m4").innerHTML = "Almacen";
-				document.getElementById("col_m5").innerHTML = "Unidad";
-				document.getElementById("col_m6").innerHTML = "Precio";				
-				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Entradas de Materia Prima";
-				$("#col_m6").removeClass('d-none');
-				$("#col_m7").addClass('d-none');
 				elemento = "almacen";
 				elemento1 = "unidad";
 				elemento2 = "total";
 				clase2 = "";								
 				clase3 = "d-none";
 			}else if(Tipo == 5){
-				document.getElementById("col_m4").innerHTML = "Almacen";
-				document.getElementById("col_m5").innerHTML = "Unidad";
-				document.getElementById("col_m6").innerHTML = "";				
-				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Salidas de Materia Prima";
-				$("#col_m6").addClass('d-none');
-				$("#col_m7").addClass('d-none');				
 				elemento = "almacen";
 				elemento1 = "unidad";
 				clase2 = "d-none";
@@ -862,6 +849,124 @@ function MostrarMovtos(IDLote, Tipo){
 		}
 
 	}); 
+}
+
+function CabezeraMovtos(Tipo){
+	if(Tipo == 3){
+		document.getElementById("col_m4").innerHTML = "Subtotal";
+		document.getElementById("col_m5").innerHTML = "Desc.";
+		document.getElementById("col_m6").innerHTML = "Iva";				
+		document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Remision";
+		$("#col_m6").removeClass('d-none');
+		$("#col_m7").removeClass('d-none');
+	}else if(Tipo == 2){
+		document.getElementById("col_m4").innerHTML = "Kilometros";
+		document.getElementById("col_m5").innerHTML = "Horometros";
+		document.getElementById("col_m6").innerHTML = "Unidad";				
+		document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
+		$("#col_m6").removeClass('d-none');
+		$("#col_m7").removeClass('d-none');
+	}else if(Tipo == 4){
+		document.getElementById("col_m4").innerHTML = "Almacen";
+		document.getElementById("col_m5").innerHTML = "Unidad";
+		document.getElementById("col_m6").innerHTML = "Precio";				
+		document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Entradas de Materia Prima";
+		$("#col_m6").removeClass('d-none');
+		$("#col_m7").addClass('d-none');
+	}else if(Tipo == 5){
+		document.getElementById("col_m4").innerHTML = "Almacen";
+		document.getElementById("col_m5").innerHTML = "Unidad";
+		document.getElementById("col_m6").innerHTML = "";				
+		document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Salidas de Materia Prima";
+		$("#col_m6").addClass('d-none');
+		$("#col_m7").addClass('d-none');				
+	}	
+}
+
+function VerMovtos(Iddocto, Tipo){
+	$.get(ws + "ConsultarMovtosDocto",{idempresa: idempresaglobal, id: Iddocto}, function(Response){
+		var movtos = Response;
+		var elemento;
+		var elemento1;
+		var elemento2;
+		var elemento3;
+
+
+		if(movtos.length > 0){
+			
+			//$("#t-Movtos").addClass("d-none");
+			$("#carga-movtos").addClass("d-none");			
+     		$("#nivelmovtos").removeClass("d-none");
+			$("#NivelMovtos tbody").children().remove();
+
+			CabezeraMovtos(Tipo);
+
+			if(Tipo == 3){
+				elemento = "subtotal";
+				elemento1 = "descuento";
+				elemento2 = "iva";
+				elemento3 = "total";
+				clase2 = "";
+				clase3 = "";				
+				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Remision con Folio-Serie: "+movtos[0].folio+(movtos[0].serie == null ? "" : "-"+movtos[0].serie);
+			}else if(Tipo == 2){
+				elemento = "kilometros";
+				elemento1 = "horometro";
+				elemento2 = "unidad";
+				elemento3 = "total";
+				clase2 = "";
+				clase3 = "";
+				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
+			}else if(Tipo == 4){
+				elemento = "almacen";
+				elemento1 = "unidad";
+				elemento2 = "total";
+				clase2 = "";								
+				clase3 = "d-none";
+				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Entradas de Materia Prima";
+			}else if(Tipo == 5){
+				elemento = "almacen";
+				elemento1 = "unidad";
+				clase2 = "d-none";
+				clase3 = "d-none";
+				document.getElementById("movto_p_info").innerHTML = "Tipo de Documento: Salidas de Materia Prima";
+			}		
+			
+			var tClass = "odd";
+			for (var j = 0; j < movtos.length; j++) {
+				document.getElementById("NivelMovtos").innerHTML +=
+					"<tr id='rownm"+j+"' role='row' class='"+tClass+"' > \
+		         		<td class='sorting_2'> \
+		         			<span class='pd-l-5'>"+movtos[j].fechamov+"</span> \
+		         		</td> \
+		         		<td class=''> \
+		         			<span class='pd-l-5'>"+movtos[j].producto+"</span> \
+		         		</td> \
+		         		<td class='sorting_2'> \
+		         			<span class='pd-l-5'>"+movtos[j].cantidad+"</span> \
+		         		</td> \
+		         		<td class=''> \
+		         			<span class='pd-l-5'>"+movtos[j][elemento]+"</span> \
+		         		</td> \
+		         		<td class='sorting_2'> \
+		         			<span class='pd-l-5'>"+movtos[j][elemento1]+"</span> \
+		         		</td> \
+		         		<td class='"+clase2+"'> \
+		         			<span class='pd-l-5'>"+movtos[j][elemento2]+"</span> \
+		         		</td> \
+		         		<td class='sorting_2 "+clase3+"'> \
+		         			<span class='pd-l-5'>"+movtos[j][elemento3]+"</span> \
+		         		</td> \
+					 </tr>";
+
+					 if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
+			}
+			btnregresar = 1;
+		}else{
+			swal("Hubo un error","No se encontraron los datos, reportar a sistemas.","error");
+		}
+
+	});
 }
 
 function EliminaFila(fila){
@@ -960,6 +1065,11 @@ function DescargarPlantilla(){
 	}
 }
 
+function LimpiarInput(){
+	var fileInput = document.getElementById('files');
+	fileInput.value = "";	
+}
+
 
 function CancelaCarga(){
 	var fileInput = document.getElementById('files');
@@ -974,60 +1084,61 @@ function CancelaCarga(){
 	}else{
 		CargarLotes();	
 	}
-	
-												
-
 }
 
+function RegresarPagina(){
+	if(btnregresar == 0){
+		CancelaCarga();
+	}else if(btnregresar == 1){
+		$("#carga-movtos").removeClass("d-none");			
+     	$("#nivelmovtos").addClass("d-none");
+	}
+	btnregresar = 0; //Lo reseteamos
+}
+
+
 function MostrarElementos(cod){
-
-	//cat_actual = cod;
-
-	//if(cod != ""){
-		switch (cod) {
-			case "productos":
-				document.getElementById("campo_r1").innerHTML = "Codigo del Producto";
-				document.getElementById("campo_r2").innerHTML = "Nombre del Producto";
-				$("#t-Catalogos").removeClass('d-none');
-				$("#t-Catalogos tbody").children().remove();	
-				$("#campo_codigorfc").addClass('d-none');			
-				cat_actual = cod;
-				CargaElementos(1);		  		
-			    break;
-			case "clientesproveedores":
-				$("#campo_codigorfc").removeClass('d-none');
-				document.getElementById("campo_r1").innerHTML = "RFC";
-				document.getElementById("campo_r2").innerHTML = "Razon Social";				
-				$("#t-Catalogos").removeClass('d-none');
-				$("#t-Catalogos tbody").children().remove();	  
-				cat_actual = cod;
-			  	CargaElementos(2);
-			    break;
-			case "conceptos":
-				document.getElementById("campo_r1").innerHTML = "Codigo del Concepto";
-				document.getElementById("campo_r2").innerHTML = "Nombre del Concepto";
-				$("#campo_codigorfc").addClass('d-none');
-				$("#t-Catalogos").removeClass('d-none');
-				$("#t-Catalogos tbody").children().remove();	  				
-				cat_actual = cod;
-			  	CargaElementos(3);
-			    break;		    
-			case "sucursales":
-				document.getElementById("campo_r1").innerHTML = "Sucursal";
-				$("#campo_codigorfc").addClass('d-none');
-				$("#t-Catalogos").removeClass('d-none');
-				$("#t-Catalogos tbody").children().remove();	  				
-				cat_actual = cod;
-			  	CargaElementos(4);
-			    break;		
-			case "registrarelementos":
-				//cat_actual = "";
-				RegistrarElementos();
-			  	break;    
-	    }
-	//}else{
-		//swal("Seleccione plantilla","Debe seleccionar una plantilla.","error");
-	//}	
+	switch (cod) {
+		case "productos":
+			document.getElementById("campo_r1").innerHTML = "Codigo del Producto";
+			document.getElementById("campo_r2").innerHTML = "Nombre del Producto";
+			$("#t-Catalogos").removeClass('d-none');
+			$("#t-Catalogos tbody").children().remove();	
+			$("#campo_codigorfc").addClass('d-none');			
+			cat_actual = cod;
+			CargaElementos(1);		  		
+		    break;
+		case "clientesproveedores":
+			$("#campo_codigorfc").removeClass('d-none');
+			document.getElementById("campo_r1").innerHTML = "RFC";
+			document.getElementById("campo_r2").innerHTML = "Razon Social";				
+			$("#t-Catalogos").removeClass('d-none');
+			$("#t-Catalogos tbody").children().remove();	  
+			cat_actual = cod;
+		  	CargaElementos(2);
+		    break;
+		case "conceptos":
+			document.getElementById("campo_r1").innerHTML = "Codigo del Concepto";
+			document.getElementById("campo_r2").innerHTML = "Nombre del Concepto";
+			$("#campo_codigorfc").addClass('d-none');
+			$("#t-Catalogos").removeClass('d-none');
+			$("#t-Catalogos tbody").children().remove();	  				
+			cat_actual = cod;
+		  	CargaElementos(3);
+		    break;		    
+		case "sucursales":
+			document.getElementById("campo_r1").innerHTML = "Sucursal";
+			$("#campo_codigorfc").addClass('d-none');
+			$("#t-Catalogos").removeClass('d-none');
+			$("#t-Catalogos tbody").children().remove();	  				
+			cat_actual = cod;
+		  	CargaElementos(4);
+		    break;		
+		case "registrarelementos":
+			//cat_actual = "";
+			RegistrarElementos();
+		  	break;    
+    }	
 }
 
 function RegistrarElementos(){
@@ -1108,7 +1219,8 @@ function RegistrarElementos(){
 									
 			j = j + 1;
 		}
-		
+
+
 		if(bandera == true){			
 					
 			$.post(ws + "RegistrarElemento",{idempresa: idempresaglobal, tipo: cat_actual, datos: array}, function(Response){
@@ -1176,7 +1288,7 @@ function CargaElementos(tipoele){
 			mostrar = "clienprovreg";
 			elemento = "rfc";
 			elemento2 = "razonsocial";
-			elemento3 = "";
+			elemento3 = "codigocliprov";
 			break;
 		case 3:
 			mostrar = "conceptoreg";
@@ -1202,12 +1314,12 @@ function CargaElementos(tipoele){
 	         			<span class='pd-l-5'>"+(respuestacatalogos[0][x][elemento])+"</span> \
 	         		</td> \
 					<td class='"+(tipoele == 2 ? "" : "d-none")+"'> \
-						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
+						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' readonly='readonly' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
 					</td> \
 					<td class='sorting_2'> \
 						<input class='form-control wd-auto' id='txtcampo1_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
 					</td> \
-					<td id='td_nombre'> \
+					<td id='td_nombre' class='"+(tipoele != 4 ? "" : "d-none")+"'> \
 						<input class='form-control wd-auto' id='txtcampo2_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento2] != null ? respuestacatalogos[0][x][elemento2] : "")+"'></input> \
 					</td> \
 				</tr>";		
@@ -1215,23 +1327,23 @@ function CargaElementos(tipoele){
 	     		n = n + 1;
 	     		j = j + 1;
 	     		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }
-	     	}else if(coleccion.indexOf(respuestacatalogos[0][x][elemento2]) == -1  && respuestacatalogos[0][x][elemento] == "XAXX010101000"){ //para cuando es RFC GENERICO
+	     	}else if(coleccion.indexOf(respuestacatalogos[0][x][elemento3]) == -1  && respuestacatalogos[0][x][elemento] == "XAXX010101000"){ //para cuando es RFC GENERICO
 	     		document.getElementById("t-Catalogos").innerHTML +=
 	     		"<tr role='row' id='rowele_"+j+"' class='"+tClass+"' > \
 	         		<td class='sorting_2'> \
 	         			<span class='pd-l-5'>"+(respuestacatalogos[0][x][elemento])+"</span> \
 	         		</td> \
-					<td class='"+(tipoele == 2 ? "" : "d-none")+"'> \
-						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' style='text-transform:uppercase;' type='text' value=''> \
+					<td class=''> \
+						<input class='form-control wd-auto' id='txtcamporfc_"+j+"' readonly='readonly' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento3])+"'> \
 					</td> \
 					<td class='sorting_2'> \
 						<input class='form-control wd-auto' id='txtcampo1_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento])+"'> \
 					</td> \
-					<td id='td_nombre'> \
+					<td id='td_nombre' class='"+(tipoele != 4 ? "" : "d-none")+"'> \
 						<input class='form-control wd-auto' id='txtcampo2_"+j+"' style='text-transform:uppercase;' type='text' value='"+(respuestacatalogos[0][x][elemento2] != null ? respuestacatalogos[0][x][elemento2] : "")+"'></input> \
 					</td> \
 				</tr>";	
-				coleccion[n] = respuestacatalogos[0][x][elemento2];
+				coleccion[n] = respuestacatalogos[0][x][elemento3];
 				n = n + 1;
 				coleccion[n] = respuestacatalogos[0][x][elemento];
 	     		n = n + 1;
@@ -1247,16 +1359,16 @@ function CargaElementos(tipoele){
 
  	if(tipoele == 4){
 		$("#campo_r2").addClass('d-none');
-		$("#td_nombre").addClass('d-none'); 		
-		
+		//$("#td_nombre").addClass('d-none'); 		
+		$("#campo_codigorfc").addClass('d-none');
  	}else if(tipoele == 2){
 		$("#campo_r2").removeClass('d-none');
-		$("#td_nombre").removeClass('d-none');
+		//$("#td_nombre").removeClass('d-none');
  		$("#campo_codigorfc").removeClass('d-none');
  		
  	}else{
 		$("#campo_r2").removeClass('d-none');
-		$("#td_nombre").removeClass('d-none'); 		
+		//$("#td_nombre").removeClass('d-none'); 		
 		$("#campo_codigorfc").addClass('d-none');
 		
  	}
