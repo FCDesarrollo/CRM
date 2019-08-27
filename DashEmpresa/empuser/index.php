@@ -54,6 +54,7 @@ session_start();
     <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="../lib/highlightjs/github.css" rel="stylesheet">
     <link href="../lib/datatables/jquery.dataTables.css" rel="stylesheet">
+    <link href="../lib/datatables/jquery.dataTables.js" rel="stylesheet">
     <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
 
 
@@ -73,9 +74,7 @@ session_start();
     <link href="../lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
     <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
-    <link href="../lib/chartist/chartist.css" rel="stylesheet">
-    <link href="../lib/datatables/jquery.dataTables.css" rel="stylesheet">
-
+    <link href="../lib/chartist/chartist.css" rel="stylesheet"> 
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
@@ -93,6 +92,7 @@ session_start();
     
     <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
     <?php include("menulateral.php"); ?>
+    <?php include("../submenus/modal/subirArchivos.php"); ?>
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
