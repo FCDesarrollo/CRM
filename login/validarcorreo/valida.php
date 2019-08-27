@@ -40,13 +40,22 @@ $mail->CharSet = 'UTF-8';  // Configuramos el charset
 
 if($_POST){
 	$datos = $_POST;
-	if($datos['identificador'] != ""){
+	if(isset($datos['identificador'])){
 		CorreoValidacion();
-	}else if($datos['rpwd'] === "1" && $datos['correo'] != ""){
+	}else if(isset($datos['rpwd'])){
 		RestablecerContraseña();
-	/*}elseif($datos['destinatarios'] !=""){
-		EnviarLink($datos['destinatarios'], $datos['asunto'],$datos['mensaje']); */
-	}		
+	}else if(isset($datos['destinatarios'])){
+	 	CompartirLinks($datos['destinatarios'], $datos['mensaje']);
+	}
+
+
+	 // if($datos['identificador'] != ""){
+	 // 	CorreoValidacion();
+	 // }else if($datos['rpwd'] === "1" && $datos['correo'] != ""){
+	 // 	RestablecerContraseña();
+	 // }else if($datos['destinatarios'] !=""){
+	 // 	CompartirLinks($datos['destinatarios'], $datos['mensaje']);
+	 // }		
 }
 
 
@@ -88,6 +97,33 @@ function EnviarLink($destinatarios,$asunto,$mensaje){
 		return true;
 	} 
 
+}
+
+function CompartirLinks($destinatarios, $mensaje){
+
+	global $mail;
+	//Agregamos a todos los destinatarios
+	//$mail->addAddress($destinatarios);
+	$correos = explode(",", $destinatarios);
+	$cont = count($correos);	
+	for($i=0;$i < $cont; $i++){
+		$mail->addAddress($correos[$i]);
+	}
+
+
+	//Añadimos el asunto del mail
+	$mail->Subject = "Archivos Compartidos desde MiConsultorMX"; 
+
+	//Mensaje del email
+	$mensaje = nl2br($mensaje);
+	$mail->Body = '<div><b>¡Archivos Compartidos!</b></div><br>'.$mensaje;
+	
+	//comprobamos si el mail se envio correctamente y devolvemos la respuesta al servidor
+	if(!$mail->send()) {
+		return false;
+	} else {
+		return true;
+	} 
 }
 
 

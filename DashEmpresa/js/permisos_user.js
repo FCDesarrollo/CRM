@@ -489,7 +489,7 @@ function NotificacionesUser(idsubmenu, idusuario, idempresa){
    // });
 }
 
-function UpdatePermisoMod(permiso_modulo){0    
+function UpdatePermisoMod(permiso_modulo){    
     var permiso = permiso_modulo.value;
     var id = permiso_modulo.id;
     var x = id.length;

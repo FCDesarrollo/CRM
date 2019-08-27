@@ -103,7 +103,7 @@ session_start();
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
         <!-- Carga Nombre Empresa -->
         <a href="" class="nav-link nav-link-profile d-flex" style="align-items: center;" data-toggle="dropdown">
-          <span class="logged-name hidden-md-down" id="nEmpresa"></span>              
+          <span class="logged-name hidden-sm-down" id="nEmpresa"></span>              
         </a>            
 
       <!-- BOTON SEARCH  -->
@@ -118,7 +118,7 @@ session_start();
 
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown">       
+          <div class="dropdown d-none">       
 
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-email-outline tx-24"></i>
@@ -189,7 +189,7 @@ session_start();
               </div><!-- media-list -->
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
-          <div class="dropdown">
+          <div class="dropdown d-none">
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-bell-outline tx-24"></i>
               <!-- start: if statement -->
@@ -250,7 +250,7 @@ session_start();
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
 <!-- Carga Nombre Empresa -->
-              <span class="logged-name hidden-md-down" id="nUsuario"></span>
+              <span class="logged-name hidden-sm-down" id="nUsuario"></span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
@@ -267,7 +267,7 @@ session_start();
           </div><!-- dropdown -->
 
         </nav>
-        <div class="navicon-right">
+        <div class="navicon-right d-none">
           <a id="btnRightMenu" href="" class="pos-relative">
             <i class="icon ion-ios-chatboxes-outline"></i>
             <!-- start: if statement -->
@@ -697,9 +697,6 @@ session_start();
 
     <!-- NOTIFICACIONES MODAL -->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- datatable -->
-    <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />-->
 
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
@@ -713,6 +710,7 @@ session_start();
     <script src="../js/usuarios.js"></script>
     <script src="../js/submenus.js"></script>
     <script src="../js/empresa.js"></script>
+    <script src="../js/recepcionlotes.js"></script>
     
     <script>
            
