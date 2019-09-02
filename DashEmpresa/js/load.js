@@ -537,8 +537,8 @@ function cargarArchivos(){
     });
 
 }
-    return CorreosValidos;    
-}
+ //   return CorreosValidos;    
+//}
 
 // function AbrirPDF(RutaArchivo, Archivo){
 
