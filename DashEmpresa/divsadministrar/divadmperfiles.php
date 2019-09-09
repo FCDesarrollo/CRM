@@ -49,7 +49,4 @@ session_start();
             $('#loading').addClass('d-none');         
         });  
     }
-    
-
-    
 </script>
