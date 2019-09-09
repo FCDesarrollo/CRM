@@ -7,14 +7,15 @@
   }
 
 ?>
+<!--
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Twitter -->
+    
     <meta name="twitter:site" content="@themepixels">
     <meta name="twitter:creator" content="@themepixels">
     <meta name="twitter:card" content="summary_large_image">
@@ -22,7 +23,7 @@
     <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="twitter:image" content="http://themepixels.me/bracket/img/bracket-social.png">
 
-    <!-- Facebook -->
+    
     <meta property="og:url" content="http://themepixels.me/bracket">
     <meta property="og:title" content="Bracket">
     <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
@@ -33,10 +34,10 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="600">
 
-    <!-- Meta -->
+    
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
-    <!-- vendor css -->
+    
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="../lib/Ionicons/css/ionicons.css" rel="stylesheet">
     <link href="../lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
@@ -44,14 +45,14 @@
     <link href="../lib/highlightjs/github.css" rel="stylesheet">
     <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
 
-    <!-- Bracket CSS -->
+    
     <link rel="stylesheet" href="../css/bracket.css">
   </head>
 
-  <body>
+  <body>-->
 
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>bracket<span>]</span></a></div>
+    <!--<div class="br-logo"><a href=""><span>[</span>bracket<span>]</span></a></div>-->
     <!-- ########## END: LEFT PANEL ########## -->
 
     <div class="btn-group hidden-xs-down">
@@ -100,7 +101,7 @@
         <embed src="" type="application/pdf"  height="300px" width="100%" class="responsive">
       </div> 
 
-    <script src="../lib/jquery/jquery.js"></script>
+    <!--<script src="../lib/jquery/jquery.js"></script>
     <script src="../lib/popper.js/popper.js"></script>
     <script src="../lib/bootstrap/bootstrap.js"></script>
     <script src="../lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
@@ -133,4 +134,4 @@
       });
     </script>
   </body>
-</html>
+</html>-->
