@@ -141,7 +141,7 @@ function LeerArchivo(idusuario, idempresa){
 											         		document.getElementById("t-Movtos").innerHTML +=
 											         		"<tr id='row"+x+"' role='row' class='"+tClass+"' > \
 												         		<td class='sorting_2'> \
-												         			<span class='pd-l-5'>"+movtos[x].fecha+"M</span> \
+												         			<span class='pd-l-5'>"+movtos[x].fecha+"</span> \
 												         		</td> \
 												         		<td> \
 												         			<span class='pd-l-5'>"+movtos[x].nombreconcepto+"</span> \
