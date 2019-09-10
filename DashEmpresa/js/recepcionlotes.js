@@ -115,8 +115,8 @@ function LeerArchivo(idusuario, idempresa){
 		        											document.getElementById("col3").innerHTML = "Litros";
 		        											document.getElementById("col4").innerHTML = "Total";
 		        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
-		        											elemento1 = "litros";
-		        											elemento2 = "importe";
+		        											elemento1 = "cantidad";
+		        											elemento2 = "total";
 		        										}else if(tipodocto == 4){
 		        											document.getElementById("col3").innerHTML = "Cantidad";
 															document.getElementById("col4").innerHTML = "Unidad";
@@ -141,10 +141,10 @@ function LeerArchivo(idusuario, idempresa){
 											         		document.getElementById("t-Movtos").innerHTML +=
 											         		"<tr id='row"+x+"' role='row' class='"+tClass+"' > \
 												         		<td class='sorting_2'> \
-												         			<span class='pd-l-5'>"+movtos[x].fecha+"</span> \
+												         			<span class='pd-l-5'>"+movtos[x].fecha+"M</span> \
 												         		</td> \
 												         		<td> \
-												         			<span class='pd-l-5'>"+movtos[x].concepto+"</span> \
+												         			<span class='pd-l-5'>"+movtos[x].nombreconcepto+"</span> \
 												         		</td> \
 												         		<td class='sorting_2'> \
 												         			<span class='pd-l-5'>"+(movtos[x].idconce == 3 ? folioserie : movtos[x][elemento1])+"</span> \
@@ -186,7 +186,7 @@ function LeerArchivo(idusuario, idempresa){
 													conceptos = 0;
 													sucursales = 0;
 													for (j in respuestacatalogos[0]) {
-														if(respuestacatalogos[0][j].prodreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){
+														if(respuestacatalogos[0][j].productoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){
 															coleccion2[n2] = respuestacatalogos[0][j].codigoproducto;
 															productos = productos + 1;
 															n2 = n2 + 1;
@@ -324,9 +324,12 @@ function SubirArchivo(idusuario, idempresa){
 				ArrayDimencional[0] = doctos;
 				ArrayDimencional[1] = movimientos;
 
+				var arraydoctos = doctos;
+				var arraymovtos = movimientos;
+
 			   	if(doctos[0].fecha != "Vacio"){	
 				
-					var arraymovtos = movimientos;				
+					//var arraymovtos = movimientos;				
 			        //$.post(ws + "RegistrarLote",{idempresa: idempresa, idusuario: idusuario, tipodocto: doctos[0].idconce}, function(resp){
 						//var idlote = resp;				
 						
@@ -346,26 +349,26 @@ function SubirArchivo(idusuario, idempresa){
 				
 						        if($(celdas[4]).find("input")[0].value == "False"){
 						         	document.getElementById(idinput).value = "True";
-						         	var arraymovtos2 = arraymovtos;						         	
+						         	//var arraymovtos2 = arraymovtos;						         	
 									
-									for(m=0; m < ArrayDimencional[0].length; m++){
-										var Fec = ArrayDimencional[0][m]['fecha'];
+									for(m=0; m < arraydoctos.length; m++){
+										var Fec = arraydoctos[m]['fecha'];
 										Fec = Fec.split("-");
 										var fechag = Fec[0]+Fec[1]+Fec[2];
 
 										if(doctos[0].idconce == 3){											
-											var cod = fechag+doctos[0].idconce+ArrayDimencional[0][m]['folio'];
+											var cod = fechag+doctos[0].idconce+arraydoctos[m]['folio'];
 										}else if(doctos[0].idconce == 2){											
-											var cod = fechag+doctos[0].idconce+ArrayDimencional[0][m]['litros']+ArrayDimencional[0][m]['unidad'];
+											var cod = fechag+doctos[0].idconce+arraydoctos[m]['cantidad']+arraydoctos[m]['unidad'];
 										}else if(doctos[0].idconce == 4){
-											var cod = fechag+doctos[0].idconce+ArrayDimencional[0][m]['cantidad']+ArrayDimencional[0][m]['unidad']+ArrayDimencional[0][m]['precio'];
+											var cod = fechag+doctos[0].idconce+arraydoctos[m]['cantidad']+arraydoctos[m]['unidad']+arraydoctos[m]['total'];
 										}else if(doctos[0].idconce == 5){
-											var cod = fechag+doctos[0].idconce+ArrayDimencional[0][m]['cantidad']+ArrayDimencional[0][m]['unidad'];
+											var cod = fechag+doctos[0].idconce+arraydoctos[m]['cantidad']+arraydoctos[m]['unidad'];
 										}
 
-										if(cod == codigo && ArrayDimencional[0][m]['codigo'] == ""){
-											ArrayDimencional[0][m]['codigo'] = codigo;
-											ArrayDimencional[0][m]['span'] = idspan;											
+										if(cod == codigo && arraydoctos[m]['codigo'] == ""){
+											arraydoctos[m]['codigo'] = codigo;
+											arraydoctos[m]['span'] = idspan;											
 											break;							
 										}										
 										
@@ -375,7 +378,7 @@ function SubirArchivo(idusuario, idempresa){
 				
 							
 						     //RegistrarDoctos(idempresa, idusuario, codigo, idlote[0].id, doctos[0].idconce, ArrayDimencional, idspan);
-						     RegistrarDoctos(idempresa, idusuario, codigo, doctos[0].idconce, ArrayDimencional, idspan);
+						     RegistrarDoctos(idempresa, idusuario, codigo, doctos[0].idconce, arraydoctos, arraymovtos, idspan);
 
 						     fileInput.value = "";
 
@@ -399,9 +402,15 @@ function SubirArchivo(idusuario, idempresa){
 
 }
 
-function RegistrarDoctos(idempresa, idusuario, codigo, tipodocto, doctos, idspan){
+function RegistrarDoctos(idempresa, idusuario, codigo, tipodocto, doctos, movtos, idspan){
 
- 	$.post(ws + "RegistrarDoctos",{idempresa: idempresa, idusuario: idusuario, codigo: codigo, tipodocto: tipodocto, doctos: doctos, span: idspan}, function(data){
+//	var rfc = "EmpresaNueva";
+//	var usuario = "kiqearamburo@gmail.com";
+//	var password = "earamburo@2019";
+	
+
+ 	$.post(ws + "LoteCargado",{idempresa: idempresa, idusuario: idusuario, tipodocto: tipodocto, documentos: doctos, movimientos: movtos, span: idspan, conexion: 1}, function(data){
+//	$.post(ws + "LoteCargado",{rfcempresa: rfc, usuario: usuario, pwd: password, tipodocto: tipodocto, movimientos: movtos}, function(data){
       
         var $bandera = 0;
         
@@ -478,9 +487,12 @@ function Paginador(posicion){
 	         			<span class='pd-l-5'>"+nLotes[j].tipodet+"</span> \
 	         		</td> \
 	         		<td class=''> \
-	         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
+	         			<span class='pd-l-5'>"+nLotes[j].sucursal+"</span> \
 	         		</td> \
 	         		<td class='sorting_2'> \
+	         			<span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
+	         		</td> \
+	         		<td class=''> \
 	         			<span class='pd-l-5'>Procesados "+nLotes[j].procesados+" de "+nLotes[j].totalcargados+"</span> \
 	         		</td> \
                     <td class='dropdown text-center'> \
@@ -503,6 +515,7 @@ function Paginador(posicion){
 		var hijos = $('#paginador').find('a');
  		var flag = 0;
  		hijos.removeClass('current');
+ 		var child = element.children.length;
 		for(var j = 0; j < element.children.length; j++) {								
 				
 			if(j == (posicion-1)){					
@@ -516,19 +529,22 @@ function Paginador(posicion){
 
 		}		
 
+
 		if(posicion == 1){									
 			$("#datatable1_previous").addClass('disabled');
 			$("#datatable1_next").removeClass('disabled');
 			document.getElementById('datatable1_previous').onclick = null;
 			document.getElementById('datatable1_next').onclick = SiguientePag;
-
-		}else if(posicion > 1){
+		}else if((j + 1) == child){
 			$("#datatable1_previous").removeClass('disabled');
+			$("#datatable1_next").addClass('disabled');
+			document.getElementById('datatable1_next').onclick = null;
 			document.getElementById('datatable1_previous').onclick = AnteriorPag;
-			if((posicion-1) == j){
-				$("#datatable1_next").addClass('disabled');
-				document.getElementById('datatable1_next').onclick = null;
-			}
+		}else if((j + 1) < child && posicion > 1){
+			$("#datatable1_previous").removeClass('disabled');
+			$("#datatable1_next").removeClass('disabled');
+			document.getElementById('datatable1_previous').onclick = AnteriorPag;
+			document.getElementById('datatable1_next').onclick = SiguientePag;
 		}		
 
 		$("#loading").addClass("d-none");
@@ -549,6 +565,7 @@ function AnteriorPag(){
 	    }	
 	}	
 
+	console.log(posicion);
 	Paginador(posicion);
 }
 
@@ -564,6 +581,7 @@ function SiguientePag(){
         
 	    }	
 	}	
+	
 
 	Paginador(posicion);
 
@@ -587,6 +605,13 @@ function CargarLotes(){
 			var lotes_x_pag = 5;		
 			var paginas = Math.ceil(total_lotes / lotes_x_pag);
 			var active = "current";
+
+			if(paginas == 1){
+				$("#datatable1_next").addClass('disabled');
+				$("#datatable1_previous").addClass('disabled');
+				document.getElementById('datatable1_next').onclick = null;
+				document.getElementById('datatable1_previous').onclick = null;
+			}
 			
 			//Elimina paginador
 			var element = document.getElementById("paginador");
@@ -1280,7 +1305,7 @@ function CargaElementos(tipoele){
 
 	switch(tipoele){
 		case 1:
-			mostrar = "prodreg";
+			mostrar = "productoreg";
 			elemento = "codigoproducto";
 			elemento2 = "producto"; 
 			break;

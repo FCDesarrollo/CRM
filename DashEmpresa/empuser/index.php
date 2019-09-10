@@ -54,7 +54,7 @@ session_start();
     <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="../lib/highlightjs/github.css" rel="stylesheet">
     <link href="../lib/datatables/jquery.dataTables.css" rel="stylesheet">
-    <link href="../lib/datatables/jquery.dataTables.js" rel="stylesheet">
+    <!--<link href="../lib/datatables/jquery.dataTables.js" rel="stylesheet"> -->
     <link href="../lib/select2/css/select2.min.css" rel="stylesheet">
 
 
