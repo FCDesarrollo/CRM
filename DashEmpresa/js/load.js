@@ -157,14 +157,13 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
             break;
     }
 
-    ruta = "../../nextclouddata/admindublock/files/PruebaSincro/" + RFCEmpresa + "/" + modulo + "/" + menu + "/" + submenu + "/";
+    //ruta = "../../nextclouddata/admindublock/files/PruebaSincro/" + RFCEmpresa + "/" + modulo + "/" + menu + "/" + submenu + "/";
     //ruta = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
     //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"";
-
     $.ajax({
         url: '../submenus/leer_carpeta.php',
         type: 'POST',
-        data: { modulo: modulo, menu: menu, submenu: submenu, RFCEmpresa: RFCEmpresa },
+        data: { modulo: modulo, menu: menu, submenu: submenu, RFCEmpresa: RFCEmpresa, idsubmenu: idsubmenu },
         success: function(data) {
             var archivo = "";
             var nombrearchivo = "";
@@ -187,6 +186,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
                           <span id='span_" + nombrearchivo + "' class='pd-l-5'>" + array2[x].nombre + "</span></a> \
                         </td> \
                         <td class='hidden-xs-down'>" + array2[x].fecha + "</td> \
+                        <td class='hidden-xs-down'>" + array2[x].agente + "</td> \
                         <td class='dropdown'> \
                           <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
                           <div class='dropdown-menu dropdown-menu-right pd-10'> \

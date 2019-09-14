@@ -74,6 +74,7 @@
                 </th>
                 <th class="tx-10-force tx-mont tx-medium">Nombre</th>
                 <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha de modificación</th>
+                <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Agente</th>
                 <th class="wd-5p"></th>
               </tr>
             </thead>
