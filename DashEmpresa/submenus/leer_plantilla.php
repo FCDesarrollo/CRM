@@ -103,12 +103,13 @@
 							$total = $sheet->getCell("P".$row)->getCalculatedValue();
 												
 
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc ,"idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc ,"idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$TotalNeto = 0; 
 							$TotalDesc = 0;
 							$TotalIVA = 0;
 							$TotalDoc = 0;
+							$Cantidad = 0;
 
 							$foliotmp = $folio;
 							$fechatmp = $fecha;	
@@ -124,10 +125,12 @@
 									if(ValidarFolio($sheet->getCell("C".$numf)->getValue()) == true){
 										if($sheet->getCell("C".$numf)->getValue() == $foliotmp && $fechamov == $fechatmp && $sheet->getCell("A".$numf)->getValue() == $suctemp){
 
+											$Cantidad = $Cantidad + $sheet->getCell("L".$row)->getValue();
 											$TotalNeto = $TotalNeto + $sheet->getCell("M".$numf)->getValue();
 											$TotalDesc = $TotalDesc + $sheet->getCell("N".$numf)->getValue();
 											$TotalIVA = $TotalIVA + $sheet->getCell("O".$numf)->getCalculatedValue();
 											$TotalDoc = $TotalDoc + $sheet->getCell("P".$numf)->getCalculatedValue();
+											$movtos[$i]["cantidad"] = $Cantidad;
 											$movtos[$i]["subtotal"] = $TotalNeto;
 											$movtos[$i]["descuento"] = $TotalDesc;
 											$movtos[$i]["iva"] = $TotalIVA;
@@ -167,7 +170,7 @@
 							$horometros = $sheet->getCell("N".$row)->getValue();
 							$unidad = $sheet->getCell("O".$row)->getValue();										
 
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "almacen" => $almacen, "cantidad" => $litros, "total" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;							
 							
@@ -197,7 +200,7 @@
 							$unidad = $sheet->getCell("M".$row)->getValue();
 							$precio = $sheet->getCell("N".$row)->getValue();							
 							
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "total" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;
 						}else{
@@ -225,7 +228,7 @@
 							$cantidad = $sheet->getCell("L".$row)->getValue();
 							$unidad = $sheet->getCell("M".$row)->getValue();							
 							
-							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "factor" => $factor, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+							$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "almacen" => $almacen, "factor" => $factor, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 							$i = $i + 1;
 						}else{
@@ -272,7 +275,7 @@
 						$horometros = $sheet->getCell("N".$row)->getValue();
 						$unidad = $sheet->getCell("O".$row)->getValue();						
 
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "almacen" => $almacen, "litros" => $litros, "importe" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc);
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "almacen" => $almacen, "cantidad" => $litros, "total" => $importe, "kilometro" => $kilometros, "horometro" => $horometros, "unidad" => $unidad, "sucursal" => $suc);
 
 						$i = $i + 1; 						
 
@@ -301,7 +304,7 @@
 						$total = $sheet->getCell("P".$row)->getCalculatedValue();
 						
 
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "sucursal" => $suc);
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "folio" => $folio, "serie" => $serie, "cantidad" => $cantidad, "subtotal" => $subtotal, "descuento" => $descuento, "iva" => $iva, "total" => $total, "almacen" => "" , "unidad" => "" , "horometro" => "", "kilometro" => "", "sucursal" => $suc);
 
 						$i = $i + 1; 						
 
@@ -328,7 +331,7 @@
 						$unidad = $sheet->getCell("M".$row)->getValue();
 						$precio = $sheet->getCell("N".$row)->getValue();						
 						
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "precio" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "total" => $precio, "sucursal" => $suc, "idconce" => $idconce, "estatus" => "", "codigo" => "");
 
 						$i = $i + 1;
 					}else{
@@ -354,7 +357,7 @@
 						$unidad = $sheet->getCell("M".$row)->getValue();
 						
 
-						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "concepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "producto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc);
+						$movtos[$i] = array("fecha" => $fecha, "codigoconcepto" => $codigoconcepto, "nombreconcepto" => $concepto, "codigocliprov" => $codcliprov, "rfc" => $rfc, "razonsocial" => $razonsocial, "codigoproducto" => $codigoproducto, "nombreproducto" => $producto, "factor" => $factor, "almacen" => $almacen, "cantidad" => $cantidad, "unidad" => $unidad, "sucursal" => $suc);
 
 						$i = $i + 1; 					
 					}else{
