@@ -30,8 +30,9 @@
 		foreach($documentos as $value) {
 		$tipodoc=$value['tipodocumento'];
 		$car = (strtoupper($tipodoc)=='POLIZAS' ? '/relacion' : '/pdfs/relacion');
-		$complerut = strtoupper($tipodoc)."/".strtoupper($value['ejercicio']).
-					"/".strtoupper(nombremes($value['periodo'])).$car;
+		$complerut = strtoupper($tipodoc)."/".$value['ejercicio'].
+					"/".strtoupper(sprintf("%02d",$value['periodo'])).$car;
+					
 		//print_r($complerut);
 		$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo'];
 		$link = getlink($link);
