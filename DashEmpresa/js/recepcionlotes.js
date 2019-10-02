@@ -13,7 +13,7 @@ function ContinuarCarga(idusuario, idempresa){
 }
 
 function LeerArchivo(idusuario, idempresa){
-
+	//console.log(usuario.empresas());
     $('#loading').removeClass('d-none');
 
 	$("#t-Movtos tbody").children().remove();	
@@ -27,6 +27,9 @@ function LeerArchivo(idusuario, idempresa){
     var archivo = document.getElementById("files").files[0];
     var filePath = fileInput.value;
 	var allowedExtensions = /(.xlsm|.xlsm)$/i;
+
+	
+
     if(!allowedExtensions.exec(filePath)){
     	if(filePath == ''){            
             $('#loading').addClass('d-none');    		
@@ -285,6 +288,7 @@ function SubirArchivo(idusuario, idempresa){
     
     var movimientos;    
     
+
     var filePath = fileInput.value;    
 	var allowedExtensions = /(.xlsm|.xlsm)$/i;
     if(!allowedExtensions.exec(filePath)){
@@ -406,8 +410,8 @@ function RegistrarDoctos(idempresa, idusuario, codigo, tipodocto, doctos, movtos
 
 //	var rfc = "EmpresaNueva";
 //	var usuario = "kiqearamburo@gmail.com";
-//	var password = "earamburo@2019";
-	
+//	var password = "";
+
 
  	$.post(ws + "LoteCargado",{idempresa: idempresa, idusuario: idusuario, tipodocto: tipodocto, documentos: doctos, movimientos: movtos, span: idspan, conexion: 1}, function(data){
 //	$.post(ws + "LoteCargado",{rfcempresa: rfc, usuario: usuario, pwd: password, tipodocto: tipodocto, movimientos: movtos}, function(data){
@@ -1117,6 +1121,9 @@ function RegresarPagina(){
 	}else if(btnregresar == 1){
 		$("#carga-movtos").removeClass("d-none");			
      	$("#nivelmovtos").addClass("d-none");
+	}else if(btnregresar == 2){
+    	$("#ArchivosALM").addClass("d-none");		
+    	$("#expalm").removeClass("d-none");        	
 	}
 	btnregresar = 0; //Lo reseteamos
 }
@@ -1235,7 +1242,7 @@ function RegistrarElementos(){
 			
 			array[j][0] = campo1;
 			array[j][1] = campo2;
-			array[j][2] = tipodocto
+			array[j][2] = tipodocto;
 			array[j][3] = tipodoctodet;
 			array[j][4] = elemento;
 			if(cat_actual == "clientesproveedores"){

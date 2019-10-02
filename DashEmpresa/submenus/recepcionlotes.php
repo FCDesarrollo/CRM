@@ -106,33 +106,6 @@ session_start();
 			</div>
 			
 			<div id="datatable1_wrapper" class="dataTables_wrapper no-footer">
-				<!--<div class="dataTables_length" id="datatable1_length">
-					<label>
-						<select name="datatable1_length" aria-controls="datatable1" class="select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-							<option value="10">10</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
-							<option value="100">100</option>
-						</select>
-						Ultimos cargas:
-						<span class="select2 select2-container select2-container--default" dir="ltr" style="width: 48px;">
-							<span class="selection">
-								<span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-datatable1_length-0a-container">
-									<span class="select2-selection__rendered" id="select2-datatable1_length-0a-container" title="10">10</span>
-									<span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
-								</span>
-							</span>
-							<span class="dropdown-wrapper" aria-hidden="true"></span>
-						</span> items/page
-					</label>
-				</div> -->
-
-				<!--<div id="datatable1_filter" class="dataTables_filter">
-					Buscar:
-					<label>
-						<input type="search" class="" aria-controls="datatable1">
-					</label>
-				</div>		-->		
 
 				<table class="table display responsive nowrap dataTable no-footer dtr-inline" id="t-Bitacora">
 				    <thead>
@@ -150,9 +123,6 @@ session_start();
 				    <tbody></tbody>
 				</table>
 
-				<!--<div class="dataTables_info" id="datatable1_info" role="status" aria-live="polite">
-					Showing 1 to 10 of 57 entries
-				</div>-->
 				 <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
 				 	<a class="paginate_button previous disabled" href="#" aria-controls="datatable1" data-dt-idx="0" tabindex="0"  id="datatable1_previous">Atras</a>
 				 	<span id="paginador">

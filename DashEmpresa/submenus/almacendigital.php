@@ -24,7 +24,7 @@
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Noti_Autoridades)==0) ? 'disabled' : ''; ?> >Notificaciones de Autoridades</button>
 			</div>
 	        <div class="col-sm-6 mg-t-20 mg-sm-t-0">
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Expe_Digi)==0) ? 'disabled' : ''; ?>  onclick="CargaContenidoInbox(ModBandejaEntrada, MenuAlmacenDigital, SubExpedientesDigitales, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Expedientes Digitales</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Expe_Digi)==0) ? 'disabled' : ''; ?>  onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigital, SubExpedientesDigitales, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Expedientes Digitales</button>
 			</div>
 		</div>
 

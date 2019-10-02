@@ -83,7 +83,7 @@ session_start();
 
   </head>
 
-  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>')">
+  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>','<?php echo $_SESSION['pwd']; ?>')">
     
     <?php include("../../varglobales.php"); ?>
     <?php //include("PHPAltiria.php"); ?>
@@ -711,6 +711,10 @@ session_start();
     <script src="../js/submenus.js"></script>
     <script src="../js/empresa.js"></script>
     <script src="../js/recepcionlotes.js"></script>
+    <script src="../js/almacendigital.js"></script>
+
+    <!-- Clases -->
+    <script src="../class/usuario.js"></script>
     
     <script>
            

@@ -6,6 +6,9 @@ session_start();
     $_SESSION['idusuario'] = $_POST["idusuario"];
     $_SESSION['tipo'] = $_POST["tipo"];    
     $_SESSION['idempresalog'] = $_POST["idempresa"];
+    $_SESSION['pwd'] = $_POST["contra"];
+
+
     
     if($_SESSION['idempresalog'] != 0){
         $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;

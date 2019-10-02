@@ -29,8 +29,10 @@ const SubProcesoProduccion = 17;
 const SubProcesoCompras = 18;
 const SubProcesoVenta = 19;
 
+var datosuser;
 
-function CargaDatosEmpresa(idusuario, idempresalog){   
+
+function CargaDatosEmpresa(idusuario, idempresalog, pwd){   
         
     idempresaglobal = idempresalog; 
     idusuarioglobal = idusuario;
@@ -39,14 +41,23 @@ function CargaDatosEmpresa(idusuario, idempresalog){
         var usuario = JSON.parse(data).usuario;
         if(usuario.length>0){            
             document.getElementById('nUsuario').innerHTML = usuario[0].nombre;
+
+        $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data){
+            var empresa = JSON.parse(data).empresa;
+            if(empresa.length>0){            
+                document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
+
+                datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);    
+                
+                //console.log(usuario.ejemplo);            
+            }
+        }); 
+
         }
     });  
-    $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data){
-        var empresa = JSON.parse(data).empresa;
-        if(empresa.length>0){            
-            document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
-        }
-    });  
+ 
+
+
 
 }
 
@@ -302,11 +313,13 @@ function ValidaCorreos(correos){
         }
     }
 }
+
 function CargaContenidoInbox(idmodulo, idmenu, idsubmenu, RFCEmpresa){
   
+
     $('#loading').removeClass('d-none');
     if (idmodulo == 2) {
-        $('#divdinamico').load('../submenus/contenidosInbox2.php');
+        $('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
     } else if(idmodulo == 1){
         $('#divdinamico').load('../submenus/contenidos.php');
     }
@@ -473,86 +486,6 @@ function CargaContenidoInbox(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     }); 
 }
 
-function cerrarArchivos(){   
-    $('#selectRubros').find('option').remove();
-    document.getElementById("FormSubirArchivos").reset();  
-    $('#SubirArchivosInbox').modal('hide');
-}
-function SubirArchivos(){
-    cargarRubros("selectRubros"); 
-    $('#SubirArchivosInbox').modal('show')
-}
 
-function cargarRubros(nameSelec){    
-    selectPer = document.getElementById(nameSelec);
-    $.get(ws + "RubrosGen", function(data){
-        var rubros = JSON.parse(data).rubros;
-        for(var x in rubros)
-        {
-            option = document.createElement("option");
-            option.value = rubros[x].id;
-            option.text = rubros[x].nombre;
-            selectPer.appendChild(option);
-        }            
-    });
-}
-function cargarArchivos(){  
-    var nomArchivos = [];
-    var archivos = $('#archivos')[0].files;
-    var rfc = $('#txtRFC').val();        
-    var archivosList = new FormData();  
-    var contador = archivos.length;       
-    var idUsuario = document.getElementById("idUsuarioArch").value;
-    var observaciones = document.getElementById("comentarios").value;
-    var e = document.getElementById("selectRubros");
-    var idRubro = e.options[e.selectedIndex].value;
-    archivosList.append('file-0', rfc + '/Entrada/AlmacenDigital/ExpedientesDigitales/');
-    
-    jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
-        i++;      
-        archivosList.append('file-'+i, file);
-    });  
-    
-    jQuery.ajax({
-        url: '../submenus/cargarArchivos.php',
-        data: archivosList,
-        cache: false,
-        contentType: false,
-        processData: false,
-        type: 'POST',
-        dataType: 'json',
-        success: function(response){  
-            var len = response.length;  
-            if (response.length > 0) {
-                for(var i=0; i<len; i++){  
-                    nomArchivos.push({name: response[i].nombre});
-                }                  
-                $.post(ws + "CargaArchivos",{rfc: rfc,idUsuario:idUsuario,idRubro:idRubro,observaciones:observaciones,nomArchivos:nomArchivos}, function(response){  
-                    //$.post(ws + "CargaArchivos",{ people:people}, function(response){  
-                    alert(response);              
-                });
-            }
-                     
-        }
-    });
 
-}
- //   return CorreosValidos;    
-//}
-
-// function AbrirPDF(RutaArchivo, Archivo){
-
-//     //console.log(RutaArchivo);
-//     //console.log(Archivo);
-//     $.ajax({
-//          url: '../../cargapdf.php',
-//          type: 'POST',        
-//          data: {ruta: RutaArchivo, ArchivoPDF: Archivo},
-//          success:function(respuestaAjax){
-//             console.log(respuestaAjax);
-//             //document.getElementById("pdfvista").setAttribute("src", respuestaAjax);
-//          }
-//     });
-    
-// }
 

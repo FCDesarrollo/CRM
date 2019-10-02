@@ -101,6 +101,8 @@
 	<script src="js/main.js"></script>
 
 	<script src="../js/crearusuario.js"></script>	
+
+	<script src="../DashEmpresa/class/usuario.js"></script>
 </body>
 
 </html>
