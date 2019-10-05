@@ -1,6 +1,11 @@
 <?php  
 	Include ("../empuser/permisosuser.php");
 	$RFC = $_POST['RFCEmpresa'];
+	$datosserver = $_POST['datosserver'];
+	$server = $datosserver['server'];
+	$user = $datosserver['user_storage'];
+	$pass = $datosserver['pwd_storage'];
+
 	if(isset($_POST['modulo'])){
 		$modulo = $_POST['modulo'];
 		$menu = $_POST['menu'];
@@ -10,7 +15,7 @@
 		$tipodoc = "COMPROBANTES";
 		$sta = 1;
 
-		$ftp_server = "ftp.dublock.com";
+		/*$ftp_server = "ftp.dublock.com";
 		$conn_id = ftp_connect($ftp_server);
 		$sws = "http://apicrm.dublock.com/public/";
 		// login con usuario y contraseña
@@ -21,7 +26,7 @@
 
 		ftp_pasv($conn_id, true);
 	
-		if ($login_result===true){
+		if ($login_result===true){*/
 			
 			$datos = array("rfc" => $RFC, "idsubmenu" => $idsubmenu, "tipodocumento" => $tipodoc,"status" => $sta);
 			$resultado = CallAPI("POST", $sws ."archivosBitacora", $datos);
@@ -30,17 +35,18 @@
 			$findme = ".pdf";
 			foreach($documentos as $value) {
 				$tipodoc=$value['tipodocumento'];
-				$car = (strtoupper($tipodoc)=='POLIZAS' ? '/relacion' : '/pdfs/relacion');
+				$car = '/pdfs/relacion';
 				$complerut = strtoupper($tipodoc)."/".$value['ejercicio'].
 							"/".strtoupper(sprintf("%02d",$value['periodo'])).$car;
 							
 				//print_r($complerut);
-				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo'];
-				$link = getlink($link);
+				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'];
+				$link = getlink($link, $server, $user, $pass);
 				if ($link != "") {
-					$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/PruebaSincro/".$RFC.
-								"/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo']));	
-					$data[$x] = array("nombre" => $value['nombrearchivo'],"link" => $link,"fecha" => $fecha,"agente" => 'ADMINISTRADOR');		        
+					//$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/CRM/".$RFC.
+							//	"/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo']));
+							$fecha =date("d/m/y h:i:s", $value['fechamodificacion']);	
+					$data[$x] = array("nombre" => $value['nombrearchivoE'],"link" => $link,"fecha" => $fecha,"agente" => 'ADMINISTRADOR');		        
 					$x = $x + 1;
 				}
 			
@@ -77,22 +83,22 @@
 				$data[0] = array("nombre" => "Vacio","link" => "Vacio","fecha" => "Vacio", "agente" => "vacio");			
 			}
 
-			ftp_close($conn_id);
+			//ftp_close($conn_id);
 
 		    $conexion = true;
-		}else{
+		/*}else{
 		    $conexion = False;
 		    $data[0] = array("nombre" => "Vacio","link" => "Vacio","fecha" => "Vacio","agente" => "vacio");
-		}
+		}*/
 
 
 		return $data;
 	}else if(isset($_POST['archivos'])){
 		//$rfc = $_POST['RFCEmpresa'];
-		$datosserver = $_POST['datosserver'];
+		/*$datosserver = $_POST['datosserver'];
 		$server = $datosserver['server'];
 		$user = $datosserver['user_storage'];
-		$pass = $datosserver['pwd_storage'];
+		$pass = $datosserver['pwd_storage'];*/
 		for ($i=0; $i < count($_POST['archivos']); $i++) { 
 			$item = $_POST['archivos'][$i]['documento'];			
 			$link = $RFC."/Entrada/AlmacenDigital/ExpedientesDigitales/".$item;
