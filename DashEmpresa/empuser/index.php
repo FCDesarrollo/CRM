@@ -79,7 +79,7 @@ session_start();
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
 
-    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="../css/estilos.css"> 
 
   </head>
 

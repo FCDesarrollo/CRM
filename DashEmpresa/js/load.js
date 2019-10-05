@@ -49,6 +49,16 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd){
 
                 datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);    
                 
+                $.get(ws + "DatosStorage", {rfcempresa: empresa[0].RFC}, function(data){
+                    var datos = JSON.parse(data);                    
+                    datosuser.server = datos[0].server;                    
+                    datosuser.user_storage = datos[0].usuario_storage;
+                    datosuser.pwd_storage = datos[0].password_storage;                    
+                }); 
+                
+                //console.log(a);
+
+                //console.log(datosuser.server);
                 //console.log(usuario.ejemplo);            
             }
         }); 
