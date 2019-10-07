@@ -14,7 +14,7 @@
 		$idsubmenu = $_POST['idsubmenu'];
 		$tipodoc = "COMPROBANTES";
 		$sta = 1;
-
+		$sws = "http://apicrm.dublock.com/public/";
 		/*$ftp_server = "ftp.dublock.com";
 		$conn_id = ftp_connect($ftp_server);
 		$sws = "http://apicrm.dublock.com/public/";
@@ -27,30 +27,39 @@
 		ftp_pasv($conn_id, true);
 	
 		if ($login_result===true){*/
-			
 			$datos = array("rfc" => $RFC, "idsubmenu" => $idsubmenu, "tipodocumento" => $tipodoc,"status" => $sta);
 			$resultado = CallAPI("POST", $sws ."archivosBitacora", $datos);
-			$documentos = json_decode($resultado, true);
 			$x=0;
+			if(!empty($resultado)){
+			
+			$documentos = json_decode($resultado, true);
+			
 			$findme = ".pdf";
+			
 			foreach($documentos as $value) {
 				$tipodoc=$value['tipodocumento'];
 				$car = '/pdfs/relacion';
-				$complerut = strtoupper($tipodoc)."/".$value['ejercicio'].
+				$complerut = substr(strtoupper($tipodoc),0,3)."/".substr($value['ejercicio'],2,2).
 							"/".strtoupper(sprintf("%02d",$value['periodo'])).$car;
 							
 				//print_r($complerut);
 				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'];
+				//print_r($link);
 				$link = getlink($link, $server, $user, $pass);
+				//print_r($link);
 				if ($link != "") {
+					
 					//$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/CRM/".$RFC.
 							//	"/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo']));
-							$fecha =date("d/m/y h:i:s", $value['fechamodificacion']);	
-					$data[$x] = array("nombre" => $value['nombrearchivoE'],"link" => $link,"fecha" => $fecha,"agente" => 'ADMINISTRADOR');		        
+							$fecha =  substr($value['fechamodificacion'],0,10);	
+					$data[$x] = array("nombre" => $value['nombrearchivoE'],"link" => $link,"fecha" => $fecha,"agente" => $value['agente']);		        
+					//print_r($data[$x]);
 					$x = $x + 1;
+					
 				}
 			
-
+					
+			}
 		    /*$archivos = ftp_nlist($conn_id, "/PruebaSincro/".$RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut); //Devuelve un array con los nombres de ficheros
 
 				$lista=array_reverse($archivos); //Invierte orden del array (ordena array)
@@ -92,7 +101,7 @@
 		}*/
 
 
-		return $data;
+		echo json_encode($data);
 	}else if(isset($_POST['archivos'])){
 		//$rfc = $_POST['RFCEmpresa'];
 		/*$datosserver = $_POST['datosserver'];
