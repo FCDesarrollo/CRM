@@ -208,6 +208,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
                             <input type='checkbox' name='" + submenu + "' id='" + nombrearchivo + "'><span></span> \
                           </label> \
                         </td> \
+                        <td>" + array2[x].servicio + "</td> \
                         <td> \
                           <a id='link_" + nombrearchivo + "' href='" + array2[x].link + "' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
                           <span id='span_" + nombrearchivo + "' class='pd-l-5'>" + array2[x].nombre + "</span></a> \

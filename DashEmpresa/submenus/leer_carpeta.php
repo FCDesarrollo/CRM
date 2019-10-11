@@ -43,7 +43,7 @@
 							"/".strtoupper(sprintf("%02d",$value['periodo'])).$car;
 							
 				//print_r($complerut);
-				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'];
+				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'].$findme;
 				//print_r($link);
 				$link = getlink($link, $server, $user, $pass);
 				//print_r($link);
