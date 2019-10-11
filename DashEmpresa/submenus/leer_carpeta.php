@@ -52,7 +52,8 @@
 					//$fecha=date("d/m/y h:i:s", ftp_mdtm($conn_id, "/CRM/".$RFC.
 							//	"/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['archivo']));
 							$fecha =  substr($value['fechamodificacion'],0,10);	
-					$data[$x] = array("nombre" => $value['nombrearchivoE'],"link" => $link,"fecha" => $fecha,"agente" => $value['agente']);		        
+					$data[$x] = array("nombre" => $value['nombrearchivoE'],"link" => $link,
+									"fecha" => $fecha,"agente" => $value['agente'], "servicio" => $value['servicio']);		        
 					//print_r($data[$x]);
 					$x = $x + 1;
 					
