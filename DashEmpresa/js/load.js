@@ -32,9 +32,9 @@ const SubProcesoVenta = 19;
 var datosuser;
 
 
-function CargaDatosEmpresa(idusuario, idempresalog, pwd){   
-        
-    idempresaglobal = idempresalog; 
+function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
+
+    idempresaglobal = idempresalog;
     idusuarioglobal = idusuario;
 
     $.get(ws + "DatosUsuario/" + idusuario, function(data) {
@@ -42,30 +42,30 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd){
         if (usuario.length > 0) {
             document.getElementById('nUsuario').innerHTML = usuario[0].nombre;
 
-        $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data){
-            var empresa = JSON.parse(data).empresa;
-            if(empresa.length>0){            
-                document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
+            $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data) {
+                var empresa = JSON.parse(data).empresa;
+                if (empresa.length > 0) {
+                    document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
 
-                datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);    
-                
-                $.get(ws + "DatosStorage", {rfcempresa: empresa[0].RFC}, function(data){
-                    var datos = JSON.parse(data);                    
-                    datosuser.server = datos[0].server;                    
-                    datosuser.user_storage = datos[0].usuario_storage;
-                    datosuser.pwd_storage = datos[0].password_storage;                    
-                }); 
-                
-                //console.log(a);
+                    datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
 
-                //console.log(datosuser.server);
-                //console.log(usuario.ejemplo);            
-            }
-        }); 
+                    $.get(ws + "DatosStorage", { rfcempresa: empresa[0].RFC }, function(data) {
+                        var datos = JSON.parse(data);
+                        datosuser.server = datos[0].server;
+                        datosuser.user_storage = datos[0].usuario_storage;
+                        datosuser.pwd_storage = datos[0].password_storage;
+                    });
+
+                    //console.log(a);
+
+                    //console.log(datosuser.server);
+                    //console.log(usuario.ejemplo);            
+                }
+            });
 
         }
-     
- 
+
+
 
 
     });
@@ -180,13 +180,17 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
             break;
     }
 
+    var storage = new Object();
+    storage.server = datosuser.server;
+    storage.user_storage = datosuser.user_storage;
+    storage.pwd_storage = datosuser.pwd_storage;
     //ruta = "../../nextclouddata/admindublock/files/PruebaSincro/" + RFCEmpresa + "/" + modulo + "/" + menu + "/" + submenu + "/";
     //ruta = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
     //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"";
     $.ajax({
         url: '../submenus/leer_carpeta.php',
         type: 'POST',
-        data: { modulo: modulo, menu: menu, submenu: submenu, RFCEmpresa: RFCEmpresa, idsubmenu: idsubmenu },
+        data: { modulo: modulo, menu: menu, submenu: submenu, RFCEmpresa: RFCEmpresa, idsubmenu: idsubmenu, datosserver: storage },
         success: function(data) {
             var archivo = "";
             var nombrearchivo = "";
@@ -204,6 +208,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
                             <input type='checkbox' name='" + submenu + "' id='" + nombrearchivo + "'><span></span> \
                           </label> \
                         </td> \
+                        <td>" + array2[x].servicio + "</td> \
                         <td> \
                           <a id='link_" + nombrearchivo + "' href='" + array2[x].link + "' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
                           <span id='span_" + nombrearchivo + "' class='pd-l-5'>" + array2[x].nombre + "</span></a> \
@@ -326,13 +331,13 @@ function ValidaCorreos(correos) {
     }
 }
 
-function CargaContenidoInbox(idmodulo, idmenu, idsubmenu, RFCEmpresa){
-  
+function CargaContenidoInbox(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
+
 
     $('#loading').removeClass('d-none');
     if (idmodulo == 2) {
         $('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
-    } else if(idmodulo == 1){
+    } else if (idmodulo == 1) {
         $('#divdinamico').load('../submenus/contenidos.php');
     }
 
