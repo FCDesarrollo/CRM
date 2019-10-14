@@ -90,7 +90,7 @@ function DocumentosALM($idalm){
                                 </label> \
                             </td> \
                             <td>"+respuesta[i].documento+"</td> \
-                            <td>"+(respuesta[i].estatus == 1 ? "¡Procesado!" : "¡No Procesado!")+"</td> \
+                            <td>"+respuesta[i].agente+"</td> \
                             <td>"+(respuesta[i].fechaprocesado == null ? "YYYY-MM-DD" : respuesta[i].fechaprocesado)+"</td> \
                             <td> \
                               <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
@@ -99,7 +99,7 @@ function DocumentosALM($idalm){
                                   <a href='"+respuesta[i].link+"' target='_blank' class='nav-link'>Ver</a> \
                                   <a href='"+respuesta[i].link+"/download' target='_blank' class='nav-link'>Descargar</a> \
                                   <a href='#' onclick='CompartirArchivoALM("+respuesta[i].id+")' class='nav-link'>Compartir</a> \
-                                  <a href='#' onclick='EliminarArchivoALM("+respuesta[i].id+")' class='nav-link'>Eliminar</a> \
+                                  <a href='#' onclick='EliminarArchivoALM("+respuesta[i].id+","+respuesta[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
                                 </nav> \
                               </div> \
                             </td> \
@@ -110,6 +110,9 @@ function DocumentosALM($idalm){
                     btnregresar = 2;
                 }
             });
+        }else{
+            $('#loading').addClass('d-none');
+            btnregresar = 2;
         }        
 
     });
@@ -126,6 +129,71 @@ function DownFileAlm(){
 
 }
 
+function EliminarArchivoALM(idarchivo, idalmacen, link){
+    var objeto = new Object();
+    objeto.rfcempresa = datosuser.rfcempresa;
+    objeto.usuario = datosuser.usuario;
+    objeto.pwd = datosuser.pwd;
+    objeto.idarchivo = idarchivo;
+    objeto.idalmacen = idalmacen;
+
+    swal("¿Estas seguro de deseas eliminar el archivo?", {
+      buttons: {
+        Continuar: "Continuar",
+        cancel: "Cancelar",    
+      },
+    })
+    .then((value) => {
+      switch (value) { 
+        case "Cancelar":          
+          break;
+        case "Continuar":
+             $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
+                var respuesta = JSON.parse(data);
+                if(respuesta["error"] == 0){
+                    if(respuesta["eliminado"] == 0){
+
+                        var parametros = {
+                            "rfcempresa" : datosuser.rfcempresa,
+                            "archivo" : respuesta["archivo"]
+                        };
+                        $.ajax({
+                                data:  parametros, //datos que se envian a traves de ajax
+                                url:   '../submenus/EliminarArchivos_Storage.php', //archivo que recibe la peticion
+                                type:  'post', //método de envio
+                                beforeSend: function () {
+                                        //$("#resultado").html("Procesando, espere por favor...");
+                                },
+                                success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                                    swal("El archivo fue eliminado correctamente", {
+                                      icon: "success",
+                                    })
+                                    .then((value) => {
+                                      switch (respuesta["totalregistros"]) {                     
+                                        case 0:
+                                          ExpDigitales(modulo, menu, submenu, datosuser.rfcempresa);
+                                          break;                     
+                                        default:
+                                          DocumentosALM(idalmacen);
+                                      }
+                                    });                                          
+                                }
+                        });                        
+                        
+                    }else{
+                        swal("¡Error!","El archivo ya ha sido procesado y no puede ser eliminado.","error");
+                    }                                     
+                }else{
+                    swal("¡Error!","Hubo un error al intentar eliminar el archivo.","error");
+                }
+            });
+            break;
+      }
+    });    
+    
+
+}
+
 function cerrarArchivos(){   
     $('#selectRubros').find('option').remove();
     document.getElementById("FormSubirArchivos").reset();  
@@ -135,11 +203,46 @@ function SubirArchivos(){
     $('#selectRubros option').remove();
     $('#selectSucursales option').remove();
     document.getElementById("comentarios").value = "";
-    document.getElementById("datepicker").value = "";    
+    document.getElementById("datepicker").value = ""; 
+    document.getElementById("numero_archivos").innerHTML = 0;
     cargarRubros("selectRubros");
-    cargarSucursales("selectSucursales");
+    cargarSucursales("selectSucursales");    
     $('#SubirArchivosInbox').modal('show');
 }
+
+function CountArc(){
+    var archivos = $('#archivos')[0].files;
+    document.getElementById("numero_archivos").innerHTML = archivos.length;
+
+}
+
+
+$("#numero_archivos").click(function(evento){
+
+    var contenido = "";
+    $('[rel=popover]').popover({
+        title: "Expedientes Digitales",
+        html: true,
+        content: function () {
+            var contenido = "";
+            var j = 0;
+            jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
+                i++;                
+                contenido = contenido + file["name"] + '<br />';               
+                j = j + 1;
+            });    
+            if(j > 0){
+                return contenido;    
+            }else{
+                contenido = "No hay archivos seleccionados."
+                return contenido;
+            }   
+        }
+    });     
+
+    
+}); 
+
 
 function cargarRubros(nameSelec){    
     selectPer = document.getElementById(nameSelec);
@@ -184,14 +287,7 @@ function Calendario()
 }
 
 $("#datepicker").mouseenter(function(evento){
-
     Calendario();
-    /*document.getElementById('ui-datepicker-div').style.setProperty('position', 'fixed');
-    document.getElementById('ui-datepicker-div').style.setProperty('display', 'flex');
-    document.getElementById('ui-datepicker-div').style.setProperty('top', '244.4px');
-    document.getElementById('ui-datepicker-div').style.setProperty('left', '537.733px');*/
-    //document.getElementById('ui-datepicker-div').style.setProperty('z-index', '9999', 'important');
-    //Calendario();
 }); 
 
 function cargarArchivos(){  
@@ -227,45 +323,67 @@ function cargarArchivos(){
                     archivosList.append('file-0', rfc + '/Entrada/AlmacenDigital/ExpedientesDigitales/');   
                     var j = 0;
                     jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
-                        i++;      
-                        archivosList.append('file-'+i, file);
-                        datos.archivos[j] = file["name"];
+                        i++;
+                        datos.archivos[j] = file["name"];                        
                         j=j+1;
-                        //console.log(file["name"]);
-                    });      
+                        
+                    });
 
                     $('#SubirArchivosInbox').modal('hide');
                     $("#loading").removeClass('d-none');
-                    //console.log(datos);
+                    j=1;
 
                     //Carga los registros
                     $.post(ws + "AlmCargaArchivos", {datos}, function(response){  
-                        var respuesta = JSON.parse(response);
-                        
+                        var respuesta = JSON.parse(response);                        
                         if(respuesta.error == 0){
+                            jQuery.each(jQuery('#archivos')[0].files, function(k, file) {  
+                                k++;
+                                for (var i = 0; i < respuesta["archivos"].length; i++) {
+                                    //console.log(file["name"]);
+                                    if(file["name"] == respuesta["archivos"][i]["archivo"] && respuesta["archivos"][i]["status"] == 0){
+                                        archivosList.append('file-'+j, file);                                        
+                                        archivosList.append('archivo-'+j, respuesta["archivos"][i]["codigo"]);
+                                        j=j+1;                                    
+                                    }                                                                        
+                                }                                
+                            });   
+                            if(j > 1){                                
+                                jQuery.ajax({ //ajax para cargar archivos a la nube
+                                    url: '../submenus/cargarArchivos.php',
+                                    data: archivosList,
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    success: function(response){  
+                                        var resp = response;  
+                                        if (response.length > 0) {                        
+                                            
+                                            //swal("Carga Correcta","Archivos cargados correctamente","success");
+                                            ImprimeDetalle(respuesta["archivos"]); 
 
-                            jQuery.ajax({ //ajax para cargar archivos a la nube
-                                url: '../submenus/cargarArchivos.php',
-                                data: archivosList,
-                                cache: false,
-                                contentType: false,
-                                processData: false,
-                                type: 'POST',
-                                dataType: 'json',
-                                success: function(response){  
-                                    var len = response.length;  
-                                    if (response.length > 0) {                        
-                                        $("#loading").addClass('d-none');
-
-                                        swal("Carga Correcta","Archivos cargados correctamente","success");
-
-                                        ExpDigitales(modulo, menu, submenu, rfc);
-                                    }else{
-                                        $('#SubirArchivosInbox').modal('show');
+                                            $("#loading").addClass('d-none');
+                                            
+                                            swal("Expedientes Digitales Cargados Correctamente.", { 
+                                                icon: "success",
+                                                buttons: false,
+                                                timer: 3000,
+                                            });                                            
+                                            
+                                            //ExpDigitales(modulo, menu, submenu, rfc);
+                                        }else{
+                                            $("#loading").addClass('d-none');
+                                            $('#SubirArchivosInbox').modal('show');
+                                            swal("¡Hubo un error!","Error al momento de subir los archivos, comunicarse a sistemas.","error");
+                                        }                                                 
                                     }
-                                             
-                                }
-                            }); 
+                                }); 
+                            }else{
+                                $("#loading").addClass('d-none');
+                                swal("Archivos(s) no se pueden cargar.","El archivo que intenta subir, ya existe, si desea reemplazar, debera eliminarlo primero.","info");
+                            }
                         }else{
                             if(respuesta.error == 1){
                                 swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
@@ -279,9 +397,7 @@ function cargarArchivos(){
                                 swal("¡Hubo un error!", "Existe elementos en el catalogo que no han sido dados de alta en el sistema","info");                
                             }
                         }
-
-                    });                     
-
+                    });  
                 }else{
                     swal("¡Sucursal!", "Seleccione una sucursal.","info");
                 }
@@ -294,8 +410,40 @@ function cargarArchivos(){
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
     }
+}
+
+function ImprimeDetalle(arcDetalle){
+    var mensaje = "";
+    var detalle = "";
+
+    $("#expalm").addClass('d-none');
+    $("#DivArchivoDetalle").removeClass('d-none');
+    $("#t-ArchivoDetalle tbody").children().remove(); 
+    
+
+    for (var i = 0; i < arcDetalle.length; i++) {
+        if(arcDetalle[i].status == 0){
+            cargado = "Si";
+            detalle = "Cargado Correctamente.";
+        }else if(arcDetalle[i].status == 1){
+            cargado = "No";
+            detalle = "El archivo ya existe.";
+        }else if(arcDetalle[i].status == 2){
+            cargado = "No";
+            detalle = "Nombre del archivo no valido.";
+        }
 
 
+        document.getElementById("t-ArchivoDetalle").innerHTML +=
+        "<tr> \
+            <td>"+arcDetalle[i].archivo+"</td> \
+            <td>"+cargado+"</td> \
+            <td>"+detalle+"</td> \
+        </tr>";            
+
+    }
+
+    btnregresar = 2;
 
 }
 

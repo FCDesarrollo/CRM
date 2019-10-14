@@ -94,10 +94,12 @@
 		$user = $datosserver['user_storage'];
 		$pass = $datosserver['pwd_storage'];
 		for ($i=0; $i < count($_POST['archivos']); $i++) { 
-			$item = $_POST['archivos'][$i]['documento'];			
-			$link = $RFC."/Entrada/AlmacenDigital/ExpedientesDigitales/".$item;
+			$item = $_POST['archivos'][$i]['documento'];	
+			$type = explode(".", $item);		
+			$documento = $_POST['archivos'][$i]['codigodocumento'].".".$type[1];
+			$link = $RFC."/Entrada/AlmacenDigital/ExpedientesDigitales/".$documento;
 			$link = getlink($link, $server, $user, $pass);		
-			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);
+			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "idalmdigital" => $_POST['archivos'][$i]['idalmdigital'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);
 		}
 		echo json_encode($array);
 		//print_r($array);

@@ -3022,7 +3022,7 @@ tbody.collapse.show {
   border-radius: 3px;
 }
 .custom-file-control:lang(en):empty::after {
-  content: "Choose file...";
+  content: "Seleccionar...";
 }
 .custom-file-control::before {
   position: absolute;
@@ -3040,7 +3040,7 @@ tbody.collapse.show {
   border-radius: 0 3px 3px 0;
 }
 .custom-file-control:lang(en)::before {
-  content: "Browse";
+  content: "Buscar";
 }
 
 .nav {

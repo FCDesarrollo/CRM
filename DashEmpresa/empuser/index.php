@@ -78,10 +78,9 @@ session_start();
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
-
     <link rel="stylesheet" href="../css/estilos.css"> 
 
-  </head>
+  </head> 
 
   <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>','<?php echo $_SESSION['pwd']; ?>')">
     
@@ -712,6 +711,7 @@ session_start();
     <script src="../js/empresa.js"></script>
     <script src="../js/recepcionlotes.js"></script>
     <script src="../js/almacendigital.js"></script>
+    <script src="../js/FiltroAvanzado.js"></script>
 
     <!-- Clases -->
     <script src="../class/usuario.js"></script>

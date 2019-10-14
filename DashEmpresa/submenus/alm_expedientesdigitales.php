@@ -5,7 +5,7 @@
     echo "<script> window.location='../../../../usuario.php' </script>";
         exit(); 
   }
-
+  include("modal/FiltroAvanzado.php");
 ?>
 
 <!--<div class="btn-group hidden-xs-down">-->
@@ -14,11 +14,21 @@
 <div class="br-pagebody pd-x-0">
     
   <div id="expalm"> <!--Expediente Almacen-->
-    <div class="btn-group pd-b-20">
+    
           <!--<a href="#" class="btn btn-outline-info" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
           <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>-->
-          <a href="#" class="btn btn-outline-info" onclick="SubirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')"><i class="fa fa-plus-circle mg-r-10"></i>Nuevo</a>
-
+      <div class="row">
+        <div class="col-6">
+          
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+          <div class="btn-group pd-b-20">
+            <a href="#" class="btn btn-outline-info mg-r-5" onclick="SubirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')"><i class="fa fa-plus-circle mg-r-10"></i>Nuevo</a>              
+          </div>
+          <div class="btn-group pd-b-20">
+            <a href="#" class="btn btn-outline-info mg-r-5" onclick="FiltroAvanzado('ExpedientesDigitales')"><i class="icon ion-funnel mg-r-10"></i>Filtro</a>              
+          </div>              
+        </div>
     </div>     
     <div class="card bd-0 shadow-base">
       <table class="mg-b-0 display table table-bordered" cellspacing="0" id="t-ExpDigitales">
@@ -40,19 +50,45 @@
       </table>
     </div>
 
-    <div id="datatable1_wrapper" class="dataTables_wrapper no-footer pd-t-10">
-      <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
-        <a class="paginate_button previous disabled" href="#" aria-controls="datatable1" data-dt-idx="0" tabindex="0"  id="datatable1_previous">Atras</a>
-        <span id="paginador">
-          <!--<a href="" class="paginate_button current" aria-controls="datatable1" data-dt-idx="1" tabindex="0">1</a>
-          <a class="paginate_button " aria-controls="datatable1" data-dt-idx="2" tabindex="0">2</a>
-          <a class="paginate_button " aria-controls="datatable1" data-dt-idx="3" tabindex="0">3</a>-->
-        </span>
-        <a class="paginate_button next" href="#" aria-controls="datatable1" data-dt-idx="7" tabindex="0" onclick="SiguientePag()" id="datatable1_next">Siguiente</a>
-      </div>  
+    <div class="dataTables_wrapper no-footer">
+        <?php
+          include("paginador.php");
+        ?>
     </div>
+
+
   </div>
 
+  <div id="DivArchivoDetalle" class="d-none">
+    <div class="row pd-b-15">
+      <div class="col-1 d-flex justify-content-center">
+        <a href="#" onclick="RegresarPagina()" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+          <div>
+            <i class="fa fa-arrow-left"></i>
+          </div>
+        </a>
+      </div>
+      <div class="col-11 d-flex align-items-center">
+        <h6 class="tx-gray-800 tx-uppercase tx-bold tx-18 mt-11">
+          Resumen detallado de la carga de expedientes digitales.
+        </h6>
+      </div>
+    </div>     
+    <div class="card bd-0 shadow-base">
+      <table class="table mg-b-0" id="t-ArchivoDetalle">
+        <thead>
+          <tr>              
+            <th class="tx-10-force tx-mont tx-medium">Archivo</th>
+            <th class="tx-10-force tx-mont tx-medium">Cargado</th>
+            <th class="tx-10-force tx-mont tx-medium">Detalle</th>              
+          </tr>
+        </thead>
+         <tbody>
+
+        </tbody> 
+        </table>  
+    </div>
+  </div>
 
  
   <div id="ArchivosALM" class="d-none">
@@ -86,7 +122,7 @@
             <tr>
               <th class="wd-5p"></th>
               <th class="tx-10-force tx-mont tx-medium">Archivo (s)</th>
-              <th class="tx-10-force tx-mont tx-medium">Estatus</th>
+              <th class="tx-10-force tx-mont tx-medium">Agente</th>
               <th class="tx-10-force tx-mont tx-medium">Fecha Procesado</th>
               <th class="wd-5p"></th>
             </tr>
@@ -95,6 +131,7 @@
 
           </tbody> 
         </table>
+
     </div>
     <div class="row justify-content-end">
         
