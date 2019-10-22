@@ -1,35 +1,4 @@
-//Constantes para los modulos
-const ModContabilidad = 1;
-const ModBandejaEntrada = 2;
-//Constantes para los menus
-const MenuContabilidad = 1;
-const MenuProcesoFiscal = 2;
-const MenuFinanzas = 3;
-const MenuCompras = 4;
-const MenuAlmacenDigital = 5;
-const MenuRecepcionLotes = 6;
-//Constantes para los submenus
-const SubEstadosFinancieros = 1;
-const SubContabilidadElectronica = 2;
-const SubExpedientesAdmin = 3;
-const SubExpedientesContables = 4;
-const SubPagosProvicionales = 5;
-const SubPagosMensuales = 6;
-const SubDeclaracionesAnuales = 7;
-const SubExpedientesFiscales = 8;
-const SubIndicadoresFinancieros = 9;
-const SubAsesorFlujoEfectivo = 10;
-const SubAnalisisProyecto = 11;
-const SubRequerimientos = 12;
-const SubAutorizaciones = 13;
-const SubRecepcionCompras = 14;
-const SubNotificacionesAutoridades = 15;
-const SubExpedientesDigitales = 16;
-const SubProcesoProduccion = 17;
-const SubProcesoCompras = 18;
-const SubProcesoVenta = 19;
 
-var datosuser;
 
 
 function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
@@ -40,8 +9,11 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
     $.get(ws + "DatosUsuario/" + idusuario, function(data) {
         var usuario = JSON.parse(data).usuario;
         if (usuario.length > 0) {
+
             document.getElementById('nUsuario').innerHTML = usuario[0].nombre;
 
+            tipousuarioglobal = usuario[0].tipo;
+     
             $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data) {
                 var empresa = JSON.parse(data).empresa;
                 if (empresa.length > 0) {
@@ -55,31 +27,24 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
                         datosuser.user_storage = datos[0].usuario_storage;
                         datosuser.pwd_storage = datos[0].password_storage;
                     });
-
-                    //console.log(a);
-
-                    //console.log(datosuser.server);
-                    //console.log(usuario.ejemplo);            
+     
                 }
             });
-
         }
 
-
-
-
     });
-
 
 }
 
 
 function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
 
+    URL_Asigna_SubM(idsubmenu);
+
     $('#loading').removeClass('d-none');
     if (idmodulo == 2) {
         $('#divdinamico').load('../submenus/contenidosInbox2.php');
-    } else if (idmodulo == 1) {
+    }else if (idmodulo == 1) {
         $('#divdinamico').load('../submenus/contenidos.php');
     }
 
@@ -187,6 +152,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
     //ruta = "../../nextclouddata/admindublock/files/PruebaSincro/" + RFCEmpresa + "/" + modulo + "/" + menu + "/" + submenu + "/";
     //ruta = "../../../nextclouddata/admindublock/files/PruebaSincro/"+RFCEmpresa+"/"+modulo+"/"+menu+"/"+submenu+"/";
     //ruta = "../archivospdf/"+RFCEmpresa+"/"+submenu+"";
+    
     $.ajax({
         url: '../submenus/leer_carpeta.php',
         type: 'POST',

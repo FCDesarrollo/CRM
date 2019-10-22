@@ -30,7 +30,7 @@
           </div>              
         </div>
     </div>     
-    <div class="card bd-0 shadow-base">
+    <div class="card bd-0 shadow-base mg-b-15">
       <table class="mg-b-0 display table table-bordered" cellspacing="0" id="t-ExpDigitales">
         <thead>
           <tr>

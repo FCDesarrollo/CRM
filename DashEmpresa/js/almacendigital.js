@@ -1,10 +1,21 @@
 var modulo;
 var menu;
 var submenu;
+
+$("body").on('DOMSubtreeModified', "#divdinamico", function() {
+    //console.log(idsubmenuglobal);
+});
+
+
+
 function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     modulo = idmodulo;
     menu = idmenu;
     submenu = idsubmenu;
+
+    URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
+    
+
 	$('#loading').removeClass('d-none');
 
 	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
@@ -16,7 +27,10 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
         var datos = JSON.parse(data);
         
         if(datos.length > 0){            
-            for (var i = 0; i < (datos.length > 5 ? 5 : datos.length); i++) {
+
+            LlenaPaginador(datos.length, datos, "t-ExpDigitales");
+
+            for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
         
                 document.getElementById("t-ExpDigitales").innerHTML +=
                 "<tr> \
@@ -45,6 +59,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                       <span class='pd-l-5'>No hay archivos disponibles</span> \
                     </td> \
                 </tr>";
+            $('#datatable1_paginate').addClass('d-none');            
             $('#loading').addClass('d-none');   
         }
         
@@ -246,8 +261,9 @@ $("#numero_archivos").click(function(evento){
 
 function cargarRubros(nameSelec){    
     selectPer = document.getElementById(nameSelec);
-    $.get(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa}, function(data){
+    $.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
         var rubros = JSON.parse(data).rubros;
+        console.log(rubros);
         for(var x in rubros)
         {
             option = document.createElement("option");
@@ -260,8 +276,9 @@ function cargarRubros(nameSelec){
 
 function cargarSucursales(nameSelec){    
     selectsuc = document.getElementById(nameSelec);
-    $.get(ws + "CatSucursales", {rfcempresa: datosuser.rfcempresa},function(data){
-        var sucursales = JSON.parse(data).sucursales;
+    $.post(ws + "CatSucursales", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd},function(resp){
+        var sucursales = JSON.parse(resp).sucursales;
+        
         for(var x in sucursales){
             option = document.createElement("option");
             option.value = sucursales[x].idsucursal;
@@ -277,7 +294,7 @@ function Calendario()
       showOtherMonths: true,
       selectOtherMonths: true,
       numberOfMonths: 1,
-      dateFormat: 'dd/mm/yy',
+      dateFormat: 'yy-mm-dd',
       dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     });
@@ -306,7 +323,7 @@ function cargarArchivos(){
     var sucursal = s.options[s.selectedIndex].text;
 
     if(contador > 0){
-        if(ValidaFecha(fechadocto) == true){
+        //if(ValidaFecha(fechadocto) == true){
             if(Rubro != ""){
                 if(sucursal != ""){
 
@@ -404,9 +421,9 @@ function cargarArchivos(){
             }else{
                 swal("¡Rubro!", "Seleccione un rubro.","info");
             }
-        }else{
-            swal("¡Fecha del Documento!", "La fecha es incorrecta.","info");
-        }
+        //}else{
+        //    swal("¡Fecha del Documento!", "La fecha es incorrecta.","info");
+        //}
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
     }
@@ -461,10 +478,10 @@ function ValidaFecha(fecha) {
 }
 
 function ExisteFecha(fecha){
-      var fechaf = fecha.split("/");
-      var day = fechaf[0];
+      var fechaf = fecha.split("-");
+      var day = fechaf[2];
       var month = fechaf[1];
-      var year = fechaf[2];
+      var year = fechaf[0];
       var date = new Date(year,month,'0');
       if((day-0)>(date.getDate()-0)){
             return false;

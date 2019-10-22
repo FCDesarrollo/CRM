@@ -28,9 +28,15 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Contabilidad)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/contabilidad.php')">Contabilidad</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Fiscal)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/procesofiscal.php')">Cumplimiento Fiscal</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Finanzas)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/finanzas.php')">Finanzas</a></li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Contabilidad)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/contabilidad.php',<?= Mod_IncloudCon ?>, <?= Men_Contabilidad ?>, 0)">Contabilidad</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Fiscal)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/procesofiscal.php',<?= Mod_IncloudCon ?>, <?= Men_Fiscal ?>, 0)">Cumplimiento Fiscal</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Finanzas)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/finanzas.php',<?= Mod_IncloudCon ?>, <?= Men_Finanzas ?>, 0)">Finanzas</a>
+          </li>
         </ul>
         <a href="#" <?= ($perMod->Mod_Permiso(Mod_InboxBandeja)==0) ? 'style=pointer-events:none' : ''; ?> class="br-menu-link">
           <div class="br-menu-item">
@@ -40,9 +46,15 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Compras)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/compras.php')">Compras</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_AlmacenDigital)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/almacendigital.php')">Almacen Digital</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_RecepLotes)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/recepcionlotes.php')">Recepción por Lotes</a></li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Compras)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/compras.php',<?= Mod_InboxBandeja ?>, <?= Men_Compras ?>, 0)">Compras</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_AlmacenDigital)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link none-link" onclick="loadDiv('../submenus/almacendigital.php',<?= Mod_InboxBandeja ?>, <?=Men_AlmacenDigital ?>, 0)">Almacen Digital</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_RecepLotes)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/recepcionlotes.php',<?= Mod_InboxBandeja ?>, <?= Men_RecepLotes ?>, 0)">Recepción por Lotes</a>
+          </li>
         </ul>
         <a href="#" <?= ($perMod->Mod_Permiso(Mod_IndexAdministrar)==0) ? 'style=pointer-events:none' : ''; ?> class="br-menu-link">
           <div class="br-menu-item">
@@ -52,9 +64,15 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Empresa)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../divsadministrar/divadmempresa.php');" class="nav-link">Empresa</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Usuarios)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../submenus/adm_usuarios.php');" class="nav-link">Usuarios</a></li>
-          <li class="nav-item"><a <?= ($perMod->Menu_Permiso(Men_Perfiles)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../submenus/adm_perfiles.php');" class="nav-link">Perfiles</a></li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Empresa)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../divsadministrar/divadmempresa.php',<?= Mod_IndexAdministrar ?>, <?= Men_Empresa ?>, 0);" class="nav-link">Empresa</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Usuarios)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../submenus/adm_usuarios.php',<?= Mod_IndexAdministrar ?>, <?= Men_Usuarios ?>, 0);" class="nav-link">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Perfiles)==0) ? 'style=pointer-events:none' : ''; ?> href="#" onclick="loadDiv('../submenus/adm_perfiles.php',<?= Mod_IndexAdministrar ?>, <?= Men_Perfiles ?>, 0);" class="nav-link">Perfiles</a>
+          </li>
         </ul>
         <a href="pages.html" class="br-menu-link">
           <div class="br-menu-item">

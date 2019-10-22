@@ -1,14 +1,20 @@
 <?php
 //if( isset($_POST["correo"]) ){ 
 session_start();    
-   
+
+
+if(isset($_POST["reload"])){
+    $_SESSION['idempresalog'] = $_POST["idempresa"];
+    $_SESSION['RFCEmpresa'] = $_POST["rfcempresa"];
+    //header("Location: DashEmpresa/");
+    //echo "<script> window.location='../DashEmpresa/' </script>";
+}else{
+
     $_SESSION['usuario21'] = $_POST["correo"];
     $_SESSION['idusuario'] = $_POST["idusuario"];
     $_SESSION['tipo'] = $_POST["tipo"];    
     $_SESSION['idempresalog'] = $_POST["idempresa"];
     $_SESSION['pwd'] = $_POST["contra"];
-
-
     
     if($_SESSION['idempresalog'] != 0){
         $IdEm = isset($_GET['em']) ? $_GET['em'] : 0 ;
@@ -32,6 +38,8 @@ session_start();
     }else{
         //echo "<script> alert('confirmar su cuenta'); </script>";
     }
+
+}
       
 
 /*session_start();

@@ -467,40 +467,8 @@ function CargarLotes(){
 		var nLotes = Response;
 
 		if(nLotes.length > 0){
-			
-			var total_lotes = (nLotes.length > 20 ? 20 : nLotes.length);
-			//var total_lotes = 20;
-			var lotes_x_pag = 5;		
-			var paginas = Math.ceil(total_lotes / lotes_x_pag);
-			var active = "current";
 
-			if(paginas == 1){
-				$("#datatable1_next").addClass('disabled');
-				$("#datatable1_previous").addClass('disabled');
-				document.getElementById('datatable1_next').onclick = null;
-				document.getElementById('datatable1_previous').onclick = null;
-			}
-			
-			//Elimina paginador
-			var element = document.getElementById("paginador");
-			while (element.firstChild) {
-			  element.removeChild(element.firstChild);
-			}
-
-			$("#datatable1_paginate").removeClass("d-none");
-			//Agrega paginador
-			for (var x = 1; x <= paginas; x++) {			
-
-                var a = document.createElement('a');                
-                a.setAttribute("class", "paginate_button "+(x == 1 ? active : "")+"");
-                a.setAttribute("onclick", "Paginador("+x+")");
-                a.setAttribute("href", "#");
-				a.setAttribute("id", "btn_"+x);
-				a.setAttribute("value", x);				             
-                //a.innerHTML="<a href='#' class='paginate_button "+(x == 1 ? active : "")+"' onclick='Paginador("+x+")' aria-controls='datatable1'>"+x+"</a>";
-                document.getElementById("paginador").appendChild(a);				
-                a.innerHTML = x;
-			}
+			LlenaPaginador(nLotes.length, nLotes, "t-Bitacora");
 
 			var tClass = "odd";
 

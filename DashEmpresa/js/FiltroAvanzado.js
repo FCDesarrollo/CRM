@@ -12,7 +12,7 @@ function DataPickerView(iddatepicker){
       showOtherMonths: true,
       selectOtherMonths: true,
       numberOfMonths: 1,
-      dateFormat: 'dd/mm/yy',
+      dateFormat: 'yy-mm-dd',
       dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
       monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     });
@@ -91,11 +91,11 @@ function Filtrar(){
     var fechaini = document.getElementById("datepicker_ini").value;
     var fechafin = document.getElementById("datepicker_fin").value;
 
-    var det_fechai = fechaini.split('/');
-    var det_fechaf = fechafin.split('/');
+    //var det_fechai = fechaini.split('-');
+    //var det_fechaf = fechafin.split('-');
 
-    fechaini = det_fechai[2] + '/' + det_fechai[1] + '/' + det_fechai[0];
-    fechafin = det_fechaf[2] + '/' + det_fechaf[1] + '/' + det_fechaf[0];
+    //fechaini = det_fechai[2] + '-' + det_fechai[1] + '-' + det_fechai[0];
+    //fechafin = det_fechaf[2] + '-' + det_fechaf[1] + '-' + det_fechaf[0];
   	
 
 	var datos = new Object();

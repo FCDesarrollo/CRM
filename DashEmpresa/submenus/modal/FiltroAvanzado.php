@@ -16,7 +16,7 @@
                             <label>Fecha: </label>                                
                             <div class="input-group">
                               <span class="input-group-addon"><i class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
-                              <input id="datepicker_ini" onmousedown="DataPickerView(this.id)" onclick="DataPickerView(this.id)" type="text" class="form-control" placeholder="DD/MM/YYYY">
+                              <input id="datepicker_ini" onmousedown="DataPickerView(this.id)" onclick="DataPickerView(this.id)" type="text" class="form-control" placeholder="YYYY-MM-DD">
                             </div>                     
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                             <label>Al: </label>                                
                             <div class="input-group">
                               <span class="input-group-addon"><i class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
-                              <input id="datepicker_fin" onmousedown="DataPickerView(this.id)" onclick="DataPickerView(this.id)" type="text" class="form-control" placeholder="DD/MM/YYYY">
+                              <input id="datepicker_fin" onmousedown="DataPickerView(this.id)" onclick="DataPickerView(this.id)" type="text" class="form-control" placeholder="YYYY-MM-DD">
                             </div>                     
                             </div>
                         </div>

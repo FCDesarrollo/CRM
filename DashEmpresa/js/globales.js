@@ -1,3 +1,36 @@
+//Constantes para los modulos
+const ModContabilidad = 1;
+const ModBandejaEntrada = 2;
+//Constantes para los menus
+const MenuContabilidad = 1;
+const MenuProcesoFiscal = 2;
+const MenuFinanzas = 3;
+const MenuCompras = 4;
+const MenuAlmacenDigital = 5;
+const MenuRecepcionLotes = 6;
+//Constantes para los submenus
+const SubEstadosFinancieros = 1;
+const SubContabilidadElectronica = 2;
+const SubExpedientesAdmin = 3;
+const SubExpedientesContables = 4;
+const SubPagosProvicionales = 5;
+const SubPagosMensuales = 6;
+const SubDeclaracionesAnuales = 7;
+const SubExpedientesFiscales = 8;
+const SubIndicadoresFinancieros = 9;
+const SubAsesorFlujoEfectivo = 10;
+const SubAnalisisProyecto = 11;
+const SubRequerimientos = 12;
+const SubAutorizaciones = 13;
+const SubRecepcionCompras = 14;
+const SubNotificacionesAutoridades = 15;
+const SubExpedientesDigitales = 16;
+const SubProcesoProduccion = 17;
+const SubProcesoCompras = 18;
+const SubProcesoVenta = 19;
+
+var datosuser;
+
 //variables globales
 var btnregresar=0;
 var btnfiltro = false;
@@ -8,14 +41,130 @@ var conceptos;
 var tipodocto;
 var tipodoctodet;
 var respuestacatalogos;
+var url = ""; 
 
-function loadDiv(lNameForm){    
-    $('.br-mainpanel').load(lNameForm);
+function CargarSubMenu(idsubmenu){
 
-     if(lNameForm == "../submenus/recepcionlotes.php"){
+    switch (idsubmenu) {
+        case 1:
+            CargaContenido(ModContabilidad, MenuContabilidad, SubEstadosFinancieros, datosuser.rfcempresa);
+            break;      
+        case 2:
+            CargaContenido(ModContabilidad, MenuContabilidad, SubContabilidadElectronica, datosuser.rfcempresa);
+            break;
+        case 3:
+            CargaContenido(ModContabilidad, MenuContabilidad, SubExpedientesAdmin, datosuser.rfcempresa);
+            break;
+        case 4:
+            CargaContenido(ModContabilidad, MenuContabilidad, SubExpedientesContables, datosuser.rfcempresa);
+            break;          
+        case 5:
+            
+            break;
+        case 6:
+            
+            break;
+        case 7:
+            
+            break;
+        case 8:
+            
+            break;
+        case 9:
+            
+            break;                                      
+        case 10:
+            
+            break;
+        case 11:
+            
+            break;            
+        case 12:
+            
+            break;
+        case 13:
+            
+            break;
+        case 14:
+            
+            break;
+        case 15:
+            
+            break;                                                
+        case 16:
+            ExpDigitales(idmoduloglobal, idmenuglobal, idsubmenuglobal, datosuser.rfcempresa);
+            break;   
+        case 17:
+            CargarLotes();
+            break;                                                                     
+        default:
+            
+            break;
+    }    
+}
+
+function URL_Asigna_SubM(idsubmenu){
+
+    idsubmenuglobal = idsubmenu;    
+    if(idsubmenuglobal != 0){        
+        
+        if(url.indexOf("sub") == -1){            
+            url = url + "&sub=" + idsubmenuglobal;                
+            history.pushState(dash, "", url);
+        }else{
+            var currURL = window.location.href;        
+            var lista = currURL.split("&");
+            url = lista[0]+"&"+lista[1];
+            url = url + "&sub=" + idsubmenuglobal;
+            history.pushState(dash, "", url);
+        }
+    }
+
+}
+
+function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
+//function loadDiv(lNameForm){    
+    //swal(lNameForm);
+    $('.br-mainpanel').load(lNameForm);    
+    
+    idmoduloglobal = IDMod;
+    idmenuglobal = IDMenu;
+    idsubmenuglobal = IDSubM;
+
+    if(idmoduloglobal != 0){
+        url = "./?mod=" + idmoduloglobal;        
+        if(idmenuglobal != 0){
+            url = url + "&men=" + idmenuglobal;            
+            if(idsubmenuglobal != 0){
+                url = url + "&sub=" + idsubmenuglobal;                                
+            }
+            history.pushState(dash, "", url);
+        }        
+    }else{
+        window.location.replace(dash);
+    } 
+
+    if(lNameForm == "../submenus/recepcionlotes.php"){
         asyncCall(); //Espera 2 segundos para mandar llamar la funcion de CargarLotes
-     }
-}	
+    }else if(idsubmenuglobal != 0){
+        asyncCargaSub(idsubmenuglobal);        
+    }
+
+}
+
+
+
+function RefrescarPag(){
+    console.log(idmenuglobal);
+    console.log(idsubmenuglobal);
+    if(idsubmenuglobal != 0){
+        CargarSubMenu(idsubmenuglobal);
+    }else if(idsubmenuglobal == 0 && idmenuglobal == 6){
+        CargarSubMenu(17); //Recepcion Por Lotes
+    }else{
+        location.reload(true);
+    }
+}
 
 function resolveAfter2Seconds() {
   return new Promise(resolve => {
@@ -28,21 +177,80 @@ function resolveAfter2Seconds() {
 async function asyncCall() {  
     var result = await resolveAfter2Seconds();  
     CargarLotes();
-}        
+} 
+async function asyncCargaSub(idsubmenu) {  
+    var result = await resolveAfter2Seconds();  
+    CargarSubMenu(idsubmenu);
+}       
 
+function AsignaIDMod(IDMod){
+    idmoduloglobal = IDMod;
+}
 
+function AsignaIDMenu(IDMenu){
+    idmenuglobal = IDMenu;
+}
 
-function CambiarEmpresa(){
-	var idempresa = 0;
-	
-    $.ajax({                        
-        data: { idempresa: idempresa },
-        type: 'POST',
-        url: '../../sessiones_usuario.php',            
-        success:function(response){
-    	   	window.location='../../usuario.php';
+function AsignaIDSubM(IDSubM){
+    idsubmenuglobal = IDSubM;
+}
+
+function Reload(){
+    if(idmoduloglobal != 0){
+        history.pushState(dash, "", "./?mod="+ idmoduloglobal +"&men="+ idmenuglobal +"&sub="+ idsubmenuglobal +"");
+    }
+    
+}
+
+function CargarEmpresa(idemp){
+    
+    $.get(ws + "ListaEmpresas", {idusuario: idusuarioglobal, tipo: tipousuarioglobal}, function(data){
+        var listaEmp = JSON.parse(data).empresas;
+        if(listaEmp.length > 0){
+            for (var i = 0; i < listaEmp.length; i++) {
+                var id = listaEmp[i].idempresa;
+                if(idemp == id){
+                    $.ajax({                        
+                        data: { reload: true, idempresa: idemp, rfcempresa: listaEmp[i].RFC },
+                        type: 'POST',
+                        url: '../../session.php',            
+                    })
+                    .done(function() {        
+                        Reload();
+                        location.reload(true);
+                    });
+                }    
+            }
+            
         }
-    }); 
+    });
+
+    
+
+}
+
+function EnlistarEmpresas(){
+
+    $('#ListaEmpresas').empty();
+
+    $.get(ws + "ListaEmpresas", { idusuario: idusuarioglobal, tipo: tipousuarioglobal }, function(data){
+        var empresas = JSON.parse(data).empresas;
+        if(empresas.length > 1){
+            for (var j = 0; j < empresas.length; j++) {
+                var RFC = empresas[j].RFC;
+                if(empresas[j].idempresa != idempresaglobal){
+
+                    $("#ListaEmpresas").append("<a href='#'><li class='list-group-item d-flex justify-content-between align-items-center' onclick='CargarEmpresa(" + empresas[j].idempresa + ")'>" + empresas[j].nombreempresa + "<span class='badge badge-primary badge-pill'>0</span></li></a>");
+                
+                }
+            
+            }
+            $('#Modal_CambiarEmpresa').modal('show');
+        }else{
+            swal("¡Accion Denegada!","Actualmente no cuenta con mas empresas vinculadas.","info");
+        }
+
+    });
 }
 
 function CerrarSession(){
@@ -79,120 +287,3 @@ function RegresarPagina(){
     btnfiltro = false;
 }
 
-function AnteriorPag(){
-    var element = document.getElementById("paginador"); 
-    var posicion;
-    for(var j = 1; j <= element.children.length; j++) {                             
-        if ($("#btn_"+j).hasClass('current')){
-            posicion = j - 1;
-            break;        
-        }   
-    }       
-    Paginador(posicion);
-}
-
-function SiguientePag(){
-    var element = document.getElementById("paginador"); 
-    var posicion;
-    for(var j = 1; j <= element.children.length; j++) {                             
-        if ($("#btn_"+j).hasClass('current')){
-            posicion = j + 1;
-            break;        
-        }   
-    }
-    Paginador(posicion);
-
-}
-
-function Paginador(posicion){
-    u_btn_sel = posicion; //asignamos valor a la variable global
-
-    var lotes_x_pag = 5;
-    
-    var inicio = (posicion == 1 ? 0 : posicion - 1) * lotes_x_pag; 
-    //var inicio = (posicion - 1) * lotes_x_pag; 
-    $("#loading").removeClass("d-none");
-
-    $.get(ws + "Paginador",{idempresa: idempresaglobal, iniciar: inicio, lotespag: lotes_x_pag}, function(Response){
-        $("#t-Bitacora tbody").children().remove();
-        var nLotes = Response;
-        var tClass = "odd";
-        var elemento;
-        for (var j = 0; j < nLotes.length; j++) {
-
-            document.getElementById("t-Bitacora").innerHTML +=
-                "<tr id='rowb"+j+"' role='row' class='"+tClass+"' > \
-                    <td class='sorting_2'> \
-                        <span class='pd-l-5'>"+nLotes[j].fechadecarga+"</span> \
-                    </td> \
-                    <td class=''> \
-                        <span class='pd-l-5'>"+nLotes[j].usuario+"</span> \
-                    </td> \
-                    <td class='sorting_2'> \
-                        <span class='pd-l-5'>"+nLotes[j].tipodet+"</span> \
-                    </td> \
-                    <td class=''> \
-                        <span class='pd-l-5'>"+nLotes[j].sucursal+"</span> \
-                    </td> \
-                    <td class='sorting_2'> \
-                        <span class='pd-l-5'>Registros: "+nLotes[j].totalregistros+" Cargados: "+nLotes[j].totalcargados+" Error: "+nLotes[j].cError+"</span> \
-                    </td> \
-                    <td class=''> \
-                        <span class='pd-l-5'>Procesados "+nLotes[j].procesados+" de "+nLotes[j].totalcargados+"</span> \
-                    </td> \
-                    <td class='dropdown text-center'> \
-                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
-                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
-                        <nav class='nav nav-style-1 flex-column'> \
-                          <a href='#' onclick='MostrarDoctos("+nLotes[j].id+","+nLotes[j].tipo+")' class='nav-link'>Nivel de Documentos</a> \
-                          <a href='#' onclick='MostrarMovtos("+nLotes[j].id+","+nLotes[j].tipo+")' class='nav-link'>Nivel de Movimientos</a> \
-                          <a href='#' onclick='EliminaRegistro("+nLotes[j].id+")' class='nav-link'>Eliminar Lote</a> \
-                        </nav> \
-                      </div> \
-                    </td> \
-                 </tr>"; 
-                 
-                 if(tClass == "odd") { tClass = "even"; }else{ tClass = "odd"; }
-                 
-        }
-
-        var element = document.getElementById("paginador");
-        var hijos = $('#paginador').find('a');
-        var flag = 0;
-        hijos.removeClass('current');
-        var child = element.children.length;
-        for(var j = 0; j < element.children.length; j++) {                              
-                
-            if(j == (posicion-1)){                  
-                $("#btn_"+posicion).addClass('current');
-                flag = 1;
-            }
-            
-            if(flag == 1){
-                break;
-            }
-
-        }       
-
-
-        if(posicion == 1){                                  
-            $("#datatable1_previous").addClass('disabled');
-            $("#datatable1_next").removeClass('disabled');
-            document.getElementById('datatable1_previous').onclick = null;
-            document.getElementById('datatable1_next').onclick = SiguientePag;
-        }else if((j + 1) == child){
-            $("#datatable1_previous").removeClass('disabled');
-            $("#datatable1_next").addClass('disabled');
-            document.getElementById('datatable1_next').onclick = null;
-            document.getElementById('datatable1_previous').onclick = AnteriorPag;
-        }else if((j + 1) < child && posicion > 1){
-            $("#datatable1_previous").removeClass('disabled');
-            $("#datatable1_next").removeClass('disabled');
-            document.getElementById('datatable1_previous').onclick = AnteriorPag;
-            document.getElementById('datatable1_next').onclick = SiguientePag;
-        }       
-
-        $("#loading").addClass("d-none");
-
-    });
-}

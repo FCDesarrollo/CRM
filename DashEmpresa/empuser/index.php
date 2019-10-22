@@ -90,8 +90,13 @@ session_start();
     <!-- ########## START: LEFT PANEL ########## -->
     
     <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
-    <?php include("menulateral.php"); ?>
-    <?php include("../submenus/modal/subirArchivos.php"); ?>
+    <?php 
+      include("menulateral.php"); 
+      include("../submenus/modal/subirArchivos.php");
+      include("cambiarempresa.php");
+    ?>
+    
+
     <!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
@@ -117,78 +122,19 @@ session_start();
 
       <div class="br-header-right">
         <nav class="nav">
-          <div class="dropdown d-none">       
 
-            <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
-              <i class="icon ion-ios-email-outline tx-24"></i>
+          <div class="dropdown">       
+
+            <a href="#" class="nav-link pd-x-7 pos-relative">
+              <!--<i class="icon ion-refresh tx-24" onclick="RefrescarPag()"></i>-->
+              <i class="icon ion-refresh tx-24" onclick="RefrescarPag()"></i>
               <!-- start: if statement -->
-              <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
-              <!-- end: if statement -->
+             <!-- <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
+               end: if statement -->
             </a>
-            <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
-              <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
-                <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Messages</label>
-                <a href="" class="tx-11">+ Add New Message</a>
-              </div><!-- d-flex -->
-
-              <div class="media-list">
-                <!-- loop starts here -->
-                <a href="" class="media-list-link">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <div class="d-flex align-items-center justify-content-between mg-b-5">
-                        <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Donna Seay</p>
-                        <span class="tx-11 tx-gray-500">2 minutes ago</span>
-                      </div><!-- d-flex -->
-                      <p class="tx-12 mg-b-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring.</p>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <!-- loop ends here -->
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <div class="d-flex align-items-center justify-content-between mg-b-5">
-                        <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Samantha Francis</p>
-                        <span class="tx-11 tx-gray-500">3 hours ago</span>
-                      </div><!-- d-flex -->
-                      <p class="tx-12 mg-b-0">My entire soul, like these sweet mornings of spring.</p>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <div class="d-flex align-items-center justify-content-between mg-b-5">
-                        <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Robert Walker</p>
-                        <span class="tx-11 tx-gray-500">5 hours ago</span>
-                      </div><!-- d-flex -->
-                      <p class="tx-12 mg-b-0">I should be incapable of drawing a single stroke at the present moment...</p>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <div class="d-flex align-items-center justify-content-between mg-b-5">
-                        <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Larry Smith</p>
-                        <span class="tx-11 tx-gray-500">Yesterday</span>
-                      </div><!-- d-flex -->
-                      <p class="tx-12 mg-b-0">When, while the lovely valley teems with vapour around me, and the meridian sun strikes...</p>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <div class="pd-y-10 tx-center bd-t">
-                  <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Messages</a>
-                </div>
-              </div><!-- media-list -->
-            </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
-          <div class="dropdown d-none">
+          
+          <div class="dropdown">
             <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
               <i class="icon ion-ios-bell-outline tx-24"></i>
               <!-- start: if statement -->
@@ -197,8 +143,8 @@ session_start();
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
               <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
-                <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Notifications</label>
-                <a href="" class="tx-11">Mark All as Read</a>
+                <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Notificaciones</label>
+                <a href="" class="tx-11">Marcar como leído</a>
               </div><!-- d-flex -->
 
               <div class="media-list">
@@ -212,43 +158,15 @@ session_start();
                     </div>
                   </div><!-- media -->
                 </a>
-                <!-- loop ends here -->
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Mellisa Brown</strong> appreciated your work <strong class="tx-medium tx-gray-800">The Social Network</strong></p>
-                      <span class="tx-12">October 02, 2017 12:44am</span>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <p class="tx-13 mg-b-0 tx-gray-700">20+ new items added are for sale in your <strong class="tx-medium tx-gray-800">Sale Group</strong></p>
-                      <span class="tx-12">October 01, 2017 10:20pm</span>
-                    </div>
-                  </div><!-- media -->
-                </a>
-                <a href="" class="media-list-link read">
-                  <div class="media pd-x-20 pd-y-15">
-                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                    <div class="media-body">
-                      <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Julius Erving</strong> wants to connect with you on your conversation with <strong class="tx-medium tx-gray-800">Ronnie Mara</strong></p>
-                      <span class="tx-12">October 01, 2017 6:08pm</span>
-                    </div>
-                  </div><!-- media -->
-                </a>
                 <div class="pd-y-10 tx-center bd-t">
-                  <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
+                  <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Ver todas las notificaciones</a>
                 </div>
               </div><!-- media-list -->
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-<!-- Carga Nombre Empresa -->
+<!-- Carga Nombre Usuario -->
               <span class="logged-name hidden-sm-down" id="nUsuario"></span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
@@ -256,10 +174,11 @@ session_start();
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
                 <li><a href="#" onclick="loadDiv('../divs/editarperfil.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <!--<li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href="#" onclick="CambiarEmpresa()"><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>
+                <li><a href="#" onclick="CambiarEmpresa()"><i class="icon ion-ios-folder"></i> Cambiar Empresa</a></li>-->
+                <li><a href="#" onclick="EnlistarEmpresas()"><i class="icon fa fa-building"></i> Cambiar Empresa</a></li>
                 <li><a href="#" onclick="CerrarSession()"><i class="icon ion-power"></i> Cerrar Sesion</a></li>
               </ul>
             </div><!-- dropdown-menu -->
@@ -700,9 +619,12 @@ session_start();
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
     <script src="../js/dashboard.js"></script>
-    <script src="../js/globales.js" ></script>
-    
     <script src="../js/load.js"></script>
+    <script src="../js/globales.js"></script>
+    <script src="../js/paginador.js"></script>
+
+    
+    
     <script src="../js/permisos_user.js"></script>
     
     <script src="../js/permisos_perfiles.js" ></script>
@@ -766,14 +688,10 @@ session_start();
     </script>
 
 <?php
-
-  // if(isset($_GET["type"]) == 1){
-  //     echo "<script> loadDiv('../divsadministrar/divadmusuarios.php'); </script>";
-  // }else if(isset($_GET["type"]) == 2){
-  //     echo "<script> loadDiv('../divsadministrar/divadmperfiles.php'); </script>";
-  // }else{
-    
-  // }
+  
+  if(isset($_GET["mod"])){
+    include("redireccionamiento.php");
+  }
   
 ?>
 
