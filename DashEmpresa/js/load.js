@@ -167,6 +167,8 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
                 for (x in array2) {
                     archivo = array2[x].nombre;
                     nombrearchivo = archivo.replace(".pdf", "");
+                    nombrearchivo = archivo.replace(/ /gi, "_");
+
                     document.getElementById("t-Archivos").innerHTML +=
                         "<tr> \
                         <td class='valign-middle'> \
@@ -177,7 +179,7 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
                         <td>" + array2[x].servicio + "</td> \
                         <td> \
                           <a id='link_" + nombrearchivo + "' href='" + array2[x].link + "' target='_blank'><i class='fa fa-file-pdf-o tx-22 tx-danger lh-0 valign-middle'></i> \
-                          <span id='span_" + nombrearchivo + "' class='pd-l-5'>" + array2[x].nombre + "</span></a> \
+                          <span id='span_" + nombrearchivo + "' class='pd-l-5'>" + nombrearchivo + "</span></a> \
                         </td> \
                         <td class='hidden-xs-down'>" + array2[x].fecha + "</td> \
                         <td class='hidden-xs-down'>" + array2[x].agente + "</td> \
@@ -217,14 +219,14 @@ function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {
 
 }
 
-function DescargarArchivos() {
-
+function DescargarArchivosCon() {
     var filas = $("#t-Archivos").find("tr");
-    var ruta = "../submenus/temporales/";
+    //var ruta = "../submenus/temporales/";
     for (i = 1; i < filas.length; i++) { //Recorre las filas 1 a 1]    
         celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
         var name = celdas[0].id;
         var href = $('#link_' + name).attr('href');
+        console.log($('#' + name).prop('checked'));
         if ($('#' + name).prop('checked')) {
             window.open(href + "/download");
         }

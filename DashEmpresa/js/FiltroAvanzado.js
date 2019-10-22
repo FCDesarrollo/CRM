@@ -1,9 +1,19 @@
 //FUNCIONES PARA LA VENTANA DE FILTRO AVANZADO.
 var pestaña = "";
-function FiltroAvanzado(Ventana){
-	pestaña = Ventana;
-	LlenarFormFiltro();
-	$('#Modal_FiltroA').modal('show');
+
+function FiltroAvanzado(Ventana) {
+    pestaña = Ventana;
+    if (Ventana == 'ExpedientesDigitales') {
+        LlenarFormFiltro();
+        $('#Modal_FiltroA').modal('show');
+    }
+    if (Ventana == 'ExpedientesContables') {
+        Carga_Meses();
+        Carga_ejercicios();
+        Carga_serviciosbit();
+        Carga_Agentesbit();
+        $('#Modal_FiltroB').modal('show');
+    }
 }
 
 function DataPickerView(iddatepicker){
@@ -21,11 +31,11 @@ function DataPickerView(iddatepicker){
 
 }
 
-function LlenarFormFiltro(){
-	var datos = new Object();
-	datos.rfcempresa = datosuser.rfcempresa;
-	datos.usuario = datosuser.usuario;
-	datos.pwd = datosuser.pwd;
+function LlenarFormFiltro() {
+    var datos = new Object();
+    datos.rfcempresa = datosuser.rfcempresa;
+    datos.usuario = datosuser.usuario;
+    datos.pwd = datosuser.pwd;
 
     $('#FiltroUsuario option').remove();
     $('#FiltroRubro option').remove();
@@ -33,12 +43,12 @@ function LlenarFormFiltro(){
     document.getElementById("datepicker_ini").value = "";
     document.getElementById("datepicker_fin").value = "";
 
-    $.get(ws + "DatosFiltroAvanzado", {datos}, function(response){  
-        var respuesta = JSON.parse(response);  
-	    
-	    selectUse = document.getElementById("FiltroUsuario");	    
-	    selectRub = document.getElementById("FiltroRubro");	    
-		selectSuc = document.getElementById("FiltroSucursal");	    
+    $.get(ws + "DatosFiltroAvanzado", { datos }, function(response) {
+        var respuesta = JSON.parse(response);
+
+        selectUse = document.getElementById("FiltroUsuario");
+        selectRub = document.getElementById("FiltroRubro");
+        selectSuc = document.getElementById("FiltroSucursal");
 
         option = document.createElement("option");
         option.value = 0;
@@ -53,40 +63,40 @@ function LlenarFormFiltro(){
         option3 = document.createElement("option");
         option3.value = 0;
         option3.text = "Todos";
-        selectSuc.appendChild(option3);                
+        selectSuc.appendChild(option3);
 
-        for(u in respuesta["usuarios"]){
+        for (u in respuesta["usuarios"]) {
             option = document.createElement("option");
             option.value = respuesta["usuarios"][u].idusuario;
             option.text = respuesta["usuarios"][u].nombre;
             selectUse.appendChild(option);
-        }            
+        }
 
-        for(r in respuesta["rubros"]){
+        for (r in respuesta["rubros"]) {
             option = document.createElement("option");
             option.value = respuesta["rubros"][r].clave;
             option.text = respuesta["rubros"][r].nombre;
             selectRub.appendChild(option);
         }
 
-        for(s in respuesta["sucursales"]){
+        for (s in respuesta["sucursales"]) {
             option = document.createElement("option");
             option.value = respuesta["sucursales"][s].idsucursal;
             option.text = respuesta["sucursales"][s].sucursal;
             selectSuc.appendChild(option);
-        }        
+        }
 
     });
 }
 
-function Filtrar(){
-	$('#Modal_FiltroA').modal('hide');
-	$('#loading').removeClass('d-none');
+function Filtrar() {
+    $('#Modal_FiltroA').modal('hide');
+    $('#loading').removeClass('d-none');
 
-	selectUse = document.getElementById("FiltroUsuario").value;
-    selectRub = document.getElementById("FiltroRubro").value;	    
-	selectSuc = document.getElementById("FiltroSucursal").value;
-	selectOrd = document.getElementById("FiltroOrden").value;
+    selectUse = document.getElementById("FiltroUsuario").value;
+    selectRub = document.getElementById("FiltroRubro").value;
+    selectSuc = document.getElementById("FiltroSucursal").value;
+    selectOrd = document.getElementById("FiltroOrden").value;
 
     var fechaini = document.getElementById("datepicker_ini").value;
     var fechafin = document.getElementById("datepicker_fin").value;
@@ -130,35 +140,103 @@ function Filtrar(){
 		                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
 		                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
 		                        <nav class='nav nav-style-1 flex-column'> \
-		                          <a href='#' onclick='DocumentosALM("+respuesta["datos"][i].id+")' class='nav-link'>Ver Documentos</a> \
+		                          <a href='#' onclick='DocumentosALM(" + respuesta["datos"][i].id + ")' class='nav-link'>Ver Documentos</a> \
 		                        </nav> \
 		                      </div> \
 		                    </td> \
-		                </tr>";            
+		                </tr>";
 
-		            }
-		            $('#loading').addClass('d-none');   
-		        }else{
-		            document.getElementById("t-ExpDigitales").innerHTML +=
-		                "<tr> \
+                    }
+                    $('#loading').addClass('d-none');
+                } else {
+                    document.getElementById("t-ExpDigitales").innerHTML +=
+                        "<tr> \
 		                    <td> \
 		                      <i class='fa fa-exclamation tx-22 tx-danger lh-0 valign-middle'></i> \
 		                      <span class='pd-l-5'>No hay datos disponibles</span> \
 		                    </td> \
-		                </tr>";	                
-		            $('#loading').addClass('d-none');   
-		        }
-	        }else{
-	        	$('#loading').addClass('d-none');  
-	        	swal("Error de Validacion","El Rfc de la empresa, usuario o contraseña no son correctos.","error");
-	        }
-	     });	
+		                </tr>";
+                    $('#loading').addClass('d-none');
+                }
+            } else {
+                $('#loading').addClass('d-none');
+                swal("Error de Validacion", "El Rfc de la empresa, usuario o contraseña no son correctos.", "error");
+            }
+        });
 
-	}else{
-		$('#loading').addClass('d-none');
-		$('#Modal_FiltroA').modal('show');
-		swal("Rango de Fecha", "Debe seleccionar el rango de fechas a consultar.","info");
-	}
+    } else {
+        $('#loading').addClass('d-none');
+        $('#Modal_FiltroA').modal('show');
+        swal("Rango de Fecha", "Debe seleccionar el rango de fechas a consultar.", "info");
+    }
 
 
+}
+
+
+
+function Carga_Meses() {
+    var array = ["Enero", "Febrero", "Marzo", "Abril",
+        "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    var select = document.getElementById("FilPeriodo");
+    option = document.createElement("option");
+    option.value = 0;
+    option.text = "Todos";
+    select.appendChild(option);
+    r = 1
+    for (value in array) {
+        var option = document.createElement('option');
+        option.value = r;
+        option.text = array[value];
+        select.appendChild(option);
+        r++;
+    }
+}
+
+function Carga_ejercicios() {
+    user = datosuser.usuario;
+    pass = datosuser.pwd;
+    var select = document.getElementById("FilEjercicio");
+    $.post(ws + "listaejercicios", { idempresa: idempresaglobal, correo: user, contra: pass }, function(response) {
+        if (response != "") {
+            for (u in response["ejercicios"]) {
+                option = document.createElement("option");
+                option.text = response["ejercicios"][u].ejercicio;
+                select.appendChild(option);
+            }
+        }
+    });
+}
+
+function Carga_serviciosbit() {
+    user = datosuser.usuario;
+    pass = datosuser.pwd;
+    var select = document.getElementById("FilServicio");
+    $.post(ws + "listaserviciosbit", { idempresa: idempresaglobal, correo: user, contra: pass }, function(response) {
+        if (response != "") {
+            for (u in response) {
+                option = document.createElement("option");
+                option.value = response[u].codigoservicio;
+                option.text = response[u].nombreservicio;
+                select.appendChild(option);
+            }
+        }
+    });
+}
+
+function Carga_Agentesbit() {
+    user = datosuser.usuario;
+    pass = datosuser.pwd;
+    var select = document.getElementById("FilAgente");
+    $.post(ws + "listaagentesbit", { idempresa: idempresaglobal, correo: user, contra: pass }, function(response) {
+        if (response != "") {
+            for (u in response) {
+                option = document.createElement("option");
+                option.value = response[u].idusuario;
+                option.text = response[u].nombre + " " + response[u].apellidop + " " + response[u].apellidom;
+                select.appendChild(option);
+            }
+        }
+    });
 }
