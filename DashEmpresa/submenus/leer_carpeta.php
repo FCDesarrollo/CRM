@@ -33,17 +33,16 @@
 			if(!empty($resultado)){
 			
 			$documentos = json_decode($resultado, true);
-			
 			$findme = ".pdf";
-			
 			foreach($documentos as $value) {
 				$tipodoc=$value['tipodocumento'];
-				$car = '/pdfs/relacion';
+
+				$car = (($tipodoc == 'COMPROBANTES' || $tipodoc == 'POLIZAS') ? '/pdfs/relacion' :  '');
 				$complerut = substr(strtoupper($tipodoc),0,3)."/".substr($value['ejercicio'],2,2).
 							"/".strtoupper(sprintf("%02d",$value['periodo'])).$car;
 							
 				//print_r($complerut);
-				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'].$findme;
+				$link = $RFC."/".$modulo."/".$menu."/".$submenu."/".$complerut."/".$value['nombrearchivoE'];
 				//print_r($link);
 				$link = getlink($link, $server, $user, $pass);
 				//print_r($link);
