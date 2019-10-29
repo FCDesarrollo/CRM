@@ -115,7 +115,7 @@
 			$documento = $_POST['archivos'][$i]['codigodocumento'].".".$type[1];
 			$link = $RFC."/Entrada/AlmacenDigital/ExpedientesDigitales/".$documento;
 			$link = getlink($link, $server, $user, $pass);		
-			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "idalmdigital" => $_POST['archivos'][$i]['idalmdigital'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);
+			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "idalmdigital" => $_POST['archivos'][$i]['idalmdigital'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "agente" => $_POST['archivos'][$i]['agente'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);
 		}
 		echo json_encode($array);
 		//print_r($array);

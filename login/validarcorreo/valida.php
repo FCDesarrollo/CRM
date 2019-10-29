@@ -21,6 +21,7 @@ require 'Mailer/PHPMailerAutoload.php';
 //$url_activacion = 'http://localhost/WebConsultorMX/validarcorreo/valida.php';
 //$url_activacion = 'http://dublock.com/CRM/login/restablecerpwd/';
 $url_activacion = 'http://crm.dublock.com/login/restablecerpwd/';
+$url_validacorreo = 'http://crm.dublock.com/login/';
 //$url_activacion = 'http://localhost/crm/login/restablecerpwd/';
 
 
@@ -135,6 +136,7 @@ function CorreoValidacion(){
 	$usuario = $_POST;
 		
 	global $url_activacion;
+	global $url_validacorreo;
 	//Se guarda en la base de datos y se le envia el correo con el link para activar su cuenta
 	try{		
 		$destino = $usuario['correo'];
@@ -153,8 +155,12 @@ function CorreoValidacion(){
 		//$mensaje = 'Estimado usuario para poder activar tu cuenta favor de seguir el siguiente link,
 		//si no puedes hacer click, favor de copiar y pegarlo en la barra de direcciones de tu navegador.<br><br>
 		//<a href="'.$URL.'">'.$URL.'</a>';
-	
-		$mensaje = 'Estimado usuario, su codigo de confirmacion ha sido generado correctamente.<br><br>Codigo de Confirmacion: '.$usuario["identificador"];
+		if(isset($usuario['user_perfil'])){
+			$URL = $url_validacorreo.'?id='.$usuario["identificador"];
+			$mensaje = 'Usted ha sido registrado por un administrador, favor de ingresar a la siguiente direccion para completar su registro. <br><br>Codigo de Verificación: '.$usuario["identificador"].' <br><a href="'.$URL.'">Haz click aqui para completar su registro.</a>';
+		}else{
+			$mensaje = 'Estimado usuario, su codigo de confirmacion ha sido generado correctamente.<br><br>Codigo de Confirmacion: '.$usuario["identificador"];
+		}
 
 		EnviarMail($destino,$asunto,$mensaje,$identificador,$celular);
 

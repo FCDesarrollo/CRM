@@ -40,7 +40,8 @@ function CargaListaEmpresas(idusuario){
 		{			
 			username = usuario[0].nombre.split(" ", 1);
 			apellidop = usuario[0].apellidop;
-			document.getElementById('usuariolog').innerHTML = username + " " + apellidop;
+			apellidom = usuario[0].apellidom;
+			document.getElementById('usuariolog').innerHTML = username + " " + apellidop + " " + apellidom;
 
 			$('#listado-empresas').load('usuariolog/listaempresas.php');
 
@@ -53,7 +54,21 @@ function CargaListaEmpresas(idusuario){
 				var empresas = JSON.parse(data).empresas;
 				for(var x in empresas)
 				{				
+
 					document.getElementById("lista-empresa").innerHTML += 
+					"<tbody> \
+						<tr> \
+							<td style='display:none;'>"+empresas[x].idempresa+"</td> \
+							<td> \
+								<a href='#' id='btn-abr"+empresas[x].idempresa+"' onclick='AbreEmpresa()' value='"+empresas[x].idempresa+"'> \
+									"+empresas[x].nombreempresa+" \
+								</a> \
+							</td> \
+							<td>"+empresas[x].RFC+"</td> \
+							<td>"+empresas[x].perfil+"</td> \
+						</tr> \
+					</tbody>";
+					/*document.getElementById("lista-empresa").innerHTML += 
 					"<tbody> \
 						<tr> \
 							<td style='display:none;'>"+empresas[x].idempresa+"</td> \
@@ -65,7 +80,7 @@ function CargaListaEmpresas(idusuario){
 								<a id='btn-eli"+empresas[x].idempresa+"' onclick='Desvincula()' value='"+empresas[x].idempresa+"'class='btn btn-danger'><em class='fa fa-trash'></em></a> \
 							</td> \
 						</tr> \
-					</tbody>";
+					</tbody>";*/
 					//document.getElementById("sel2").innerHTML += "<option value='"+empresas[x].idempresa+"'>"+empresas[x].nombreempresa+"</option>";
 				}
 				

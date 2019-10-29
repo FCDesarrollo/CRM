@@ -68,7 +68,6 @@ function CargarSubMenu(idsubmenu){
             
             break;
         case 8:
-            
             break;
         case 9:
             
@@ -155,8 +154,6 @@ function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
 
 
 function RefrescarPag(){
-    console.log(idmenuglobal);
-    console.log(idsubmenuglobal);
     if(idsubmenuglobal != 0){
         CargarSubMenu(idsubmenuglobal);
     }else if(idsubmenuglobal == 0 && idmenuglobal == 6){

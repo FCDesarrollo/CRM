@@ -9,8 +9,8 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
     $.get(ws + "DatosUsuario/" + idusuario, function(data) {
         var usuario = JSON.parse(data).usuario;
         if (usuario.length > 0) {
-
-            document.getElementById('nUsuario').innerHTML = usuario[0].nombre;
+            var nombre_completo = usuario[0].nombre + " " + usuario[0].apellidop + " " + usuario[0].apellidom;
+            document.getElementById('nUsuario').innerHTML = nombre_completo;
 
             tipousuarioglobal = usuario[0].tipo;
      

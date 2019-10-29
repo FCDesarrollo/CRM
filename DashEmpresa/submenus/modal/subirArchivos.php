@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-md-10 col-sm-6 col-8 pd-r-5">
                                         <label for="archivosInbox" class="custom-file">
-                                            <input type="file" id="archivos" name="archivos[]" multiple="" accept="image/png, .jpeg, .jpg, .docx, .pdf" class="custom-file-input" onchange="CountArc()">
+                                            <input type="file" id="archivos" name="archivos[]" multiple="" accept="image/png, .jpeg, .jpg, .docx, .pdf, .xml, .txt, .csv, .xls, .xlsx" class="custom-file-input" onchange="CountArc()">
                                             <span class="custom-file-control custom-file-control-primary" id="span_select">Seleccionar..</span>
                                         </label>                                        
                                     </div>

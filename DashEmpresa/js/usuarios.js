@@ -15,15 +15,20 @@ function AgregarUsuario(){
     $("#txtidusuario").val(IDUsuario);
     $("#txtstatus").val(status);
     $("#txtidentificador").val(Identificador);
+    $("#txtidempresa").val(idempresaglobal);
+
+    var default_pwd = "default_"+Identificador;
+    
+    $("#txtcontrasena").val(default_pwd);
 
     ValidarForm();
 
-    var form = $("#FormAgregarUsuario").serialize();    
+    var form = $("#FormAgregarUsuario").serialize();
     
     if(FormValidado==1){
-	    if(CorreoExistente==1){            	       
-	        $.post(ws + "GuardaUsuario", $("#FormAgregarUsuario").serialize(), function(data){   	        	
-	            if(data>0){	           
+	    if(CorreoExistente==1){
+	        $.post(ws + "GuardaUsuario", form, function(data){
+	            if(data>0){
 	                EnviarCorreo(form);
 	            }else{
 	                swal("Usuario", "Ocurrio un error, vuelva a intentar. Si el error continua, favor de comunicarnoslo por correo, en el apartado de Contancto", "error");
@@ -61,18 +66,19 @@ function EnviarCorreo(form){
 
 
 function ValidarForm(){   
-    var nombre, apellidop, apellidom, celular, correo, contraseña;
+    var nombre, apellidop, apellidom, celular, correo, perfil;
     nombre = document.getElementById("txtnombre").value;    
     apellidop = document.getElementById("txtapellidop").value;
     apellidom = document.getElementById("txtapellidom").value;
     celular = document.getElementById("txtcelular").value;
     correo = document.getElementById("txtcorreo").value;
-    contraseña = document.getElementById("txtcontrasena").value;
+    perfil = document.getElementById("_Perfil").value;
+    //contraseña = document.getElementById("txtcontrasena").value;
 
     FormValidado = 1;
     
 
-    if(nombre === "" || apellidop === "" || apellidom === "" || celular === "" || correo === "" || contraseña === ""){        
+    if(nombre === "" || apellidop === "" || apellidom === "" || celular === "" || correo === "" || perfil === ""){        
         swal("Campos Vacios", "Todos los campos son requeridos.", "error");
         FormValidado = 0;
         return false;
@@ -115,11 +121,11 @@ function ValidarForm(){
 
 
     //Verificar longitud de contraseña
-    if(contraseña.length<8 || contraseña.length>20){                  
+    /*if(contraseña.length<8 || contraseña.length>20){                  
         swal("Contraseña", "La contraseña debe de tener entre 8 y 32 caracteres.", "error");   
         FormValidado = 0;
         return false;
-    }            
+    } */            
 
 
 }

@@ -35,6 +35,10 @@ session_start();
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+
+
 </head>
 <body onload="CargaListaEmpresas('<?php echo $_SESSION['idusuario']; ?>')">
 
@@ -65,15 +69,22 @@ session_start();
                 <div class="panel panel-default panel-table">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col col-xs-4">
-                                <h3 class="panel-title" id="usuariolog"></h3>
+                            <div class="col col-xs-9 col-sm-6 col-md-8 col-lg-6">
+                                <h3 class="panel-title"><i class="fa fa-user"></i><span id="usuariolog" style="margin-left: 5px"></span></h3>
+                            </div>
+                            <div class="col-xs-3 col-sm-6 col-md-4 col-lg-6 d-flex" style="display: flex;justify-content: end;">
+                                <a data-toggle="modal" data-target="#NuevaEmpresa" title="Agregar Empresa" class='btn btn-outline-primary'><i class="fa fa-plus"></i> <span class="hidden-xs">Agregar Empresa</span></a>
+                                
+
+                                <a onclick="CerrarSession()" title="Cerrar Session" class='btn btn-outline-warning'><i class="fa fa-times-circle"></i> <span class="hidden-xs">Cerrar Session</span></a>
+                                <!--<button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-warning btn-create">Agregar Empresa</button> 
+                                <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>-->
+                            </div>
+                            <!--<div class="col col-xs-4">
                                 <button type="button" onclick="Vincularlog()" class="btn btn-sm btn-primary btn-create">Vincular Empresa</button>          
-                                <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>
-                                 
-                            </div> 
                             <div class="col col-xs-8 text-right">
-                            <button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-warning btn-create">Agregar Empresa</button> 
                             </div> 
+                            </div> -->
                         </div>
                     </div>
                   
@@ -83,35 +94,19 @@ session_start();
                                 <tr>
                                     <th style="display:none"></th>
                                     <th>Empresa</th>
-                                    <th class="hidden-xs">RFC</th>
-                                    <th><em class="fa fa-cog"></em> Acciones</th>
+                                    <th>RFC</th>
+                                    <th>Perfil</th>
+                                    <!--<th><em class="fa fa-cog"></em> Acciones</th>-->
                                 </tr> 
                             </thead>
                         </table>                
                     </div>
-                     <div class="panel-footer">
-                        <div class="row">
-                        <!-- <div class="col col-xs-4">Page 1 of 5 -->
-                        </div>
-                        <div class="col col-xs-8">
-                            <!-- <ul class="pagination hidden-xs pull-right">
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            </ul>
-                            <ul class="pagination visible-xs pull-right">
-                                <li><a href="#">«</a></li>
-                                <li><a href="#">»</a></li>
-                            </ul> -->
-                        </div>
-                        </div>
-                    </div>
-                </div>
 
+                </div>
             </div>
+
         </div>
+    </div>
         
         
     </div>    
@@ -148,13 +143,15 @@ session_start();
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
+    <script src="https://unpkg.com/tooltip.js"></script>
 
     <script src="js/app.js"></script> 
     <script src="js/vinculacion.js"></script> 
     <!--<script src="usuarioadmin/usuarioslog.js"></script>   --> 
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
-
+ 
 
     function AbreEmpresa(){
         $("table tbody tr").click( function(){

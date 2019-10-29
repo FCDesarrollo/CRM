@@ -42,6 +42,7 @@ function EnviarCorreo(form){
             //alert("Usuario Registrado Correctamente. El Codigo de verificacion ha sido enviado a su correo.");
             $('#RegistroModal').modal('hide');
             $('#recargable').load('validausuario.php');
+            
         }
     });      
 }   

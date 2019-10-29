@@ -106,7 +106,7 @@ function DocumentosALM($idalm){
                             </td> \
                             <td>"+respuesta[i].documento+"</td> \
                             <td>"+respuesta[i].agente+"</td> \
-                            <td>"+(respuesta[i].fechaprocesado == null ? "YYYY-MM-DD" : respuesta[i].fechaprocesado)+"</td> \
+                            <td>"+(respuesta[i].fechaprocesado == "" ? "YYYY-MM-DD" : respuesta[i].fechaprocesado)+"</td> \
                             <td> \
                               <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
                               <div class='dropdown-menu dropdown-menu-right pd-10'> \

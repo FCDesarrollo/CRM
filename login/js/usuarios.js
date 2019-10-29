@@ -409,7 +409,9 @@ function Login()
 
     function FormValidacion(){
         var correo = $('#txtUsuario').val();
+        mailglobal = correo;
         $('#recargable').load('validausuario.php');
+
         // var correo = $('#txtUsuario').val();
         // $('#myModal').modal('hide');
         // $('#ModalValidacion').modal('show');        

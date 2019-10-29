@@ -8,6 +8,7 @@
                   <input type="hidden" name="idusuario" id="txtidusuario" />
                   <input type="hidden" name="identificador" id="txtidentificador">
                   <input type="hidden" name="status" id="txtstatus">
+                  <input type="hidden" name="idempresa" id="txtidempresa">
 
                   <div class="col-md-4">
                     <div class="form-group">
@@ -41,10 +42,17 @@
                   </div><!-- col-4 -->       
                   <div class="col-md-4 mg-t--1 mg-md-t-0">
                     <div class="form-group mg-md-l--1">
+                      <label class="form-control-label" tabindex="-1" aria-hidden="true">Asignar Perfil: <span class="tx-danger">*</span></label>
+                      <select class="form-control select2" id="_Perfil" name="user_perfil">
+                        <!--<option value="0">Perfiles</option>-->
+
+                      </select>                    
+                    </div>
+                    <div class="form-group mg-md-l--1 d-none">
                         <label class="form-control-label">Contraseña: <span class="tx-danger">*</span></label>
                         <input class="form-control" type="password" name="password" id="txtcontrasena" placeholder="Contraseña">
                     </div>
-                  </div><!-- col-4 -->
+                  </div> 
                 </div><!-- row -->
                 <div class="form-layout-footer bd pd-20 bd-t-0 d-flex justify-content-end">                                            
                   <button type="button" class="btn btn-info m-1" id="btnagregauser" onclick="AgregarUsuario()">Agregar Usuario</button>
@@ -52,3 +60,26 @@
                 </div><!-- form-group -->
             </div>
         </form>
+
+        <script>
+          
+            $('#loading').removeClass('d-none');
+            $.get(ws + "PerfileEmpresa/" + idempresaglobal, function(data){
+                var perfiles = JSON.parse(data).perfiles;
+                selectPer = document.getElementById("_Perfil");
+                for(var x in perfiles){
+                    option = document.createElement("option");
+                    option.value = perfiles[x].idperfil;
+                    option.text = perfiles[x].nombre;
+                    selectPer.appendChild(option);                    
+                }
+                selectPer.selectedIndex = x;    
+                $('#loading').addClass('d-none');         
+            }); 
+
+        </script>
+
+
+        
+
+            

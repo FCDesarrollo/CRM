@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,4 +114,16 @@
 	        Login();
 	    }
 	});	
+
+	var ident = "";
+	var mailglobal = "";
 </script>
+
+<?php
+	if(isset($_GET['id'])){
+		echo "<script>";
+		echo "$('#recargable').load('validausuario.php');";
+		echo "ident = ".$_GET['id'].";";
+		echo "</script>";
+	}
+?>

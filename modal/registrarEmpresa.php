@@ -1,5 +1,8 @@
-<div id="NuevaEmpresa" class="modal" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modalSelect3">
+
+
+
+<div id="NuevaEmpresa" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">            
             <div class="modal-header">
                 <h3 id="NuevaEmpresaTitle" class="modal-title">Nueva Empresa</h3>
@@ -14,36 +17,12 @@
                         <input type="hidden" name="empresaBD" id="txtempresaBD" />
                         <input type="hidden" name="rutaEmpresa" id="txtrutaEmpresa" />
                         <input type="hidden" name="vigencia" id="txtVigencia" />
-                        <div class='form-group'>
-                            <label for='txtNombre'>Nombre</label>
-                            <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE" required="required"/>
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>
-                        <div class='form-group'>
-                            <label for='txtRFC'>RFC</label>
-                            <input type="text" class="form-control" id="txtRFC" name="rfc" placeholder="RFC" required="required"/>
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>
-                        <div class='form-group'>
-                            <label for='txtDomicilio'>Direccion</label>
-                            <input type="text" class="form-control" id="txtDomicilio" name="direccion" placeholder="Direccion" required="required"/>
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>
-                        <div class='form-group'>
-                            <label for='txtTelefono'>Telefono</label>
-                            <input type="number" class="form-control" id="txtTelefono" name="telefono" placeholder="Telefono" required="required"/>
-                        </div>
-                        <div class='form-group'>
-                            <label for='txtCP'>Codigo Postal</label>
-                            <input type="number" class="form-control" id="txtCP" name="codigopostal" placeholder="Codigo Postal" required="required"/>
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                        </div>           
                         <div class="form-group">    
-                            <label for='txtcorreo'>Correo</label>                    
-                            <input type="text" class="form-control" name="correo" id="txtcorreo" placeholder="Correo Electronico" required="required">	    
-                            <div class='invalid-feedback'> Campo Requerido. </div>
-                            <p><span id="demo2"></span></p>    
-                        </div>             
+                                <label for='txtcorreo'>Correo</label>                    
+                                <input type="text" class="form-control" name="correo" id="txtcorreo" placeholder="Correo Electronico">      
+                                <!--<div class='invalid-feedback'> Campo Requerido. </div>
+                                <p><span id="demo2"></span></p>    -->
+                        </div>
                         <div class='form-group'>
                             <label for='archivoCer'>FIEL .Cer</label>
                             <input type="file" name="archivoCer" id="archivoCer">
@@ -54,8 +33,35 @@
                         </div>
                         <div class='form-group'>
                             <label for='txtContraseña'>Contraseña FIEL</label>
-                            <input type="password" class="form-control" id="txtContrasena" name="password" placeholder="Contraseña" required="required"/>
-                            <div class='invalid-feedback'> Campo Requerido. </div>
+                            <input type="password" class="form-control" id="txtContrasena" name="password" placeholder="Contraseña" />
+                            <!--<div class='invalid-feedback'> Campo Requerido. </div>-->
+                        </div>
+                        <div style="display: none">
+                            <div class='form-group'>
+                                <label for='txtNombre'>Nombre</label>
+                                <input type="text" class="form-control" id="txtNombre" name="nombreEmpresa" placeholder="NOMBRE"/>
+                                <!--<div class='invalid-feedback'> Campo Requerido. </div>-->
+                            </div>
+                            <div class='form-group'>
+                                <label for='txtRFC'>RFC</label>
+                                <input type="text" class="form-control" id="txtRFC" name="rfc" placeholder="RFC"/>
+                                <!--<div class='invalid-feedback'> Campo Requerido. </div>-->
+                            </div>
+                            <div class='form-group'>
+                                <label for='txtDomicilio'>Direccion</label>
+                                <input type="text" class="form-control" id="txtDomicilio" name="direccion" placeholder="Direccion"/>
+                                <!--<div class='invalid-feedback'> Campo Requerido. </div>-->
+                            </div>
+                            <div class='form-group'>
+                                <label for='txtTelefono'>Telefono</label>
+                                <input type="number" class="form-control" id="txtTelefono" name="telefono" placeholder="Telefono"/>
+                            </div>
+                            <div class='form-group'>
+                                <label for='txtCP'>Codigo Postal</label>
+                                <input type="number" class="form-control" id="txtCP" name="codigopostal" placeholder="Codigo Postal"/>
+                                <!--<div class='invalid-feedback'> Campo Requerido. </div>-->
+                            </div>           
+             
                         </div>
                 </form>
             </div>
@@ -67,6 +73,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 
 <div class="container">
@@ -134,27 +143,47 @@
     }
     function Correo()
     {   
-        var form = $("#FormGuardarEmpresa").serialize();
-        $.ajax({                        
-        data: form,
-        type: 'POST',
-        url: 'login/validarcorreo/validaEmpresa.php',            
-        success:function(response){
-            resultado = JSON.parse(response);
-            estatusCorreo = resultado[0];
-            codigo = resultado[1];
-            if (estatusCorreo == true) {
-                alert("Se ha enviado un código de confirmación a su correo, puede demorar algunos segundos.");
-                document.getElementById("Guardar").disabled = true;
-                document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
-                $("#myModal").modal("show");
-                $("#codigo").val(codigo);
-            }else if (estatusCorreo == false){
-                alert("Ocurrió un problema al mandar el correo");
-            }   
-            
+        var correo = document.getElementById("txtcorreo").value;
+        var archivoC = document.getElementById("archivoCer").value;
+        var archivoK = document.getElementById("archivoKey").value;
+        var pwd = document.getElementById("txtContrasena").value;
+
+        //var form = $("#FormGuardarEmpresa").serialize();
+
+        if(correo != "" && archivoC != "" && archivoK != "" && pwd != ""){
+
+            $.ajax({                        
+                data: correo,
+                type: 'POST',
+                url: 'login/validarcorreo/validaEmpresa.php',            
+                success:function(response){
+                    resultado = JSON.parse(response);
+                    estatusCorreo = resultado[0];
+                    codigo = resultado[1];
+                    if (estatusCorreo == true) {
+                        alert("Se ha enviado un código de confirmación a su correo, puede demorar algunos segundos.");
+                        document.getElementById("Guardar").disabled = true;
+                        document.getElementById('spanGuardar').innerHTML = 'Procesando...'; 
+                        $("#myModal").modal("show");
+                        $("#codigo").val(codigo);
+                    }else if (estatusCorreo == false){
+                        alert("Ocurrió un problema al mandar el correo");
+                    }   
+                    
+                }
+            }); 
+
+        }else{
+            if(correo == ""){
+                swal("¡Campo Vacio!","Favor de introducir un correo electronico valido.","info");
+            }else if(archivoC == ""){
+                swal("¡Certificado!", "Debe seleccionar un certificado valido.","info");
+            }else if(archivoK == ""){
+                swal("¡Archivo Key!","Debe seleccionar el arhivo .key","info");
+            }else if(pwd == ""){
+                swal("¡FIEL!","Introducir la contraseña FIEL","info");
+            }
         }
-    });     
     }
     
     function GuardaEmpresa()
@@ -164,7 +193,7 @@
         if (codigo === codigoTxt) {
             document.getElementById("Guardar").disabled = true;
             document.getElementById('spanGuardar').innerHTML = 'Procesando...';           
-            if (validarCampos() != 0){  
+            //if (validarCampos() != 0){  
                 if(document.getElementById("archivoCer").value == "" || document.getElementById("archivoKey").value == ""){
                     alert("Seleccione los archivos");
                     document.getElementById('spanGuardar').innerHTML = 'Guardar';           
@@ -177,7 +206,7 @@
                     document.getElementById("txtCodigo").value = "";
                     subirArchivos();
                 }                       
-            }
+            //}
         }else{
             document.getElementById('spanGuardar').innerHTML = 'Guardar';           
             document.getElementById('Guardar').disabled = false;

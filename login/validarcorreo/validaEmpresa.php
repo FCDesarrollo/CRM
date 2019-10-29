@@ -39,9 +39,9 @@ $mail->isHTML(true); //Decimos que lo que enviamos es HTML
 $mail->CharSet = 'UTF-8';  // Configuramos el charset 
 
 if($_POST){
-	$datos = $_POST;
-	if($datos['rfc'] != "" && $datos['correo']!=""){
-		EnviarMailEmpresa($datos['correo']);
+	//$_POST = $_POST;
+	if($_POST['rfc'] != "" && $_POST['correo']!=""){
+		EnviarMailEmpresa($_POST['correo']);
 	}	
 	
 }

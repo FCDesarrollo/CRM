@@ -34,12 +34,14 @@
 
     <?php
         if($_GET){
-        if(isset($_GET['user'])){    
-            echo "<script> $('.mostrardiv').load('cambiodepwd.php'); </script>";
-        }elseif(isset($_GET['ecod'])){
-            echo "<script> document.getElementById('Titulo').innerHTML ='Reenvio de Codigo de Verificacion'; </script>";
-            echo "<script> $('.mostrardiv').load('reenviarcodigo.php'); </script>";
-        }
+            if(isset($_GET['user'])){    
+                echo "<script> $('.mostrardiv').load('cambiodepwd.php'); </script>";
+            }elseif(isset($_GET['ecod'])){
+                echo "<script> document.getElementById('Titulo').innerHTML ='Reenvio de Codigo de Verificacion'; </script>";
+                echo "<script> $('.mostrardiv').load('reenviarcodigo.php'); </script>";
+            }elseif(isset($_GET['id'])){
+                echo "<script> $('.mostrardiv').load('cambiodepwd.php'); </script>";
+            }
         }else{
             echo "<script> $('.mostrardiv').load('enviodelink.php'); </script>";
         }          
