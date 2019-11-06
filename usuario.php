@@ -54,6 +54,7 @@ session_start();
                     <input type="hidden" name="idusuariolog" id="idusuariolog" value="<?php echo $_SESSION['idusuario']; ?>" />    
                     <input type="hidden" name="idempresalog" id="idempresalog" /> 
                     <input type="hidden" name="rfcempresa" id="rfcempresa" />
+                    <input type="hidden" name="idperfil" id="idperfil"/>
                     <!--<input type="hidden" name="nombreempresalog" id="nombreempresalog" />-->                         
                 </form>                                  
             </div>   
@@ -157,10 +158,14 @@ session_start();
         $("table tbody tr").click( function(){
             var select = $(this).find("td").eq(0).text(); 
             var rfc = $(this).find("td").eq(2).text();      
-            gNombreEmpresa = $(this).find("td").eq(1).text();          
+            gNombreEmpresa = $(this).find("td").eq(1).text();  
+            var idper = $(this).find("td").eq(3);
+            idper = idper[0]["attributes"][0].value;
+
             if(select!=""){                 
                 $("#idempresalog").val(select);                
                 $("#rfcempresa").val(rfc);
+                $("#idperfil").val(idper);
                 $("#FormListEmp").submit();
             }else{
                 alert("Seleccione Empresa");

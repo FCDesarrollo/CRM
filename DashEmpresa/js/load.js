@@ -1,7 +1,7 @@
 
+var per;
 
-
-function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
+function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
 
     idempresaglobal = idempresalog;
     idusuarioglobal = idusuario;
@@ -10,7 +10,7 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
         var usuario = JSON.parse(data).usuario;
         if (usuario.length > 0) {
             var nombre_completo = usuario[0].nombre + " " + usuario[0].apellidop + " " + usuario[0].apellidom;
-            document.getElementById('nUsuario').innerHTML = nombre_completo;
+            document.getElementById('nUsuario').innerText = nombre_completo;            
 
             tipousuarioglobal = usuario[0].tipo;
      
@@ -20,14 +20,24 @@ function CargaDatosEmpresa(idusuario, idempresalog, pwd) {
                     document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
 
                     datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
+                    
+                    $.get(ws + "DatosPerfil", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
+                        var datos = JSON.parse(data);                                   
+                        var perfil = datos[0].nombre;                 
+                        datosuser.idperfil = datos[0].idperfil;
+                        document.getElementById('nUsuario_per').innerText = perfil;
+                    });
 
                     $.get(ws + "DatosStorage", { rfcempresa: empresa[0].RFC }, function(data) {
                         var datos = JSON.parse(data);
                         datosuser.server = datos[0].server;
                         datosuser.user_storage = datos[0].usuario_storage;
                         datosuser.pwd_storage = datos[0].password_storage;
+                        
+                        
                     });
-     
+                                        
+
                 }
             });
         }

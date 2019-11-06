@@ -6,8 +6,10 @@ const MenuContabilidad = 1;
 const MenuProcesoFiscal = 2;
 const MenuFinanzas = 3;
 const MenuCompras = 4;
-const MenuAlmacenDigital = 5;
+const MenuAlmacenDigitalOpe = 5;
 const MenuRecepcionLotes = 6;
+const MenuAlmacenDigitalExp = 10;
+
 //Constantes para los submenus
 const SubEstadosFinancieros = 1;
 const SubContabilidadElectronica = 2;
@@ -23,11 +25,16 @@ const SubAnalisisProyecto = 11;
 const SubRequerimientos = 12;
 const SubAutorizaciones = 13;
 const SubRecepcionCompras = 14;
-const SubNotificacionesAutoridades = 15;
-const SubExpedientesDigitales = 16;
+const SubCompras = 15;
+const SubVentas = 16;
 const SubProcesoProduccion = 17;
 const SubProcesoCompras = 18;
 const SubProcesoVenta = 19;
+const SubPagos = 23;
+const SubCobros = 24;
+const SubProduccion = 25;
+const SubInventarios = 26;
+const SubGenerales = 27;
 
 var datosuser;
 
@@ -87,10 +94,13 @@ function CargarSubMenu(idsubmenu){
         case 14:
             
             break;
-        case 15:
-            
-            break;                                                
+        case 15: 
         case 16:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
             ExpDigitales(idmoduloglobal, idmenuglobal, idsubmenuglobal, datosuser.rfcempresa);
             break;   
         case 17:
@@ -208,7 +218,7 @@ function CargarEmpresa(idemp){
                 var id = listaEmp[i].idempresa;
                 if(idemp == id){
                     $.ajax({                        
-                        data: { reload: true, idempresa: idemp, rfcempresa: listaEmp[i].RFC },
+                        data: { reload: true, idempresa: idemp, rfcempresa: listaEmp[i].RFC, idperfil: listaEmp[i].idperfil },
                         type: 'POST',
                         url: '../../session.php',            
                     })

@@ -16,7 +16,7 @@
                 </div>
               </div>
               <div class="form-group">      
-                <input name="recover-submit" onclick="ValidaCorreo()" class="btn btn-lg btn-primary btn-block" value="Restablercer" type="button">         
+                <input name="recover-submit" onclick="ValidaCorreo_Res()" class="btn btn-lg btn-primary btn-block" value="Restablercer" type="button">         
               </div>                                                    
             </form>    
           </div>

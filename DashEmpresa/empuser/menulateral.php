@@ -9,10 +9,11 @@
     $perMod->user_Modulos();
     $perMod->user_Menus();
     $perMod->user_SubMenus();
+    $perMod->Modulos();
 
 ?>
 <div class="br-sideleft overflow-y-auto">
-      <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
+      <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
         <a href="" class="br-menu-link active">
           <div class="br-menu-item">
@@ -23,7 +24,7 @@
         <a href="#" <?= ($perMod->Mod_Permiso(Mod_IncloudCon)==0) ? 'style=pointer-events:none' : ''; ?> class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
-            <span class="menu-item-label">InCloud-Contabilidad</span>
+            <span class="menu-item-label"><?= $perMod->Mod_Nombre(Mod_IncloudCon) ?></span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
@@ -41,25 +42,32 @@
         <a href="#" <?= ($perMod->Mod_Permiso(Mod_InboxBandeja)==0) ? 'style=pointer-events:none' : ''; ?> class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Inbox-BandejaDeEntrada</span>
+            <span class="menu-item-label"><?= $perMod->Mod_Nombre(Mod_InboxBandeja) ?></span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item">
-            <a <?= ($perMod->Menu_Permiso(Men_Compras)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/compras.php',<?= Mod_InboxBandeja ?>, <?= Men_Compras ?>, 0)">Compras</a>
+            <a <?= ($perMod->Menu_Permiso(Men_AlmacenDigital)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link none-link" onclick="loadDiv('../submenus/almacendigital.php',<?= Mod_InboxBandeja ?>, <?=Men_AlmacenDigital ?>, 0)">Almacen Digital Operaciones</a>
           </li>
           <li class="nav-item">
-            <a <?= ($perMod->Menu_Permiso(Men_AlmacenDigital)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link none-link" onclick="loadDiv('../submenus/almacendigital.php',<?= Mod_InboxBandeja ?>, <?=Men_AlmacenDigital ?>, 0)">Almacen Digital</a>
+            <a <?= ($perMod->Menu_Permiso(Men_RecepLotes)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/recepcionlotes.php',<?= Mod_InboxBandeja ?>, <?=Men_RecepLotes ?>, 0)">
+            Recepción por Lotes O.</a>
           </li>
           <li class="nav-item">
-            <a <?= ($perMod->Menu_Permiso(Men_RecepLotes)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/recepcionlotes.php',<?= Mod_InboxBandeja ?>, <?= Men_RecepLotes ?>, 0)">Recepción por Lotes</a>
+            <a <?= ($perMod->Menu_Permiso(Men_AlmacenDigitalExp)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link none-link" onclick="loadDiv('../submenus/almacendigitalexpedientes.php',<?= Mod_InboxBandeja ?>, <?=Men_AlmacenDigitalExp ?>, 0)">Almacen Digital Expedientes</a>
+          </li>
+          <li class="nav-item">
+            <a <?= ($perMod->Menu_Permiso(Men_Compras)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/compras.php',<?= Mod_InboxBandeja ?>, <?=Men_Compras ?>, 0)">
+            Autorizaciones y Compras</a>
           </li>
         </ul>
+        
         <a href="#" <?= ($perMod->Mod_Permiso(Mod_IndexAdministrar)==0) ? 'style=pointer-events:none' : ''; ?> class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Index-Administracion</span>
+            <span class="menu-item-label"><?= $perMod->Mod_Nombre(Mod_IndexAdministrar) ?></span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->

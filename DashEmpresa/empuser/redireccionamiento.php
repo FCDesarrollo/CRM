@@ -38,6 +38,9 @@
     	case 9:
     		$archivo = "adm_perfiles.php";
     		break;  	    	    	    	    	
+        case 10:
+            $archivo = "almacendigitalexpedientes.php";
+            break;            
     	default:
     		$archivo = "";
     		break;

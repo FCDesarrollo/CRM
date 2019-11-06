@@ -6,6 +6,7 @@ session_start();
 if(isset($_POST["reload"])){
     $_SESSION['idempresalog'] = $_POST["idempresa"];
     $_SESSION['RFCEmpresa'] = $_POST["rfcempresa"];
+    $_SESSION['idperfil'] = $_POST["idperfil"];
     //header("Location: DashEmpresa/");
     //echo "<script> window.location='../DashEmpresa/' </script>";
 }else{

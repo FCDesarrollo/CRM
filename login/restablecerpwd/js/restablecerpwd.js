@@ -4,22 +4,51 @@ function CambiarContraseña(){
     var confirmapassword = $("#confirmapwd").val();
 
     if(newpassword != confirmapassword){
-        alert("Las contraseñas no coinciden");
+        //alert("Las contraseñas no coinciden");
+        swal({
+          title: "¡Contraseña!",
+          text: "Las contraseñas no coinciden.",
+          icon: "info",  
+          buttons: false,                
+          timer: 4500,
+        });        
     }else{        
         $.post(ws + "RestablecerContraseña", { idusuario: idusuario, password: newpassword }, function(data){  
             if(data>0){ 
-                alert("Se cambio la contraseña con exito");
-                //location.href="http://localhost/webconsultormx/";
-                window.location='../';
+                //alert("Se cambio la contraseña con exito");
+                swal({
+                  title: "¡Contraseña!",
+                  text: "Se cambio la contraseña con exito.",
+                  icon: "success",  
+                  buttons: false,                
+                  timer: 4500,
+                })
+                .then((value) => {
+                  switch (value) {                 
+                    default:
+                        window.location='../';
+                  }
+                });                
+
+                
             }else{                
-                alert("Hubo un error, y no se restablecio la contraseña, favor de volver a intentar.");          
+                //alert("Hubo un error, y no se restablecio la contraseña, favor de volver a intentar."); 
+                swal({
+                  title: "¡Error!",
+                  text: "No se pudo restablecer la contraseña, favor de volver a intentar, si el problema continua, comunicarse a sistemas.",
+                  icon: "warning",  
+                  buttons: false,                
+                  timer: 4500,
+                });
             }
         }); 
     }
 
 }
 
-function ValidaCorreo(){
+var vEcod = 0;
+var encript;
+function ValidaCorreo_Res(){
 
     //Validacion del formato de correo y validacion de existencia en bdd
     var correo = $("#email").val();
@@ -28,18 +57,52 @@ function ValidaCorreo(){
             var usuario = JSON.parse(data).usuario;
             if(usuario.length>0){ 
                 document.getElementById("email").style.borderColor="#ced4da";
-                if(usuario[0].tipo>0){
-                    //console.log("Enviar Link");
-                    EnviarCorreo(correo,usuario[0].idusuario,usuario[0].nombre,usuario[0].apellidop);
+                //console.log(usuario[0].tipo);
+                if(usuario[0].tipo>0){                    
+                    EnviarCorreo_Res(correo,usuario[0].idusuario,usuario[0].nombre,usuario[0].apellidop);
                 }else{
-                    //console.log(usuario[0].tipo);
-                    //console.log("ReenviarCorreo");
-                    ReenviarCorreo(correo,usuario[0].idusuario,usuario[0].identificador);                    
+                    var pwd = "default_"+usuario[0].identificador;                              
+                
+                    $.ajax({
+                        url: 'encript_pwd.php',
+                        type: 'POST',                        
+                        data: {pwd: pwd, pwd_user: usuario[0].password},
+                    })
+                    .done(function(response) {                        
+                        encript = response;
+                        if(encript == true && vEcod == 0){                        
+                            //history.pushState("localhost/crm/", "", "");
+                            swal({
+                              title: "¡Cuenta no verificada!",
+                              text: "Su codigo de verificacion ya ha sido enviado con anterioridad.",
+                              icon: "info",  
+                              buttons: false,                
+                              timer: 4500,
+                            })
+                            .then((value) => {
+                              switch (value) {                 
+                                default:
+                                    window.location.replace("../?&id="+usuario[0].identificador);
+                              }
+                            });                             
+                            
+                        }else{
+                            ReenviarCorreo(correo,usuario[0].idusuario,usuario[0].identificador);
+                        }                        
+                    });
 
                 } 
             }else{                
                 document.getElementById("email").style.borderColor="#FF0000";         
-                alert("El correo ingresado o numero telefonico no existen.");          
+                //alert("El correo ingresado o numero telefonico no existen."); 
+                swal({
+                  title: "¡Correo Electronico!",
+                  text: "El correo electronica es incorrecto.",
+                  icon: "warning",  
+                  buttons: false,                
+                  timer: 4500,
+                });                         
+
             }
         });           
     }else{
@@ -57,7 +120,7 @@ function limpia(){
     ENVIA EL FORMULARIO CON EL USO DE AJAX PARA EL ENVIO DEL CORREO
     CON EL CODIGO DE VERIFICACION DE LA CUENTA CREADA
 */ 
-function EnviarCorreo(email,idusuario,nombre,apellidop){ 
+function EnviarCorreo_Res(email,idusuario,nombre,apellidop){ 
     $.ajax({                        
         data: { 'correo': email,
                 'idusuario': idusuario, 
@@ -67,8 +130,22 @@ function EnviarCorreo(email,idusuario,nombre,apellidop){
         type: 'POST',
         url: '../validarcorreo/valida.php',            
         success:function(response){
-            alert("Se ha enviado un link a su correo para restablecer su contraseña.");
-            window.location='../';
+            //alert("Se ha enviado un link a su correo para restablecer su contraseña.");
+            swal({
+              title: "¡Correo Enviado!",
+              text: "Se ha enviado un link a su correo para restablecer su contraseña.",
+              icon: "success",  
+              buttons: false,                
+              timer: 4500,
+            })
+            .then((value) => {
+              switch (value) {                 
+                default:
+                  window.location='../';
+              }
+            });                       
+
+            
         }
     });      
 }   
@@ -81,10 +158,40 @@ function ReenviarCorreo(email,idusuario,identificador){
                 'identificador': identificador},
         type: 'POST',
         url: '../validarcorreo/valida.php',            
-        success:function(response){
-            alert("Codigo de verificacion reenviado correctamente.");
-            document.getElementById('Titulo').innerHTML ='¡Cuenta de usuario no verificada!';
-            $("#validacion").load("validacodigoreenviado.php");
+        success:function(response){            
+            if(encript == true){                        
+                //alert("Codigo de verificacion reenviado correctamente, es necesario establecer una contraseña nueva.");
+                swal({
+                  title: "Verificacion de cuenta!",
+                  text: "Su codigo de verificacion ha sido reenviado, es necesario establecer una nueva contraseña.",
+                  icon: "success",  
+                  buttons: true,                  
+                })
+                .then((value) => {
+                  switch (value) {                 
+                    default:
+                      window.location.replace("../?&id="+identificador);
+                  }
+                });
+
+                
+            }else{
+                swal({
+                  title: "Verificacion de cuenta!",
+                  text: "Su codigo de verificacion ha sido reenviado correctamente.",
+                  icon: "success",  
+                  buttons: true,                  
+                })
+                .then((value) => {
+                  switch (value) {                 
+                    default:
+                        document.getElementById('Titulo').innerHTML ='¡Cuenta de usuario no verificada!';
+                        $("#validacion").load("validacodigoreenviado.php");                    
+                  }
+                });                
+//                alert("Codigo de verificacion reenviado correctamente.");
+
+            }
         }
     });
         

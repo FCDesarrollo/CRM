@@ -14,29 +14,17 @@ session_start();
 
     <div class="table-wrapper">
         <div id="datatable1_wrapper" class="dataTables_wrapper no-footer">
-            <div id="datatable1_filter" class="dataTables_filter">
-                <label><input type="search" class="" placeholder="Search..." aria-controls="datatable1"></label>
-            </div>
-
             <table id="ListaUsuarioslog" class="table display responsive nowrap dataTable no-footer dtr-inline collapsed" role="grid" aria-describedby="datatable1_info">
-            <thead>   
-                <thead>
-                    <tr>
-                        <th>Nombre Usuario</th>
-                        <th>Estatus</th>
-                        <th><em class="fa fa-cog"></em>Acciones</th>
-                    </tr>   
-                </thead> 
-            </thead>
-    
-
+                <thead>   
+                    <thead>
+                        <tr>
+                            <th>Nombre Usuario</th>
+                            <th>Estatus</th>
+                            <th><em class="fa fa-cog"></em>Acciones</th>
+                        </tr>   
+                    </thead> 
+                </thead>
             </table>
-            <div class="dataTables_info" id="datatable1_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-            <div class="dataTables_paginate paging_simple_numbers" id="datatable1_paginate">
-                <a class="paginate_button previous disabled" aria-controls="datatable1" data-dt-idx="0" tabindex="0" id="datatable1_previous">Previous</a>
-                <span><a class="paginate_button current" aria-controls="datatable1" data-dt-idx="1" tabindex="0">1</a><a class="paginate_button " aria-controls="datatable1" data-dt-idx="2" tabindex="0">2</a><a class="paginate_button " aria-controls="datatable1" data-dt-idx="3" tabindex="0">3</a><a class="paginate_button " aria-controls="datatable1" data-dt-idx="4" tabindex="0">4</a><a class="paginate_button " aria-controls="datatable1" data-dt-idx="5" tabindex="0">5</a><a class="paginate_button " aria-controls="datatable1" data-dt-idx="6" tabindex="0">6</a></span>
-                <a class="paginate_button next" aria-controls="datatable1" data-dt-idx="7" tabindex="0" id="datatable1_next">Next</a>
-            </div>
         </div>
     </div>
 
@@ -46,20 +34,26 @@ session_start();
     var idempresa ='<?php echo $_SESSION["idempresalog"]; ?>';
 	$.get(ws + "ListaUsuarios/" + idempresa, function(data){
 		var usuarios = JSON.parse(data).usuarios;
-        for(var x in usuarios)
-        {
-            document.getElementById("ListaUsuarioslog").innerHTML += 
-					"<tbody> \
-						<tr role='row' class='odd'> \
-                            <td style='display:none;'>"+ usuarios[x].iduser+"</td> \
-							<td>"+ usuarios[x].nombre + " " + usuarios[x].apellidop + " " + usuarios[x].apellidom +"</td> \
-                            <td >"+ (usuarios[x].status==1 ? "Activo" : "Inactivo") +"</td> \
-							<td align='center'> \
-								<a onclick='DatosUsuarioUser();' value='"+usuarios[x].iduser+"' class='btn btn-success'><em class='fa fa-pencil'></em></a> \
-								<a onclick='EliminaUserlog(" + idempresa +");' value='"+usuarios[x].iduser+"'class='btn btn-danger'><em class='fa fa-trash'></em></a> \
-							</td> \
-						</tr> \
-					</tbody>";   
+        var VinDes; //Variable para saber si esta vinculado o desvinculado el usuario de la empresa.
+        for(var x in usuarios){
+
+            if(usuarios[x].iduser != idusuarioglobal){
+                VinDes = usuarios[x].vinculado = 1 ? 'fa fa-unlink' : 'fa fa-link';
+                document.getElementById("ListaUsuarioslog").innerHTML += 
+    					"<tbody> \
+    						<tr role='row' class='odd'> \
+                                <td style='display:none;'>"+usuarios[x].iduser+"</td> \
+    							<td style='padding-top: 20px;padding-bottom: 20px;'>"+ usuarios[x].nombre + " " + usuarios[x].apellidop + " " + usuarios[x].apellidom +"</td> \
+                                <td style='padding-top: 20px;padding-bottom: 20px;'>"+ (usuarios[x].status==1 ? "Activo" : "Inactivo") +"</td> \
+    							<td> \
+                                    <a onclick='DatosUsuarioUser();' value='"+usuarios[x].iduser+"' title='Editar Permisos' class='btn btn-outline-primary btn-icon rounded-circle'><div><i class='fa fa-pencil' style='color: black;'></i></div></a> \
+                                    <a onclick='VinDesEmp();' title='"+(usuarios[x].vinculado == 1 ? "Desvincular" : "Vincular")+"' class='btn btn-warning btn-icon rounded-circle'><div><i class='"+VinDes+"' style='color: white;'></i></div></a> \
+                                    <a onclick='EliminaUserlog("+idempresa+");' title='Eliminar Usuario' value='"+usuarios[x].iduser+"' class='btn btn-danger btn-icon rounded-circle'><div><i class='fa fa-trash' style='color: white;'></i></div></a> \
+    							</td> \
+    						</tr> \
+    					</tbody>";   
+            
+            }
         }  
         $('#loading').addClass('d-none');          
     });

@@ -3,7 +3,7 @@
 	<div class="modal-dialog modalSelect3" style="max-width: 575px;">
 		<div class="modal-content">
 			<div class="modal-header">			
-                <h5 class="modal-title">Cargado de Expedientes Digitales</h5>	
+                <h5 class="modal-title" id="modal-title">Almacen Digital</h5>	
                 <button type="button" class="close" data-dismiss="modal" onclick="cerrarArchivos()">&times;</button>
 			</div>
             <div class="modal-body">

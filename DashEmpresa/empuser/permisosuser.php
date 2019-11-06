@@ -15,6 +15,7 @@ const Men_RecepLotes = 6;
 const Men_Empresa = 7;
 const Men_Usuarios = 8;
 const Men_Perfiles = 9;
+const Men_AlmacenDigitalExp = 10;
 
 //VARIABLES GLOBALES DE SUBMENU
     //SUBMENUS DE CONTABILIDAD
@@ -39,9 +40,16 @@ const Men_Perfiles = 9;
     const SubMen_Autorizaciones = 13;
     const SubMen_Recep_Compras = 14;
 
-    //SUBMENUS DE ALMACEN DIGITAL
-    const SubMen_Noti_Autoridades = 15;
-    const SubMen_Expe_Digi = 16;
+    //SUBMENUS DE ALMACEN DIGITAL OPERACIONES
+    const SubMen_Compras = 15;
+    const SubMen_Ventas = 16;
+    const SubMen_Pagos = 23;
+    const SubMen_Cobros = 24;
+    const SubMen_Produccion = 25;
+    const SubMen_Inventarios = 26;
+
+    //SUBMENUS DE ALMACEN DIGITAL EXPEDIENTES
+    const SubMen_Generales = 27;
 
     //SUBMENUS DE RECEPCION POR LOTES
     const SubMen_Proce_Produc = 17;
@@ -65,6 +73,7 @@ class PermisosUsuario
     private $_Modulos;
     private $_Menus;
     private $_SubMenus;
+    private $_NombresMOD;
     protected  $_sWs = "http://apicrm.dublock.com/public/";
     //protected  $_sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
     function __construct(int $IDComp,int $IDUse){
@@ -93,6 +102,13 @@ class PermisosUsuario
         $this->_SubMenus = json_decode($resultado2, true);
     }
 
+    public function Modulos()
+    {
+        $data2 = "";
+        $resultado2 = CallAPI("GET", $this->_sWs ."Modulos");    
+        $this->_NombresMOD = json_decode($resultado2, true);
+    }      
+
     public function Mod_Permiso(int $_mIDModulo): int
     {
         foreach($this->_Modulos as $value) {
@@ -100,7 +116,7 @@ class PermisosUsuario
                 return  $value['tipopermiso'];
             }
         }    
-    }
+    }   
 
     public function Menu_Permiso(int $_mIDMenu): int
     {
@@ -120,6 +136,16 @@ class PermisosUsuario
         }  
          
     }
+ 
+
+    public function Mod_Nombre(int $_mIDModulo): string
+    {
+        foreach($this->_NombresMOD as $value) {
+            if($_mIDModulo == $value['idmodulo']){
+                return  $value['nombre_modulo'];
+            }
+        }    
+    }     
 
     
 }

@@ -12,7 +12,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     modulo = idmodulo;
     menu = idmenu;
     submenu = idsubmenu;
-
+    
     URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
     
 
@@ -21,7 +21,17 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
 
     $("#t-ExpDigitales tbody").children().remove();    
-    //$("#loading").removeClass("d-none");        
+    //$("#loading").removeClass("d-none");  
+    if(idsubmenu == 27){
+        var myArr = ['GOB', 'BAN', 'RH', 'CLI', 'PROV', 'CON', 'ACT', 'PUB'];
+    }else if(idsubmenu == 23){
+        var myArr = ['PAG'];
+    }else{
+        $('#loading').addClass('d-none');
+        console.log("Pendiente");
+        return;
+    }
+    
 
     $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa}, function(data){
         var datos = JSON.parse(data);
@@ -31,23 +41,25 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
             LlenaPaginador(datos.length, datos, "t-ExpDigitales");
 
             for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
-        
-                document.getElementById("t-ExpDigitales").innerHTML +=
-                "<tr> \
-                    <td>"+datos[i].fechadocto+"</td> \
-                    <td>"+datos[i].usuario+"</td> \
-                    <td>"+datos[i].rubro+"</td> \
-                    <td>"+datos[i].sucursal+"</td> \
-                    <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
-                    <td> \
-                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
-                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
-                        <nav class='nav nav-style-1 flex-column'> \
-                          <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
-                        </nav> \
-                      </div> \
-                    </td> \
-                </tr>";            
+                if(myArr.includes(datos[i].claverubro)){
+
+                    document.getElementById("t-ExpDigitales").innerHTML +=
+                    "<tr> \
+                        <td>"+datos[i].fechadocto+"</td> \
+                        <td>"+datos[i].usuario+"</td> \
+                        <td>"+datos[i].rubro+"</td> \
+                        <td>"+datos[i].sucursal+"</td> \
+                        <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
+                        <td> \
+                          <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
+                          <div class='dropdown-menu dropdown-menu-right pd-10'> \
+                            <nav class='nav nav-style-1 flex-column'> \
+                              <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
+                            </nav> \
+                          </div> \
+                        </td> \
+                    </tr>";            
+                }
 
             }
             $('#loading').addClass('d-none');   
@@ -67,7 +79,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     });	
 }
 
-function DocumentosALM($idalm){
+function DocumentosALM(idalm){
 
     $("#t-ArchivosALM tbody").children().remove();    
     $("#loading").removeClass("d-none");    
@@ -81,7 +93,7 @@ function DocumentosALM($idalm){
     //console.log(storage);
 
 
-    $.get(ws + "ArchivosAlmacen", {idempresa: idempresaglobal, idalmacen: $idalm}, function(data){
+    $.get(ws + "ArchivosAlmacen", {idempresa: idempresaglobal, idalmacen: idalm}, function(data){
         var datos = JSON.parse(data);
         
         if(datos.length > 0){      
@@ -90,7 +102,7 @@ function DocumentosALM($idalm){
                 async:true,
                 url: '../submenus/leer_carpeta.php',
                 type: 'POST',
-                data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos},
+                data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idsubmenu: idsubmenuglobal},
                 success: function (responseAJAX) {
                     var respuesta = JSON.parse(responseAJAX);
                     //console.log(respuesta[0].link);
@@ -170,7 +182,8 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
 
                         var parametros = {
                             "rfcempresa" : datosuser.rfcempresa,
-                            "archivo" : respuesta["archivo"]
+                            "archivo" : respuesta["archivo"],
+                            "idsubmenu" : idsubmenuglobal
                         };
                         $.ajax({
                                 data:  parametros, //datos que se envian a traves de ajax
@@ -263,13 +276,14 @@ function cargarRubros(nameSelec){
     selectPer = document.getElementById(nameSelec);
     $.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
         var rubros = JSON.parse(data).rubros;
-        console.log(rubros);
-        for(var x in rubros)
-        {
-            option = document.createElement("option");
-            option.value = rubros[x].clave;
-            option.text = rubros[x].nombre;
-            selectPer.appendChild(option);
+        
+        for(var x in rubros){
+            if(submenu == rubros[x].idsubmenu){
+                option = document.createElement("option");
+                option.value = rubros[x].clave;
+                option.text = rubros[x].nombre;
+                selectPer.appendChild(option);                
+            }
         }            
     });
 }
@@ -337,7 +351,16 @@ function cargarArchivos(){
                     datos.fechadocto = fechadocto;
                     datos.archivos = new Object();
 
-                    archivosList.append('file-0', rfc + '/Entrada/AlmacenDigital/ExpedientesDigitales/');   
+                    if(idsubmenuglobal == 23){
+                        archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalOperaciones/Pagos/');
+                    }else if(idsubmenuglobal == 27){
+                        archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalExpedientes/Generales/');   
+                    }else{
+                        swal("¡Pendiente!","Pendiente de generar ruta.","warning");
+                        return;
+                    }
+                    
+
                     var j = 0;
                     jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
                         i++;

@@ -17,13 +17,13 @@ session_start();
 		<h4 class="tx-gray-800">Compras</h4>    
     	<p class="mg-b-30"></p>	
 
-		<div class="row justify-content-around">
+		<div class="row">
 	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Requerimientos)==0) ? 'disabled' : ''; ?>>Requerimientos</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Requerimientos)==0) ? 'disabled' : ''; ?>>Requerimientos de compra</button>
 			</div>
-	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">
+	        <!--<div class="col-sm-4 mg-t-20 mg-sm-t-0">
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Autorizaciones)==0) ? 'disabled' : ''; ?>>Autorizaciones</button>
-			</div>
+			</div>-->
 			<div class="col-sm-4 mg-t-20 mg-sm-t-0">
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Recep_Compras)==0) ? 'disabled' : ''; ?>>Recepcion de Compras</button>            
 	        </div>

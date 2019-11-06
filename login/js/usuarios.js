@@ -19,7 +19,14 @@ function Login()
                         FormValidacion();                   
                     }                    
                 }else{
-                    alert("El usuario o contraseña son incorrectos");
+                    //alert("El usuario o contraseña son incorrectos");
+                    swal({
+                      title: "¡Inicio de Session!",
+                      text: "El usuario o contraseña son incorrectos",
+                      icon: "warning",  
+                      buttons: false,                
+                      timer: 3000,
+                    });                    
                 }
             });
         }
@@ -114,7 +121,14 @@ function Login()
                     loadlistEmpresas(usuario[0].idusuario, usuario[0].tipo, "EmpVin");
 
                 }else{
-                    alert("No se encontro el usuario");
+                    //alert("No se encontro el usuario");
+                    swal({
+                      title: "¡Datos de Usuario!",
+                      text: "No se encontro el usuario",
+                      icon: "warning",  
+                      buttons: false,                
+                      timer: 3000,
+                    });                    
                 }
             });
         });
@@ -140,7 +154,14 @@ function Login()
                                 ListaUsuarios(0);      
                             }
                         }else{
-                            alert("Ocurrio un error al eliminar el usuario");
+//                            alert("Ocurrio un error al eliminar el usuario");
+                            swal({
+                              title: "¡Error!",
+                              text: "Ocurrio un error al eliminar el usuario",
+                              icon: "warning",  
+                              buttons: false,                
+                              timer: 3000,
+                            });                            
                         }
                     });
                 } else {
@@ -164,7 +185,15 @@ function Login()
                     if(data>0){
                         mostrarUser();
                     }else{
-                        alert("Ocurrio un error al eliminar el usuario");
+                        //alert("Ocurrio un error al eliminar el usuario");
+                        swal({
+                          title: "¡Error!",
+                          text: "Ocurrio un error al eliminar el usuario",
+                          icon: "warning",  
+                          buttons: false,                
+                          timer: 2500,
+                        });                        
+
                     }
                 });
             } else {
@@ -189,7 +218,14 @@ function Login()
                 }
                  
             }else{
-                alert("Ocurrio un error al guardar el usuario");
+                //alert("Ocurrio un error al guardar el usuario");
+                swal({
+                  title: "¡Error!",
+                  text: "Ocurrio un error al guardar el usuario.",
+                  icon: "warning",  
+                  buttons: false,                
+                  timer: 3000,
+                });                
             }
         }); 
         //document.getElementById("#FormGuardaEmpresa").reset();
@@ -223,10 +259,24 @@ function Login()
           //  if (opcion == true) {
                 $.post(ws + "Desvincular",{ idusuario: sIDUser, idemp : sIDEmp }, function(data){
                     if(data>0){
-                        alert("Empresa Desvinculada Correctamente"); 
+                        //alert("Empresa Desvinculada Correctamente");
+                        swal({
+                          title: "¡Desvinculacion!",
+                          text: "Empresa Desvinculada Correctamente",
+                          icon: "success",  
+                          buttons: false,                
+                          timer: 3000,
+                        });                                   
                         loadlistEmpresas(sIDUser, sTipo, "EmpVin");   
                     }else{
-                        alert("Ocurrio un error al desvincular la empresa");
+                        //alert("Ocurrio un error al desvincular la empresa");
+                        swal({
+                          title: "¡Desvinculacion!",
+                          text: "Ocurrio un error al desvincular la empresa",
+                          icon: "warning",  
+                          buttons: false,                
+                          timer: 3000,
+                        });                                                           
                     }
                 });
            /// } else {
@@ -290,7 +340,14 @@ function Login()
                     $('#chst').prop("checked", (modulo[0].status==1 ? true : false) );
 
                 }else{
-                    alert("No se encontro el usuario");
+                    //alert("No se encontro el usuario");
+                    swal({
+                      title: "¡Error!",
+                      text: "No se encontro el usuario.",
+                      icon: "warning",  
+                      buttons: false,                
+                      timer: 3000,
+                    });                    
                 }
             });        
         }
@@ -331,7 +388,14 @@ function Login()
 
                     ListaPermisos(dIDPerfil);
                 }else{
-                    alert("No se encontro el usuario");
+                    swal({
+                      title: "¡Error!",
+                      text: "No se encontro el usuario.",
+                      icon: "warning",  
+                      buttons: false,                
+                      timer: 3000,
+                    });                                        
+                    //alert("No se encontro el usuario");
                 }
             });        
         }
@@ -384,7 +448,14 @@ function Login()
             if(data>0){
                 ListaPermisos(idperfil);
             }else{
-                alert("Ocurrio un error al guardar el Permiso");
+                //alert("Ocurrio un error al guardar el Permiso");
+                swal({
+                  title: "¡Error!",
+                  text: "Ocurrio un error al guardar el Permiso.",
+                  icon: "warning",  
+                  buttons: false,                
+                  timer: 3000,
+                });                                    
             }
         });
         $('#modpermisos').modal('hide');  
@@ -399,7 +470,14 @@ function Login()
                     if(data>0){
                         ListaPermisos(idper);
                     }else{
-                        alert("Ocurrio un error al eliminar el permiso");
+                        //alert("Ocurrio un error al eliminar el permiso");
+                        swal({
+                          title: "¡Error!",
+                          text: "Ocurrio un error al eliminar el permiso",
+                          icon: "warning",  
+                          buttons: false,                
+                          timer: 3000,
+                        });                        
                     }
                 });
             }
@@ -415,5 +493,50 @@ function Login()
         // var correo = $('#txtUsuario').val();
         // $('#myModal').modal('hide');
         // $('#ModalValidacion').modal('show');        
+    }
+
+    function ValidaLink(){
+        $.post(ws + "ObtenerUsuarioNuevo", {identificador: ident}, function(data){   
+            var usuario = JSON.parse(data).usuario;
+            //console.log(usuario);
+            if(usuario.length > 0){
+                if(usuario[0].tipo == 0){
+                    $('#recargable').load('validausuario.php');
+                }else{   
+                    $('#recargable').addClass('d-none');                       
+                    swal({
+                      title: "¡Cuenta Confirmada!",
+                      text: "Esta cuenta ya ha sido confirmada con anterioridad.",
+                      icon: "warning",  
+                      buttons: false,                
+                      timer: 3000,
+                    })
+                    .then((value) => {
+                      switch (value) {                 
+                        default:
+                          $('#recargable').removeClass('d-none');  
+                          window.location='/crm/login';
+                      }
+                    });
+                }                
+            }else{
+                $('#recargable').addClass('d-none');                       
+                swal({
+                  title: "¡Redireccionando!",
+                  text: "La direccion a la cual intento acceder no es valida.",
+                  icon: "warning",  
+                  buttons: false,                
+                  timer: 4500,
+                })
+                .then((value) => {
+                  switch (value) {                 
+                    default:
+                      $('#recargable').removeClass('d-none');  
+                      window.location='/crm';
+                  }
+                });
+            }
+        });
+        
     }
    

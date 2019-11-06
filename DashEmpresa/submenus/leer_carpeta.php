@@ -112,7 +112,12 @@
 			$item = $_POST['archivos'][$i]['documento'];	
 			$type = explode(".", $item);		
 			$documento = $_POST['archivos'][$i]['codigodocumento'].".".$type[1];
-			$link = $RFC."/Entrada/AlmacenDigital/ExpedientesDigitales/".$documento;
+			if($_POST['idsubmenu'] == 23){
+				$link = $RFC."/Entrada/AlmacenDigitalOperaciones/Pagos/".$documento;
+			}else if($_POST['idsubmenu'] == 27){
+				$link = $RFC."/Entrada/AlmacenDigitalExpedientes/Generales/".$documento;
+			}
+			
 			$link = getlink($link, $server, $user, $pass);		
 			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "idalmdigital" => $_POST['archivos'][$i]['idalmdigital'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "agente" => $_POST['archivos'][$i]['agente'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);
 		}

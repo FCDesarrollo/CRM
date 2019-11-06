@@ -220,19 +220,64 @@ function DatosUsuarioUser(){
 
 }
 
+function VinDesEmp(){ //Vincula y Desvincula usuario de la empresa.
+    $("table tbody tr").click( function(){
+        var sIDUser = $(this).find("td").eq(0).text();
+
+        swal("¿Estas seguro de deseas eliminar al usuario?", {
+          buttons: {
+            aceptar: "Aceptar",
+            cancel: "Cancelar",    
+          },
+        })
+        .then((value) => {        
+            switch (value) { 
+                case "Cancelar":          
+                    break;
+                case "Aceptar":
+                    //$.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
+
+                    //});
+                    break;
+            }   
+        });
+
+    });
+
+}
+
 function EliminaUserlog(idempresa){
     $("table tbody tr").click( function(){
-        var sIDUser = $(this).find("td").eq(0).text(); 
-        if(sIDUser>0){
-            $.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
-                if(data>0){
-                    //loadDiv('../divsadministrar/divadmusuarios.php');
-                    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
-                }else{
-                    alert("Ocurrio un error al eliminar el usuario");
-                }
-            });
-        }                      
+        var sIDUser = $(this).find("td").eq(0).text();
+        swal("¿Estas seguro de deseas eliminar al usuario?", {
+          buttons: {
+            aceptar: "Aceptar",
+            cancel: "Cancelar",    
+          },
+        })
+        .then((value) => {        
+            switch (value) { 
+                case "Cancelar":          
+                
+                break;
+                case "Aceptar":                    
+                    if(sIDUser>0){
+                        $("#loading").removeClass('d-none');   
+                        /*$.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
+                            if(data>0){
+                                //loadDiv('../divsadministrar/divadmusuarios.php');
+                                $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                                $("#loading").addClass('d-none');   
+                            }else{
+                                $("#loading").addClass('d-none');   
+                                swal("¡Error!","Ocurrio un error al eliminar el usuario", "error");
+                            }
+                        });*/
+                    } 
+                break;
+            }   
+        });         
+                     
     });    
 
 }

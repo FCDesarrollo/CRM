@@ -82,7 +82,7 @@ session_start();
 
   </head> 
 
-  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>','<?php echo $_SESSION['pwd']; ?>')">
+  <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>', '<?php echo $_SESSION['idperfil']; ?>','<?php echo $_SESSION['pwd']; ?>')">
     
     <?php include("../../varglobales.php"); ?>
     <?php //include("PHPAltiria.php"); ?>
@@ -163,11 +163,20 @@ session_start();
                 </div>
               </div><!-- media-list -->
             </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
+          </div><!-- dropdown  hidden-sm-down-->
+          <div class="dropdown">
+            <div class="pd-l-5 pd-r-5" style="display: grid;">
+              <!--<span class="nav-link nav-link-profile logged-name pd-0" id="nUsuario"></span>-->
+              <span class="nav-link nav-link-profile logged-name pd-b-0" id="nUsuario"></span>
+              <span class="logged-name d-flex justify-content-center" id="nUsuario_per"></span>
+                                          
+            </div>
+          </div>
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-<!-- Carga Nombre Usuario -->
-              <span class="logged-name hidden-sm-down" id="nUsuario"></span>
+            
+              
+              
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>

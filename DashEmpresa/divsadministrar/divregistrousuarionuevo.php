@@ -31,7 +31,7 @@
                   <div class="col-md-4">
                     <div class="form-group bd-t-0-force">
                         <label class="form-control-label">Correo Electronico: <span class="tx-danger">*</span></label>
-                        <input class="form-control" type="text" name="correo" id="txtcorreo" onblur="ValidaCorreo(this.value)" placeholder="Correo Electronico">
+                        <input class="form-control" type="text" name="correo" id="txtcorreo" onblur="ValidaCorreo_Reg(this.value)" placeholder="Correo Electronico">
                     </div>
                   </div><!-- col-8 -->
                   <div class="col-md-4 mg-t--1 mg-md-t-0">

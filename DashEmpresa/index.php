@@ -3,6 +3,7 @@ session_start();
     if (isset($_POST["idempresalog"])) {
         $_SESSION['idempresalog'] = $_POST["idempresalog"];
         $_SESSION['RFCEmpresa'] = $_POST["rfcempresa"];
+        $_SESSION['idperfil'] = $_POST["idperfil"];
     }else{
         $_SESSION['idempresalog'] = 0;
         echo "<script> window.location='../../usuario.php' </script>";

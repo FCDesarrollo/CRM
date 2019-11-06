@@ -4,6 +4,8 @@
 var CorreoExistente = 0;
 var FormValidado = 0;
 function AgregarUsuario(){
+    $("#loading").removeClass('d-none');
+
 	document.getElementById("btnagregauser").disabled = true;
     var IDUsuario = "0";
     var status = "1";
@@ -30,16 +32,20 @@ function AgregarUsuario(){
 	        $.post(ws + "GuardaUsuario", form, function(data){
 	            if(data>0){
 	                EnviarCorreo(form);
+                                        
 	            }else{
+                    $("#loading").addClass('d-none');
 	                swal("Usuario", "Ocurrio un error, vuelva a intentar. Si el error continua, favor de comunicarnoslo por correo, en el apartado de Contancto", "error");
 	                document.getElementById("btnagregauser").disabled = false;
 	            }
 	        });
 	    }else{
+            $("#loading").addClass('d-none');
 	    	swal("Correo Electronico", "Ya existe un usuario registrado con este correo electronico.", "error");
 	    	document.getElementById("btnagregauser").disabled = false;
 	    }
     }else{
+        $("#loading").addClass('d-none');
     	document.getElementById("btnagregauser").disabled = false;
     }
 }
@@ -50,14 +56,16 @@ function EnviarCorreo(form){
         data: form,
         type: 'POST',
         url: '../../login/validarcorreo/valida.php',            
-        success:function(response){
-			swal({
+        success:function(response){		
+            $("#loading").addClass('d-none');	
+            swal({
 			  title: "Usuario Registrado",
 			  text: "El Codigo de verificacion ha sido enviado correctamente.",
 			  icon: "success",
 			})			
 			.then((value) => {
-			  $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+			    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                
 			});
         }
     });      
@@ -130,7 +138,7 @@ function ValidarForm(){
 
 }
 
-function ValidaCorreo(correo){
+function ValidaCorreo_Reg(correo){
     if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/.test(correo)){            
         $.post(ws + "ValidarCorreo", { correo: correo }, function(data){  
             var usuario = JSON.parse(data).usuario;

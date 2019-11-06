@@ -65,7 +65,7 @@ function CargaListaEmpresas(idusuario){
 								</a> \
 							</td> \
 							<td>"+empresas[x].RFC+"</td> \
-							<td>"+empresas[x].perfil+"</td> \
+							<td value='"+empresas[x].idperfil+"'>"+empresas[x].perfil+"</td> \
 						</tr> \
 					</tbody>";
 					/*document.getElementById("lista-empresa").innerHTML += 
