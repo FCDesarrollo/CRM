@@ -97,7 +97,7 @@ function ValidarDatos(){
                     },
                     cache: false,
                     error: function(data) {
-                      console.log("error");
+                      //console.log("error");
                        alert("error\n", data);
                       swal(data, { 
                           icon: "info",
@@ -121,28 +121,35 @@ function ValidarDatos(){
                           var fechados = new Date(fechaCer);
 
                           fecha = fechauno.getDate() + "-" + convertMonth(fechauno.getMonth()+1) + "-" + fechauno.getFullYear();
-                          
-                          //if (fechauno.getTime() < fechados.getTime()){                                  
+                                 
                           var fec1 = fecha.split("-");
-                          var fec2 = fechaCer[0].split("-");                          
+                          var fec2 = fechaCer[0].split("-");  
+                     
                           fec1[1] = fec1[1].toLowerCase();
                           fec2[1] = fec2[1].toLowerCase();
-                          var months = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
-                          fec1[1] = months.indexOf(fec1[1]);                          
-                          fec2[1] = months.indexOf(fec2[1]);
-                          var f1 = new Date(parseInt(fec1[2]), fec1[1] + 1, parseInt(fec1[0])); //31 de diciembre de 2015
-                          var f2 = new Date(parseInt(fec2[2]), fec2[1] + 1, parseInt(fec2[0]));
+                          var months_es = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+                          var months_en = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+                          if(months_es.indexOf(fec2[1]) != -1){
+                            fec1[1] = months_es.indexOf(fec1[1]);
+                            fec2[1] = months_es.indexOf(fec2[1]);
+                          }else{
+                            fec1[1] = months_en.indexOf(fec1[1]);
+                            fec2[1] = months_en.indexOf(fec2[1]);
+                          }
+                          
+                          var f1 = new Date(parseInt(fec1[2]), fec1[1], parseInt(fec1[0])); //31 de diciembre de 2015
+                          var f2 = new Date(parseInt(fec2[2]), fec2[1], parseInt(fec2[0]));
 
                           //if (fecha < fechaCer[0]){
                           if (f1 < f2){
                               rfcCert = datos['ArregloCertificado']['datos'].replace('"', "");                                
-                              //var array = rfcCert.split(",");    
+
                               var array = rfcCert.split("="); 
                               var array2  = array[3].split(",");  
-                              //document.getElementById("txtNombre").value = "";
+
                               $("#txtempresa").val(array2[0].trim());
                               $("#txtempresa").addClass('disabled');
-                              //document.getElementById("txtRFC").value = "";                                                                 
+
                               if (typeof(array[7]) != 'undefined') {
                                   var rfc = array[7];
                                   if (rfc != ""){
@@ -151,10 +158,10 @@ function ValidarDatos(){
                                           $("#txtrfc").val(rfc.trim());
                                           $("#txtrfc").addClass('disabled');
                                           //$("#txtvigencia").val(formatDate(new Date(fechaCer)));
-                                          var Vigencia = fec2[2] + "-" + (fec2[1] + 1) + "-" + fec2[0];
+                                          var m = ((fec2[1] + 1) < 10 ? "0"+(fec2[1] + 1) : (fec2[1] + 1));
+                                          var Vigencia = fec2[2] + "-" + m + "-" + fec2[0];
                                           $("#txtvigencia").val(Vigencia);
-//                                            $("#txtvigencia").val(fechaCer[0]);
-//                                            curlCarpetas();
+                                          
                                       }else{
                                         $("#loading").addClass('d-none');
                                         swal("RFC es incorrecto", { 
