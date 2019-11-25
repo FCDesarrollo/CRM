@@ -18,6 +18,8 @@ session_start();
 	<div class="" id="loading"></div>
 
 	<div class="br-section-wrapper pd-b-0">
+		
+	<?php include("form_recepcionlotes.php"); ?>
 
 		<div class="row">
 			<div class="col-lg-8 col-md-8 col-sm-8">
@@ -51,8 +53,6 @@ session_start();
 						            <option value="2">Consumos Diesel</option>
 						            <option value="3">Entradas de Materia Prima</option>
 						            <option value="4">Salidas de Materia Prima</option>
-						            <!--<option value="China">China</option>
-						            <option value="Japan">Japan</option> -->
 						        </select>		               			
 						        <div class="d-none">
 						        	<a href="../lotes/Remision.xlsm" id="link_1" download></a>	
@@ -79,9 +79,6 @@ session_start();
 					       	<div class="col-md-5 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
 					            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Cargar</button>
 							</div>	
-				    		<!--<div class="col-md-6 col-sm-6 col-6 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-						        <button class="btn btn-outline-danger btn-block mg-b-10" onclick="CancelaCarga()">Cancelar</button>
-							</div>													-->
 						</div>
 		        	</td> 
 		        </tr>

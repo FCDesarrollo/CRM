@@ -27,14 +27,26 @@ const SubAutorizaciones = 13;
 const SubRecepcionCompras = 14;
 const SubCompras = 15;
 const SubVentas = 16;
-const SubProcesoProduccion = 17;
-const SubProcesoCompras = 18;
-const SubProcesoVenta = 19;
+const Sub_LotesCompras = 17;
+const Sub_LotesVentas = 18;
+const Sub_LotesPagos = 19;
 const SubPagos = 23;
 const SubCobros = 24;
 const SubProduccion = 25;
 const SubInventarios = 26;
-const SubGenerales = 27;
+//const SubGenerales = 27;
+const Sub_LotesCobros = 28;
+const Sub_LotesProduccion = 29;
+const Sub_LotesInventarios = 30;
+const SubGobierno = 31;
+const SubBancos = 32;
+const SubRecursosHumanos = 33;
+const SubClientes = 34;
+const SubProveedores = 35;
+const SubConstitucion = 36;
+const SubActivos = 37;
+const SubPublicaciones = 38;
+
 
 var datosuser;
 
@@ -49,6 +61,11 @@ var tipodocto;
 var tipodoctodet;
 var respuestacatalogos;
 var url = ""; 
+var _NombresSubM;
+
+$.get(ws + "SubMenus", function(resSubMenus){
+    _NombresSubM = resSubMenus;
+});
 
 function CargarSubMenu(idsubmenu){
 
@@ -145,12 +162,13 @@ function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
         if(idmenuglobal != 0){
             url = url + "&men=" + idmenuglobal;            
             if(idsubmenuglobal != 0){
-                url = url + "&sub=" + idsubmenuglobal;                                
+                url = url + "&sub=" + idsubmenuglobal; 
             }
             history.pushState(dash, "", url);
-        }        
+        }  
     }else{
-        window.location.replace(dash);
+        history.pushState(null, "", "index.php");
+        //window.location.replace(dash);
     } 
 
     if(lNameForm == "../submenus/recepcionlotes.php"){
@@ -210,7 +228,8 @@ function Reload(){
 }
 
 function CargarEmpresa(idemp){
-    
+    $('#Modal_CambiarEmpresa').modal('hide');
+    $('#loading').removeClass('d-none');
     $.get(ws + "ListaEmpresas", {idusuario: idusuarioglobal, tipo: tipousuarioglobal}, function(data){
         var listaEmp = JSON.parse(data).empresas;
         if(listaEmp.length > 0){
@@ -222,7 +241,7 @@ function CargarEmpresa(idemp){
                         type: 'POST',
                         url: '../../session.php',            
                     })
-                    .done(function() {        
+                    .done(function() {                          
                         Reload();
                         location.reload(true);
                     });
@@ -293,4 +312,6 @@ function RegresarPagina(){
     btnregresar = 0; 
     btnfiltro = false;
 }
+
+
 

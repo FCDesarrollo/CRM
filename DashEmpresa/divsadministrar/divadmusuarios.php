@@ -38,20 +38,22 @@ session_start();
         for(var x in usuarios){
 
             if(usuarios[x].iduser != idusuarioglobal){
-                VinDes = usuarios[x].vinculado = 1 ? 'fa fa-unlink' : 'fa fa-link';
+
+                VinDes = (usuarios[x].vinculado == 1 ? 'fa fa-unlink' : 'fa fa-link');
                 document.getElementById("ListaUsuarioslog").innerHTML += 
     					"<tbody> \
     						<tr role='row' class='odd'> \
                                 <td style='display:none;'>"+usuarios[x].iduser+"</td> \
     							<td style='padding-top: 20px;padding-bottom: 20px;'>"+ usuarios[x].nombre + " " + usuarios[x].apellidop + " " + usuarios[x].apellidom +"</td> \
-                                <td style='padding-top: 20px;padding-bottom: 20px;'>"+ (usuarios[x].status==1 ? "Activo" : "Inactivo") +"</td> \
+                                <td value='"+usuarios[x].vinculado+"' style='padding-top: 20px;padding-bottom: 20px;'>"+(usuarios[x].vinculado == 0 ? 'Desvinculado' : 'Vinculado')+"</td> \
     							<td> \
                                     <a onclick='DatosUsuarioUser();' value='"+usuarios[x].iduser+"' title='Editar Permisos' class='btn btn-outline-primary btn-icon rounded-circle'><div><i class='fa fa-pencil' style='color: black;'></i></div></a> \
                                     <a onclick='VinDesEmp();' title='"+(usuarios[x].vinculado == 1 ? "Desvincular" : "Vincular")+"' class='btn btn-warning btn-icon rounded-circle'><div><i class='"+VinDes+"' style='color: white;'></i></div></a> \
                                     <a onclick='EliminaUserlog("+idempresa+");' title='Eliminar Usuario' value='"+usuarios[x].iduser+"' class='btn btn-danger btn-icon rounded-circle'><div><i class='fa fa-trash' style='color: white;'></i></div></a> \
     							</td> \
     						</tr> \
-    					</tbody>";   
+    					</tbody>";  
+                console.log(usuarios[x].vinculado); 
             
             }
         }  

@@ -72,6 +72,76 @@ function EnviarCorreo(form){
 
 }    
 
+function VinculaUsuario(){
+
+    $("#loading").removeClass('d-none');
+
+    var correo = document.getElementById("txtcorreo").value;
+    var perfil = document.getElementById("_Perfil").value;
+
+    if (/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/.test(correo)){            
+        $.post(ws + "ValidarCorreo", { correo: correo }, function(data){  
+            var usuario = JSON.parse(data).usuario;
+            if(usuario.length>0){ 
+                
+                $("#txtcelular").val(usuario[0].cel);    
+                $("#txtidentificador").val(usuario[0].identificador);
+                $("#txtnombre_empresa").val(datosuser.nombre_empresa);
+                $.get(ws + "ListaEmpresas", { idusuario: usuario[0].idusuario, tipo: usuario[0].tipo }, function(data){
+                    var empresas = JSON.parse(data).empresas;
+                    var emp_vin = 0;
+                    for (var i = 0; i < empresas.length; i++) {
+                        if(empresas[i].idempresa == idempresaglobal){
+                            emp_vin = 1;
+                            break;
+                        }
+                    }
+                    if(emp_vin == 1){
+                        $("#loading").addClass('d-none');
+                        swal("¡Usuario Vinculado!", "El usuario ya ha sido vinculado a esta empresa.", "warning");
+                    }else{
+                        $.post(ws + "VinculacionUsuarios", {idempresa: idempresaglobal, idusuario: usuario[0].idusuario, user_perfil: perfil}, function(data){
+                            if(data>0){
+                                var form = $("#FormVinculaUsuario").serialize();
+                                
+                                $.ajax({                        
+                                    data: form,
+                                    type: 'POST',
+                                    url: '../../login/validarcorreo/valida.php',            
+                                    success:function(response){     
+                                        $("#loading").addClass('d-none');   
+                                        swal({
+                                          title: "Vincula Usuario",
+                                          text: "El usuario "+usuario[0].nombre+" "+usuario[0].apellidop+" ha sido vinculado correctamente.",
+                                          icon: "success",
+                                        })          
+                                        .then((value) => {
+                                            $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                                            
+                                        });
+                                    }
+                                }); 
+
+
+
+
+                            }                                
+                        });                        
+                    }
+                });
+                
+            }else{ 
+                $("#loading").addClass('d-none');               
+                swal("¡Usuario!", "No existe un usuario registrado con ese correo electronico.", "error");
+            }
+        });           
+    }else{
+        $("#loading").addClass('d-none');
+        swal("Correo Electronico", "Favor de introducir un correo electronico valido.", "error");                                             
+        
+    }       
+}
+
 
 function ValidarForm(){   
     var nombre, apellidop, apellidom, celular, correo, perfil;

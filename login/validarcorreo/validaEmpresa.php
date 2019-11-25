@@ -40,7 +40,8 @@ $mail->CharSet = 'UTF-8';  // Configuramos el charset
 
 if($_POST){
 	//$_POST = $_POST;
-	if($_POST['rfc'] != "" && $_POST['correo']!=""){
+	//if($_POST['rfc'] != "" && $_POST['correo']!=""){
+	if($_POST['correo']!=""){		
 		EnviarMailEmpresa($_POST['correo']);
 	}	
 	

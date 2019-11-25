@@ -182,7 +182,8 @@ session_start();
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href="#" onclick="loadDiv('../divs/editarperfil.php')"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
+                
+                <li><a href="#" onclick="loadDiv('../divs/editarperfil.php',0,0,0)"><i class="icon ion-ios-person"></i> Editar perfil</a></li>
                 <!--<li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>

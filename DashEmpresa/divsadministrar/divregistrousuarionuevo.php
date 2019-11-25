@@ -1,5 +1,6 @@
+
         <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mb-md-4">Crear Nuevo Usuario</h6>
-        <p class="mg-b-10">Registro de nuevos usuarios</p>
+        <p class="mg-b-10"></p>            
         
         <form id="FormAgregarUsuario" action="" method="post">
             <div class="form-layout form-layout-3">
@@ -62,7 +63,7 @@
         </form>
 
         <script>
-          
+          /*
             $('#loading').removeClass('d-none');
             $.get(ws + "PerfileEmpresa/" + idempresaglobal, function(data){
                 var perfiles = JSON.parse(data).perfiles;
@@ -75,7 +76,7 @@
                 }
                 selectPer.selectedIndex = x;    
                 $('#loading').addClass('d-none');         
-            }); 
+            }); */
 
         </script>
 

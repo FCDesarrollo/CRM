@@ -6,6 +6,7 @@
         exit(); 
   }
   include("modal/FiltroAvanzado.php");
+  
 ?>
 
 <!--<div class="btn-group hidden-xs-down">-->
@@ -19,7 +20,8 @@
           <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>-->
       <div class="row">
         <div class="col-6">
-          
+            
+            <h5 id="tittle-sub" class="tx-16 tx-uppercase tx-inverse tx-semibold tx-spacing-1"></h5>
         </div>
         <div class="col-6 d-flex justify-content-end">
           <div class="btn-group pd-b-20">
@@ -144,3 +146,13 @@
 <!--<div id="pdfvista" class='embed-responsive' style='padding-bottom:150%'>
   <embed src="" type="application/pdf"  height="300px" width="100%" class="responsive">
 </div> -->
+
+<script>
+  for (var i = 0; i < _NombresSubM.length; i++) {
+    if(_NombresSubM[i].idsubmenu == idsubmenuglobal){
+      document.getElementById("tittle-sub").innerText = _NombresSubM[i].nombre_submenu;    
+      break;
+    }
+  }
+  
+</script>

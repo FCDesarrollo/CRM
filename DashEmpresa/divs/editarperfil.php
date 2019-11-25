@@ -18,6 +18,7 @@
 
 	              <input type="hidden" name="idusuario" id="txtidusuario" value="<?php echo $_SESSION["idusuario"]; ?>" />
 				  <input type="hidden" name="identificador" id="txtidentificador">
+				  <input type="hidden" name="editarusuario" id="txteditarusuario" value="1">
 
 	              <div class="col-md-6">
 	                <div class="form-group">
@@ -39,19 +40,19 @@
 	              </div><!-- col-4 -->
 	              <div class="col-md-6">
 	                <div class="form-group bd-t-0-force">
-	                	<label class="form-control-label">Correo Electronico: <span class="tx-danger">*</span></label>
+	                	<label class="form-control-label">Correo Electronico: </label>
 	                  	<input class="form-control" type="text" name="correo" id="txtcorreo" placeholder="Correo Electronico">
 	                </div>
 	              </div><!-- col-8 -->
 	              <div class="col-md-4 mg-t--1 mg-md-t-0">
 	                <div class="form-group mg-md-l--1">
-	                	<label class="form-control-label">Telefono Celular: <span class="tx-danger">*</span></label>
+	                	<label class="form-control-label">Telefono Celular: </label>
 	                  	<input class="form-control" type="text" name="cel" id="txtcelular" placeholder="Celular">
 	                </div>
 	              </div><!-- col-4 -->	     
 	              <div class="col-md-4 mg-t--1 mg-md-t-0">
 	                <div class="form-group mg-md-l--1">
-	                	<label class="form-control-label">Contraseña: <span class="tx-danger">*</span></label>
+	                	<label class="form-control-label">Contraseña: </label>
 	                  	<input class="form-control" type="password" name="password" id="txtcontrasena" placeholder="Contraseña">
 	                </div>
 	              </div><!-- col-4 -->

@@ -220,25 +220,44 @@ function DatosUsuarioUser(){
 
 }
 
-function VinDesEmp(){ //Vincula y Desvincula usuario de la empresa.
+function VinDesEmp(){ //Vincula o Desvincula usuario de la empresa.
     $("table tbody tr").click( function(){
         var sIDUser = $(this).find("td").eq(0).text();
+        var status = $(this).find("td").eq(2);
+        status = status[0]["attributes"];
+        status = status[0]["value"];
+        console.log(status);
 
-        swal("¿Estas seguro de deseas eliminar al usuario?", {
+        var accion = (status == 1 ? "desvincular" : "vincular");
+
+        status = (status == 1 ? 0 : 1); 
+
+        swal("¿Estas seguro de deseas "+accion+" al usuario?", {
           buttons: {
             aceptar: "Aceptar",
             cancel: "Cancelar",    
           },
         })
-        .then((value) => {        
+        .then((value) => { 
+        console.log(value);      
             switch (value) { 
                 case "Cancelar":          
                     break;
-                case "Aceptar":
-                    //$.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
+                case "aceptar":
+                    $("#loading").removeClass('d-none');
+                    var datos = new Object();
+                    datos.idusuario = sIDUser;
+                    datos.iduser_vincula = idusuarioglobal;
+                    datos.idempresa = idempresaglobal;
+                    datos.status = status;
 
-                    //});
-                    break;
+                    $.post(ws + "Desvincular",{ datos: datos }, function(data){
+                        if(data>0){
+                            CargaListaUsuarios();
+                            $("#loading").addClass('d-none');
+                        }
+                    });
+                    break;                
             }   
         });
 
@@ -249,7 +268,8 @@ function VinDesEmp(){ //Vincula y Desvincula usuario de la empresa.
 function EliminaUserlog(idempresa){
     $("table tbody tr").click( function(){
         var sIDUser = $(this).find("td").eq(0).text();
-        swal("¿Estas seguro de deseas eliminar al usuario?", {
+        swal("¿Esta seguro que desea eliminar al usuario?", {
+          icon: "warning",
           buttons: {
             aceptar: "Aceptar",
             cancel: "Cancelar",    
@@ -257,22 +277,22 @@ function EliminaUserlog(idempresa){
         })
         .then((value) => {        
             switch (value) { 
-                case "Cancelar":          
-                
-                break;
-                case "Aceptar":                    
+                case "Cancelar":                 
+                    break;
+                case "aceptar":                    
                     if(sIDUser>0){
                         $("#loading").removeClass('d-none');   
-                        /*$.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idcliente : sIDUser }, function(data, status){
+                        $.post(ws + "EliminarUsuario",{ idusuario: sIDUser, idempresa: idempresaglobal }, function(data, status){
                             if(data>0){
                                 //loadDiv('../divsadministrar/divadmusuarios.php');
-                                $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                                //$('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                                CargaListaUsuarios();
                                 $("#loading").addClass('d-none');   
                             }else{
                                 $("#loading").addClass('d-none');   
                                 swal("¡Error!","Ocurrio un error al eliminar el usuario", "error");
                             }
-                        });*/
+                        });
                     } 
                 break;
             }   
@@ -291,19 +311,18 @@ function CargaDatosUsuario(idusuario){
             $('#txtapellidom').val(usuario[0].apellidom);
             $("#txtcelular").val(usuario[0].cel);
             $("#txtcorreo").val(usuario[0].correo);
-            $("#txtcontrasena").val(usuario[0].password);
+            var upwd = usuario[0].password;
+            upwd = (upwd.length > 10 ? upwd.substr(0,10) : upwd);
+            $("#txtcontrasena").val(upwd);
             $("#txtidentificador").val(usuario[0].identificador);
             document.getElementById("txtcorreo").disabled = true;
+            document.getElementById("txtcontrasena").disabled = true;
+            document.getElementById("txtcelular").disabled = true;
             
             if(usuario[0].verificacel == 0){
                 document.getElementById("msg_verificacion").innerHTML = "Verifique su telefono movil para poder recibir notificaciones.";
                 document.getElementById("link_verificacion").innerHTML = " Click aqui."; 
             }   
-
-            //$('#chEst').prop("checked", (usuario[0].status==1 ? true : false) );
-
-            //$("#txtstatus2").val(usuario[0].status);
-            //$("#txttipo2").val(usuario[0].tipo);
         }else{
             alert("No se encontro el usuario");
         }

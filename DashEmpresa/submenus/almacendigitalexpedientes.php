@@ -8,6 +8,7 @@
 	include("../empuser/permisosuser.php"); 
 	$perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
 	$perMod->user_SubMenus();	
+	$perMod->SubMenus();
 ?>
 
 <div class="br-pagebody pd-l-0 pd-r-0">
@@ -20,33 +21,33 @@
     	<p class="mg-b-30"></p>	
 
 		<div class="row">
-	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Generales)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubGenerales, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Generales</button>
-			</div>
-	        <!--<div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Bancos</button>
+	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	            <button class="btn btn-outline-primary btn-block mg-b-10 act_title" <?= ($perMod->SubMenu_Permiso(SubMen_Gobierno)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubGobierno, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Gobierno</button>
 			</div>
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Recursos Humanos</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Bancos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubBancos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Bancos</button>
 			</div>
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Clientes</button>
-			</div>-->
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_RecursosHumanos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubRecursosHumanos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Recursos Humanos</button>
+			</div>
+	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Clientes)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubClientes, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Clientes</button>
+			</div>
 		</div>
-		<!--<div class="row justify-content-around">
+		<div class="row justify-content-around">
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Proveedores</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Proveedores)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubProveedores, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Proveedores</button>
 			</div>									
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Constitucion</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Constitucion)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubConstitucion, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Constitucion</button>
 			</div>			
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Activos</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Activos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubActivos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Activos</button>
 			</div>
 	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" disabled>Publicaciones</button>
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Publicaciones)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubPublicaciones, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Publicaciones</button>
 			</div>						
-		</div> -->
+		</div>
 
 	</div>
 

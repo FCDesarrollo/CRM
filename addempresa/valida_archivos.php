@@ -23,15 +23,15 @@
     ftp_pasv($conn_id, true);
     if ($login_result===true){
         $conexion = true;  
-        $pushd = ftp_pwd($conn_id);
-        if ($pushd !== false && @ftp_chdir($conn_id, $nom)){
-            if(ftp_chdir($conn_id, $pushd) == true){
-                echo "El directorio ya existe";
-                $statusCarpeta = false;
-                $statusCertificado = false;
-                $statusLlave = false;
-            }           
-        } else{
+//        $pushd = ftp_pwd($conn_id);
+//        if ($pushd !== false && @ftp_chdir($conn_id, $nom)){
+//            if(ftp_chdir($conn_id, $pushd) == true){
+//                echo "El directorio ya existe";
+//                $statusCarpeta = false;
+//                $statusCertificado = false;
+//                $statusLlave = false;
+//            }           
+//        } else{
             if (ftp_mkdir($conn_id, $nom)) {
                 if (ftp_chmod($conn_id, 0777, $nom) !== false){
                     $statusCarpeta = true;                        
@@ -63,7 +63,7 @@
                 //echo "Ocurrio un problema al crear a carpeta $nom\n";
                 $statusCarpeta = false;     
             } 
-        }                 
+//        }                 
         //echo json_encode($conexion);
         
     }else{
@@ -72,7 +72,7 @@
     }
     ftp_close($conn_id);
 
-    $archivos=array($conexion,$statusCarpeta,$statusCertificado,$statusLlave);
+    $archivos=array($conexion,$statusCertificado,$statusLlave,$statusCarpeta);
     //print_r($archivos);
     print_r(json_encode($archivos));
     return json_encode($archivos);

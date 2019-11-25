@@ -42,7 +42,7 @@
             $archivo = "almacendigitalexpedientes.php";
             break;            
     	default:
-    		$archivo = "";
+    		
     		break;
     }
 

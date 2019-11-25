@@ -13,6 +13,33 @@
 	
 // }
 
+function AgregarVincularEmpresa(idusuario){
+	
+  swal("¡Seleccione una accion!", {
+    buttons: {
+      agregar: "Agregar Empresa",
+      vincular: "Vincularse a empresa",
+    },
+    icon: "warning",
+  })
+  .then((value) => {
+    switch (value) {
+   
+      case "agregar":
+		window.location='addempresa/?id_user='+idusuario;
+		//window.location='/addempresa/?id_user=<?php echo $_SESSION['idusuario']; ?>';
+        break;
+   
+      case "vincular":
+        window.location='addempresa/vincular/?id_user='+idusuario;
+        break;
+   
+      default:
+        
+    }
+  });  
+}
+
 function DesvinculaEmpresa(){
 	var select = document.getElementById("sel2");
 	var idempresa = select.options[select.selectedIndex].value;

@@ -20,6 +20,7 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                     document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
 
                     datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
+                    datosuser.nombre_empresa = empresa[0].nombreempresa;
                     
                     $.get(ws + "DatosPerfil", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
                         var datos = JSON.parse(data);                                   

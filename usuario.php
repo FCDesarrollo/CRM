@@ -35,7 +35,7 @@ session_start();
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
 
 
@@ -43,7 +43,7 @@ session_start();
 <body onload="CargaListaEmpresas('<?php echo $_SESSION['idusuario']; ?>')">
 
     <?php include("varglobales.php"); ?>
-    <?php include("modal/registrarEmpresa.php"); ?>
+    <?php include("modal/agregar_vincular_empresa.php"); ?>
     <?php include("vincularempresa.php"); ?> 
     
     <div class="container">      
@@ -70,22 +70,19 @@ session_start();
                 <div class="panel panel-default panel-table">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col col-xs-9 col-sm-6 col-md-8 col-lg-6">
+                            <div class="col col-xs-10 col-sm-6 col-md-6 col-lg-6">
                                 <h3 class="panel-title"><i class="fa fa-user"></i><span id="usuariolog" style="margin-left: 5px"></span></h3>
                             </div>
-                            <div class="col-xs-3 col-sm-6 col-md-4 col-lg-6 d-flex" style="display: flex;justify-content: end;">
-                                <a data-toggle="modal" data-target="#NuevaEmpresa" title="Agregar Empresa" class='btn btn-outline-primary'><i class="fa fa-plus"></i> <span class="hidden-xs">Agregar Empresa</span></a>
-                                
-
-                                <a onclick="CerrarSession()" title="Cerrar Session" class='btn btn-outline-warning'><i class="fa fa-times-circle"></i> <span class="hidden-xs">Cerrar Session</span></a>
-                                <!--<button type="button" id ="agregarEmpresa" data-toggle="modal" data-target="#NuevaEmpresa" class="btn btn-sm btn-warning btn-create">Agregar Empresa</button> 
-                                <button type="button" onclick="CerrarSession()" class="btn btn-sm btn-danger btn-create">Cerrar Sesion</button>-->
+                            <div class="col-xs-2 col-sm-6 col-md-6 col-lg-6" style="display: flex; justify-content: flex-end;">
+                                <a onclick="AgregarVincularEmpresa('<?php echo $_SESSION['idusuario']; ?>')" title="Agregar ó Vincular Empresa" class='btn btn-outline-primary'>
+                                    <i class="fa fa-plus"></i> 
+                                    <span class="hidden-xs">Agregar ó Vincular Empresa</span>
+                                </a>                                
+                                <a onclick="CerrarSession()" title="Cerrar Session" class='btn btn-outline-warning'>
+                                    <i class="fa fa-times-circle"></i> 
+                                    <span class="hidden-xs">Cerrar Session</span>
+                                </a>
                             </div>
-                            <!--<div class="col col-xs-4">
-                                <button type="button" onclick="Vincularlog()" class="btn btn-sm btn-primary btn-create">Vincular Empresa</button>          
-                            <div class="col col-xs-8 text-right">
-                            </div> 
-                            </div> -->
                         </div>
                     </div>
                   

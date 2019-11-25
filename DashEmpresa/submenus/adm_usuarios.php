@@ -20,12 +20,15 @@ session_start();
     	<p class="mg-b-30"></p>		
 
 		<div class="row justify-content-around">
-	        <div class="col-lg-6 col-md-4 col-sm-6">	          
+	        <div class="col-lg-4 col-md-4 col-sm-4">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Usuarios)==0) ? 'disabled' : ''; ?> onclick="CargaListaUsuarios();">Lista de Usuarios</button>
 			</div>
-	        <div class="col-lg-6 col-md-4 col-sm-6">
+	        <div class="col-lg-4 col-md-4 col-sm-4">
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Usuarios) > 1) ? '' : 'disabled'; ?> onclick="NuevoUsuario()">Crear Usuario</button>
 			</div>
+	        <div class="col-lg-4 col-md-4 col-sm-4">
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Usuarios) > 1) ? '' : 'disabled'; ?> onclick="VincularUsuario()">Vincular Usuario</button>
+			</div>			
 		</div>
 
 	</div>

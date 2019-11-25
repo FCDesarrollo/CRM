@@ -2,11 +2,6 @@ var modulo;
 var menu;
 var submenu;
 
-$("body").on('DOMSubtreeModified', "#divdinamico", function() {
-    //console.log(idsubmenuglobal);
-});
-
-
 
 function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     modulo = idmodulo;
@@ -14,7 +9,6 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     submenu = idsubmenu;
     
     URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
-    
 
 	$('#loading').removeClass('d-none');
 
@@ -22,7 +16,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     $("#t-ExpDigitales tbody").children().remove();    
     //$("#loading").removeClass("d-none");  
-    if(idsubmenu == 27){
+/*    if(idsubmenu == 27){
         var myArr = ['GOB', 'BAN', 'RH', 'CLI', 'PROV', 'CON', 'ACT', 'PUB'];
     }else if(idsubmenu == 23){
         var myArr = ['PAG'];
@@ -30,53 +24,58 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
         $('#loading').addClass('d-none');
         console.log("Pendiente");
         return;
-    }
-    
+    } */
 
-    $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa}, function(data){
-        var datos = JSON.parse(data);
-        
-        if(datos.length > 0){            
+    $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
+        var myArr = JSON.stringify(data);
+        $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa}, function(data){
+            var datos = JSON.parse(data);
+            
+            if(datos.length > 0){            
+                var n = 0;
+                for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
+                    if(myArr.includes(datos[i].claverubro)){
 
-            LlenaPaginador(datos.length, datos, "t-ExpDigitales");
-
-            for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
-                if(myArr.includes(datos[i].claverubro)){
-
-                    document.getElementById("t-ExpDigitales").innerHTML +=
-                    "<tr> \
-                        <td>"+datos[i].fechadocto+"</td> \
-                        <td>"+datos[i].usuario+"</td> \
-                        <td>"+datos[i].rubro+"</td> \
-                        <td>"+datos[i].sucursal+"</td> \
-                        <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
-                        <td> \
-                          <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
-                          <div class='dropdown-menu dropdown-menu-right pd-10'> \
-                            <nav class='nav nav-style-1 flex-column'> \
-                              <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
-                            </nav> \
-                          </div> \
-                        </td> \
-                    </tr>";            
+                        document.getElementById("t-ExpDigitales").innerHTML +=
+                        "<tr> \
+                            <td>"+datos[i].fechadocto+"</td> \
+                            <td>"+datos[i].usuario+"</td> \
+                            <td>"+datos[i].rubro+"</td> \
+                            <td>"+datos[i].sucursal+"</td> \
+                            <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
+                            <td> \
+                              <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
+                              <div class='dropdown-menu dropdown-menu-right pd-10'> \
+                                <nav class='nav nav-style-1 flex-column'> \
+                                  <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
+                                </nav> \
+                              </div> \
+                            </td> \
+                        </tr>";            
+                        n=n+1;
+                    }
                 }
 
+                //LlenaPaginador(datos.length, datos, "t-ExpDigitales");
+                if(n != 0){                
+                    LlenaPaginador(i, datos, "t-ExpDigitales");
+                }
+                $('#loading').addClass('d-none');   
+            }else{
+                document.getElementById("t-ExpDigitales").innerHTML +=
+                    "<tr> \
+                        <td> \
+                          <i class='fa fa-exclamation tx-22 tx-danger lh-0 valign-middle'></i> \
+                          <span class='pd-l-5'>No hay archivos disponibles</span> \
+                        </td> \
+                    </tr>";
+                $('#datatable1_paginate').addClass('d-none');            
+                $('#loading').addClass('d-none');   
             }
-            $('#loading').addClass('d-none');   
-        }else{
-            document.getElementById("t-ExpDigitales").innerHTML +=
-                "<tr> \
-                    <td> \
-                      <i class='fa fa-exclamation tx-22 tx-danger lh-0 valign-middle'></i> \
-                      <span class='pd-l-5'>No hay archivos disponibles</span> \
-                    </td> \
-                </tr>";
-            $('#datatable1_paginate').addClass('d-none');            
-            $('#loading').addClass('d-none');   
-        }
-        
+            
 
-    });	
+        });	
+    });
 }
 
 function DocumentosALM(idalm){
@@ -107,7 +106,8 @@ function DocumentosALM(idalm){
                     var respuesta = JSON.parse(responseAJAX);
                     //console.log(respuesta[0].link);
 
-                    for (var i = 0; i < (respuesta.length > 5 ? 5 : respuesta.length); i++) {
+                    //for (var i = 0; i < (respuesta.length > 5 ? 5 : respuesta.length); i++) {
+                    for (var i = 0; i < respuesta.length; i++) {
                     
                         document.getElementById("t-ArchivosALM").innerHTML +=
                         "<tr> \
@@ -235,7 +235,7 @@ function SubirArchivos(){
     document.getElementById("numero_archivos").innerHTML = 0;
     cargarRubros("selectRubros");
     cargarSucursales("selectSucursales");    
-    $('#SubirArchivosInbox').modal('show');
+//    $('#SubirArchivosInbox').modal('show');
 }
 
 function CountArc(){
@@ -271,34 +271,50 @@ $("#numero_archivos").click(function(evento){
     
 }); 
 
-
+var existRubros;
 function cargarRubros(nameSelec){    
     selectPer = document.getElementById(nameSelec);
+    existRubros = 0;
     $.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
         var rubros = JSON.parse(data).rubros;
-        
-        for(var x in rubros){
-            if(submenu == rubros[x].idsubmenu){
-                option = document.createElement("option");
-                option.value = rubros[x].clave;
-                option.text = rubros[x].nombre;
-                selectPer.appendChild(option);                
+        if(rubros.length > 0){            
+            for(var x in rubros){
+                if(submenu == rubros[x].idsubmenu){
+                    option = document.createElement("option");
+                    option.value = rubros[x].clave;
+                    option.text = rubros[x].nombre;
+                    selectPer.appendChild(option);                
+                    existRubros = 1;
+                }
             }
-        }            
+                      
+        }
     });
 }
-
+var existSucursales;
 function cargarSucursales(nameSelec){    
     selectsuc = document.getElementById(nameSelec);
+    existSucursales = 0;
     $.post(ws + "CatSucursales", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd},function(resp){
         var sucursales = JSON.parse(resp).sucursales;
-        
-        for(var x in sucursales){
-            option = document.createElement("option");
-            option.value = sucursales[x].idsucursal;
-            option.text = sucursales[x].sucursal;
-            selectsuc.appendChild(option);
-        }            
+        if(sucursales.length > 0){
+            for(var x in sucursales){
+                option = document.createElement("option");
+                option.value = sucursales[x].idsucursal;
+                option.text = sucursales[x].sucursal;
+                selectsuc.appendChild(option);
+            }            
+            existSucursales = 1;
+            if(existRubros == 0){
+                swal("¡Rubros!", "No se han dado de alta los rubros.", "warning");
+                $('#SubirArchivosInbox').modal('hide');
+            }else{
+                $('#SubirArchivosInbox').modal('show');
+            }
+        }else{
+            swal("¡Sucursales!", "No se han dado de alta las sucursales.", "warning");
+            $('#SubirArchivosInbox').modal('hide');
+        }
     });
 }
 

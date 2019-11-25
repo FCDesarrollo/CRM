@@ -12,6 +12,7 @@ class Usuario{
         this.server;
         this.user_storage;
         this.pwd_storage;
+        this.nombre_empresa;
 	
 
 	}

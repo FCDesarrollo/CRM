@@ -48,6 +48,8 @@ if($_POST){
 		RestablecerContraseña();
 	}else if(isset($datos['destinatarios'])){
 	 	CompartirLinks($datos['destinatarios'], $datos['mensaje']);
+	}else if(isset($datos['vinculacion'])){
+		CorreoVinculacion($datos['usuario'], $datos['empresa'], $datos['correo']);
 	}
 
 
@@ -60,7 +62,16 @@ if($_POST){
 	 // }		
 }
 
-
+//CORREO DE NOTIFICACION PARA LA EMPRESA, CUANDO SE VINCULA UN USUARIO NUEVO
+function CorreoVinculacion($usuario, $empresa, $correo){
+	$asunto = 'Nuevo Usuario Vinculado';
+	$mensaje = '<b>Usuario vinculado correctamente.</b><br><br>
+				Datos del registro:<br>
+				<b>Usuario: </b>'.$usuario.'.<br>
+				<b>Empresa: </b>'.$empresa.'.';	
+	
+	EnviarLink($correo,$asunto,$mensaje);
+}
 //ENVIO DE LINK PARA RESTABLECER CONTRASEÑA
 function RestablecerContraseña(){
 	$usuario = $_POST;
@@ -147,17 +158,13 @@ function CorreoValidacion(){
 
 		$identificador = $usuario['identificador'];
 				
-		//echo $dato = "<script>ObtenerUsuario($identificador);</script>";
-		//echo "<script> iduser = ObtenerUsuario($identificador); </script>";
-	
-		//$URL = $url_activacion.'?activar=true&id='.$variablephp.'&codigo='.$usuario["identificador"];
-
-		//$mensaje = 'Estimado usuario para poder activar tu cuenta favor de seguir el siguiente link,
-		//si no puedes hacer click, favor de copiar y pegarlo en la barra de direcciones de tu navegador.<br><br>
-		//<a href="'.$URL.'">'.$URL.'</a>';
 		if(isset($usuario['user_perfil'])){
-			$URL = $url_validacorreo.'?id='.$usuario["identificador"];
-			$mensaje = 'Usted ha sido registrado por un administrador, favor de ingresar a la siguiente direccion para completar su registro. <br><br>Codigo de Verificación: '.$usuario["identificador"].' <br><a href="'.$URL.'">Haz click aqui para completar su registro.</a>';
+			if(isset($usuario['nombre_empresa'])){
+				$mensaje = 'Usted ha sido vinculado a la empresa '.$usuario['nombre_empresa'].' por un Administrador.';
+			}else{
+				$URL = $url_validacorreo.'?id='.$usuario["identificador"];
+				$mensaje = 'Usted ha sido registrado por un administrador, favor de ingresar a la siguiente direccion para completar su registro. <br><br>Codigo de Verificación: '.$usuario["identificador"].' <br><a href="'.$URL.'">Haz click aqui para completar su registro.</a>';
+			}
 		}else{
 			$mensaje = 'Estimado usuario, su codigo de confirmacion ha sido generado correctamente.<br><br>Codigo de Confirmacion: '.$usuario["identificador"];
 		}

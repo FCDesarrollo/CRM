@@ -48,22 +48,31 @@ const Men_AlmacenDigitalExp = 10;
     const SubMen_Produccion = 25;
     const SubMen_Inventarios = 26;
 
-    //SUBMENUS DE ALMACEN DIGITAL EXPEDIENTES
-    const SubMen_Generales = 27;
-
     //SUBMENUS DE RECEPCION POR LOTES
-    const SubMen_Proce_Produc = 17;
-    const SubMen_Proce_Compras = 18;
-    const SubMen_Proce_Ventas = 19;
+    const SubMen_Lotes_Compras = 17;
+    const SubMen_Lotes_Ventas = 18;
+    const SubMen_Lotes_Pagos = 19;
+    const SubMen_Lotes_Cobros = 28;
+    const SubMen_Lotes_Produccion = 29;
+    const SubMen_Lotes_Inventarios = 30;
 
     //SUBMENUS DE EMPRESA
     const SubMen_Empresa = 20;
-
     //SUBMENUS DE USUARIOS
     const SubMen_Usuarios = 21;
-
     //SUBMENUS DE PERFILES
     const SubMen_Perfiles = 22;
+    
+    //SUBMENUS DE ALMACEN DIGITAL EXPEDIENTES
+    const SubMen_Gobierno = 31;
+    const SubMen_Bancos = 32;
+    const SubMen_RecursosHumanos = 33;
+    const SubMen_Clientes = 34;
+    const SubMen_Proveedores = 35;
+    const SubMen_Constitucion = 36;
+    const SubMen_Activos = 37;
+    const SubMen_Publicaciones = 38;
+
 
 class PermisosUsuario
 {
@@ -74,6 +83,8 @@ class PermisosUsuario
     private $_Menus;
     private $_SubMenus;
     private $_NombresMOD;
+    private $_NombresMEN;
+    private $_NombresSUB;
     protected  $_sWs = "http://apicrm.dublock.com/public/";
     //protected  $_sWs = "http://localhost/ApiConsultorMX/miconsultor/public/";
     function __construct(int $IDComp,int $IDUse){
@@ -108,6 +119,20 @@ class PermisosUsuario
         $resultado2 = CallAPI("GET", $this->_sWs ."Modulos");    
         $this->_NombresMOD = json_decode($resultado2, true);
     }      
+
+    public function Menus()
+    {
+        $data2 = "";
+        $resultado2 = CallAPI("GET", $this->_sWs ."Menus");    
+        $this->_NombresMEN = json_decode($resultado2, true);
+    }
+
+    public function SubMenus()
+    {
+        $data2 = "";
+        $resultado2 = CallAPI("GET", $this->_sWs ."SubMenus");    
+        $this->_NombresSUB = json_decode($resultado2, true);
+    }    
 
     public function Mod_Permiso(int $_mIDModulo): int
     {
@@ -145,7 +170,25 @@ class PermisosUsuario
                 return  $value['nombre_modulo'];
             }
         }    
-    }     
+    }    
+
+    public function Men_Nombre(int $_mIDMenu): string
+    {
+        foreach($this->_NombresMEN as $value) {
+            if($_mIDMenu == $value['idmenu']){
+                return  $value['nombre_menu'];
+            }
+        }    
+    }
+
+    public function Sub_Nombre(int $_mIDSubMenu): string
+    {
+        foreach($this->_NombresSUB as $value) {
+            if($_mIDSubMenu == $value['idsubmenu']){
+                return  $value['nombre_submenu'];
+            }
+        }    
+    }         
 
     
 }
