@@ -1,6 +1,7 @@
 //Constantes para los modulos
 const ModContabilidad = 1;
 const ModBandejaEntrada = 2;
+const ModCuenta = 3;
 //Constantes para los menus
 const MenuContabilidad = 1;
 const MenuProcesoFiscal = 2;
@@ -8,6 +9,11 @@ const MenuFinanzas = 3;
 const MenuCompras = 4;
 const MenuAlmacenDigitalOpe = 5;
 const MenuRecepcionLotes = 6;
+
+const MenuEmpresa = 7;
+const MenuUsuarios = 8;
+const MenuPerfiles = 9;
+
 const MenuAlmacenDigitalExp = 10;
 
 //Constantes para los submenus
@@ -82,35 +88,6 @@ function CargarSubMenu(idsubmenu){
         case 4:
             CargaContenido(ModContabilidad, MenuContabilidad, SubExpedientesContables, datosuser.rfcempresa);
             break;          
-        case 5:
-            
-            break;
-        case 6:
-            
-            break;
-        case 7:
-            
-            break;
-        case 8:
-            break;
-        case 9:
-            
-            break;                                      
-        case 10:
-            
-            break;
-        case 11:
-            
-            break;            
-        case 12:
-            
-            break;
-        case 13:
-            
-            break;
-        case 14:
-            
-            break;
         case 15: 
         case 16:
         case 23:
@@ -121,7 +98,12 @@ function CargarSubMenu(idsubmenu){
             ExpDigitales(idmoduloglobal, idmenuglobal, idsubmenuglobal, datosuser.rfcempresa);
             break;   
         case 17:
-            CargarLotes();
+        case 18:
+        case 19:
+        case 28:
+        case 29:
+        case 30:
+            CargarLotes(idmoduloglobal, idmenuglobal, idsubmenuglobal);
             break;                                                                     
         default:
             
@@ -171,11 +153,15 @@ function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
         //window.location.replace(dash);
     } 
 
-    if(lNameForm == "../submenus/recepcionlotes.php"){
+    if(idsubmenuglobal != 0){
+        asyncCargaSub(idsubmenuglobal);        
+    }
+
+    /*if(lNameForm == "../submenus/recepcionlotes.php"){
         asyncCall(); //Espera 2 segundos para mandar llamar la funcion de CargarLotes
     }else if(idsubmenuglobal != 0){
         asyncCargaSub(idsubmenuglobal);        
-    }
+    }*/
 
 }
 
@@ -184,8 +170,8 @@ function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
 function RefrescarPag(){
     if(idsubmenuglobal != 0){
         CargarSubMenu(idsubmenuglobal);
-    }else if(idsubmenuglobal == 0 && idmenuglobal == 6){
-        CargarSubMenu(17); //Recepcion Por Lotes
+    /*}else if(idsubmenuglobal == 0 && idmenuglobal == 6){
+        CargarSubMenu(17); //Recepcion Por Lotes */
     }else{
         location.reload(true);
     }
@@ -313,5 +299,15 @@ function RegresarPagina(){
     btnfiltro = false;
 }
 
+function SubMenu_Tittle(){
+
+  for (var i = 0; i < _NombresSubM.length; i++) {
+    if(_NombresSubM[i].idsubmenu == idsubmenuglobal){
+      document.getElementById("tittle-sub").innerText = _NombresSubM[i].nombre_submenu;    
+      break;
+    }
+  }
+
+}
 
 

@@ -74,11 +74,16 @@ session_start();
                                 <h3 class="panel-title"><i class="fa fa-user"></i><span id="usuariolog" style="margin-left: 5px"></span></h3>
                             </div>
                             <div class="col-xs-2 col-sm-6 col-md-6 col-lg-6" style="display: flex; justify-content: flex-end;">
-                                <a onclick="AgregarVincularEmpresa('<?php echo $_SESSION['idusuario']; ?>')" title="Agregar ó Vincular Empresa" class='btn btn-outline-primary'>
+                                <!--onclick="AgregarVincularEmpresa('<?php echo $_SESSION['idusuario']; ?>')"-->
+                                <a href="addempresa/?id_user=<?php echo $_SESSION['idusuario']; ?>" title="Agregar Empresa" class='btn btn-outline-primary'>
                                     <i class="fa fa-plus"></i> 
-                                    <span class="hidden-xs">Agregar ó Vincular Empresa</span>
-                                </a>                                
-                                <a onclick="CerrarSession()" title="Cerrar Session" class='btn btn-outline-warning'>
+                                    <span class="hidden-xs">Agregar Empresa</span>
+                                </a>
+                                <a href="addempresa/vincular/?id_user=<?php echo $_SESSION['idusuario']; ?>" title="Vincular Empresa" class='btn btn-outline-primary' style="color: dimgray;">
+                                    <i class="fa fa-link"></i> 
+                                    <span class="hidden-xs">Vincular Empresa</span>
+                                </a>                                                                
+                                <a onclick="CerrarSession()" title="Cerrar Session" class='btn btn-outline-warning' style="color: crimson;">
                                     <i class="fa fa-times-circle"></i> 
                                     <span class="hidden-xs">Cerrar Session</span>
                                 </a>

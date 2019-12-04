@@ -1,5 +1,6 @@
 <?php  
 	Include ("../empuser/permisosuser.php");
+
 	$RFC = $_POST['RFCEmpresa'];
 	$datosserver = $_POST['datosserver'];
 	$server = $datosserver['server'];
@@ -108,15 +109,19 @@
 		$server = $datosserver['server'];
 		$user = $datosserver['user_storage'];
 		$pass = $datosserver['pwd_storage'];*/
+		session_start();
+		$perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
+//		$perMod->Modulos();
+		$perMod->Menus();
+		$perMod->SubMenus();
 		for ($i=0; $i < count($_POST['archivos']); $i++) { 
 			$item = $_POST['archivos'][$i]['documento'];	
 			$type = explode(".", $item);		
 			$documento = $_POST['archivos'][$i]['codigodocumento'].".".$type[1];
-			if($_POST['idsubmenu'] == 23){
-				$link = $RFC."/Entrada/AlmacenDigitalOperaciones/Pagos/".$documento;
-			}else if($_POST['idsubmenu'] == 27){
-				$link = $RFC."/Entrada/AlmacenDigitalExpedientes/Generales/".$documento;
-			}
+//			$mod = $perMod->Mod_Nombre($_POST['idmodulo']);
+			$men = $perMod->Men_NombreCarpeta($_POST['idmenu']);
+			$sub = $perMod->Sub_NombreCarpeta($_POST['idsubmenu']);
+			$link = $RFC."/Entrada/".$men."/".$sub."/".$documento;
 			
 			$link = getlink($link, $server, $user, $pass);		
 			$array[$i] = array("id" => $_POST['archivos'][$i]['id'], "idalmdigital" => $_POST['archivos'][$i]['idalmdigital'], "documento" => $item, "estatus" => $_POST['archivos'][$i]['estatus'], "agente" => $_POST['archivos'][$i]['agente'], "fechaprocesado" => $_POST['archivos'][$i]['fechaprocesado'], "link" => $link);

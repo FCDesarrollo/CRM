@@ -143,16 +143,6 @@
 
 </div>
 
-<!--<div id="pdfvista" class='embed-responsive' style='padding-bottom:150%'>
-  <embed src="" type="application/pdf"  height="300px" width="100%" class="responsive">
-</div> -->
-
 <script>
-  for (var i = 0; i < _NombresSubM.length; i++) {
-    if(_NombresSubM[i].idsubmenu == idsubmenuglobal){
-      document.getElementById("tittle-sub").innerText = _NombresSubM[i].nombre_submenu;    
-      break;
-    }
-  }
-  
+  SubMenu_Tittle();
 </script>

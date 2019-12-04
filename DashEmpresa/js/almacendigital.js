@@ -7,6 +7,10 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     modulo = idmodulo;
     menu = idmenu;
     submenu = idsubmenu;
+
+    idmoduloglobal = idmodulo;
+    idmenuglobal = idmenu;
+    //idsubmenuglobal = idsubmenu;
     
     URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
 
@@ -15,16 +19,6 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
 
     $("#t-ExpDigitales tbody").children().remove();    
-    //$("#loading").removeClass("d-none");  
-/*    if(idsubmenu == 27){
-        var myArr = ['GOB', 'BAN', 'RH', 'CLI', 'PROV', 'CON', 'ACT', 'PUB'];
-    }else if(idsubmenu == 23){
-        var myArr = ['PAG'];
-    }else{
-        $('#loading').addClass('d-none');
-        console.log("Pendiente");
-        return;
-    } */
 
     $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
         var myArr = JSON.stringify(data);
@@ -101,7 +95,7 @@ function DocumentosALM(idalm){
                 async:true,
                 url: '../submenus/leer_carpeta.php',
                 type: 'POST',
-                data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idsubmenu: idsubmenuglobal},
+                data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idmenu: menu, idsubmenu: submenu},
                 success: function (responseAJAX) {
                     var respuesta = JSON.parse(responseAJAX);
                     //console.log(respuesta[0].link);
@@ -164,61 +158,83 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
     objeto.idarchivo = idarchivo;
     objeto.idalmacen = idalmacen;
 
-    swal("¿Estas seguro de deseas eliminar el archivo?", {
-      buttons: {
-        Continuar: "Continuar",
-        cancel: "Cancelar",    
-      },
-    })
-    .then((value) => {
-      switch (value) { 
-        case "Cancelar":          
-          break;
-        case "Continuar":
-             $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
-                var respuesta = JSON.parse(data);
-                if(respuesta["error"] == 0){
-                    if(respuesta["eliminado"] == 0){
+    $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
+        var subper = data;
+        
+        for (var i = 0; i < subper.length; i++) {
+            if(subper[i].idsubmenu == idsubmenuglobal){
+                var tipopermiso = subper[i].tipopermiso;
+                break;
+            }
+        }
 
-                        var parametros = {
-                            "rfcempresa" : datosuser.rfcempresa,
-                            "archivo" : respuesta["archivo"],
-                            "idsubmenu" : idsubmenuglobal
-                        };
-                        $.ajax({
-                                data:  parametros, //datos que se envian a traves de ajax
-                                url:   '../submenus/EliminarArchivos_Storage.php', //archivo que recibe la peticion
-                                type:  'post', //método de envio
-                                beforeSend: function () {
-                                        //$("#resultado").html("Procesando, espere por favor...");
-                                },
-                                success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
-                                    swal("El archivo fue eliminado correctamente", {
-                                      icon: "success",
-                                    })
-                                    .then((value) => {
-                                      switch (respuesta["totalregistros"]) {                     
-                                        case 0:
-                                          ExpDigitales(modulo, menu, submenu, datosuser.rfcempresa);
-                                          break;                     
-                                        default:
-                                          DocumentosALM(idalmacen);
-                                      }
-                                    });                                          
-                                }
-                        });                        
-                        
-                    }else{
-                        swal("¡Error!","El archivo ya ha sido procesado y no puede ser eliminado.","error");
-                    }                                     
-                }else{
-                    swal("¡Error!","Hubo un error al intentar eliminar el archivo.","error");
-                }
-            });
-            break;
-      }
-    });    
-    
+        if(tipopermiso == 3){
+            swal("¿Estas seguro de deseas eliminar el archivo?", {
+              buttons: {
+                Continuar: "Continuar",
+                cancel: "Cancelar",    
+              },
+            })
+            .then((value) => {
+              switch (value) { 
+                case "Cancelar":          
+                  break;
+                case "Continuar":
+                     $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
+                        var respuesta = JSON.parse(data);
+                        if(respuesta["error"] == 0){
+                            if(respuesta["eliminado"] == 0){
+
+                                var parametros = {
+                                    "rfcempresa" : datosuser.rfcempresa,
+                                    "u_storage" : datosuser.user_storage,
+                                    "p_storage" : datosuser.pwd_storage,
+                                    "archivo" : respuesta["archivo"],
+                                    "idmenu": menu,
+                                    "idsubmenu" : idsubmenuglobal
+                                };
+                                $.ajax({
+                                        data:  parametros, //datos que se envian a traves de ajax
+                                        url:   '../submenus/EliminarArchivos_Storage.php', //archivo que recibe la peticion
+                                        type:  'post', //método de envio
+                                        beforeSend: function () {
+                                                //$("#resultado").html("Procesando, espere por favor...");
+                                        },
+                                        success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                                            swal("El archivo fue eliminado correctamente", {
+                                              icon: "success",
+                                            })
+                                            .then((value) => {
+                                              switch (respuesta["totalregistros"]) {                     
+                                                case 0:
+                                                  ExpDigitales(modulo, menu, submenu, datosuser.rfcempresa);
+                                                  break;                     
+                                                default:
+                                                  DocumentosALM(idalmacen);
+                                              }
+                                            });                                          
+                                        }
+                                });                        
+                                
+                            }else{
+                                swal("¡Error!","El archivo ya ha sido procesado y no puede ser eliminado.","error");
+                            }                                     
+                        }else{
+                            swal("¡Error!","Hubo un error al intentar eliminar el archivo.","error");
+                        }
+                    });
+                    break;
+              }
+            }); 
+      
+
+
+        }else{
+            swal("¡Denegado!","No cuentas con los permisos suficientes para realizar esta accion.","warning");
+        }
+
+   
+     });
 
 }
 
@@ -279,7 +295,7 @@ function cargarRubros(nameSelec){
         var rubros = JSON.parse(data).rubros;
         if(rubros.length > 0){            
             for(var x in rubros){
-                if(submenu == rubros[x].idsubmenu){
+                if(idsubmenuglobal == rubros[x].idsubmenu){
                     option = document.createElement("option");
                     option.value = rubros[x].clave;
                     option.text = rubros[x].nombre;
@@ -367,15 +383,22 @@ function cargarArchivos(){
                     datos.fechadocto = fechadocto;
                     datos.archivos = new Object();
 
-                    if(idsubmenuglobal == 23){
+                    /*if(idsubmenuglobal == 23){
                         archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalOperaciones/Pagos/');
                     }else if(idsubmenuglobal == 27){
                         archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalExpedientes/Generales/');   
                     }else{
                         swal("¡Pendiente!","Pendiente de generar ruta.","warning");
                         return;
-                    }
+                    } */
                     
+                    archivosList.append('rfc', datosuser.rfcempresa);
+                    archivosList.append('u_storage', datosuser.user_storage);
+                    archivosList.append('p_storage', datosuser.pwd_storage);
+                    archivosList.append('idmenu', idmenuglobal);
+                    archivosList.append('idsubmenu', idsubmenuglobal);
+                    archivosList.append('idempresa', idempresaglobal);
+                    archivosList.append('idusuario', idusuarioglobal);
 
                     var j = 0;
                     jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
@@ -391,7 +414,8 @@ function cargarArchivos(){
 
                     //Carga los registros
                     $.post(ws + "AlmCargaArchivos", {datos}, function(response){  
-                        var respuesta = JSON.parse(response);                        
+                        var respuesta = JSON.parse(response); 
+                        //console.log(respuesta);                       
                         if(respuesta.error == 0){
                             jQuery.each(jQuery('#archivos')[0].files, function(k, file) {  
                                 k++;
@@ -400,6 +424,8 @@ function cargarArchivos(){
                                     if(file["name"] == respuesta["archivos"][i]["archivo"] && respuesta["archivos"][i]["status"] == 0){
                                         archivosList.append('file-'+j, file);                                        
                                         archivosList.append('archivo-'+j, respuesta["archivos"][i]["codigo"]);
+                                        archivosList.append('idalmacen-'+j, respuesta["archivos"][i]["idalmacen"]);
+                                        archivosList.append('idarchivo-'+j, respuesta["archivos"][i]["idarchivo"]);
                                         j=j+1;                                    
                                     }                                                                        
                                 }                                
@@ -418,7 +444,7 @@ function cargarArchivos(){
                                         if (response.length > 0) {                        
                                             
                                             //swal("Carga Correcta","Archivos cargados correctamente","success");
-                                            ImprimeDetalle(respuesta["archivos"]); 
+                                            ImprimeDetalle(respuesta["archivos"], resp);                                             
 
                                             $("#loading").addClass('d-none');
                                             
@@ -468,31 +494,45 @@ function cargarArchivos(){
     }
 }
 
-function ImprimeDetalle(arcDetalle){
+function ImprimeDetalle(arcDetalle, arcSubidos){
     var mensaje = "";
     var detalle = "";
+
+    //console.log(arcDetalle);
+//    console.log(arcSubidos);
 
     $("#expalm").addClass('d-none');
     $("#DivArchivoDetalle").removeClass('d-none');
     $("#t-ArchivoDetalle tbody").children().remove(); 
     
 
-    for (var i = 0; i < arcDetalle.length; i++) {
-        if(arcDetalle[i].status == 0){
+    for (var i = 0; i < arcSubidos.length; i++) {
+        if(arcSubidos[i].error == 0){
             cargado = "Si";
             detalle = "Cargado Correctamente.";
-        }else if(arcDetalle[i].status == 1){
+        }else if(arcSubidos[i].error == 1){
             cargado = "No";
-            detalle = "El archivo ya existe.";
-        }else if(arcDetalle[i].status == 2){
+            detalle = arcSubidos[i].detalle;
+
+            var objeto = new Object();
+            objeto.rfcempresa = datosuser.rfcempresa;
+            objeto.usuario = datosuser.usuario;
+            objeto.pwd = datosuser.pwd;
+            objeto.idarchivo = arcSubidos[i].idarchivo;
+            objeto.idalmacen = arcSubidos[i].idalmacen;
+
+            $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
+
+            });
+        }/*else if(arcSubidos[i].status == 2){
             cargado = "No";
             detalle = "Nombre del archivo no valido.";
-        }
+        }*/
 
 
         document.getElementById("t-ArchivoDetalle").innerHTML +=
         "<tr> \
-            <td>"+arcDetalle[i].archivo+"</td> \
+            <td>"+arcSubidos[i].nombre+"</td> \
             <td>"+cargado+"</td> \
             <td>"+detalle+"</td> \
         </tr>";            

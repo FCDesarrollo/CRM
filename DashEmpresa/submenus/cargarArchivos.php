@@ -1,5 +1,31 @@
 <?php
     header('Content-Type: application/json');
+    session_start();  
+    include("../../addempresa/nombre_carpetas.php");
+    $carStr = new CarpetasStorage($_SESSION["idempresalog"], $_SESSION["idusuario"]);
+    $carStr->Modulos();
+    $carStr->Menus();
+    $carStr->SubMenus();
+
+    $Modulos = $carStr->Mod_Nombre();
+    $Menus = $carStr->Men_Nombre();
+    $SubMenus = $carStr->Sub_Nombre();
+
+    
+    $idsubmenu = $_POST["idsubmenu"];
+    for ($j=0; $j < count($Menus); $j++) { 
+        if($Menus[$j]['idmenu'] == $_POST["idmenu"]){
+            $menu = $Menus[$j]['nombre_carpeta'];
+            break;
+        }
+    }
+
+    for ($k=0; $k < count($SubMenus); $k++) { 
+        if($SubMenus[$k]['idsubmenu'] == $_POST["idsubmenu"]){
+            $submenu = $SubMenus[$k]['nombre_carpeta'];
+            break;
+        }
+    }
 
     $contador = 1;
     $contadorArreglo = 0;
@@ -11,7 +37,9 @@
     //$lista = $_POST["lista"];
     //$archivos = $_POST["archivos"];
     //$directorio =  $archivos["file-0"];
-    $directorio =  $_POST["file-0"];
+    $empresa = $_POST["rfc"];
+    //$directorio =  $_POST["file-0"];
+    $directorio = $empresa.'/Entrada/'.$menu.'/'.$submenu.'/';
     while (isset($_FILES["file-". $contador]["name"])) {        
         $file = $_FILES["file-". $contador]["name"]; //Obtenemos el nombre original del archivo
         $filename = $_POST["archivo-". $contador];
@@ -23,15 +51,16 @@
         //echo $archivos[$contador]["status"];
         //if($_FILES["file-". $contador]['type']=='application/pdf'){
             //if($archivos[$contador]["status"] == 0){        
+            if($_FILES["file-". $contador]["error"] == 0){
                 $gestor = fopen($source, "r");
                 $contenido = fread($gestor, filesize($source));
                 fclose($gestor);
 
                 curl_setopt_array($ch,
                     array(
-                        CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $target_path,
+                        CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$empresa.'/CRM/'. $target_path,
                         CURLOPT_VERBOSE => 1,
-                        CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+                        CURLOPT_USERPWD => $_POST["u_storage"].':'.$_POST["p_storage"],
                         CURLOPT_POSTFIELDS => $contenido,
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_BINARYTRANSFER => true,
@@ -40,9 +69,23 @@
                 );
                 curl_exec($ch);   
             //}
-            $archivosArray[$contadorArreglo] =  array(
-                "nombre" => $_FILES["file-". $contador]["name"]
-            ); 
+                $archivosArray[$contadorArreglo] =  array(
+                    "nombre" => $_FILES["file-". $contador]["name"],
+                    "idalmacen" => $_POST["idalmacen-". $contador],
+                    "idarchivo" => $_POST["idarchivo-". $contador],
+                    "error" => 0,
+                    "detalle" => "¡Cargado Correctamente!"
+                ); 
+            }else{
+                $archivosArray[$contadorArreglo] =  array(
+                    "nombre" => $_FILES["file-". $contador]["name"],
+                    "idalmacen" => $_POST["idalmacen-". $contador],
+                    "idarchivo" => $_POST["idarchivo-". $contador],
+                    "error" => 1,
+                    "detalle" => "¡Archivo Dañado!"
+                );
+            }
+
             $contadorArreglo++;                          
         //}
         $contador++;

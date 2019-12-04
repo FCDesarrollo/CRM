@@ -17,7 +17,7 @@
 	
 	<div class="br-section-wrapper pd-b-0">
 
-		<h4 class="tx-gray-800">Almacen Digital Expedientes</h4>    
+		<h4 class="tx-gray-800">ALMACEN DIGITAL EXPEDIENTES</h4>    
     	<p class="mg-b-30"></p>	
 
 		<div class="row">

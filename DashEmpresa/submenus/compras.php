@@ -14,7 +14,7 @@ session_start();
 <div class="br-pagebody pd-l-0 pd-r-0">
 	<div class="br-section-wrapper pd-b-0">
 
-		<h4 class="tx-gray-800">Compras</h4>    
+		<h4 class="tx-gray-800">AUTORIZACIONES Y COMPRAS</h4>    
     	<p class="mg-b-30"></p>	
 
 		<div class="row">

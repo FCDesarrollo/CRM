@@ -30,7 +30,7 @@
     		$archivo = "recepcionlotes.php";
     		break;
     	case 7:
-    		$archivo = "divadmempresa.php";
+    		$archivo = "../divsadministrar/divadmempresa.php";
     		break;
     	case 8:
     		$archivo = "adm_usuarios.php";

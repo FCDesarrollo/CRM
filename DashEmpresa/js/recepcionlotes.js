@@ -32,6 +32,8 @@ function LeerArchivo(idusuario, idempresa){
         fileInput.value = "";
     }else{    
     
+
+
 	    var archivosList = new FormData();
 	    jQuery.each(jQuery('#files')[0].files, function(i, file) {  
 	       i++;      
@@ -70,177 +72,195 @@ function LeerArchivo(idusuario, idempresa){
 				        	tipodocto = respuesta1[0].tipodocto;
 				        	tipodoctodet = respuesta1[0].tipodoctodet;
 
-				        	if (tipodoctodet != "Error" && tipodocto != "Error") {	
+				        	if (tipodoctodet != "Error" && tipodocto != "Error") {
 
-							    $.ajax({
-							     	async:false,
-							        url: '../submenus/leer_plantilla.php',
-							        type: 'POST',
-							        data: {plantilla: plantilla, validacion: 2},
-							        success: function (responseAJAX) {
-							         	var movtos = JSON.parse(responseAJAX);
-							         	
-							         	if(movtos[0].fecha == "Vacio"){					         	
-							         		swal("Documento","El documento no tiene movimientos registrados.","error");
-									    	$("#carga-movtos").addClass("d-none");
-									    	$("#bitacora").removeClass("d-none");	
-							         	}else{							        		
-							        		//Validacion Catalogos
-											$.post(ws + "ChecarCatalogos",{array: movtos, idempresa: idempresa}, function(val){
-												respuestacatalogos = val;
-												movtos = respuestacatalogos[0];
-												if(respuestacatalogos[1]['status'] == 0){
+				        		$.post(ws + "VerificarClave",{clave: tipodocto, idempresa: idempresaglobal, idmenu: idmenuglobal, idsubmenu: idsubmenuglobal}, function(data){
+				        			var clave = data;
+				        			console.log(clave);
+				        			console.log(clave.length);
+				        			if(clave.length > 0){
 
-									         		var tClass = "odd";
 
-									         		$.post(ws + "VerificarLote",{idempresa: idempresa, idusuario: idusuario, tipodocto: tipodocto, movtos: movtos}, function(data){
-		        										var lote = data;
-		        										var elemento;
-		        										movimientos = lote;
 
-		        										if(tipodocto == 3){
-		        											document.getElementById("col3").innerHTML = "Folio-Serie";
-		        											document.getElementById("col4").innerHTML = "Total";
-		        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Remision";
-		        											elemento1 = "";
-		        											elemento2 = "total";
-		        										}else if(tipodocto == 2){
-		        											document.getElementById("col3").innerHTML = "Litros";
-		        											document.getElementById("col4").innerHTML = "Total";
-		        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
-		        											elemento1 = "cantidad";
-		        											elemento2 = "total";
-		        										}else if(tipodocto == 4){
-		        											document.getElementById("col3").innerHTML = "Cantidad";
-															document.getElementById("col4").innerHTML = "Unidad";
-		        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Entrada de Materia Prima";
-		        											elemento1 = "cantidad";
-		        											elemento2 = "unidad";
-		        										}else if(tipodocto == 5){
-		        											document.getElementById("col3").innerHTML = "Cantidad";
-		        											document.getElementById("col4").innerHTML = "Unidad";
-		        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Salida de Materia Prima";
-		        											elemento1 = "cantidad";
-		        											elemento2 = "unidad";
-		        										}
 
-														$("#bitacora").addClass("d-none");
-										         		$("#carga-movtos").removeClass("d-none");
-														$("#t-Movtos tbody").children().remove();
-														
-														var folioserie;
-											         	for (x in movtos) {						
-											         		folioserie = movtos[x].folio+(movtos[x].serie == null ? "" : "-"+movtos[x].serie);
-											         		document.getElementById("t-Movtos").innerHTML +=
-											         		"<tr id='row"+x+"' role='row' class='"+tClass+"' > \
-												         		<td class='sorting_2'> \
-												         			<span class='pd-l-5'>"+movtos[x].fecha+"</span> \
-												         		</td> \
-												         		<td> \
-												         			<span class='pd-l-5'>"+movtos[x].nombreconcepto+"</span> \
-												         		</td> \
-												         		<td class='sorting_2'> \
-												         			<span class='pd-l-5'>"+(movtos[x].idconce == 3 ? folioserie : movtos[x][elemento1])+"</span> \
-												         		</td> \
-												         		<td class='text-right'> \
-																	<span class='pd-l-5'>"+movtos[x][elemento2]+"</span> \
-												         		</td> \
-												         		<td class='sorting_2'> \
-																	<span class='pd-l-5' id='error_"+x+"'>"+(lote[x].estatus == "True" ? (lote[x].procesado == 1 ? "Procesado." : "Registro Duplicado.") : "")+"</span> \
-																	<input type='hidden' id='estatus_"+x+"' value='"+lote[x].estatus+"'> \
-												         		</td> \
-												         		<td class='wd-10 text-center'> \
-												         			<span class='pd-l-5'> \
-												         				<a href='#' class='btn btn-outline-danger btn-icon mg-r-5' id='eliminaL"+x+"' name='eliminaL"+x+"' onclick='EliminaFila("+x+");' title='Eliminar de la lista'> \
-																			<div><i class='fa fa-minus-circle'></i></div> \
-																		</a> \
-																		<a href='#' class='btn btn-danger btn-icon mg-r-5 mg-r-5 "+(lote[x].estatus == "False" ? "d-none" : (lote[x].procesado == 1 ? "d-none" : ""))+"' id='eliminaR"+x+"' onclick='EliminaDocto("+lote[x].iddocto+","+idempresa+","+x+");' title='Eliminar de la base de datoss'> \
-																			<div><i class='fa fa-trash'></i></div> \
-																		</a> \
-																	</span> \
-																</td> \
-																<td class='d-none'> \
-																	<input type='hidden' id='movto"+x+"' value='"+lote[x].codigo+"'> \
-																</td> \
-															</tr>";								         		
-											         		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }						         		
-											         	}
-											        });
+								    $.ajax({
+								     	async:false,
+								        url: '../submenus/leer_plantilla.php',
+								        type: 'POST',
+								        data: {plantilla: plantilla, validacion: 2},
+								        success: function (responseAJAX) {
+								         	var movtos = JSON.parse(responseAJAX);
+								         	
+								         	if(movtos[0].fecha == "Vacio"){					         	
+								         		swal("Documento","El documento no tiene movimientos registrados.","error");
+										    	$("#carga-movtos").addClass("d-none");
+										    	$("#bitacora").removeClass("d-none");	
+								         	}else{							        		
+								        		//Validacion Catalogos
+												$.post(ws + "ChecarCatalogos",{array: movtos, idempresa: idempresa}, function(val){
+													respuestacatalogos = val;
+													movtos = respuestacatalogos[0];
+													if(respuestacatalogos[1]['status'] == 0){
 
-									         	}else{						
+										         		var tClass = "odd";
 
-													$("#CatalogosModal").modal();
-													var n2 = 0;
-													var n3 = 0;
-													var coleccion2 = [];
-													var coleccion3 = [];
-													productos = 0;
-													clientesproveedores = 0;
-													conceptos = 0;
-													sucursales = 0;
-													for (j in respuestacatalogos[0]) {
-														if(respuestacatalogos[0][j].productoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){
-															coleccion2[n2] = respuestacatalogos[0][j].codigoproducto;
-															productos = productos + 1;
-															n2 = n2 + 1;
-														}
-														if(respuestacatalogos[0][j].clienprovreg == 1){														
-															if(respuestacatalogos[0][j].rfc == "XAXX010101000" && coleccion3.indexOf(respuestacatalogos[0][j].codigocliprov) == -1){
-																coleccion3[n3] =respuestacatalogos[0][j].codigocliprov;
-																coleccion2[n2] =respuestacatalogos[0][j].rfc;
-																clientesproveedores = clientesproveedores + 1;
-																n3 = n3 + 1;
-																n2 = n2 + 1;
-															}else if(coleccion2.indexOf(respuestacatalogos[0][j].rfc) == -1){
-																coleccion2[n2] =respuestacatalogos[0][j].rfc;
-																clientesproveedores = clientesproveedores + 1;
+										         		$.post(ws + "VerificarLote",{idempresa: idempresa, idusuario: idusuario, tipodocto: tipodocto, movtos: movtos}, function(data){
+			        										var lote = data;
+			        										var elemento;
+			        										movimientos = lote;
+
+			        										if(tipodocto == 3){
+			        											document.getElementById("col3").innerHTML = "Folio-Serie";
+			        											document.getElementById("col4").innerHTML = "Total";
+			        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Remision";
+			        											elemento1 = "";
+			        											elemento2 = "total";
+			        										}else if(tipodocto == 2){
+			        											document.getElementById("col3").innerHTML = "Litros";
+			        											document.getElementById("col4").innerHTML = "Total";
+			        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Consumo Diesel";
+			        											elemento1 = "cantidad";
+			        											elemento2 = "total";
+			        										}else if(tipodocto == 4){
+			        											document.getElementById("col3").innerHTML = "Cantidad";
+																document.getElementById("col4").innerHTML = "Unidad";
+			        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Entrada de Materia Prima";
+			        											elemento1 = "cantidad";
+			        											elemento2 = "unidad";
+			        										}else if(tipodocto == 5){
+			        											document.getElementById("col3").innerHTML = "Cantidad";
+			        											document.getElementById("col4").innerHTML = "Unidad";
+			        											document.getElementById("p_info").innerHTML = "Tipo de Documento: Salida de Materia Prima";
+			        											elemento1 = "cantidad";
+			        											elemento2 = "unidad";
+			        										}
+
+															$("#bitacora").addClass("d-none");
+											         		$("#carga-movtos").removeClass("d-none");
+															$("#t-Movtos tbody").children().remove();
+															
+															var folioserie;
+												         	for (x in movtos) {						
+												         		folioserie = movtos[x].folio+(movtos[x].serie == null ? "" : "-"+movtos[x].serie);
+												         		document.getElementById("t-Movtos").innerHTML +=
+												         		"<tr id='row"+x+"' role='row' class='"+tClass+"' > \
+													         		<td class='sorting_2'> \
+													         			<span class='pd-l-5'>"+movtos[x].fecha+"</span> \
+													         		</td> \
+													         		<td> \
+													         			<span class='pd-l-5'>"+movtos[x].nombreconcepto+"</span> \
+													         		</td> \
+													         		<td class='sorting_2'> \
+													         			<span class='pd-l-5'>"+(movtos[x].idconce == 3 ? folioserie : movtos[x][elemento1])+"</span> \
+													         		</td> \
+													         		<td class='text-right'> \
+																		<span class='pd-l-5'>"+movtos[x][elemento2]+"</span> \
+													         		</td> \
+													         		<td class='sorting_2'> \
+																		<span class='pd-l-5' id='error_"+x+"'>"+(lote[x].estatus == "True" ? (lote[x].procesado == 1 ? "Procesado." : "Registro Duplicado.") : "")+"</span> \
+																		<input type='hidden' id='estatus_"+x+"' value='"+lote[x].estatus+"'> \
+													         		</td> \
+													         		<td class='wd-10 text-center'> \
+													         			<span class='pd-l-5'> \
+													         				<a href='#' class='btn btn-outline-danger btn-icon mg-r-5' id='eliminaL"+x+"' name='eliminaL"+x+"' onclick='EliminaFila("+x+");' title='Eliminar de la lista'> \
+																				<div><i class='fa fa-minus-circle'></i></div> \
+																			</a> \
+																			<a href='#' class='btn btn-danger btn-icon mg-r-5 mg-r-5 "+(lote[x].estatus == "False" ? "d-none" : (lote[x].procesado == 1 ? "d-none" : ""))+"' id='eliminaR"+x+"' onclick='EliminaDocto("+lote[x].iddocto+","+idempresa+","+x+");' title='Eliminar de la base de datoss'> \
+																				<div><i class='fa fa-trash'></i></div> \
+																			</a> \
+																		</span> \
+																	</td> \
+																	<td class='d-none'> \
+																		<input type='hidden' id='movto"+x+"' value='"+lote[x].codigo+"'> \
+																	</td> \
+																</tr>";								         		
+												         		if(tClass == "odd") { tClass = "even";	}else{ tClass = "odd"; }						         		
+												         	}
+												        });
+
+										         	}else{						
+
+														$("#CatalogosModal").modal();
+														var n2 = 0;
+														var n3 = 0;
+														var coleccion2 = [];
+														var coleccion3 = [];
+														productos = 0;
+														clientesproveedores = 0;
+														conceptos = 0;
+														sucursales = 0;
+														for (j in respuestacatalogos[0]) {
+															if(respuestacatalogos[0][j].productoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoproducto) == -1){
+																coleccion2[n2] = respuestacatalogos[0][j].codigoproducto;
+																productos = productos + 1;
 																n2 = n2 + 1;
 															}
-														} 
-														if(respuestacatalogos[0][j].conceptoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoconcepto) == -1){
-															coleccion2[n2] =respuestacatalogos[0][j].codigoconcepto;
-															conceptos = conceptos + 1;
-															n2 = n2 + 1;										
+															if(respuestacatalogos[0][j].clienprovreg == 1){														
+																if(respuestacatalogos[0][j].rfc == "XAXX010101000" && coleccion3.indexOf(respuestacatalogos[0][j].codigocliprov) == -1){
+																	coleccion3[n3] =respuestacatalogos[0][j].codigocliprov;
+																	coleccion2[n2] =respuestacatalogos[0][j].rfc;
+																	clientesproveedores = clientesproveedores + 1;
+																	n3 = n3 + 1;
+																	n2 = n2 + 1;
+																}else if(coleccion2.indexOf(respuestacatalogos[0][j].rfc) == -1){
+																	coleccion2[n2] =respuestacatalogos[0][j].rfc;
+																	clientesproveedores = clientesproveedores + 1;
+																	n2 = n2 + 1;
+																}
+															} 
+															if(respuestacatalogos[0][j].conceptoreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].codigoconcepto) == -1){
+																coleccion2[n2] =respuestacatalogos[0][j].codigoconcepto;
+																conceptos = conceptos + 1;
+																n2 = n2 + 1;										
+															}
+															if(respuestacatalogos[0][j].sucursalreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].sucursal) == -1){
+																coleccion2[n2] =respuestacatalogos[0][j].sucursal;
+																sucursales = sucursales + 1;
+																n2 = n2 + 1;										
+															}															
 														}
-														if(respuestacatalogos[0][j].sucursalreg == 1 && coleccion2.indexOf(respuestacatalogos[0][j].sucursal) == -1){
-															coleccion2[n2] =respuestacatalogos[0][j].sucursal;
-															sucursales = sucursales + 1;
-															n2 = n2 + 1;										
-														}															
-													}
 
-													if(productos == 0){
-														$("#fila1").addClass('d-none');	
-													}else{
-														$("#fila1").removeClass('d-none');	
-														document.getElementById("elemento1").innerHTML = productos;
-													}
-													if(clientesproveedores == 0){
-														$("#fila2").addClass('d-none');	
-													}else{
-														$("#fila2").removeClass('d-none');	
-														document.getElementById("elemento2").innerHTML = clientesproveedores;
-													}
-													if(conceptos == 0){
-														$("#fila3").addClass('d-none');	
-													}else{
-														$("#fila3").removeClass('d-none');	
-														document.getElementById("elemento3").innerHTML = conceptos;
-													}
-													if(sucursales == 0){
-														$("#fila4").addClass('d-none');	
-													}else{
-														$("#fila4").removeClass('d-none');
-														document.getElementById("elemento4").innerHTML = sucursales;
-													}
-													
+														if(productos == 0){
+															$("#fila1").addClass('d-none');	
+														}else{
+															$("#fila1").removeClass('d-none');	
+															document.getElementById("elemento1").innerHTML = productos;
+														}
+														if(clientesproveedores == 0){
+															$("#fila2").addClass('d-none');	
+														}else{
+															$("#fila2").removeClass('d-none');	
+															document.getElementById("elemento2").innerHTML = clientesproveedores;
+														}
+														if(conceptos == 0){
+															$("#fila3").addClass('d-none');	
+														}else{
+															$("#fila3").removeClass('d-none');	
+															document.getElementById("elemento3").innerHTML = conceptos;
+														}
+														if(sucursales == 0){
+															$("#fila4").addClass('d-none');	
+														}else{
+															//$("#fila4").removeClass('d-none');
+															//document.getElementById("elemento4").innerHTML = sucursales;
+															$("#CatalogosModal").modal("hide");
+															swal("¡Sucursales!","Existen sucursales que no han sido dadas de alta.","warning");
+														}
+														
 
-												}
-											});
-										}
-										
-							        }
-							    });
+													}
+												});
+											}
+											
+								        }
+								    });
+
+				        			}else{
+				        				fileInput.value = "";
+				        				swal("¡Plantilla!","El archivo no es valido para este apartado.","warning");
+				        				
+				        			}
+								});
 
 				        	}else{                
                 				$('#loading').addClass('d-none');				        			
@@ -406,7 +426,7 @@ function RegistrarDoctos(idempresa, idusuario, codigo, tipodocto, doctos, movtos
  	$.post(ws + "LoteCargado",{idempresa: idempresa, idusuario: idusuario, tipodocto: tipodocto, documentos: doctos, movimientos: movtos, span: idspan, conexion: 1}, function(data){
 //	$.post(ws + "LoteCargado",{rfcempresa: rfc, usuario: usuario, pwd: password, tipodocto: tipodocto, movimientos: movtos}, function(data){
       
-        var $bandera = 0;
+        var bandera = 0;
         
     	for (x in data) {
 				 
@@ -455,12 +475,19 @@ function numreg(idempresa, tipodocto, idlote, numero_doc){
 
 
 
-function CargarLotes(){
+function CargarLotes(idmodulo, idmenu, idsubmenu){
+
+	$('#divdinamico').load('../submenus/form_recepcionlotes.php');
 
 	$("#t-Bitacora tbody").children().remove();
 	
-	$("#loading").removeClass("d-none");			
+	$("#loading").removeClass("d-none");	
+
+	idmoduloglobal = idmodulo;
+	idmenuglobal = idmenu;
 	
+	URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
+
 	var inicio = 1; 
 	
 	$.get(ws + "ConsultarLotes",{idempresa: idempresaglobal}, function(Response){
@@ -531,7 +558,7 @@ function CargarLotes(){
 		}
 
 				
-
+		
 	});    
 }
 
@@ -902,8 +929,12 @@ function EliminaDocto(IDDocum, Tipo, Posicion){
 
 function DescargarPlantilla(){
 	var cod = document.getElementById("plantillas").value;
-	if(cod > 0){
-		switch (cod) {
+	
+	
+	if(cod != ""){
+		var link = document.getElementById("link_"+cod).getAttribute("href");
+		location.href = link;
+		/*switch (cod) {
 		  case "1":
 		  	var link = document.getElementById("link_1").getAttribute("href");
 		  	location.href = link;
@@ -920,9 +951,9 @@ function DescargarPlantilla(){
 		  	var link = document.getElementById("link_4").getAttribute("href");
 		  	location.href = link;
 		    break;		    		    
-	    }
+	    }*/
 	}else{
-		swal("Seleccione plantilla","Debe seleccionar una plantilla.","error");
+		swal("Seleccionar Rubro","Debe seleccionar el rubro a descargar.","error");
 	}
 }
 

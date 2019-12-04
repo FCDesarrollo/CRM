@@ -8,8 +8,9 @@
 	$carStr->Modulos();
 	$carStr->Menus();
 	$carStr->SubMenus();
+    $carStr->Storage();
 
-
+    $DatosStorage = $carStr->StorageADM();
 	
 	$nom = trim($_POST["rfc"]);
 	$certificado = $_FILES["archivoCer"];    
@@ -21,14 +22,43 @@
 	$archivoTxt = $nom.".txt";
 	$pass = $_POST["password"];
 	$local_file = $nom.".txt"; //Nombre archivo en nuestro PC
-	$server_file = '/'.'CRM/'.$nom.'/'.$nom.".txt"; //Nombre archivo en FTP
+	$server_file = '/CRM/'.$nom.'/'.$nom.".txt"; //Nombre archivo en FTP
+
+    $useradm_storage = $DatosStorage[0]['usuario_storage']; // "admindublock";
+    $passadm_storage = $DatosStorage[0]['password_storage']; //"4u1B6nyy3W";
+    $server_storage = $DatosStorage[0]['servidor_storage']; //"cloud.dublock.com";
+    
+    $ch = curl_init();
+        $userName = $nom;
+        $password = $pass;
+        $DatosUser = array("userid" => $userName, "password" => $password);
+        curl_setopt($ch, CURLOPT_URL, "https://".$useradm_storage.":".$passadm_storage."@".$server_storage."/ocs/v1.php/cloud/users");
+        //curl_setopt($ch, CURLOPT_URL, "https://".$user.":".$pass."@".$server."/ocs/v2.php/apps/files_sharing/api/v1/shares");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $DatosUser);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('OCS-APIRequest:true'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+    curl_close($ch);    
+
 
 	$ch = curl_init();
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom,
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM',
             CURLOPT_VERBOSE => 1,
-            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_USERPWD => $userName.':'.$password,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'MKCOL',
+        )
+    );
+    curl_exec($ch); 
+
+    curl_setopt_array($ch,
+        array(
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom,
+            CURLOPT_VERBOSE => 1,
+            CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => 'MKCOL',
         )
@@ -39,12 +69,12 @@
     $Menus = $carStr->Men_Nombre();
     $SubMenus = $carStr->Sub_Nombre();
     for ($i=0; $i < count($Modulos); $i++) { 
-    	//echo $Modulos[$i]['nombre_carpeta'];
+
 	    curl_setopt_array($ch,
 	        array(
-	            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'],
+	            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'],
 	            CURLOPT_VERBOSE => 1,
-	            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+	            CURLOPT_USERPWD => $userName.':'.$password,
 	            CURLOPT_RETURNTRANSFER => true,
 	            CURLOPT_CUSTOMREQUEST => 'MKCOL',
 	        )
@@ -55,9 +85,9 @@
 	    	if($Modulos[$i]['idmodulo'] == $Menus[$j]['idmodulo'] && $Menus[$j]['nombre_carpeta'] != ""){
 			    curl_setopt_array($ch,
 			        array(
-			            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'],
+			            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'],
 			            CURLOPT_VERBOSE => 1,
-			            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+			            CURLOPT_USERPWD => $userName.':'.$password,
 			            CURLOPT_RETURNTRANSFER => true,
 			            CURLOPT_CUSTOMREQUEST => 'MKCOL',
 			        )
@@ -69,9 +99,9 @@
 			    		
 					    curl_setopt_array($ch,
 					        array(
-					            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'] .'/'. $SubMenus[$k]['nombre_carpeta'],
+					            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'] .'/'. $SubMenus[$k]['nombre_carpeta'],
 					            CURLOPT_VERBOSE => 1,
-					            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+					            CURLOPT_USERPWD => $userName.':'.$password,
 					            CURLOPT_RETURNTRANSFER => true,
 					            CURLOPT_CUSTOMREQUEST => 'MKCOL',
 					        )
@@ -92,9 +122,9 @@
 
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $certificado["name"],
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $certificado["name"],
             CURLOPT_VERBOSE => 1,
-            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_POSTFIELDS => $contenido,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_BINARYTRANSFER => true,
@@ -108,9 +138,9 @@
     fclose($gestor2);
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $llave["name"],
+            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $llave["name"],
             CURLOPT_VERBOSE => 1,
-            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+            CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_POSTFIELDS => $contenido2,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_BINARYTRANSFER => true,
@@ -158,9 +188,9 @@ if ($login_result===true){
                     $ch = curl_init();                
                     curl_setopt_array($ch,
                         array(
-                            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $nom .'/'. $archivoTxt,
+                            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $archivoTxt,
                             CURLOPT_VERBOSE => 1,
-                            CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+                            CURLOPT_USERPWD => $userName.':'.$password,
                             CURLOPT_POSTFIELDS => $contenido2,
                             CURLOPT_RETURNTRANSFER => true,
                             CURLOPT_BINARYTRANSFER => true,

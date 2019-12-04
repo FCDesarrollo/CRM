@@ -89,7 +89,7 @@ session_start();
     <?php include("permisosuser.php"); ?>
     <!-- ########## START: LEFT PANEL ########## -->
     
-    <div class="br-logo justify-content-center"><a href=""><span>[</span>C R M<span>]</span></a></div>
+    <div class="br-logo justify-content-center"><a href="../empuser/"><span>[</span>C R M<span>]</span></a></div>
     <?php 
       include("menulateral.php"); 
       include("../submenus/modal/subirArchivos.php");

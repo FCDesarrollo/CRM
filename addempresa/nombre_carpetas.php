@@ -6,9 +6,11 @@ class CarpetasStorage{
 	private $_NombresMOD;
 	private $_NombresMEN;
 	private $_NombresSUB;
+    private $_DatosStorage;
     public $n_Mod;	
     public $n_Men;
     public $n_Sub;
+    public $Storage;
 	function __construct(int $IDComp,int $IDUse){
         $this->_IDEmprsa = $IDComp;
         $this->_IDUsuario = $IDUse;
@@ -33,6 +35,12 @@ class CarpetasStorage{
 	    $this->_NombresSUB = json_decode($resultado2, true);
         $n_Sub = count($this->_NombresSUB);
 	}  
+
+    public function Storage(){
+        $resultado2 = CallAPI("GET", $this->_sWs ."DatosStorageADM");    
+        $this->_DatosStorage = json_decode($resultado2, true);
+        $Storage = count($this->_DatosStorage);
+    }    
 
     public function Mod_Nombre() {
         /*foreach($this->_NombresMOD as $value) {
@@ -59,6 +67,9 @@ class CarpetasStorage{
             }
         } */   
         return $this->_NombresSUB;
+    }
+    public function StorageADM(){
+        return $this->_DatosStorage;   
     } 	
 }
 

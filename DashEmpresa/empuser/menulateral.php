@@ -53,7 +53,7 @@
           </li>
           <li class="nav-item">
             <a <?= ($perMod->Menu_Permiso(Men_RecepLotes)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link" onclick="loadDiv('../submenus/recepcionlotes.php',<?= Mod_InboxBandeja ?>, <?=Men_RecepLotes ?>, 0)">
-            Recepción por Lotes O.</a>
+            Recepción por Lotes</a>
           </li>
           <li class="nav-item">
             <a <?= ($perMod->Menu_Permiso(Men_AlmacenDigitalExp)==0) ? 'style=pointer-events:none' : ''; ?> href="#" class="nav-link none-link" onclick="loadDiv('../submenus/almacendigitalexpedientes.php',<?= Mod_InboxBandeja ?>, <?=Men_AlmacenDigitalExp ?>, 0)">Almacen Digital Expedientes</a>

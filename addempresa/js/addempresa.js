@@ -395,7 +395,9 @@ function curlCarpetas(){
             objeto.password = pwd;
             objeto.empresaBD = resultado[0].nombre;  
             objeto.correo = correo;
-            objeto.vigencia = vigencia;    
+            objeto.vigencia = vigencia;
+            objeto.usuario_storage = rfc;
+            objeto.password_storage = pwd;    
 
             $.post(ws + "AsignaBD",  { id: id, rfc: rfc }, function(data){ 
               var asigna = JSON.parse(data).registro;                       

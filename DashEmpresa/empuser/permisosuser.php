@@ -172,20 +172,20 @@ class PermisosUsuario
         }    
     }    
 
-    public function Men_Nombre(int $_mIDMenu): string
+    public function Men_NombreCarpeta(int $_mIDMenu): string
     {
         foreach($this->_NombresMEN as $value) {
             if($_mIDMenu == $value['idmenu']){
-                return  $value['nombre_menu'];
+                return  $value['nombre_carpeta'];
             }
         }    
     }
 
-    public function Sub_Nombre(int $_mIDSubMenu): string
+    public function Sub_NombreCarpeta(int $_mIDSubMenu): string
     {
         foreach($this->_NombresSUB as $value) {
             if($_mIDSubMenu == $value['idsubmenu']){
-                return  $value['nombre_submenu'];
+                return  $value['nombre_carpeta'];
             }
         }    
     }         
