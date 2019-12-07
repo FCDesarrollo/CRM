@@ -76,8 +76,8 @@ function LeerArchivo(idusuario, idempresa){
 
 				        		$.post(ws + "VerificarClave",{clave: tipodocto, idempresa: idempresaglobal, idmenu: idmenuglobal, idsubmenu: idsubmenuglobal}, function(data){
 				        			var clave = data;
-				        			console.log(clave);
-				        			console.log(clave.length);
+//				        			console.log(clave);
+//				        			console.log(clave.length);
 				        			if(clave.length > 0){
 
 
@@ -863,29 +863,35 @@ function EliminaFila(fila){
 
 function EliminaRegistro(IDLote){
 
-	swal("¿Estas seguro de deseas eliminar el registro?", {
-	  buttons: {
-	    Continuar: "Continuar",
-	    cancel: "Cancelar",    
-	  },
-	})
-	.then((value) => {
-	  switch (value) { 
-	    case "Cancelar":
-	      
-	      break;
-	    case "Continuar":
-			$.post(ws + "EliminarLote",{idempresa: idempresaglobal, idlote: IDLote}, function(Response){
-				var lote = Response;
-				if(lote.length > 0){
-					swal("Eliminar Lote","No se puede eliminar el lote por que ya existen documentos procesados.","error");
-				}else{
-					CargarLotes();		
-				}
-			}); 
-	     	break;
-	  }
-	});
+	var tipopermiso = VerificaPermisoSubMenu(idempresaglobal, idusuarioglobal, idsubmenuglobal);
+
+	if(tipopermiso == 3){
+			swal("¿Estas seguro de deseas eliminar el registro?", {
+			  buttons: {
+			    Continuar: "Continuar",
+			    cancel: "Cancelar",    
+			  },
+			})
+			.then((value) => {
+			  switch (value) { 
+			    case "Cancelar":
+			      
+			      break;
+			    case "Continuar":
+					$.post(ws + "EliminarLote",{idempresa: idempresaglobal, idlote: IDLote}, function(Response){
+						var lote = Response;
+						if(lote.length > 0){
+							swal("Eliminar Lote","No se puede eliminar el lote por que ya existen documentos procesados.","error");
+						}else{
+							CargarLotes();		
+						}
+					}); 
+			     	break;
+			  }
+			});
+    }else{
+    	swal("¡Denegado!","No cuentas con los permisos suficientes para realizar esta accion.","warning");
+    }
 }
 
 function EliminaDocto(IDDocum, Tipo, Posicion){

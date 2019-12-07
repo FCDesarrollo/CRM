@@ -91,36 +91,36 @@ function DocumentosALM(idalm){
         
         if(datos.length > 0){      
 
-            $.ajax({
-                async:true,
-                url: '../submenus/leer_carpeta.php',
-                type: 'POST',
-                data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idmenu: menu, idsubmenu: submenu},
-                success: function (responseAJAX) {
-                    var respuesta = JSON.parse(responseAJAX);
+            // $.ajax({
+            //     async:true,
+            //     url: '../submenus/leer_carpeta.php',
+            //     type: 'POST',
+            //     data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idmenu: menu, idsubmenu: submenu},
+            //     success: function (responseAJAX) {
+            //         var respuesta = JSON.parse(responseAJAX);
                     //console.log(respuesta[0].link);
 
                     //for (var i = 0; i < (respuesta.length > 5 ? 5 : respuesta.length); i++) {
-                    for (var i = 0; i < respuesta.length; i++) {
+                    for (var i = 0; i < datos.length; i++) {
                     
                         document.getElementById("t-ArchivosALM").innerHTML +=
                         "<tr> \
                             <td> \
                                 <label class='ckbox mg-b-0'> \
-                                    <input type='checkbox' id='check_"+respuesta[i].id+"'><span></span> \
+                                    <input type='checkbox' id='check_"+datos[i].id+"'><span></span> \
                                 </label> \
                             </td> \
-                            <td>"+respuesta[i].documento+"</td> \
-                            <td>"+respuesta[i].agente+"</td> \
-                            <td>"+(respuesta[i].fechaprocesado == "" ? "YYYY-MM-DD" : respuesta[i].fechaprocesado)+"</td> \
+                            <td>"+datos[i].documento+"</td> \
+                            <td>"+datos[i].agente+"</td> \
+                            <td>"+(datos[i].fechaprocesado == null ? "YYYY-MM-DD" : datos[i].fechaprocesado)+"</td> \
                             <td> \
                               <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
                               <div class='dropdown-menu dropdown-menu-right pd-10'> \
                                 <nav class='nav nav-style-1 flex-column'> \
-                                  <a href='"+respuesta[i].link+"' target='_blank' class='nav-link'>Ver</a> \
-                                  <a href='"+respuesta[i].link+"/download' target='_blank' class='nav-link'>Descargar</a> \
-                                  <a href='#' onclick='CompartirArchivoALM("+respuesta[i].id+")' class='nav-link'>Compartir</a> \
-                                  <a href='#' onclick='EliminarArchivoALM("+respuesta[i].id+","+respuesta[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
+                                  <a href='"+datos[i].download+"' target='_blank' class='nav-link'>Ver</a> \
+                                  <a href='"+datos[i].download+"/download' target='_blank' class='nav-link'>Descargar</a> \
+                                  <a href='#' onclick='CompartirArchivoALM("+datos[i].id+")' class='nav-link'>Compartir</a> \
+                                  <a href='#' onclick='EliminarArchivoALM("+datos[i].id+","+datos[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
                                 </nav> \
                               </div> \
                             </td> \
@@ -129,8 +129,8 @@ function DocumentosALM(idalm){
                     }
                     $('#loading').addClass('d-none'); 
                     btnregresar = 2;
-                }
-            });
+//                }
+//            });
         }else{
             $('#loading').addClass('d-none');
             btnregresar = 2;
@@ -158,15 +158,17 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
     objeto.idarchivo = idarchivo;
     objeto.idalmacen = idalmacen;
 
-    $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
-        var subper = data;
+//    $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
+        /*var subper = data;
         
         for (var i = 0; i < subper.length; i++) {
             if(subper[i].idsubmenu == idsubmenuglobal){
                 var tipopermiso = subper[i].tipopermiso;
                 break;
             }
-        }
+        } */
+
+    var tipopermiso = VerificaPermisoSubMenu(idempresaglobal, idusuarioglobal, idsubmenuglobal);
 
         if(tipopermiso == 3){
             swal("¿Estas seguro de deseas eliminar el archivo?", {
@@ -234,7 +236,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
         }
 
    
-     });
+//     });
 
 }
 
@@ -430,6 +432,7 @@ function cargarArchivos(){
                                     }                                                                        
                                 }                                
                             });   
+
                             if(j > 1){                                
                                 jQuery.ajax({ //ajax para cargar archivos a la nube
                                     url: '../submenus/cargarArchivos.php',
@@ -444,15 +447,25 @@ function cargarArchivos(){
                                         if (response.length > 0) {                        
                                             
                                             //swal("Carga Correcta","Archivos cargados correctamente","success");
-                                            ImprimeDetalle(respuesta["archivos"], resp);                                             
+                                            var objeto = new Object();
+                                            objeto.idempresa = idempresaglobal;
+                                            objeto.datos = resp;
 
-                                            $("#loading").addClass('d-none');
+                                            $.post(ws + "LinkDescarga", {objeto}, function(data){
+                                                ImprimeDetalle(respuesta["archivos"], resp);
+
+                                                $("#loading").addClass('d-none');
+                                                
+                                                swal("Expedientes Digitales Cargados Correctamente.", { 
+                                                    icon: "success",
+                                                    buttons: false,
+                                                    timer: 3000,
+                                                });
+
+                                            });                                           
+                                                                                         
+
                                             
-                                            swal("Expedientes Digitales Cargados Correctamente.", { 
-                                                icon: "success",
-                                                buttons: false,
-                                                timer: 3000,
-                                            });                                            
                                             
                                             //ExpDigitales(modulo, menu, submenu, rfc);
                                         }else{
@@ -510,6 +523,7 @@ function ImprimeDetalle(arcDetalle, arcSubidos){
         if(arcSubidos[i].error == 0){
             cargado = "Si";
             detalle = "Cargado Correctamente.";
+
         }else if(arcSubidos[i].error == 1){
             cargado = "No";
             detalle = arcSubidos[i].detalle;

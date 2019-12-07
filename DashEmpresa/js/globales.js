@@ -310,4 +310,19 @@ function SubMenu_Tittle(){
 
 }
 
+function VerificaPermisoSubMenu(idempresa, idusuario, idsubmenu){
+    $.get(ws + "SubMenuPermiso", {idempresa: idempresa, idusuario: idusuario}, function(data){
+        var subper = data;
+        
+        for (var i = 0; i < subper.length; i++) {
+            if(subper[i].idsubmenu == idsubmenu){
+                var tipopermiso = subper[i].tipopermiso;
+                break;
+            }
+        }
+
+        return tipopermiso;
+    });
+}
+
 
