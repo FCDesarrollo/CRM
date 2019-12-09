@@ -76,6 +76,7 @@
                 $server = "cloud.dublock.com";
                 //$link = $RFC."/Entrada/".$menu."/".$submenu."/".$documento;
                 //$link = getlink($target_path, $server, $_POST["u_storage"], $_POST["p_storage"]);
+                print_r("expression");
             //}
                 $archivosArray[$contadorArreglo] =  array(
                     "nombre" => $_FILES["file-". $contador]["name"],
@@ -105,6 +106,7 @@
 
 
     function getlink($link, $server, $user, $pass){
+        echo "Entra";
        $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, "https://".$user.":".$pass."@".$server."/ocs/v2.php/apps/files_sharing/api/v1/shares");
