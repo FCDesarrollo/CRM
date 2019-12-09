@@ -1,6 +1,6 @@
 <?php
     header('Content-Type: application/json');
-    session_start();  
+/*    session_start();  
     include("../../addempresa/nombre_carpetas.php");
     $carStr = new CarpetasStorage($_SESSION["idempresalog"], $_SESSION["idusuario"]);
     $carStr->Modulos();
@@ -25,7 +25,8 @@
             $submenu = $SubMenus[$k]['nombre_carpeta'];
             break;
         }
-    }
+    } 
+*/
 
     $contador = 1;
     $contadorArreglo = 0;
@@ -33,6 +34,8 @@
     $ch = curl_init();  
     $i = 0;      
 
+    $menu = $_POST["menu"];
+    $submenu = $_POST["submenu"];
 
     //$lista = $_POST["lista"];
     //$archivos = $_POST["archivos"];
@@ -40,7 +43,8 @@
     $empresa = $_POST["rfc"];
     //$directorio =  $_POST["file-0"];
     $directorio = $empresa.'/Entrada/'.$menu.'/'.$submenu;
-    while (isset($_FILES["file-". $contador]["name"])) {        
+
+    while (isset($_FILES["file-". $contador]["name"])) {     
         $file = $_FILES["file-". $contador]["name"]; //Obtenemos el nombre original del archivo
         $filename = $_POST["archivo-". $contador];
         $source = $_FILES["file-". $contador]["tmp_name"]; //Obtenemos un nombre temporal del archivo        

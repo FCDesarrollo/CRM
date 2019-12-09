@@ -158,18 +158,17 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
     objeto.idarchivo = idarchivo;
     objeto.idalmacen = idalmacen;
 
-//    $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
-        /*var subper = data;
+    $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
+        var subper = data;
         
         for (var i = 0; i < subper.length; i++) {
             if(subper[i].idsubmenu == idsubmenuglobal){
                 var tipopermiso = subper[i].tipopermiso;
                 break;
             }
-        } */
+        } 
 
-    var tipopermiso = VerificaPermisoSubMenu(idempresaglobal, idusuarioglobal, idsubmenuglobal);
-
+//    var tipopermiso = VerificaPermisoSubMenu(idempresaglobal, idusuarioglobal, idsubmenuglobal);
         if(tipopermiso == 3){
             swal("¿Estas seguro de deseas eliminar el archivo?", {
               buttons: {
@@ -236,7 +235,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
         }
 
    
-//     });
+     });
 
 }
 
@@ -384,23 +383,31 @@ function cargarArchivos(){
                     datos.sucursal = sucursal;
                     datos.fechadocto = fechadocto;
                     datos.archivos = new Object();
-
-                    /*if(idsubmenuglobal == 23){
-                        archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalOperaciones/Pagos/');
-                    }else if(idsubmenuglobal == 27){
-                        archivosList.append('file-0', rfc + '/Entrada/AlmacenDigitalExpedientes/Generales/');   
-                    }else{
-                        swal("¡Pendiente!","Pendiente de generar ruta.","warning");
-                        return;
-                    } */
                     
+                    for (var i = 0; i < _NombresSubM.length; i++) {
+                        if(_NombresSubM[i]["idsubmenu"] == idsubmenuglobal){
+                            var submenu = _NombresSubM[i]["nombre_carpeta"];
+                            break;
+                        }
+                    }
+
+                    for (var j = 0; j < _NombresMenus.length; j++) {
+                        if(_NombresMenus[j]["idmenu"] == idmenuglobal){
+                            var menu = _NombresMenus[j]["nombre_carpeta"];
+                            break;
+                        }
+                    }
+
                     archivosList.append('rfc', datosuser.rfcempresa);
                     archivosList.append('u_storage', datosuser.user_storage);
                     archivosList.append('p_storage', datosuser.pwd_storage);
                     archivosList.append('idmenu', idmenuglobal);
-                    archivosList.append('idsubmenu', idsubmenuglobal);
+                    /*archivosList.append('idsubmenu', idsubmenuglobal);
                     archivosList.append('idempresa', idempresaglobal);
-                    archivosList.append('idusuario', idusuarioglobal);
+                    archivosList.append('idusuario', idusuarioglobal);*/
+                    archivosList.append('menu', menu);
+                    archivosList.append('submenu', submenu);
+                    
 
                     var j = 0;
                     jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
@@ -432,6 +439,8 @@ function cargarArchivos(){
                                     }                                                                        
                                 }                                
                             });   
+
+                            console.log(archivosList);
 
                             if(j > 1){                                
                                 jQuery.ajax({ //ajax para cargar archivos a la nube

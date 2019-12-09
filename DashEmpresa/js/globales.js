@@ -67,11 +67,7 @@ var tipodocto;
 var tipodoctodet;
 var respuestacatalogos;
 var url = ""; 
-var _NombresSubM;
 
-$.get(ws + "SubMenus", function(resSubMenus){
-    _NombresSubM = resSubMenus;
-});
 
 function CargarSubMenu(idsubmenu){
 

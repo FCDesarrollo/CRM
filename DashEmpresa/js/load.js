@@ -1,5 +1,7 @@
 
 var per;
+var _NombresSubM;
+var _NombresMenus;
 
 function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
 
@@ -37,6 +39,14 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                         
                         
                     });
+
+                    $.get(ws + "SubMenus", function(resSubMenus){
+                        _NombresSubM = resSubMenus;                    
+                    });
+
+                    $.get(ws + "Menus", function(resMenus){
+                        _NombresMenus = resMenus;
+                    });                    
                                         
 
                 }
