@@ -62,9 +62,9 @@
 
                 curl_setopt_array($ch,
                     array(
-                        CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/admindublock/CRM/'. $target_path,
+                        CURLOPT_URL => 'https://'.$_POST["server_storage"].'/remote.php/dav/files/'.$_POST["u_storage"].'/CRM/'. $target_path,
                         CURLOPT_VERBOSE => 1,
-                        CURLOPT_USERPWD => 'admindublock:4u1B6nyy3W',
+                        CURLOPT_USERPWD => $_POST["u_storage"].':'.$_POST["p_storage"],
                         CURLOPT_POSTFIELDS => $contenido,
                         CURLOPT_RETURNTRANSFER => true,
                         CURLOPT_BINARYTRANSFER => true,
@@ -73,16 +73,14 @@
                 );
                 curl_exec($ch);   
 
-                $server = "cloud.dublock.com";
+                //$server = "cloud.dublock.com";
                 //$link = $RFC."/Entrada/".$menu."/".$submenu."/".$documento;
-                $link = getlink($target_path, $server, "admindublock", "4u1B6nyy3W");
-
+                //$link = getlink($target_path, $_POST["server_storage"], $_POST["u_storage"], $_POST["p_storage"]);
             //}
                 $archivosArray[$contadorArreglo] =  array(
                     "nombre" => $_FILES["file-". $contador]["name"],
                     "idalmacen" => $_POST["idalmacen-". $contador],
                     "idarchivo" => $_POST["idarchivo-". $contador],
-                    "link" => $link,
                     "error" => 0,
                     "detalle" => "¡Cargado Correctamente!"
                 ); 
@@ -91,7 +89,6 @@
                     "nombre" => $_FILES["file-". $contador]["name"],
                     "idalmacen" => $_POST["idalmacen-". $contador],
                     "idarchivo" => $_POST["idarchivo-". $contador],
-                    "link" => "",
                     "error" => 1,
                     "detalle" => "¡Archivo Dañado!"
                 );
@@ -108,7 +105,6 @@
 
 
     function getlink($link, $server, $user, $pass){
-        echo "Entra";
        $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, "https://".$user.":".$pass."@".$server."/ocs/v2.php/apps/files_sharing/api/v1/shares");

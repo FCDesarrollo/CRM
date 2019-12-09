@@ -401,6 +401,7 @@ function cargarArchivos(){
                     archivosList.append('rfc', datosuser.rfcempresa);
                     archivosList.append('u_storage', datosuser.user_storage);
                     archivosList.append('p_storage', datosuser.pwd_storage);
+                    archivosList.append('server_storage', datosuser.server);
                     archivosList.append('idmenu', idmenuglobal);
                     /*archivosList.append('idsubmenu', idsubmenuglobal);
                     archivosList.append('idempresa', idempresaglobal);
@@ -460,7 +461,7 @@ function cargarArchivos(){
                                             objeto.idempresa = idempresaglobal;
                                             objeto.datos = resp;
 
-                                            $.post(ws + "LinkDescarga", {objeto}, function(data){
+                                            //$.post(ws + "LinkDescarga", {objeto}, function(data){
                                                 ImprimeDetalle(respuesta["archivos"], resp);
 
                                                 $("#loading").addClass('d-none');
@@ -471,7 +472,7 @@ function cargarArchivos(){
                                                     timer: 3000,
                                                 });
 
-                                            });                                           
+                                            //});                                           
                                                                                          
 
                                             
