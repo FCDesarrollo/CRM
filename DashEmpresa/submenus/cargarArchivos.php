@@ -75,12 +75,13 @@
 
                 //$server = "cloud.dublock.com";
                 //$link = $RFC."/Entrada/".$menu."/".$submenu."/".$documento;
-                //$link = getlink($target_path, $_POST["server_storage"], $_POST["u_storage"], $_POST["p_storage"]);
+                $link = getlink($target_path, $_POST["server_storage"], $_POST["u_storage"], $_POST["p_storage"]);
             //}
                 $archivosArray[$contadorArreglo] =  array(
                     "nombre" => $_FILES["file-". $contador]["name"],
                     "idalmacen" => $_POST["idalmacen-". $contador],
                     "idarchivo" => $_POST["idarchivo-". $contador],
+                    "link" => $link,
                     "error" => 0,
                     "detalle" => "¡Cargado Correctamente!"
                 ); 
@@ -89,6 +90,7 @@
                     "nombre" => $_FILES["file-". $contador]["name"],
                     "idalmacen" => $_POST["idalmacen-". $contador],
                     "idarchivo" => $_POST["idarchivo-". $contador],
+                    "link" => "",
                     "error" => 1,
                     "detalle" => "¡Archivo Dañado!"
                 );

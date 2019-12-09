@@ -45,7 +45,7 @@
 	$ch = curl_init();
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM',
+            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM',
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_RETURNTRANSFER => true,
@@ -56,7 +56,7 @@
 
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom,
+            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom,
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_RETURNTRANSFER => true,
@@ -72,7 +72,7 @@
 
 	    curl_setopt_array($ch,
 	        array(
-	            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'],
+	            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'],
 	            CURLOPT_VERBOSE => 1,
 	            CURLOPT_USERPWD => $userName.':'.$password,
 	            CURLOPT_RETURNTRANSFER => true,
@@ -85,7 +85,7 @@
 	    	if($Modulos[$i]['idmodulo'] == $Menus[$j]['idmodulo'] && $Menus[$j]['nombre_carpeta'] != ""){
 			    curl_setopt_array($ch,
 			        array(
-			            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'],
+			            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'],
 			            CURLOPT_VERBOSE => 1,
 			            CURLOPT_USERPWD => $userName.':'.$password,
 			            CURLOPT_RETURNTRANSFER => true,
@@ -99,7 +99,7 @@
 			    		
 					    curl_setopt_array($ch,
 					        array(
-					            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'] .'/'. $SubMenus[$k]['nombre_carpeta'],
+					            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $Modulos[$i]['nombre_carpeta'] .'/'. $Menus[$j]['nombre_carpeta'] .'/'. $SubMenus[$k]['nombre_carpeta'],
 					            CURLOPT_VERBOSE => 1,
 					            CURLOPT_USERPWD => $userName.':'.$password,
 					            CURLOPT_RETURNTRANSFER => true,
@@ -122,7 +122,7 @@
 
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $certificado["name"],
+            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $certificado["name"],
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_POSTFIELDS => $contenido,
@@ -138,7 +138,7 @@
     fclose($gestor2);
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $llave["name"],
+            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $llave["name"],
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_POSTFIELDS => $contenido2,
@@ -188,7 +188,7 @@ if ($login_result===true){
                     $ch = curl_init();                
                     curl_setopt_array($ch,
                         array(
-                            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $archivoTxt,
+                            CURLOPT_URL => 'https://'.$server_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom .'/'. $archivoTxt,
                             CURLOPT_VERBOSE => 1,
                             CURLOPT_USERPWD => $userName.':'.$password,
                             CURLOPT_POSTFIELDS => $contenido2,

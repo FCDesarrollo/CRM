@@ -461,7 +461,7 @@ function cargarArchivos(){
                                             objeto.idempresa = idempresaglobal;
                                             objeto.datos = resp;
 
-                                            //$.post(ws + "LinkDescarga", {objeto}, function(data){
+                                            $.post(ws + "LinkDescarga", {objeto}, function(data){
                                                 ImprimeDetalle(respuesta["archivos"], resp);
 
                                                 $("#loading").addClass('d-none');
@@ -472,7 +472,7 @@ function cargarArchivos(){
                                                     timer: 3000,
                                                 });
 
-                                            //});                                           
+                                            });                                           
                                                                                          
 
                                             
