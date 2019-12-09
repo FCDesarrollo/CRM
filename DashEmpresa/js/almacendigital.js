@@ -251,7 +251,7 @@ function SubirArchivos(){
     document.getElementById("datepicker").value = ""; 
     document.getElementById("numero_archivos").innerHTML = 0;
     cargarRubros("selectRubros");
-    cargarSucursales("selectSucursales");    
+        
 //    $('#SubirArchivosInbox').modal('show');
 }
 
@@ -304,7 +304,7 @@ function cargarRubros(nameSelec){
                     existRubros = 1;
                 }
             }
-                      
+            cargarSucursales("selectSucursales");      
         }
     });
 }
