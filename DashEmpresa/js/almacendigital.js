@@ -440,7 +440,7 @@ function cargarArchivos(){
                                 }                                
                             });   
 
-                            console.log(archivosList);
+                            //console.log(archivosList);
 
                             if(j > 1){                                
                                 jQuery.ajax({ //ajax para cargar archivos a la nube
