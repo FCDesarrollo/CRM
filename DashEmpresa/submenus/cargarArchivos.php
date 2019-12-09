@@ -56,7 +56,7 @@
         //if($_FILES["file-". $contador]['type']=='application/pdf'){
             //if($archivos[$contador]["status"] == 0){        
             if($_FILES["file-". $contador]["error"] == 0){
-                $gestor = fopen($source, "r");
+/*                $gestor = fopen($source, "r");
                 $contenido = fread($gestor, filesize($source));
                 fclose($gestor);
 
@@ -71,12 +71,12 @@
                         CURLOPT_CUSTOMREQUEST => 'PUT',
                     )
                 );
-                curl_exec($ch);   
+                curl_exec($ch);   */
 
                 $server = "cloud.dublock.com";
                 //$link = $RFC."/Entrada/".$menu."/".$submenu."/".$documento;
                 //$link = getlink($target_path, $server, $_POST["u_storage"], $_POST["p_storage"]);
-                print_r("expression");
+
             //}
                 $archivosArray[$contadorArreglo] =  array(
                     "nombre" => $_FILES["file-". $contador]["name"],
