@@ -35,7 +35,7 @@ session_start();
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+   <!--<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">-->
 
 
 

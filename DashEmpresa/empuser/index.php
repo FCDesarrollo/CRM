@@ -29,15 +29,15 @@ session_start();
 
 
     <!-- Twitter -->
-    <meta name="twitter:site" content="@themepixels">
+    <!--<meta name="twitter:site" content="@themepixels">
     <meta name="twitter:creator" content="@themepixels">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Bracket">
     <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
-    <meta name="twitter:image" content="http://themepixels.me/bracket/img/bracket-social.png">
+    <meta name="twitter:image" content="http://themepixels.me/bracket/img/bracket-social.png"> -->
 
     <!-- Facebook -->
-    <meta property="og:url" content="http://themepixels.me/bracket">
+    <!--<meta property="og:url" content="http://themepixels.me/bracket">
     <meta property="og:title" content="Bracket">
     <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
 
@@ -45,7 +45,7 @@ session_start();
     <meta property="og:image:secure_url" content="http://themepixels.me/bracket/img/bracket-social.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600">
+    <meta property="og:image:height" content="600"> -->
 
     <!-- Meta -->
     <!-- vendor css -->
@@ -625,7 +625,8 @@ session_start();
     <script src="../lib/rickshaw/rickshaw.min.js"></script>
 
     <!-- NOTIFICACIONES MODAL -->
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
+    <script src="../js/sweetalert.min.js"></script>
 
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
