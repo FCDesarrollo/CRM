@@ -22,13 +22,13 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
         var myArr = JSON.stringify(data);
-        $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa}, function(data){
+        $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
             var datos = JSON.parse(data);
             
             if(datos.length > 0){            
                 var n = 0;
                 for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
-                    if(myArr.includes(datos[i].claverubro)){
+//                    if(myArr.includes(datos[i].claverubro)){
 
                         document.getElementById("t-ExpDigitales").innerHTML +=
                         "<tr> \
@@ -47,12 +47,12 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
                             </td> \
                         </tr>";            
                         n=n+1;
-                    }
+//                    }
                 }
 
                 //LlenaPaginador(datos.length, datos, "t-ExpDigitales");
                 if(n != 0){                
-                    LlenaPaginador(i, datos, "t-ExpDigitales");
+                    LlenaPaginador(datos.length, datos, "t-ExpDigitales");
                 }
                 $('#loading').addClass('d-none');   
             }else{
@@ -140,14 +140,6 @@ function DocumentosALM(idalm){
 
           
     
-}
-
-function ShareFileAlm(){
-
-}
-
-function DownFileAlm(){
-
 }
 
 function EliminarArchivoALM(idarchivo, idalmacen, link){
@@ -592,14 +584,14 @@ function ExisteFecha(fecha){
       return true;
 }
 
-				/*const api = new XMLHttpRequest();
-				console.log("Hola");
-				api.open('POST', ws + "CargaArchivos", true);
-				api.send(miObjeto);
-				api.onreadystatechange = function(){
-					if(this.status == 200 && this.readyState == 4){
-						let datos = JSON.parse(this.responseText);
-						console.log(datos);
-						$('#SubirArchivosInbox').modal('hide');
-					}
-				} */
+function ShareFiles(tabla){
+
+}
+
+function DownFiles(tabla){
+
+}
+
+function DeleteFiles(tabla){
+    
+}

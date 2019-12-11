@@ -11,7 +11,7 @@ function LlenaPaginador(num_registros, datos, tabla){
     registros_tabla["tabla"] = tabla;
     registros_tabla["datos"] = datos;
 
-    var total_lotes = (num_registros > 20 ? 20 : num_registros);        
+    var total_lotes = num_registros; //(num_registros > 20 ? 20 : num_registros);        
     var paginas = Math.ceil(total_lotes / lotes_x_pag);
     var active = "current";
 
@@ -122,6 +122,9 @@ function Paginador(posicion){
 function LlenarTabla(inicio, fin){
     num_registros = registros_tabla["datos"].length;
     var datos = registros_tabla["datos"];
+
+    num_registros = ((num_registros - inicio) < 10 ? num_registros : (inicio + lotes_x_pag));
+
     switch (registros_tabla["tabla"]) {
       case TablaExpDigitales:
             $("#t-ExpDigitales tbody").children().remove();
