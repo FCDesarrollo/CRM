@@ -28,24 +28,17 @@ session_start();
     	<!--<p class="mg-b-30"></p>-->	
 	
 		<div class="row pd-b-20">
-			<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+		<!--	<div class="col-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="row">
 					<div class="col-lg-12">						
 						<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Seleccionar Rubro.</h6>
 					</div>		
 					<div class="col-md-6 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">
 						<select class="form-control select2" id="plantillas" data-placeholder="Seleccione una plantilla" tabindex="-1" aria-hidden="true">
-				            <!--<option label="Seleccione una plantilla"></option>
-				            <option value="1">Remisiones</option>
-				            <option value="2">Consumos Diesel</option>
-				            <option value="3">Entradas de Materia Prima</option>
-				            <option value="4">Salidas de Materia Prima</option>-->
+
 				        </select>		               			
 				        <div class="d-none" id="links_plantillas">
-				        	<!--<a href="../lotes/Remision.xlsm" id="link_1" download></a>	
-				        	<a href="../lotes/ConsumoDiesel.xlsm" id="link_2" download></a>	
-				        	<a href="../lotes/EntradasMateriaPrima.xlsm" id="link_3" download></a>	
-				        	<a href="../lotes/SalidaMateriaPrima.xlsm" id="link_4" download></a> -->	
+
 				        </div>		        
 					</div> 		
 			       	<div class="col-md-6 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
@@ -53,7 +46,7 @@ session_start();
 					</div>												
 				</div>
 				
-			</div>
+			</div> -->
 			<div class="col-6 col-sm-6 col-md-6 col-lg-6">
 				<div class="row">
 					<div class="col-lg-12">						

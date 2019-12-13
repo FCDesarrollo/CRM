@@ -20,8 +20,8 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     $("#t-ExpDigitales tbody").children().remove();    
 
-    $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
-        var myArr = JSON.stringify(data);
+//    $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
+//        var myArr = JSON.stringify(data);
         $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
             var datos = JSON.parse(data);
             
@@ -69,7 +69,8 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
             
 
         });	
-    });
+//    });
+
 }
 
 function DocumentosALM(idalm){
@@ -110,7 +111,7 @@ function DocumentosALM(idalm){
                                     <input type='checkbox' id='check_"+datos[i].id+"'><span></span> \
                                 </label> \
                             </td> \
-                            <td>"+datos[i].documento+"</td> \
+                            <td><a href='"+datos[i].download+"' target='_blank'>"+datos[i].documento+"</a></td> \
                             <td>"+datos[i].agente+"</td> \
                             <td>"+(datos[i].fechaprocesado == null ? "YYYY-MM-DD" : datos[i].fechaprocesado)+"</td> \
                             <td> \
@@ -349,8 +350,7 @@ $("#datepicker").mouseenter(function(evento){
 function cargarArchivos(){  
     var nomArchivos = [];
     var archivos = $('#archivos')[0].files;
-    var rfc = $('#txtRFC').val();        
-    var archivosList = new FormData();  
+    var rfc = $('#txtRFC').val();          
     var contador = archivos.length;       
     //var idUsuario = document.getElementById("idUsuarioArch").value;
     var observaciones = document.getElementById("comentarios").value;
@@ -361,160 +361,141 @@ function cargarArchivos(){
     var s = document.getElementById("selectSucursales");
     var sucursal = s.options[s.selectedIndex].text;
 
+    for (var i = 0; i < _NombresSubM.length; i++) {
+        if(_NombresSubM[i]["idsubmenu"] == idsubmenuglobal){
+            var submenu = _NombresSubM[i]["nombre_carpeta"];
+            break;
+        }
+    }
+
+    for (var j = 0; j < _NombresMenus.length; j++) {
+        if(_NombresMenus[j]["idmenu"] == idmenuglobal){
+            var menu = _NombresMenus[j]["nombre_carpeta"];
+            break;
+        }
+    }    
+
     if(contador > 0){
-        //if(ValidaFecha(fechadocto) == true){
-            if(Rubro != ""){
-                if(sucursal != ""){
+        if(Rubro != ""){
+            if(sucursal != ""){               
 
-                    var datos = new Object();
-                    datos.rfcempresa = datosuser.rfcempresa;
-                    datos.usuario = datosuser.usuario;
-                    datos.pwd = datosuser.pwd;
-                    datos.rubro = Rubro;
-                    datos.observaciones = observaciones;
-                    datos.sucursal = sucursal;
-                    datos.fechadocto = fechadocto;
-                    datos.archivos = new Object();
-                    
-                    for (var i = 0; i < _NombresSubM.length; i++) {
-                        if(_NombresSubM[i]["idsubmenu"] == idsubmenuglobal){
-                            var submenu = _NombresSubM[i]["nombre_carpeta"];
-                            break;
-                        }
-                    }
+                var archivosList = new FormData();
+                archivosList.append('rfc', datosuser.rfcempresa);
+                archivosList.append('u_storage', datosuser.user_storage);
+                archivosList.append('p_storage', datosuser.pwd_storage);
+                archivosList.append('server_storage', datosuser.server);
+                archivosList.append('menu', menu);
+                archivosList.append('submenu', submenu);
+                archivosList.append('fechadocto', fechadocto);
+                archivosList.append('rubro', Rubro);
 
-                    for (var j = 0; j < _NombresMenus.length; j++) {
-                        if(_NombresMenus[j]["idmenu"] == idmenuglobal){
-                            var menu = _NombresMenus[j]["nombre_carpeta"];
-                            break;
-                        }
-                    }
+                var datos = new Object();
+                datos.rfcempresa = datosuser.rfcempresa;
+                datos.usuario = datosuser.usuario;
+                datos.pwd = datosuser.pwd;
+                datos.idmenu = idmenuglobal;
+                datos.idsubmenu = idsubmenuglobal;
+                datos.rubro = Rubro;
 
-                    archivosList.append('rfc', datosuser.rfcempresa);
-                    archivosList.append('u_storage', datosuser.user_storage);
-                    archivosList.append('p_storage', datosuser.pwd_storage);
-                    archivosList.append('server_storage', datosuser.server);
-                    archivosList.append('idmenu', idmenuglobal);
-                    /*archivosList.append('idsubmenu', idsubmenuglobal);
-                    archivosList.append('idempresa', idempresaglobal);
-                    archivosList.append('idusuario', idusuarioglobal);*/
-                    archivosList.append('menu', menu);
-                    archivosList.append('submenu', submenu);
-                    
+                $.post(ws + "ExtraerConsecutivo", {datos}, function(response){  
+                    var resp = JSON.parse(response);
+                    var n = 1;
+                    if(resp.error==0){
 
-                    var j = 0;
-                    jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
-                        i++;
-                        datos.archivos[j] = file["name"];                        
-                        j=j+1;
+                        datos.observaciones = observaciones;
+                        datos.sucursal = sucursal;
+                        datos.fechadocto = fechadocto;
+                                        
+                        jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
+                            i++;
+                            archivosList.append('file-'+n, file);                     
+                            n=n+1;                            
+                        });           
+                        archivosList.append('consecutivo', resp.consecutivo);   
                         
-                    });
+                        $('#SubirArchivosInbox').modal('hide');
+                        $("#loading").removeClass('d-none');
+                                        
 
-                    $('#SubirArchivosInbox').modal('hide');
-                    $("#loading").removeClass('d-none');
-                    j=1;
+                        jQuery.ajax({ //ajax para cargar archivos a la nube
+                            url: '../submenus/cargarArchivos.php',
+                            data: archivosList,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            type: 'POST',
+                            dataType: 'json',
+                            success: function(response){  
+                                var resp = response;  
+                                var j = 0;
+                                if (resp.length > 0) {  
 
-                    //Carga los registros
-                    $.post(ws + "AlmCargaArchivos", {datos}, function(response){  
-                        var respuesta = JSON.parse(response); 
-                        //console.log(respuesta);                       
-                        if(respuesta.error == 0){
-                            jQuery.each(jQuery('#archivos')[0].files, function(k, file) {  
-                                k++;
-                                for (var i = 0; i < respuesta["archivos"].length; i++) {
-                                    //console.log(file["name"]);
-                                    if(file["name"] == respuesta["archivos"][i]["archivo"] && respuesta["archivos"][i]["status"] == 0){
-                                        archivosList.append('file-'+j, file);                                        
-                                        archivosList.append('archivo-'+j, respuesta["archivos"][i]["codigo"]);
-                                        archivosList.append('idalmacen-'+j, respuesta["archivos"][i]["idalmacen"]);
-                                        archivosList.append('idarchivo-'+j, respuesta["archivos"][i]["idarchivo"]);
-                                        j=j+1;                                    
-                                    }                                                                        
-                                }                                
-                            });   
+                                    archivos = new Array();   
 
-                            //console.log(archivosList);
+                                    for (var i = 0; i < resp.length; i++) {
+                                        archivos[j] = new Object();
+                                        archivos[j].archivo = resp[i]["archivo"]; 
+                                        archivos[j].codigo = resp[i]["codigo"]; 
+                                        archivos[j].link = resp[i]["link"];
+                                        archivos[j].status = resp[i]["error"];
+                                        j= j + 1;
+                                    }             
 
-                            if(j > 1){                                
-                                jQuery.ajax({ //ajax para cargar archivos a la nube
-                                    url: '../submenus/cargarArchivos.php',
-                                    data: archivosList,
-                                    cache: false,
-                                    contentType: false,
-                                    processData: false,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    success: function(response){  
-                                        var resp = response;  
-                                        if (response.length > 0) {                        
-                                            
-                                            //swal("Carga Correcta","Archivos cargados correctamente","success");
-                                            var objeto = new Object();
-                                            objeto.idempresa = idempresaglobal;
-                                            objeto.datos = resp;
+                                    datos.archivos = archivos;  
+                            
+                                    $.post(ws + "AlmCargaArchivos", {datos}, function(response){  
+                                        var respuesta = JSON.parse(response); 
 
-                                            $.post(ws + "LinkDescarga", {objeto}, function(data){
-                                                ImprimeDetalle(respuesta["archivos"], resp);
+                                         ImprimeDetalle(respuesta["archivos"]);
 
-                                                $("#loading").addClass('d-none');
-                                                
-                                                swal("Expedientes Digitales Cargados Correctamente.", { 
-                                                    icon: "success",
-                                                    buttons: false,
-                                                    timer: 3000,
-                                                });
+                                         $("#loading").addClass('d-none');
+                                        
+                                         swal("Expedientes Digitales Cargados Correctamente.", { 
+                                             icon: "success",
+                                             buttons: false,
+                                             timer: 3000,
+                                         });                                    
 
-                                            });                                           
-                                                                                         
-
-                                            
-                                            
-                                            //ExpDigitales(modulo, menu, submenu, rfc);
-                                        }else{
-                                            $("#loading").addClass('d-none');
-                                            $('#SubirArchivosInbox').modal('show');
-                                            swal("¡Hubo un error!","Error al momento de subir los archivos, comunicarse a sistemas.","error");
-                                        }                                                 
-                                    }
-                                }); 
-                            }else{
-                                $("#loading").addClass('d-none');
-                                swal("Archivos(s) no se pueden cargar.","El archivo que intenta subir, ya existe, si desea reemplazar, debera eliminarlo primero.","info");
+                                    });                                      
+                                                                                 
+                                }else{
+                                    $("#loading").addClass('d-none');
+                                    $('#SubirArchivosInbox').modal('show');
+                                    swal("¡Hubo un error!","Error al momento de subir los archivos, comunicarse a sistemas.","error");
+                                }                                                 
                             }
-                        }else{
-                            if(respuesta.error == 1){
-                                swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
-                            }else if(respuesta.error == 2){
-                                swal("¡Hubo un error!", "El correo del usuario no existe.","info");                
-                            }else if(respuesta.error == 3){
-                                swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
-                            }else if(respuesta.error == 4){
-                                swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
-                            }else if(respuesta.error == 21){
-                                swal("¡Hubo un error!", "Existe elementos en el catalogo que no han sido dados de alta en el sistema","info");                
-                            }
-                        }
-                    });  
-                }else{
-                    swal("¡Sucursal!", "Seleccione una sucursal.","info");
-                }
+                        });                               
+
+                    }else{
+                        if(resp.error == 1){
+                            swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
+                        }else if(resp.error == 2){
+                            swal("¡Hubo un error!", "El correo del usuario no existe.","info");                
+                        }else if(resp.error == 3){
+                            swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
+                        }else if(resp.error == 4){
+                            swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
+                        }                        
+                    }
+
+                });
             }else{
-                swal("¡Rubro!", "Seleccione un rubro.","info");
+                swal("¡Sucursal!", "Seleccione una sucursal.","info");
             }
-        //}else{
-        //    swal("¡Fecha del Documento!", "La fecha es incorrecta.","info");
-        //}
+        }else{
+            swal("¡Rubro!", "Seleccione un rubro.","info");
+        }
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
     }
 }
 
-function ImprimeDetalle(arcDetalle, arcSubidos){
+function ImprimeDetalle(arcSubidos){
     var mensaje = "";
     var detalle = "";
 
     //console.log(arcDetalle);
-//    console.log(arcSubidos);
+    console.log(arcSubidos);
 
     $("#expalm").addClass('d-none');
     $("#DivArchivoDetalle").removeClass('d-none');
@@ -522,36 +503,31 @@ function ImprimeDetalle(arcDetalle, arcSubidos){
     
 
     for (var i = 0; i < arcSubidos.length; i++) {
-        if(arcSubidos[i].error == 0){
+        if(arcSubidos[i].status == 0){
             cargado = "Si";
-            detalle = "Cargado Correctamente.";
-
-        }else if(arcSubidos[i].error == 1){
+            detalle = arcSubidos[i].detalle;
+            //detalle = "Cargado Correctamente.";
+        }else if(arcSubidos[i].status == 1 || arcSubidos[i].status == 2 || arcSubidos[i].status == 3){
             cargado = "No";
             detalle = arcSubidos[i].detalle;
+        }
 
-            var objeto = new Object();
-            objeto.rfcempresa = datosuser.rfcempresa;
-            objeto.usuario = datosuser.usuario;
-            objeto.pwd = datosuser.pwd;
-            objeto.idarchivo = arcSubidos[i].idarchivo;
-            objeto.idalmacen = arcSubidos[i].idalmacen;
+        if(arcSubidos[i].status == 0){
+            document.getElementById("t-ArchivoDetalle").innerHTML +=
+            "<tr> \
+                <td><a href='"+arcSubidos[i].link+"' target='_blank'>"+arcSubidos[i].archivo+"</a></td> \
+                <td>"+cargado+"</td> \
+                <td>"+detalle+"</td> \
+            </tr>";            
+        }else{
+            document.getElementById("t-ArchivoDetalle").innerHTML +=
+            "<tr class='bg-danger'> \
+                <td class='tx-black'>"+arcSubidos[i].archivo+"</td> \
+                <td class='tx-black'>"+cargado+"</td> \
+                <td class='tx-black'>"+detalle+"</td> \
+            </tr>";                        
+        }
 
-            $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
-
-            });
-        }/*else if(arcSubidos[i].status == 2){
-            cargado = "No";
-            detalle = "Nombre del archivo no valido.";
-        }*/
-
-
-        document.getElementById("t-ArchivoDetalle").innerHTML +=
-        "<tr> \
-            <td>"+arcSubidos[i].nombre+"</td> \
-            <td>"+cargado+"</td> \
-            <td>"+detalle+"</td> \
-        </tr>";            
 
     }
 

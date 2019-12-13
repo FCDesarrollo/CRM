@@ -282,13 +282,15 @@ function RegresarPagina(){
         $("#nivelmovtos").addClass("d-none");
     }else if(btnregresar == 2){
         $("#ArchivosALM").addClass("d-none");
-        $("#DivArchivoDetalle").addClass("d-none");     
+        $("#DivArchivoDetalle").addClass("d-none");  
         if(btnfiltro == true){
             $("#expalm").removeClass("d-none");    
-        }else{
+        }else if(u_btn_sel > 1){
+            $("#expalm").removeClass("d-none");            
+            $("#t-ExpDigitales").removeClass("d-none");
+        }else{            
             ExpDigitales(modulo, menu, submenu, datosuser.rfcempresa);
-        }
-        
+        }        
     }
     //Los reseteamos
     btnregresar = 0; 

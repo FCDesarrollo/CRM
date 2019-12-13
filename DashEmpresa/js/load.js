@@ -8,6 +8,14 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
     idempresaglobal = idempresalog;
     idusuarioglobal = idusuario;
 
+    $.get(ws + "SubMenus", function(resSubMenus){
+        _NombresSubM = resSubMenus;                    
+    });
+
+    $.get(ws + "Menus", function(resMenus){
+        _NombresMenus = resMenus;
+    });    
+
     $.get(ws + "DatosUsuario/" + idusuario, function(data) {
         var usuario = JSON.parse(data).usuario;
         if (usuario.length > 0) {
@@ -23,6 +31,14 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
 
                     datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
                     datosuser.nombre_empresa = empresa[0].nombreempresa;
+
+                    $.get(ws + "DatosStorage", { rfcempresa: empresa[0].RFC }, function(data) {
+                        var datos = JSON.parse(data);
+                        datosuser.server = datos[0].server;
+                        datosuser.user_storage = datos[0].usuario_storage;
+                        datosuser.pwd_storage = datos[0].password_storage;                       
+                        
+                    });
                     
                     $.get(ws + "DatosPerfil", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
                         var datos = JSON.parse(data);                                   
@@ -30,24 +46,7 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                         datosuser.idperfil = datos[0].idperfil;
                         document.getElementById('nUsuario_per').innerText = perfil;
                     });
-
-                    $.get(ws + "DatosStorage", { rfcempresa: empresa[0].RFC }, function(data) {
-                        var datos = JSON.parse(data);
-                        datosuser.server = datos[0].server;
-                        datosuser.user_storage = datos[0].usuario_storage;
-                        datosuser.pwd_storage = datos[0].password_storage;
-                        
-                        
-                    });
-
-                    $.get(ws + "SubMenus", function(resSubMenus){
-                        _NombresSubM = resSubMenus;                    
-                    });
-
-                    $.get(ws + "Menus", function(resMenus){
-                        _NombresMenus = resMenus;
-                    });                    
-                                        
+                                       
 
                 }
             });

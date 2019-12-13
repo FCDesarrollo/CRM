@@ -934,33 +934,44 @@ function EliminaDocto(IDDocum, Tipo, Posicion){
 
 
 function DescargarPlantilla(){
-	var cod = document.getElementById("plantillas").value;
 	
-	
+
+	$.post(ws + "Plantillas", {Correo: datosuser.usuario, Contra: datosuser.pwd }, function(data){
+		var plantillas = data["plantillas"];
+		for (var i = 0; i < plantillas.length; i++) {
+			$("#ul_descargaplantilla").append("<a href='"+plantillas[i].link+"' download><li class='list-group-item d-flex justify-content-between align-items-center'>" + plantillas[i].tipo + "</li></a>");	
+		}		
+		$("#_Plantillas").modal("show");		
+	});
+
+
+
+	/*var objeto = new Array();
+	var x = 0;
+	$.get(ws + "ArchivosCorreccionLinks", {idempresa: idempresaglobal}, function(data){
+		var datos = JSON.parse(data);
+			$.ajax({                        
+		        data: {datos: datos},
+		        type: 'POST',
+		        datatype: 'JSON',
+		        url: '../submenus/descargas.php',            
+		        success:function(response){
+		    	   	var links = response;
+		    	   	swal("Termino");
+		    	   	console.log(links);
+		        }
+		    });			
+				
+	});*/
+ 
+
+	/*var cod = document.getElementById("plantillas").value;
 	if(cod != ""){
 		var link = document.getElementById("link_"+cod).getAttribute("href");
 		location.href = link;
-		/*switch (cod) {
-		  case "1":
-		  	var link = document.getElementById("link_1").getAttribute("href");
-		  	location.href = link;
-		    break;
-		  case "2":
-		  	var link = document.getElementById("link_2").getAttribute("href");
-		  	location.href = link;
-		    break;
-		  case "3":
-		  	var link = document.getElementById("link_3").getAttribute("href");
-		  	location.href = link;
-		    break;
-		  case "4":
-		  	var link = document.getElementById("link_4").getAttribute("href");
-		  	location.href = link;
-		    break;		    		    
-	    }*/
 	}else{
 		swal("Seleccionar Rubro","Debe seleccionar el rubro a descargar.","error");
-	}
+	}*/
 }
 
 function LimpiarInput(){

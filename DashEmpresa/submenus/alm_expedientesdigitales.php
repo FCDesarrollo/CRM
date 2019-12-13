@@ -102,17 +102,22 @@
           </div>
         </a>
       </div>
-      <div class="col-sm-6 d-flex justify-content-end">
-        <a href="#" onclick="ShareFileAlm()" class="btn btn-outline-success btn-icon rounded-circle mg-r-5">
+      <div class="col-sm-6 d-flex justify-content-end d-none">
+        <a href="#" onclick="ShareFiles('t-ArchivosALM')" class="btn btn-outline-teal btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-share-alt"></i>
           </div>
         </a>
-        <a href="#" onclick="DownFileAlm()" class="btn btn-outline-success btn-icon rounded-circle mg-r-5">
+        <a href="#" onclick="DownFiles('t-ArchivosALM')" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-download mg-r-0"></i>
           </div>
-        </a>        
+        </a>
+        <a href="#" onclick="DeleteFiles('t-ArchivosALM')" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
+          <div>
+            <i class="fa fa-trash mg-r-0"></i>
+          </div>
+        </a>                  
       </div>
       <!--<div class="col-sm-11 align-self-sm-center">
         <h6 id="p_info"></h6>
