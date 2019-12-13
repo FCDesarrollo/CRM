@@ -47,19 +47,19 @@ session_start();
 				</div>
 				
 			</div> -->
-			<div class="col-6 col-sm-6 col-md-6 col-lg-6">
+			<div class="col-12">
 				<div class="row">
-					<div class="col-lg-12">						
-						<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Recepcion para procesamiento.</h6>
+					<div class="col-12">						
+						<h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Subir Archivo.</h6>
 					</div>
-			        <div class="col-md-7 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">
+			        <div class="col-12 col-xs-7 col-sm-7 col-md-5 col-lg-5 mg-md-t-0 mg-sm-t-15 mg-t-10">
 						<label class="custom-file">
 				       	  <input type="file" id="files" name="archivo[]" class="custom-file-input" onclick="LimpiarInput()" onchange="LeerArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">
 						  <span class="custom-file-control">Seleccionar..</span>				  	
 						</label>
 					</div>					
-			       	<div class="col-md-5 col-sm-12 col-12 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
-			            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Cargar</button>
+			       	<div class="col-8 col-xs-5 col-sm-3 col-md-3 mg-md-t-0 mg-sm-t-15 mg-t-10">	          
+			            <button class="btn btn-outline-primary btn-block mg-b-10" onclick="SubirArchivo('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>');">Procesar</button>
 					</div>						
 				</div>				
 				
@@ -224,14 +224,14 @@ session_start();
 						         		<td><span class="pd-l-5"></span><a href="#" id="" onclick="MostrarElementos('clientesproveedores')">Clientes/Proveedores</a></td>
 						         		<td><span class="pd-l-5" id="elemento2"></span></td>
 						         	</tr>					        
-									<tr role="row" id="fila3">
+									<!--<tr role="row" id="fila3">
 						         		<td><span class="pd-l-5"></span><a href="#" onclick="MostrarElementos('conceptos')">Conceptos</a></td>
 						         		<td><span class="pd-l-5" id="elemento3"></span></td>
 						         	</tr>					         							         	 	
 									<tr role="row" id="fila4">
 						         		<td><span class="pd-l-5"></span><a href="#" onclick="MostrarElementos('sucursales')">Sucursales</a></td>
 						         		<td><span class="pd-l-5" id="elemento4"></span></td>
-						         	</tr>						         	
+						         	</tr>-->					         	
 					            </tbody>				            
 
 					        </table>
@@ -281,33 +281,33 @@ session_start();
 	
 	SubMenu_Tittle();
 
-	selectPer = document.getElementById("plantillas");
-	div = document.getElementById("links_plantillas");
-    $.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
-        var rubros = JSON.parse(data).rubros;
-        if(rubros.length > 0){            
-			/*$.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
+	// selectPer = document.getElementById("plantillas");
+	// div = document.getElementById("links_plantillas");
+ //    $.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
+ //        var rubros = JSON.parse(data).rubros;
+ //        if(rubros.length > 0){            
+	// 		/*$.post(ws + "RubrosGen", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd}, function(data){
 
-			});*/
+	// 		});*/
 
 
-            for(var x in rubros){
-                if(idsubmenuglobal == rubros[x].idsubmenu){
-                    option = document.createElement("option");
-                    option.value = rubros[x].clave;
-                    option.text = rubros[x].nombre;
-                    selectPer.appendChild(option);
+ //            for(var x in rubros){
+ //                if(idsubmenuglobal == rubros[x].idsubmenu){
+ //                    option = document.createElement("option");
+ //                    option.value = rubros[x].clave;
+ //                    option.text = rubros[x].nombre;
+ //                    selectPer.appendChild(option);
 
-                    a = document.createElement("a");
-                    a.href = rubros[x].link;
-                    a.id = "link_"+rubros[x].clave;
-                    div.appendChild(a);
+ //                    a = document.createElement("a");
+ //                    a.href = rubros[x].link;
+ //                    a.id = "link_"+rubros[x].clave;
+ //                    div.appendChild(a);
 
-                }
-            }
+ //                }
+ //            }
                       
-        }
-    });	
+ //        }
+ //    });	
 
 </script>
 
