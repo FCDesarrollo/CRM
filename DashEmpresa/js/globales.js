@@ -177,7 +177,7 @@ function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve('Cargado');
-    }, 2000);
+    }, 2500);
   });
 }
 

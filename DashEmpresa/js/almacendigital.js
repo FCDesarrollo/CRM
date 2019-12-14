@@ -396,6 +396,7 @@ function cargarArchivos(){
                 datos.idmenu = idmenuglobal;
                 datos.idsubmenu = idsubmenuglobal;
                 datos.rubro = Rubro;
+                datos.fechadocto = fechadocto;
 
                 $.post(ws + "ExtraerConsecutivo", {datos}, function(response){  
                     var resp = JSON.parse(response);
@@ -403,8 +404,7 @@ function cargarArchivos(){
                     if(resp.error==0){
 
                         datos.observaciones = observaciones;
-                        datos.sucursal = sucursal;
-                        datos.fechadocto = fechadocto;
+                        datos.sucursal = sucursal;                        
                                         
                         jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
                             i++;
