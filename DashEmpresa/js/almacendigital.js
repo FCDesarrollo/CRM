@@ -151,6 +151,8 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
     objeto.idarchivo = idarchivo;
     objeto.idalmacen = idalmacen;
 
+    $("#loading").removeClass('d-none');
+
     $.get(ws + "SubMenuPermiso", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
         var subper = data;
         
@@ -160,7 +162,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
                 break;
             }
         } 
-
+        $("#loading").addClass('d-none');
 //    var tipopermiso = VerificaPermisoSubMenu(idempresaglobal, idusuarioglobal, idsubmenuglobal);
         if(tipopermiso == 3){
             swal("¿Estas seguro de deseas eliminar el archivo?", {
@@ -174,6 +176,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
                 case "Cancelar":          
                   break;
                 case "Continuar":
+                     $("#loading").removeClass('d-none');
                      $.post(ws + "EliminaArchivoAlmacen", {objeto}, function(data){
                         var respuesta = JSON.parse(data);
                         if(respuesta["error"] == 0){
@@ -195,6 +198,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
                                                 //$("#resultado").html("Procesando, espere por favor...");
                                         },
                                         success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                                            $("#loading").addClass('d-none');
                                             swal("El archivo fue eliminado correctamente", {
                                               icon: "success",
                                             })
@@ -211,22 +215,21 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
                                 });                        
                                 
                             }else{
+                                $("#loading").addClass('d-none');
                                 swal("¡Error!","El archivo ya ha sido procesado y no puede ser eliminado.","error");
                             }                                     
                         }else{
+                            $("#loading").addClass('d-none');
                             swal("¡Error!","Hubo un error al intentar eliminar el archivo.","error");
                         }
                     });
                     break;
               }
             }); 
-      
-
 
         }else{
             swal("¡Denegado!","No cuentas con los permisos suficientes para realizar esta accion.","warning");
         }
-
    
      });
 
