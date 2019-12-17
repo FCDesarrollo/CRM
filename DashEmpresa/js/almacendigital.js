@@ -168,6 +168,7 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
 
                                 var parametros = {
                                     "rfcempresa" : datosuser.rfcempresa,
+                                    "s_storage" : datosuser.server,
                                     "u_storage" : datosuser.user_storage,
                                     "p_storage" : datosuser.pwd_storage,
                                     "archivo" : respuesta["archivo"],

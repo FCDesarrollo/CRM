@@ -2,7 +2,7 @@
 
 	include("nombre_carpetas.php");
 	//$carStr = new CarpetasStorage($_SESSION["idempresalog"], $_SESSION["idusuario"]);
-	$idempresa = 40;
+	$idempresa = 1;
 	$idusuario = 2;
 	$carStr = new CarpetasStorage($idempresa, $idusuario);
 	$carStr->Modulos();

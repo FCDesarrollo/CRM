@@ -29,7 +29,7 @@
 
             curl_setopt_array($ch,
                 array(
-                    CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$rfcempresa.'/CRM/'.$rfcempresa.'/'.$ruta.'/'. $archivo,
+                    CURLOPT_URL => 'https://'.$_POST['s_storage'].'/remote.php/dav/files/'.$rfcempresa.'/CRM/'.$rfcempresa.'/'.$ruta.'/'. $archivo,
                     CURLOPT_VERBOSE => 1,
                     CURLOPT_USERPWD => $_POST['u_storage'].':'.$_POST['p_storage'],
                     CURLOPT_RETURNTRANSFER => true,

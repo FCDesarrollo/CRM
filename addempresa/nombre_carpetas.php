@@ -43,29 +43,14 @@ class CarpetasStorage{
     }    
 
     public function Mod_Nombre() {
-        /*foreach($this->_NombresMOD as $value) {
-            if($_mIDModulo == $value['idmodulo']){
-                return  $value['nombre_modulo'];
-            }
-        }    */
         return $this->_NombresMOD;
     }    
 
-    public function Men_Nombre() {
-        /*foreach($this->_NombresMEN as $value) {
-            if($_mIDMenu == $value['idmenu']){
-                return  $value['nombre_menu'];
-            }
-        }*/    
+    public function Men_Nombre() {  
         return $this->_NombresMEN;
     }
 
-    public function Sub_Nombre() {
-        /*foreach($this->_NombresSUB as $value) {
-            if($_mIDSubMenu == $value['idsubmenu']){
-                return  $value['nombre_submenu'];
-            }
-        } */   
+    public function Sub_Nombre() { 
         return $this->_NombresSUB;
     }
     public function StorageADM(){

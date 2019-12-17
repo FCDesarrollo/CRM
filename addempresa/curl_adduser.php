@@ -74,7 +74,7 @@
 	$ch = curl_init();
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM',
+            CURLOPT_URL => 'https://'.$useradm_storage.'/remote.php/dav/files/'.$userName.'/CRM',
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_RETURNTRANSFER => true,
@@ -85,7 +85,7 @@
 
     curl_setopt_array($ch,
         array(
-            CURLOPT_URL => 'https://cloud.dublock.com/remote.php/dav/files/'.$userName.'/CRM/'. $nom,
+            CURLOPT_URL => 'https://'.$useradm_storage.'/remote.php/dav/files/'.$userName.'/CRM/'. $nom,
             CURLOPT_VERBOSE => 1,
             CURLOPT_USERPWD => $userName.':'.$password,
             CURLOPT_RETURNTRANSFER => true,
