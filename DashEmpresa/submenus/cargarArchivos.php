@@ -9,6 +9,7 @@
 
     $menu = $_POST["menu"];
     $submenu = $_POST["submenu"];
+    $mod = substr(strtoupper($submenu), 0, 3);
 
     $empresa = $_POST["rfc"];
     $directorio = $empresa.'/Entrada/'.$menu.'/'.$submenu;
@@ -16,7 +17,9 @@
     $fechadocto = $_POST["fechadocto"];
     $string = explode("-", $fechadocto);
     $codfec = substr($string[0], 2).$string[1];        
-    $codarchivo = $empresa."_".$codfec."_".$_POST["rubro"]."_";
+    $codarchivo = $empresa."_".$codfec."_".$mod."_";
+    //$codarchivo = $empresa."_".$codfec."_".$_POST["rubro"]."_";
+
 
     $consecutivo = $_POST["consecutivo"];    
     $countreg = $consecutivo;
@@ -55,7 +58,7 @@
                     CURLOPT_CUSTOMREQUEST => 'PUT',
                 )
             );
-            curl_exec($ch);   
+            $resp = curl_exec($ch);   
             fclose($gestor);
 
             $error_no = curl_errno($ch);
@@ -76,7 +79,8 @@
             }else{
                 $archivos[$contadorArreglo] =  array(
                     "archivo" => $_FILES["file-". $contador]["name"],
-                    "link" => $link,
+                    "codigo" => $filename,
+                    "link" => "",
                     "error" => 1,
                     "detalle" => "¡No se pudo subir el archivo!"
                 );
@@ -85,6 +89,7 @@
         }else{
             $archivos[$contadorArreglo] =  array(
                 "archivo" => $_FILES["file-". $contador]["name"],
+                "codigo" => $filename,
                 "link" => "",
                 "error" => 2,
                 "detalle" => "¡Archivo Dañado!"
@@ -105,7 +110,7 @@
        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://".$user.":".$pass."@".$server."/ocs/v2.php/apps/files_sharing/api/v1/shares");
         curl_setopt($ch, CURLOPT_VERBOSE, 1);       
-        curl_setopt($ch, CURLOPT_USERPWD, "".$user.":".$pass."");
+        curl_setopt($ch, CURLOPT_USERPWD, $user.":".$pass);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "path=CRM/".$link."&shareType=3");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('OCS-APIRequest:true'));
         curl_setopt($ch, CURLOPT_HEADER, true);

@@ -38,9 +38,9 @@
           <tr>
             <th class="tx-10-force tx-mont tx-medium">Fecha</th>
             <th class="tx-10-force tx-mont tx-medium">Usuario</th>
-            <!--<th class="tx-10-force tx-mont tx-medium hidden-xs-down">Rubro</th>-->
-            <th class="tx-10-force tx-mont tx-medium">Rubro</th>
-            <th class="tx-10-force tx-mont tx-medium">Sucursal</th>
+            <!--<th class="tx-10-force tx-mont tx-medium hidden-xs-down">Rubro</th>
+            <th class="tx-10-force tx-mont tx-medium">Rubro</th>-->
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Sucursal</th>
             <th class="tx-10-force tx-mont tx-medium">Detalle</th>
             <th class="wd-5p text-center"><em class="fa fa-cog"></em></th>
           </tr>
@@ -129,6 +129,7 @@
             <tr>
               <th class="wd-5p"></th>
               <th class="tx-10-force tx-mont tx-medium">Archivo (s)</th>
+              <th class="tx-10-force tx-mont tx-medium">Concepto-Folio-Serie</th>
               <th class="tx-10-force tx-mont tx-medium">Agente</th>
               <th class="tx-10-force tx-mont tx-medium">Fecha Procesado</th>
               <th class="wd-5p"></th>

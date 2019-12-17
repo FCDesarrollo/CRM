@@ -63,15 +63,15 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
-                            <div class="control-group">
+                            <!--<div class="control-group">
                             <div class='form-group'>   
                             <label class="control-label">Rubros:</label>
                             <select id="selectRubros" class="form-control select2" data-placeholder="Seleccioanar Rubro">
 
                             </select>                  
                             </div>
-                            </div>        
-                        </div>
+                            </div>        -->
+                        </div> 
                         <div class="col-lg-6 col-md-6">
                             <div class="control-group">
                             <div class='form-group'>    

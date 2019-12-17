@@ -20,56 +20,49 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     $("#t-ExpDigitales tbody").children().remove();    
 
-//    $.post(ws + "datosRubrosSubMenu", {Correo: datosuser.usuario, Contra: datosuser.pwd, Idempresa: idempresaglobal, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
-//        var myArr = JSON.stringify(data);
-        $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
-            var datos = JSON.parse(data);
-            
-            if(datos.length > 0){            
-                var n = 0;
-                for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
-//                    if(myArr.includes(datos[i].claverubro)){
+    $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
+        var datos = JSON.parse(data);
+        
+        if(datos.length > 0){            
+            var n = 0;
+            for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
 
-                        document.getElementById("t-ExpDigitales").innerHTML +=
-                        "<tr> \
-                            <td>"+datos[i].fechadocto+"</td> \
-                            <td>"+datos[i].usuario+"</td> \
-                            <td>"+datos[i].rubro+"</td> \
-                            <td>"+datos[i].sucursal+"</td> \
-                            <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
-                            <td> \
-                              <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
-                              <div class='dropdown-menu dropdown-menu-right pd-10'> \
-                                <nav class='nav nav-style-1 flex-column'> \
-                                  <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
-                                </nav> \
-                              </div> \
-                            </td> \
-                        </tr>";            
-                        n=n+1;
-//                    }
-                }
-
-                //LlenaPaginador(datos.length, datos, "t-ExpDigitales");
-                if(n != 0){                
-                    LlenaPaginador(datos.length, datos, "t-ExpDigitales");
-                }
-                $('#loading').addClass('d-none');   
-            }else{
                 document.getElementById("t-ExpDigitales").innerHTML +=
-                    "<tr> \
-                        <td> \
-                          <i class='fa fa-exclamation tx-22 tx-danger lh-0 valign-middle'></i> \
-                          <span class='pd-l-5'>No hay archivos disponibles</span> \
-                        </td> \
-                    </tr>";
-                $('#datatable1_paginate').addClass('d-none');            
-                $('#loading').addClass('d-none');   
+                "<tr> \
+                    <td>"+datos[i].fechadocto+"</td> \
+                    <td>"+datos[i].usuario+"</td> \
+                    <td>"+datos[i].sucursal+"</td> \
+                    <td>Registros: "+datos[i].totalregistros+" Cargados: "+datos[i].totalcargados+" Procesados: "+datos[i].procesados+"</td> \
+                    <td> \
+                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
+                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
+                        <nav class='nav nav-style-1 flex-column'> \
+                          <a href='#' onclick='DocumentosALM("+datos[i].id+")' class='nav-link'>Ver Documentos</a> \
+                        </nav> \
+                      </div> \
+                    </td> \
+                </tr>";            
+                n=n+1;
             }
-            
+            if(n != 0){                
+                LlenaPaginador(datos.length, datos, "t-ExpDigitales");
+            }
+            $('#loading').addClass('d-none');   
+        }else{
+            document.getElementById("t-ExpDigitales").innerHTML +=
+                "<tr> \
+                    <td> \
+                      <i class='fa fa-exclamation tx-22 tx-danger lh-0 valign-middle'></i> \
+                      <span class='pd-l-5'>No hay archivos disponibles</span> \
+                    </td> \
+                </tr>";
+            $('#datatable1_paginate').addClass('d-none');            
+            $('#loading').addClass('d-none');   
+        }
+        
 
-        });	
-//    });
+    });	
+
 
 }
 
@@ -92,46 +85,37 @@ function DocumentosALM(idalm){
         
         if(datos.length > 0){      
 
-            // $.ajax({
-            //     async:true,
-            //     url: '../submenus/leer_carpeta.php',
-            //     type: 'POST',
-            //     data: {RFCEmpresa: datosuser.rfcempresa, datosserver: storage, archivos: datos, idmenu: menu, idsubmenu: submenu},
-            //     success: function (responseAJAX) {
-            //         var respuesta = JSON.parse(responseAJAX);
-                    //console.log(respuesta[0].link);
+            var datosadw = "";
+            for (var i = 0; i < datos.length; i++) {
+                datosadw = datos[i].conceptoadw + "-" + datos[i].folioadw + (datos[i].serieadw != null ? "-" + datos[i].serieadw : "");
+                document.getElementById("t-ArchivosALM").innerHTML +=
+                "<tr> \
+                    <td> \
+                        <label class='ckbox mg-b-0'> \
+                            <input type='checkbox' id='check_"+datos[i].id+"'><span></span> \
+                        </label> \
+                    </td> \
+                    <td><a href='"+datos[i].download+"' target='_blank'>"+datos[i].documento+"</a></td> \
+                    <td>"+datosadw+"</td> \
+                    <td>"+datos[i].agente+"</td> \
+                    <td>"+(datos[i].fechaprocesado == null ? "YYYY-MM-DD" : datos[i].fechaprocesado)+"</td> \
+                    <td> \
+                      <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
+                      <div class='dropdown-menu dropdown-menu-right pd-10'> \
+                        <nav class='nav nav-style-1 flex-column'> \
+                          <a href='"+datos[i].download+"' target='_blank' class='nav-link'>Ver</a> \
+                          <a href='"+datos[i].download+"/download' target='_blank' class='nav-link'>Descargar</a> \
+                          <a href='#' onclick='CompartirArchivoALM("+datos[i].id+")' class='nav-link'>Compartir</a> \
+                          <a href='#' onclick='EliminarArchivoALM("+datos[i].id+","+datos[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
+                        </nav> \
+                      </div> \
+                    </td> \
+                </tr>";            
 
-                    //for (var i = 0; i < (respuesta.length > 5 ? 5 : respuesta.length); i++) {
-                    for (var i = 0; i < datos.length; i++) {
-                    
-                        document.getElementById("t-ArchivosALM").innerHTML +=
-                        "<tr> \
-                            <td> \
-                                <label class='ckbox mg-b-0'> \
-                                    <input type='checkbox' id='check_"+datos[i].id+"'><span></span> \
-                                </label> \
-                            </td> \
-                            <td><a href='"+datos[i].download+"' target='_blank'>"+datos[i].documento+"</a></td> \
-                            <td>"+datos[i].agente+"</td> \
-                            <td>"+(datos[i].fechaprocesado == null ? "YYYY-MM-DD" : datos[i].fechaprocesado)+"</td> \
-                            <td> \
-                              <a href='#' data-toggle='dropdown' class='btn pd-y-3 tx-gray-500 hover-info'><i class='icon ion-more'></i></a> \
-                              <div class='dropdown-menu dropdown-menu-right pd-10'> \
-                                <nav class='nav nav-style-1 flex-column'> \
-                                  <a href='"+datos[i].download+"' target='_blank' class='nav-link'>Ver</a> \
-                                  <a href='"+datos[i].download+"/download' target='_blank' class='nav-link'>Descargar</a> \
-                                  <a href='#' onclick='CompartirArchivoALM("+datos[i].id+")' class='nav-link'>Compartir</a> \
-                                  <a href='#' onclick='EliminarArchivoALM("+datos[i].id+","+datos[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
-                                </nav> \
-                              </div> \
-                            </td> \
-                        </tr>";            
+            }
+            $('#loading').addClass('d-none'); 
+            btnregresar = 2;
 
-                    }
-                    $('#loading').addClass('d-none'); 
-                    btnregresar = 2;
-//                }
-//            });
         }else{
             $('#loading').addClass('d-none');
             btnregresar = 2;
@@ -236,17 +220,18 @@ function EliminarArchivoALM(idarchivo, idalmacen, link){
 }
 
 function cerrarArchivos(){   
-    $('#selectRubros').find('option').remove();
+    //$('#selectRubros').find('option').remove();
     document.getElementById("FormSubirArchivos").reset();  
     $('#SubirArchivosInbox').modal('hide');
 }
 function SubirArchivos(){
-    $('#selectRubros option').remove();
+    //$('#selectRubros option').remove();
     $('#selectSucursales option').remove();
     document.getElementById("comentarios").value = "";
     document.getElementById("datepicker").value = ""; 
     document.getElementById("numero_archivos").innerHTML = 0;
-    cargarRubros("selectRubros");
+    cargarSucursales("selectSucursales");
+    //cargarRubros("selectRubros");
         
 //    $('#SubirArchivosInbox').modal('show');
 }
@@ -318,12 +303,12 @@ function cargarSucursales(nameSelec){
                 selectsuc.appendChild(option);
             }            
             existSucursales = 1;
-            if(existRubros == 0){
-                swal("¡Rubros!", "No se han dado de alta los rubros.", "warning");
-                $('#SubirArchivosInbox').modal('hide');
-            }else{
+//            if(existRubros == 0){
+//                swal("¡Rubros!", "No se han dado de alta los rubros.", "warning");
+//                $('#SubirArchivosInbox').modal('hide');
+//            }else{
                 $('#SubirArchivosInbox').modal('show');
-            }
+//            }
         }else{
             swal("¡Sucursales!", "No se han dado de alta las sucursales.", "warning");
             $('#SubirArchivosInbox').modal('hide');
@@ -359,8 +344,8 @@ function cargarArchivos(){
     var observaciones = document.getElementById("comentarios").value;
     var fechadocto = document.getElementById("datepicker").value;
 
-    var e = document.getElementById("selectRubros");
-    var Rubro = e.options[e.selectedIndex].value;
+//    var e = document.getElementById("selectRubros");
+//    var Rubro = e.options[e.selectedIndex].value;
     var s = document.getElementById("selectSucursales");
     var sucursal = s.options[s.selectedIndex].text;
 
@@ -379,7 +364,7 @@ function cargarArchivos(){
     }    
 
     if(contador > 0){
-        if(Rubro != ""){
+        // if(Rubro != ""){
             if(sucursal != ""){               
 
                 var archivosList = new FormData();
@@ -390,7 +375,7 @@ function cargarArchivos(){
                 archivosList.append('menu', menu);
                 archivosList.append('submenu', submenu);
                 archivosList.append('fechadocto', fechadocto);
-                archivosList.append('rubro', Rubro);
+//                archivosList.append('rubro', Rubro);
 
                 var datos = new Object();
                 datos.rfcempresa = datosuser.rfcempresa;
@@ -398,8 +383,9 @@ function cargarArchivos(){
                 datos.pwd = datosuser.pwd;
                 datos.idmenu = idmenuglobal;
                 datos.idsubmenu = idsubmenuglobal;
-                datos.rubro = Rubro;
                 datos.fechadocto = fechadocto;
+//                datos.rubro = Rubro;
+                
 
                 $.post(ws + "ExtraerConsecutivo", {datos}, function(response){  
                     var resp = JSON.parse(response);
@@ -485,9 +471,9 @@ function cargarArchivos(){
             }else{
                 swal("¡Sucursal!", "Seleccione una sucursal.","info");
             }
-        }else{
-            swal("¡Rubro!", "Seleccione un rubro.","info");
-        }
+        // }else{
+        //     swal("¡Rubro!", "Seleccione un rubro.","info");
+        // }
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
     }
@@ -496,9 +482,6 @@ function cargarArchivos(){
 function ImprimeDetalle(arcSubidos){
     var mensaje = "";
     var detalle = "";
-
-    //console.log(arcDetalle);
-    console.log(arcSubidos);
 
     $("#expalm").addClass('d-none');
     $("#DivArchivoDetalle").removeClass('d-none');
