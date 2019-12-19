@@ -48,22 +48,25 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="control-group">
                             <div class='form-group'>    
+                                <label class="control-label">Por Sucursal:</label>
+                                    <select id="FiltroSucursal" class="form-control select2"></select>                  
+                            </div>                                                      
+                        </div>
+                    </div>                    
+                    <!--<div class="col-lg-6 col-md-6">
+                        <div class="control-group">
+                            <div class='form-group'>    
                                 <label class="control-label">Por Rubro:</label>
                                     <select id="FiltroRubro" class="form-control select2"></select>                  
                             </div>                                                      
                         </div>
-                    </div>                           
+                    </div>-->                           
                           
                 </div>
 
                 <div class="row">    
                     <div class="col-lg-6 col-md-6">
-                        <div class="control-group">
-                            <div class='form-group'>    
-                                <label class="control-label">Por Sucursal:</label>
-                                    <select id="FiltroSucursal" class="form-control select2"></select>                  
-                            </div>                                                      
-                        </div>
+
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="control-group">

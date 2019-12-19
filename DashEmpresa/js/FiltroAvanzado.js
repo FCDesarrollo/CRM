@@ -38,7 +38,7 @@ function LlenarFormFiltro() {
     datos.pwd = datosuser.pwd;
 
     $('#FiltroUsuario option').remove();
-    $('#FiltroRubro option').remove();
+//    $('#FiltroRubro option').remove();
     $('#FiltroSucursal option').remove();
     document.getElementById("datepicker_ini").value = "";
     document.getElementById("datepicker_fin").value = "";
@@ -55,10 +55,10 @@ function LlenarFormFiltro() {
         option.text = "Todos";
         selectUse.appendChild(option);
 
-        option2 = document.createElement("option");
+        /*option2 = document.createElement("option");
         option2.value = 0;
         option2.text = "Todos";
-        selectRub.appendChild(option2);
+        selectRub.appendChild(option2); */
 
         option3 = document.createElement("option");
         option3.value = 0;
@@ -72,12 +72,12 @@ function LlenarFormFiltro() {
             selectUse.appendChild(option);
         }
 
-        for (r in respuesta["rubros"]) {
+        /*for (r in respuesta["rubros"]) {
             option = document.createElement("option");
             option.value = respuesta["rubros"][r].clave;
             option.text = respuesta["rubros"][r].nombre;
             selectRub.appendChild(option);
-        }
+        } */
 
         for (s in respuesta["sucursales"]) {
             option = document.createElement("option");
@@ -94,7 +94,7 @@ function Filtrar() {
     $('#loading').removeClass('d-none');
 
     selectUse = document.getElementById("FiltroUsuario").value;
-    selectRub = document.getElementById("FiltroRubro").value;
+    //selectRub = document.getElementById("FiltroRubro").value;
     selectSuc = document.getElementById("FiltroSucursal").value;
     selectOrd = document.getElementById("FiltroOrden").value;
 
@@ -115,7 +115,7 @@ function Filtrar() {
 	datos.fechaini = fechaini;
 	datos.fechafin = fechafin;
 	datos.idusuario = selectUse;
-	datos.claverubro = selectRub;
+	//datos.claverubro = selectRub;
 	datos.idsucursal = selectSuc;
 	datos.orden = selectOrd;
 
@@ -133,7 +133,6 @@ function Filtrar() {
 		                "<tr> \
 		                    <td>"+respuesta["datos"][i].fechadocto+"</td> \
 		                    <td>"+respuesta["datos"][i].usuario+"</td> \
-		                    <td>"+respuesta["datos"][i].rubro+"</td> \
 		                    <td>"+respuesta["datos"][i].sucursal+"</td> \
 		                    <td>Registros: "+respuesta["datos"][i].totalregistros+" Cargados: "+respuesta["datos"][i].totalcargados+" Procesados: "+respuesta["datos"][i].procesados+"</td> \
 		                    <td> \
