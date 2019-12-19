@@ -969,32 +969,24 @@ function DescargarPlantilla(){
 
 
 
-	/*var objeto = new Array();
-	var x = 0;
-	$.get(ws + "ArchivosCorreccionLinks", {idempresa: idempresaglobal}, function(data){
-		var datos = JSON.parse(data);
-			$.ajax({                        
-		        data: {datos: datos},
-		        type: 'POST',
-		        datatype: 'JSON',
-		        url: '../submenus/descargas.php',            
-		        success:function(response){
-		    	   	var links = response;
-		    	   	swal("Termino");
-		    	   	console.log(links);
-		        }
-		    });			
+	// var objeto = new Array();
+	// var x = 0;
+	// $.get(ws + "ArchivosCorreccionLinks", {idempresa: idempresaglobal}, function(data){
+	// 	var datos = JSON.parse(data);
+	// 		$.ajax({                        
+	// 	        data: {datos: datos},
+	// 	        type: 'POST',
+	// 	        datatype: 'JSON',
+	// 	        url: '../submenus/descargas.php',            
+	// 	        success:function(response){
+	// 	    	   	var links = response;
+	// 	    	   	swal("Termino");
+	// 	    	   	console.log(links);
+	// 	        }
+	// 	    });			
 				
-	});*/
+	// });
  
-
-	/*var cod = document.getElementById("plantillas").value;
-	if(cod != ""){
-		var link = document.getElementById("link_"+cod).getAttribute("href");
-		location.href = link;
-	}else{
-		swal("Seleccionar Rubro","Debe seleccionar el rubro a descargar.","error");
-	}*/
 }
 
 function LimpiarInput(){

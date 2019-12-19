@@ -428,6 +428,7 @@ function cargarArchivos(){
                                         archivos[j].codigo = resp[i]["codigo"]; 
                                         archivos[j].link = resp[i]["link"];
                                         archivos[j].status = resp[i]["error"];
+                                        archivos[j].error = resp[i]["detalle"];
                                         j= j + 1;
                                     }             
 
@@ -494,7 +495,8 @@ function ImprimeDetalle(arcSubidos){
             cargado = "Si";
             detalle = arcSubidos[i].detalle;
             //detalle = "Cargado Correctamente.";
-        }else if(arcSubidos[i].status == 1 || arcSubidos[i].status == 2 || arcSubidos[i].status == 3){
+//        }else if(arcSubidos[i].status == 1 || arcSubidos[i].status == 2 || arcSubidos[i].status == 3){
+        }else{
             cargado = "No";
             detalle = arcSubidos[i].detalle;
         }
@@ -556,5 +558,14 @@ function DownFiles(tabla){
 }
 
 function DeleteFiles(tabla){
-    
+    var filas = $("#"+tabla).find("tr");
+    //var ruta = "../submenus/temporales/";
+    for (i = 1; i < filas.length; i++) { //Recorre las filas 1 a 1]    
+        celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
+        console.log(celdas);
+        var name = celdas[0].id;
+        if ($('#' + name).prop('checked')) {
+            console.log("Check");
+        }
+    }
 }

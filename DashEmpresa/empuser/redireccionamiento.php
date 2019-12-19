@@ -1,6 +1,6 @@
 <?php
 	$ruta = "../submenus/";
-    
+
     $perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
     $perMod->user_Modulos();
     $perMod->user_Menus();
@@ -10,6 +10,7 @@
     $men = isset($_GET["men"]) ? $_GET["men"] : 0;
     $sub = isset($_GET["sub"]) ? $_GET["sub"] : 0;
 
+    $archivo = "";
     switch ($men) {
     	case 1:
     		$archivo = "contabilidad.php";
@@ -62,8 +63,9 @@
     }
 
    	if($archivo != ""){
-   		echo "<script> loadDiv('".$ruta.$archivo."',".$mod.",".$men.",".$sub.") </script>";	
+   		echo "<script> loadDiv('".$ruta.$archivo."',".$mod.",".$men.",".$sub.") </script>";	        
    	}
+
     
 
 ?>

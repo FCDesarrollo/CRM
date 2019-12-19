@@ -4,6 +4,7 @@ var registros_tabla = new Object();
 var paginas;
 var active;
 
+//Lista de Tablas donde se usa el paginador
 var TablaExpDigitales = "t-ExpDigitales";
 var TablaRecepcionLotes = "t-Bitacora";
 
@@ -34,7 +35,7 @@ function LlenaPaginador(num_registros, datos, tabla){
     $("#datatable1_paginate").removeClass("d-none");
     
     //Agrega paginador
-    for (var x = 1; x <= btn_visibles; x++) {
+    for (var x = 1; x <= paginas; x++) {
         var a = document.createElement('a');                
         a.setAttribute("class", "paginate_button "+(x == 1 ? active : "")+"");
         a.setAttribute("onclick", "Paginador("+x+")");

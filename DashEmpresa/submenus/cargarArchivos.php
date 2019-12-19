@@ -66,15 +66,29 @@
             if($error_no == 0){
                 //Generar Link
                 $link = getlink($target_path, $_POST["server_storage"], $_POST["u_storage"], $_POST["p_storage"]);
-                $archivos[$contadorArreglo] =  array(
-                    "archivo" => $_FILES["file-". $contador]["name"],
-                    "codigo" => $filename,
-                    "link" => $link,
-                    "error" => 0,
-                    "detalle" => "¡Cargado Correctamente!"
-                );
 
-                $countreg = $countreg + 1;
+                if($link != ""){
+
+                    $archivos[$contadorArreglo] =  array(
+                        "archivo" => $_FILES["file-". $contador]["name"],
+                        "codigo" => $filename,
+                        "link" => $link,
+                        "error" => 0,
+                        "detalle" => "¡Cargado Correctamente!",
+                        "info" => $resp
+                    );
+
+                    $countreg = $countreg + 1;
+                }else{
+                    $archivos[$contadorArreglo] =  array(
+                        "archivo" => $_FILES["file-". $contador]["name"],
+                        "codigo" => $filename,
+                        "link" => $link,
+                        "error" => 3,
+                        "detalle" => "¡No se pudo subir el archivo!",
+                        "info" => $resp
+                    );                    
+                }
 
             }else{
                 $archivos[$contadorArreglo] =  array(
@@ -82,7 +96,8 @@
                     "codigo" => $filename,
                     "link" => "",
                     "error" => 1,
-                    "detalle" => "¡No se pudo subir el archivo!"
+                    "detalle" => "¡No se pudo subir el archivo!",
+                    "info" => $resp
                 );
             }
  
