@@ -18,7 +18,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
 	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
 
-    $("#t-ExpDigitales tbody").children().remove();    
+    //$("#t-ExpDigitales tbody").children().remove();    
 
     $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
         var datos = JSON.parse(data);
