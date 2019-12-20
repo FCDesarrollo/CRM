@@ -70,35 +70,34 @@ var url = "";
 
 
 function CargarSubMenu(idsubmenu){
-
     switch (idsubmenu) {
-        case 1:
+        case "1":
             CargaContenido(ModContabilidad, MenuContabilidad, SubEstadosFinancieros, datosuser.rfcempresa);
             break;      
-        case 2:
+        case "2":
             CargaContenido(ModContabilidad, MenuContabilidad, SubContabilidadElectronica, datosuser.rfcempresa);
             break;
-        case 3:
+        case "3":
             CargaContenido(ModContabilidad, MenuContabilidad, SubExpedientesAdmin, datosuser.rfcempresa);
             break;
-        case 4:
+        case "4":
             CargaContenido(ModContabilidad, MenuContabilidad, SubExpedientesContables, datosuser.rfcempresa);
             break;          
-        case 15: 
-        case 16:
-        case 23:
-        case 24:
-        case 25:
-        case 26:
-        case 27:
+        case "15": 
+        case "16":
+        case "23":
+        case "24":
+        case "25":
+        case "26":
+        case "27":
             ExpDigitales(idmoduloglobal, idmenuglobal, idsubmenuglobal, datosuser.rfcempresa);
             break;   
-        case 17:
-        case 18:
-        case 19:
-        case 28:
-        case 29:
-        case 30:
+        case "17":
+        case "18":
+        case "19":
+        case "28":
+        case "29":
+        case "30":
             CargarLotes(idmoduloglobal, idmenuglobal, idsubmenuglobal);
             break;                                                                     
         default:
@@ -128,9 +127,9 @@ function URL_Asigna_SubM(idsubmenu){
 
 function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
 //function loadDiv(lNameForm){    
-    //swal(lNameForm);
-    $('.br-mainpanel').load(lNameForm);    
     
+    $('.br-mainpanel').load(lNameForm);    
+
     idmoduloglobal = IDMod;
     idmenuglobal = IDMenu;
     idsubmenuglobal = IDSubM;
@@ -177,7 +176,7 @@ function resolveAfter2Seconds() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve('Cargado');
-    }, 2500);
+    }, 1500);
   });
 }
 

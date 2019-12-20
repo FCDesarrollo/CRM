@@ -41,7 +41,8 @@
         $filename = $codarchivo.$consecutivo;
         $source = $_FILES["file-". $contador]["tmp_name"]; //Obtenemos un nombre temporal del archivo        
         $type = explode(".", $file);
-        $target_path = $directorio.'/'.$filename.".".$type[1]; //Indicamos la ruta de destino, así como el nombre del archivo       
+        
+        $target_path = $directorio.'/'.$filename.".".$type[count($type)-1]; //Indicamos la ruta de destino, así como el nombre del archivo       
 
         if($_FILES["file-". $contador]["error"] == 0){
             $gestor = fopen($source, "r");

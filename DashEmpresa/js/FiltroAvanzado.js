@@ -146,6 +146,7 @@ function Filtrar() {
 		                </tr>";
 
                     }
+                    $('#datatable1_paginate').addClass('d-none');
                     $('#loading').addClass('d-none');
                 } else {
                     document.getElementById("t-ExpDigitales").innerHTML +=

@@ -1,14 +1,19 @@
 <?php
 	$ruta = "../submenus/";
-
+    session_start();
+    include("permisosuser.php");
     $perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
     $perMod->user_Modulos();
     $perMod->user_Menus();
     $perMod->user_SubMenus();
 
-    $mod = isset($_GET["mod"]) ? $_GET["mod"] : 0;
-    $men = isset($_GET["men"]) ? $_GET["men"] : 0;
-    $sub = isset($_GET["sub"]) ? $_GET["sub"] : 0;
+    // $mod = isset($_GET["mod"]) ? $_GET["mod"] : 0;
+    // $men = isset($_GET["men"]) ? $_GET["men"] : 0;
+    // $sub = isset($_GET["sub"]) ? $_GET["sub"] : 0;
+
+    $mod = isset($_POST["mod"]) ? $_POST["mod"] : 0;
+    $men = isset($_POST["men"]) ? $_POST["men"] : 0;
+    $sub = isset($_POST["sub"]) ? $_POST["sub"] : 0;    
 
     $archivo = "";
     switch ($men) {
@@ -63,7 +68,10 @@
     }
 
    	if($archivo != ""){
-   		echo "<script> loadDiv('".$ruta.$archivo."',".$mod.",".$men.",".$sub.") </script>";	        
+   		//echo "<script> loadDiv('".$ruta.$archivo."',".$mod.",".$men.",".$sub.") </script>";	
+        $datos = array('ruta' => $ruta.$archivo, 'mod' => $mod, 'men' => $men ,'sub' => $sub);
+        echo json_encode($datos);
+        return json_encode($datos);
    	}
 
     

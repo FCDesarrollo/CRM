@@ -47,9 +47,42 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                         }
                     });
 
-                    var url_p = window.location.href;    
-                    if(url_p.includes("mod")==true){                
-                                              
+                    var idmod = 0;
+                    var idmen = 0;
+                    var idsub = 0;
+                    var url_p = window.location.href;   
+                    var url = new URL(url_p); 
+                    if(url_p.includes("mod")==true){
+                        idmod = url.searchParams.get("mod");
+                        if(url_p.includes("men")==true){
+                            idmen = url.searchParams.get("men");
+                            if(url_p.includes("sub")==true){
+                                idsub = url.searchParams.get("sub");
+                            }                        
+                        }
+
+                        var parametros = {
+                            "mod" : idmod,
+                            "men" : idmen,
+                            "sub" : idsub
+                        };
+
+                        
+
+                        $.ajax({
+                            data:  parametros,
+                            url: '../empuser/redireccionamiento.php',
+                            type:  'post', //método de envio
+                            success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                                var respuesta = JSON.parse(response); 
+                                var ruta = respuesta["ruta"];
+                                var mod = respuesta["mod"];
+                                var men = respuesta["men"];
+                                var sub = respuesta["sub"];
+                                //loadDiv(ruta, mod, men, sub);
+                                loadDiv(ruta,mod,men,sub);
+                            }
+                        });                            
                     }            
                 } 
 

@@ -8,7 +8,7 @@
 	include("../empuser/permisosuser.php"); 
 	$perMod = new PermisosUsuario($_SESSION["idempresalog"], $_SESSION["idusuario"]);
 	$perMod->user_SubMenus();	
-	$perMod->SubMenus();
+	//$perMod->SubMenus();
 ?>
 
 <div class="br-pagebody pd-l-0 pd-r-0">
