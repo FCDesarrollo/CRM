@@ -107,12 +107,12 @@
           <div>
             <i class="fa fa-share-alt"></i>
           </div>
-        </a>-->
+        </a>
         <a href="#" onclick="DownFiles('t-ArchivosALM')" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-download mg-r-0"></i>
           </div>
-        </a>
+        </a>-->
         <a href="#" onclick="DeleteFiles('t-ArchivosALM')" class="btn btn-outline-danger btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-trash mg-r-0"></i>
