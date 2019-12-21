@@ -67,8 +67,6 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                             "sub" : idsub
                         };
 
-                        
-
                         $.ajax({
                             data:  parametros,
                             url: '../empuser/redireccionamiento.php',
@@ -81,11 +79,13 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                                 var sub = respuesta["sub"];
                                 //loadDiv(ruta, mod, men, sub);
                                 loadDiv(ruta,mod,men,sub);
-                                $("#precarga").addClass('d-none');
+                                //$("#precarga").addClass('d-none');
+                                $("#precarga").fadeOut(1000);
                             }
                         });                            
                     }else{
-                        $("#precarga").addClass('d-none');
+                        $("#precarga").fadeOut(1000);
+                        //$("#precarga").addClass('d-none');
                     }            
                 } 
 

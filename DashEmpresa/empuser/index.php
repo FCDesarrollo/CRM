@@ -32,7 +32,8 @@ session_start();
     <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate"> 
     <meta http-equiv="Pragma" content="no-cache">
 
-    <link rel="icon" type="../img/iconpage.ico" href="../img/iconpage.ico" />
+    <!--<link rel="icon" type="../img/iconpage.ico" href="../img/iconpage.ico" />-->
+    <link rel="icon" type="image/png" href="../../login/images/icons/favicon.ico"/>
 
 
     <!-- Twitter -->
