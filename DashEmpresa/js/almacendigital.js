@@ -63,7 +63,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     });	
 
-
+    
 }
 
 function DocumentosALM(idalm){
@@ -85,9 +85,12 @@ function DocumentosALM(idalm){
         
         if(datos.length > 0){      
 
-            var datosadw = "";
+            var datosadw;
             for (var i = 0; i < datos.length; i++) {
-                datosadw = datos[i].conceptoadw + "-" + datos[i].folioadw + (datos[i].serieadw != null ? "-" + datos[i].serieadw : "");
+                datosadw = "";
+                if(datos[i].fechaprocesado != null){
+                    datosadw = datos[i].conceptoadw + "-" + datos[i].folioadw + (datos[i].serieadw != null ? "-" + datos[i].serieadw : "");
+                }
                 document.getElementById("t-ArchivosALM").innerHTML +=
                 "<tr> \
                     <td> \
@@ -558,14 +561,62 @@ function DownFiles(tabla){
 }
 
 function DeleteFiles(tabla){
+
     var filas = $("#"+tabla).find("tr");
-    //var ruta = "../submenus/temporales/";
+
+    var archivos = new Array();   
+    var n = 0;
     for (i = 1; i < filas.length; i++) { //Recorre las filas 1 a 1]    
         celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
-        console.log(celdas);
         var name = celdas[0].id;
         if ($('#' + name).prop('checked')) {
-            console.log("Check");
+            var cb = name.split("_");            
+            archivos[n] = new Object();
+            archivos[n].idarchivo = cb[1];
+            n = n + 1;
         }
     }
+    if(n > 0){
+        swal("¿Estas seguro de deseas eliminar los archivos seleccionados?", {
+          buttons: {
+            Continuar: "Continuar",
+            cancel: "Cancelar",    
+          },
+        })
+        .then((value) => {
+            switch (value) { 
+                case "Cancelar":          
+                break;
+                
+                case "Continuar":
+                    $("#loading").removeClass('d-none');
+                    $.post(ws + "EliminaDocumentosAPI", {rfcempresa: datosuser.rfcempresa, usuario: datosuser.usuario, pwd: datosuser.pwd, idmenu: idmenuglobal, idsubmenu: idsubmenuglobal, archivos: archivos}, function(response){            
+                        var resp = response;
+                        $("#loading").addClass('d-none');
+                        if(resp["error"] == 0){                            
+                            
+                            swal("Los archivos seleccionados han sido eliminados correctamente.", { 
+                                  icon: "success", 
+                                  timer: 3000,
+                            })
+                            .then(() => {
+                                if(resp["idalmacen"] > 0){
+                                    DocumentosALM(resp["idalmacen"]);
+                                }else{
+                                    ExpDigitales(idmoduloglobal, idmenuglobal, idsubmenuglobal, datosuser.rfcempresa);
+                                }
+                            });                            
+
+                        }else{
+                            var error = MensajeError(resp["error"]);                   
+                            swal("Error API", error, "error");
+                        } 
+                    });
+                break;
+            }
+        });
+    }else{
+        swal("","No hay archivos seleccionados.","warning");
+    }
+
 }
