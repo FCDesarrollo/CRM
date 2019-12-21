@@ -32,6 +32,8 @@ session_start();
     <meta http-equiv="Cache-Control" content="no-cache, mustrevalidate"> 
     <meta http-equiv="Pragma" content="no-cache">
 
+    <link rel="icon" type="../img/iconpage.ico" href="../img/iconpage.ico" />
+
 
     <!-- Twitter -->
     <!--<meta name="twitter:site" content="@themepixels">
@@ -89,7 +91,7 @@ session_start();
   </head> 
 
   <body onload="CargaDatosEmpresa('<?php echo $_SESSION['idusuario']; ?>','<?php echo $_SESSION['idempresalog']; ?>', '<?php echo $_SESSION['idperfil']; ?>','<?php echo $_SESSION['pwd']; ?>')">
-    
+    <div id="precarga"></div>
     <?php include("../../varglobales.php"); ?>
     <?php //include("PHPAltiria.php"); ?>
     <?php include("permisosuser.php"); ?>

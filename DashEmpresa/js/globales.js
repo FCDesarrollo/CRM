@@ -322,4 +322,22 @@ function VerificaPermisoSubMenu(idempresa, idusuario, idsubmenu){
     });
 }
 
+function MensajeError(error){
+    var mensaje_error = "";
+    switch (error) { 
+        case "1":          
+            mensaje_error = "El RFC de la empresa no existe.";
+            break;
+        case "2":
+            mensaje_error = "El Usuario incorrecto o no existe.";
+            break;
+        case "3":          
+            mensaje_error = "La contraseña es incorrecta.";
+            break;
+        case "4":          
+            mensaje_error = "El Usuario no tiene permisos.";
+            break;
+    }
+    return mensaje_error;
+}
 

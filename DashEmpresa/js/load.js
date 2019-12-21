@@ -81,8 +81,11 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                                 var sub = respuesta["sub"];
                                 //loadDiv(ruta, mod, men, sub);
                                 loadDiv(ruta,mod,men,sub);
+                                $("#precarga").addClass('d-none');
                             }
                         });                            
+                    }else{
+                        $("#precarga").addClass('d-none');
                     }            
                 } 
 
@@ -94,6 +97,7 @@ function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
 
 
 }
+
 
 
 function CargaContenido(idmodulo, idmenu, idsubmenu, RFCEmpresa) {

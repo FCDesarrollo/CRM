@@ -103,11 +103,11 @@
         </a>
       </div>
       <div class="col-sm-6 d-flex justify-content-end d-none">
-        <a href="#" onclick="ShareFiles('t-ArchivosALM')" class="btn btn-outline-teal btn-icon rounded-circle mg-r-5">
+        <!--<a href="#" onclick="ShareFiles('t-ArchivosALM')" class="btn btn-outline-teal btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-share-alt"></i>
           </div>
-        </a>
+        </a>-->
         <a href="#" onclick="DownFiles('t-ArchivosALM')" class="btn btn-outline-secondary btn-icon rounded-circle mg-r-5">
           <div>
             <i class="fa fa-download mg-r-0"></i>
