@@ -18,18 +18,18 @@
     
           <!--<a href="#" class="btn btn-outline-info" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
           <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>-->
-      <div class="row">
-        <div class="col-6">
-            
+      <div class="row pd-b-20">
+        <div class="col-6">            
             <h5 id="tittle-sub" class="tx-16 tx-uppercase tx-inverse tx-semibold tx-spacing-1"></h5>
         </div>
         <div class="col-6 d-flex justify-content-end">
-          <div class="btn-group pd-b-20">
+          <div class="btn-group">
             <a href="#" class="btn btn-outline-info mg-r-5" onclick="SubirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')"><i class="fa fa-plus-circle mg-r-10"></i>Nuevo</a>              
           </div>
-          <div class="btn-group pd-b-20">
+          <div class="btn-group">
             <a href="#" class="btn btn-outline-info mg-r-5" onclick="FiltroAvanzado('ExpedientesDigitales')"><i class="icon ion-funnel mg-r-10"></i>Filtro</a>              
           </div>              
+          <input id="buscar"  class="form-control" type="text" placeholder="Escriba algo para filtrar" onkeyup="FiltrarTabla('t-ExpDigitales', 'buscar')"/>
         </div>
     </div>     
     <div class="card bd-0 shadow-base mg-b-15">

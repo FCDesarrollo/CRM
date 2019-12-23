@@ -34,7 +34,8 @@ session_start();
     var idempresa ='<?php echo $_SESSION["idempresalog"]; ?>';
 	$.get(ws + "ListaUsuarios/" + idempresa, function(data){
 		var usuarios = JSON.parse(data).usuarios;
-        var VinDes; //Variable para saber si esta vinculado o desvinculado el usuario de la empresa.
+        var VinDes; //Variable para saber si esta vinculado o desvinculado el usuario de la empresa        
+
         for(var x in usuarios){
 
             if(usuarios[x].iduser != idusuarioglobal){
@@ -52,62 +53,10 @@ session_start();
                                     <a onclick='EliminaUserlog("+idempresa+");' title='Eliminar Usuario' value='"+usuarios[x].iduser+"' class='btn btn-danger btn-icon rounded-circle'><div><i class='fa fa-trash' style='color: white;'></i></div></a> \
     							</td> \
     						</tr> \
-    					</tbody>";  
-                console.log(usuarios[x].vinculado); 
-            
+    					</tbody>";              
             }
         }  
         $('#loading').addClass('d-none');          
     });
     
-
-
-//     function permisoUser(idusuario){ 
-        
-//         $("#ListaPermisoslog tr").remove();
-//         $('#ListaPermisoslog tbody').html("");
-//         $.get(ws + "PermisosUsuario",{ idempresa: idempresa, idusuario : idusuario }, function(data){
-//             var permisos = JSON.parse(data).permisos;
-//             for(var x in permisos)
-//             {
-//                 var tr = "<tr>";
-//                 tr = tr + "<td style='display:none;'>" + permisos[x].idperfil + "</td>";
-//                 tr = tr + "<td style='display:none;'>" + permisos[x].idmodulo + "</td>";
-//                 tr = tr + "<td>" + permisos[x].nombre + "</td>";
-//                 tr = tr + "<td>" + nameModulos[permisos[x].idmodulo] + "</td>";
-//                 tr = tr + "<td><select onChange='updatePermisoUser(" + idusuario +", value);' data-placeholder='Select here..' >" +
-//                     " <option value='0' " + (permisos[x].tipopermiso == pBloqueado ? 'selected' : '') + ">Bloqueado</option>" +
-//                     " <option value='1' " + (permisos[x].tipopermiso == pLectura ? 'selected' : '') + ">Lectura</option>" +
-//                     " <option value='2' " + (permisos[x].tipopermiso == pLecYEsc ? 'selected' : '') + ">Lectura y Escritura</option>" +
-//                     " <option value='3' " + (permisos[x].tipopermiso == pTodo ? 'selected' : '') + ">Todo</option>" +
-//                     " </select> </td>"; 
-//             // tr = tr + "<td>"+ namePermisos[permisos[x].tipopermiso] + "</td>";
-//                 //tr = tr + "<td>" + namePermisos[permisos[x].tipopermiso] +"</td>";
-//                 tr = tr + "</tr>";
-//                 $('#ListaPermisoslog tbody').append(tr);
-//                 //document.ready = document.getElementById(idusuario + permisos[x].idmodulo).value = '2';
-//             }
-//         }); 
-//     }
-
-//     function updatePermisoUser(siduser, inPermiso){
-//     //var divalert = document.getElementById("alertSave");
-//     $("table tbody tr").click(function() {
-//         var sidModulo = $(this).find("td").eq(1).text();
-//         if(siduser>0){
-//             $.post(ws + "updatePermisoUsuario",{ idempresa: idempresa, idusuario: siduser, idmodulo: sidModulo, tipopermiso: inPermiso }, function(data){
-//                 if(data>0){
-//                    /* divalert.style.display='block';
-//                     setTimeout(function() { 
-//                         $('#alertSave').fadeOut('fast'); 
-//                     }, 2000);*/
-//                 }else{
-//                     alert("Ocurrio un error al eliminar el usuario");
-//                 }
-//             });
-//         }
-       
-        
-//     });
-// }
 </script>

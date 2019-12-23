@@ -108,7 +108,6 @@ function DocumentosALM(idalm){
                         <nav class='nav nav-style-1 flex-column'> \
                           <a href='"+datos[i].download+"' target='_blank' class='nav-link'>Ver</a> \
                           <a href='"+datos[i].download+"/download' target='_blank' class='nav-link'>Descargar</a> \
-                          <a href='#' onclick='CompartirArchivoALM("+datos[i].id+")' class='nav-link'>Compartir</a> \
                           <a href='#' onclick='EliminarArchivoALM("+datos[i].id+","+datos[i].idalmdigital+")' class='nav-link'>Eliminar</a> \
                         </nav> \
                       </div> \
@@ -557,7 +556,20 @@ function ShareFiles(tabla){
 }
 
 function DownFiles(tabla){
+    var filas = $("#"+tabla).find("tr");
 
+    var archivos = new Array();   
+    var n = 0;
+    for (i = 1; i < filas.length; i++) { //Recorre las filas 1 a 1]    
+        celdas = $(filas[i]).find("input"); //devolverá las celdas de una fila
+        var name = celdas[0].id;
+        if ($('#' + name).prop('checked')) {
+            var cb = name.split("_");            
+            archivos[n] = new Object();
+            archivos[n].idarchivo = cb[1];
+            n = n + 1;
+        }
+    }
 }
 
 function DeleteFiles(tabla){
