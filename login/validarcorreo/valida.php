@@ -145,7 +145,6 @@ function CompartirLinks($destinatarios, $mensaje){
 //ENVIO DEL CODIGO DE VERIFICACION DEL NUEVO USUARIO
 function CorreoValidacion(){
 	$usuario = $_POST;
-		
 	global $url_activacion;
 	global $url_validacorreo;
 	//Se guarda en la base de datos y se le envia el correo con el link para activar su cuenta
@@ -192,11 +191,20 @@ function EnviarMail($destinatarios,$asunto,$mensaje,$identificador,$celular){
 	$mail->Body    = '<div><b>Correo Enviado Exitosamente!</b></div><br><br>'.$mensaje;
 	
 	//comprobamos si el mail se envio correctamente y devolvemos la respuesta al servidor
-	if(!$mail->send()) {
+/*	if(!$mail->send()) {
 		return false;
 	} else {
 		return true;
-	} 
+	} */
+
+	if(!$mail->send()) { 
+		echo 'Message could not be sent.'; 
+		echo 'Mailer Error: ' . $mail->ErrorInfo; 
+		return false;
+	} else { 
+		echo 'Message has been sent'; 
+		return true;
+	} 	
 
 }
 
