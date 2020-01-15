@@ -27,12 +27,14 @@ $url_validacorreo = 'http://crm.dublock.com/login/';
 
 $mail = new PHPMailer;
 $mail->isSMTP();                                      // Activamos SMTP para mailer
-//$mail->SMTPDebug = 2;
-//$mail->Debugoutput = 'html';
-$mail->Host = 'smtp.gmail.com';                       // Especificamos el host del servidor SMTP
+$mail->SMTPDebug = 2;
+$mail->Debugoutput = 'html';
+$mail->Host = 'mail.dublock.com';                       // Especificamos el host del servidor SMTP
 $mail->SMTPAuth = true;                               // Activamos la autenticacion
-$mail->Username = 'miconsultormx@gmail.com';       // Correo SMTP
-$mail->Password = 'crm@2020';                // Contraseña SMTP
+//$mail->Username = 'miconsultormx@gmail.com';       // Correo SMTP
+//$mail->Password = 'crm@2020';                // Contraseña SMTP.
+$mail->Username = 'crm@dublock.com';       // Correo SMTP
+$mail->Password = 'dublock2020';                // Contraseña SMTP
 $mail->SMTPSecure = 'tls';                            // Activamos la encriptacion ssl
 $mail->Port = 587;                                    // Seleccionamos el puerto del SMTP
 $mail->From = 'miconsultormx@gmail.com';
