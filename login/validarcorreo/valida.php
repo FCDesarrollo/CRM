@@ -27,8 +27,8 @@ $url_validacorreo = 'http://crm.dublock.com/login/';
 
 $mail = new PHPMailer;
 $mail->isSMTP();                                      // Activamos SMTP para mailer
-$mail->SMTPDebug = 2;
-$mail->Debugoutput = 'html';
+//$mail->SMTPDebug = 2;
+//$mail->Debugoutput = 'html';
 $mail->Host = 'mail.dublock.com';                       // Especificamos el host del servidor SMTP
 $mail->SMTPAuth = true;                               // Activamos la autenticacion
 //$mail->Username = 'miconsultormx@gmail.com';       // Correo SMTP
