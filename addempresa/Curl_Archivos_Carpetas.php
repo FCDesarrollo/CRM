@@ -157,7 +157,7 @@ $ftp_server = "ftp.dublock.com";
 $conn_id = ftp_connect($ftp_server);
 
 // login con usuario y contraseña
-$ftp_user_name = "crmadmin@cloud.dublock.com";
+$ftp_user_name = "crmadmin@dublock.com";
 $ftp_user_pass = "4u1B6nyy3W";
 
 $login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
