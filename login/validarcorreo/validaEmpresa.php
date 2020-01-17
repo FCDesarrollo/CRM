@@ -30,7 +30,7 @@ $mail->isSMTP();                                      // Activamos SMTP para mai
 $mail->Host = 'smtp.gmail.com';                       // Especificamos el host del servidor SMTP
 $mail->SMTPAuth = true;                               // Activamos la autenticacion
 $mail->Username = 'miconsultormx@gmail.com';       // Correo SMTP
-$mail->Password = 'crm@2019';                // Contraseña SMTP
+$mail->Password = 'crm@2020';                // Contraseña SMTP
 $mail->SMTPSecure = 'tls';                            // Activamos la encriptacion ssl
 $mail->Port = 587;                                    // Seleccionamos el puerto del SMTP
 $mail->From = 'miconsultormx@gmail.com';
