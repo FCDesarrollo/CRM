@@ -2,8 +2,7 @@ var modulo;
 var menu;
 var submenu;
 
-
-function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
+async function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     modulo = idmodulo;
     menu = idmenu;
     submenu = idsubmenu;
@@ -20,7 +19,7 @@ function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
 
     //$("#t-ExpDigitales tbody").children().remove();    
 
-    $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
+    await $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
         var datos = JSON.parse(data);
         
         if(datos.length > 0){            
@@ -88,7 +87,9 @@ function DocumentosALM(idalm){
             var datosadw;
             for (var i = 0; i < datos.length; i++) {
                 datosadw = "";
-                if(datos[i].fechaprocesado != null){
+                if(datos[i].estatus == 1 && datos[i].folioadw == null){
+                    datosadw = datos[i].conceptoadw;
+                }else if(datos[i].estatus == 1){
                     datosadw = datos[i].conceptoadw + "-" + datos[i].folioadw + (datos[i].serieadw != null ? "-" + datos[i].serieadw : "");
                 }
                 document.getElementById("t-ArchivosALM").innerHTML +=
@@ -306,12 +307,17 @@ function cargarSucursales(nameSelec){
                 selectsuc.appendChild(option);
             }            
             existSucursales = 1;
-//            if(existRubros == 0){
-//                swal("¡Rubros!", "No se han dado de alta los rubros.", "warning");
-//                $('#SubirArchivosInbox').modal('hide');
-//            }else{
-                $('#SubirArchivosInbox').modal('show');
-//            }
+
+            n =  new Date();
+            y = n.getFullYear();
+            m = n.getMonth() + 1;
+            d = n.getDate();
+            if(d<10){ d='0'+d; }    
+            if(m<10){ m='0'+m; }    
+
+            $('#SubirArchivosInbox').modal('show');
+            $('#datepicker').val(y+"-"+m+"-"+d);
+
         }else{
             swal("¡Sucursales!", "No se han dado de alta las sucursales.", "warning");
             $('#SubirArchivosInbox').modal('hide');
@@ -337,6 +343,50 @@ function Calendario()
 $("#datepicker").mouseenter(function(evento){
     Calendario();
 }); 
+
+function CargaArchivoPrueba(){
+    var datos = new FormData();
+    var fechadocto = document.getElementById("datepicker").value;
+    var s = document.getElementById("selectSucursales");
+    var sucursal = s.options[s.selectedIndex].text;
+    var observaciones = document.getElementById("comentarios").value;
+
+    if(fechadocto != ""){
+
+        var n = 0;                                             
+        jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
+            i++;
+            datos.append(n, file);        
+            n= n + 1;
+        });
+        datos.append('rfcempresa', datosuser.rfcempresa); 
+        datos.append('usuario', datosuser.usuario); 
+        datos.append('pwd', datosuser.pwd); 
+        datos.append('idmenu', idmenuglobal); 
+        datos.append('idsubmenu', idsubmenuglobal); 
+        datos.append('fechadocto', fechadocto);
+        datos.append('sucursal', sucursal);
+        datos.append('observaciones', observaciones);
+
+        $.ajax({
+            url: ws + 'AlmacenCargado',
+            type: 'post',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data:datos,
+            success: function(response){
+                console.log(response);
+            }
+        });
+
+    }else{
+        swal("Fecha de Documento","Debe ingresar la fecha del documento (Formato: YYYY-MM-DD)","error");
+    }
+    
+
+
+}
 
 function cargarArchivos(){  
     var nomArchivos = [];
@@ -367,7 +417,7 @@ function cargarArchivos(){
     }    
 
     if(contador > 0){
-        // if(Rubro != ""){
+        if(fechadocto != ""){
             if(sucursal != ""){               
 
                 var archivosList = new FormData();
@@ -475,9 +525,9 @@ function cargarArchivos(){
             }else{
                 swal("¡Sucursal!", "Seleccione una sucursal.","info");
             }
-        // }else{
-        //     swal("¡Rubro!", "Seleccione un rubro.","info");
-        // }
+         }else{
+             swal("¡Fecha!", "Introduzca la fecha del documento.","info");
+         }
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
     }

@@ -3,98 +3,75 @@ var per;
 var _NombresSubM;
 var _NombresMenus;
 
-function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
+async function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
+    var idmod = 0;
+    var idmen = 0;
+    var idsub = 0;
+    var url_p = window.location.href;   
+    var url = new URL(url_p);
 
     idempresaglobal = idempresalog;
     idusuarioglobal = idusuario;
 
-    $.get(ws + "SubMenus", function(resSubMenus){
-        _NombresSubM = resSubMenus;      
+    await $.post(ws + "DatosDeInicio", {idusuario: idusuario, idempresa: idempresalog}, function(response){
+        var resp = JSON.parse(response);
+        var usuario = resp.Usuario;
+        var empresa = resp.Empresa;
+        var menus = resp.Menus;
+        var submenus = resp.SubMenus;
+        var servidor = resp.ServidorStorage;
 
-        $.get(ws + "Menus", function(resMenus){
-            _NombresMenus = resMenus;
-        
-            $.get(ws + "DatosUsuario/" + idusuario, function(data) {
-                var usuario = JSON.parse(data).usuario;
-                if (usuario.length > 0) {
-                    var nombre_completo = usuario[0].nombre + " " + usuario[0].apellidop + " " + usuario[0].apellidom;
-                    document.getElementById('nUsuario').innerText = nombre_completo;            
+        _NombresSubM = submenus; 
+        _NombresMenus = menus;
 
-                    tipousuarioglobal = usuario[0].tipo;
-             
-                    $.get(ws + "DatosEmpresaAD/" + idempresalog, function(data) {
-                        var empresa = JSON.parse(data).empresa;
-                        if (empresa.length > 0) {
-                            document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
+        var nombre_completo = usuario[0].nombre + " " + usuario[0].apellidop + " " + usuario[0].apellidom;
+        document.getElementById('nUsuario').innerText = nombre_completo;            
+        tipousuarioglobal = usuario[0].tipo;        
 
-                            datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
-                            datosuser.nombre_empresa = empresa[0].nombreempresa;
+        document.getElementById('nEmpresa').innerHTML = empresa[0].nombreempresa;
+        datosuser = new Usuario(empresa[0].RFC, usuario[0].correo, pwd);
+        datosuser.nombre_empresa = empresa[0].nombreempresa;    
 
-                            $.get(ws + "DatosStorage", { rfcempresa: empresa[0].RFC }, function(data) {
-                                var datos = JSON.parse(data);
-                                datosuser.server = datos[0].server;
-                                datosuser.user_storage = datos[0].usuario_storage;
-                                datosuser.pwd_storage = datos[0].password_storage;
-                            });
-                            
-                            $.get(ws + "DatosPerfil", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
-                                var datos = JSON.parse(data);                                   
-                                var perfil = datos[0].nombre;                 
-                                datosuser.idperfil = datos[0].idperfil;
-                                document.getElementById('nUsuario_per').innerText = perfil;
-                            });                                       
+        datosuser.server = servidor[0].servidor_storage;
+        datosuser.user_storage = empresa[0].usuario_storage;
+        datosuser.pwd_storage = empresa[0].password_storage;    
+    });  
 
-                        }
-                    });
+    await $.get(ws + "DatosPerfil", {idempresa: idempresaglobal, idusuario: idusuarioglobal}, function(data){
+         var datos = JSON.parse(data);                                   
+         var perfil = datos[0].nombre;                 
+         datosuser.idperfil = datos[0].idperfil;
+         document.getElementById('nUsuario_per').innerText = perfil;
+    });     
+ 
+    if(url_p.includes("mod")==true){
+        idmod = url.searchParams.get("mod");
+        if(url_p.includes("men")==true){
+            idmen = url.searchParams.get("men");
+            if(url_p.includes("sub")==true){
+                idsub = url.searchParams.get("sub");
+            }                        
+        }
 
-                    var idmod = 0;
-                    var idmen = 0;
-                    var idsub = 0;
-                    var url_p = window.location.href;   
-                    var url = new URL(url_p); 
-                    if(url_p.includes("mod")==true){
-                        idmod = url.searchParams.get("mod");
-                        if(url_p.includes("men")==true){
-                            idmen = url.searchParams.get("men");
-                            if(url_p.includes("sub")==true){
-                                idsub = url.searchParams.get("sub");
-                            }                        
-                        }
+        var parametros = { "mod" : idmod, "men" : idmen, "sub" : idsub };
 
-                        var parametros = {
-                            "mod" : idmod,
-                            "men" : idmen,
-                            "sub" : idsub
-                        };
-
-                        $.ajax({
-                            data:  parametros,
-                            url: '../empuser/redireccionamiento.php',
-                            type:  'post', //método de envio
-                            success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
-                                var respuesta = JSON.parse(response); 
-                                var ruta = respuesta["ruta"];
-                                var mod = respuesta["mod"];
-                                var men = respuesta["men"];
-                                var sub = respuesta["sub"];
-                                //loadDiv(ruta, mod, men, sub);
-                                loadDiv(ruta,mod,men,sub);
-                                //$("#precarga").addClass('d-none');
-                                $("#precarga").fadeOut(1000);
-                            }
-                        });                            
-                    }else{
-                        $("#precarga").fadeOut(1000);
-                        //$("#precarga").addClass('d-none');
-                    }            
-                } 
-
-            });
-        });                
-    });
-
-  
-
+        $.ajax({
+            data:  parametros,
+            url: '../empuser/redireccionamiento.php',
+            type:  'post', //método de envio
+            success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                var respuesta = JSON.parse(response); 
+                var ruta = respuesta["ruta"];
+                var mod = respuesta["mod"];
+                var men = respuesta["men"];
+                var sub = respuesta["sub"];
+                loadDiv(ruta,mod,men,sub);
+                $("#precarga").fadeOut(1000);
+            }
+        });                            
+    }else{
+        $("#precarga").fadeOut(1000);
+    }    
 
 }
 

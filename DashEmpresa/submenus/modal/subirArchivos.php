@@ -52,7 +52,7 @@
                                 
                                 <div class="input-group">
                                   <span class="input-group-addon" onclick="Calendario()"><i class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
-                                  <input id="datepicker" onclick="Calendario()" type="text" class="form-control" placeholder="YYYY/MM/DD">
+                                  <input id="datepicker" onclick="Calendario()" type="text" class="form-control" placeholder="YYYY-MM-DD">
                                 </div>                     
                                 
                                 </div>
@@ -143,4 +143,3 @@
         </div>
     </div>
 </div>
-
