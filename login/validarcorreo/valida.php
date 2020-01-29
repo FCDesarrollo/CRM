@@ -46,23 +46,17 @@ $mail->CharSet = 'UTF-8';  // Configuramos el charset
 if($_POST){
 	$datos = $_POST;
 	if(isset($datos['identificador'])){
-		CorreoValidacion();
+		$resp = CorreoValidacion();
 	}else if(isset($datos['rpwd'])){
-		RestablecerContraseña();
+		$resp = RestablecerContraseña();
 	}else if(isset($datos['destinatarios'])){
-	 	CompartirLinks($datos['destinatarios'], $datos['mensaje']);
+	 	$resp = CompartirLinks($datos['destinatarios'], $datos['mensaje']);
 	}else if(isset($datos['vinculacion'])){
-		CorreoVinculacion($datos['usuario'], $datos['empresa'], $datos['correo']);
+		$resp =  CorreoVinculacion($datos['usuario'], $datos['empresa'], $datos['correo']);
 	}
 
-
-	 // if($datos['identificador'] != ""){
-	 // 	CorreoValidacion();
-	 // }else if($datos['rpwd'] === "1" && $datos['correo'] != ""){
-	 // 	RestablecerContraseña();
-	 // }else if($datos['destinatarios'] !=""){
-	 // 	CompartirLinks($datos['destinatarios'], $datos['mensaje']);
-	 // }		
+	print_r($resp);
+	return json_encode($resp, JSON_UNESCAPED_UNICODE);
 }
 
 //CORREO DE NOTIFICACION PARA LA EMPRESA, CUANDO SE VINCULA UN USUARIO NUEVO
@@ -73,7 +67,9 @@ function CorreoVinculacion($usuario, $empresa, $correo){
 				<b>Usuario: </b>'.$usuario.'.<br>
 				<b>Empresa: </b>'.$empresa.'.';	
 	
-	EnviarLink($correo,$asunto,$mensaje);
+	$resp = EnviarLink($correo,$asunto,$mensaje);
+
+	return $resp;
 }
 //ENVIO DE LINK PARA RESTABLECER CONTRASEÑA
 function RestablecerContraseña(){
@@ -91,7 +87,9 @@ function RestablecerContraseña(){
 		$mensaje = 'Hola '.$cliente.'.<br> Recibimos una solicitud para restablecer su contraseña.<br>
 		<a href="'.$URL.'">Haz click aqui para restablecer tu contraseña.</a>';	
 		
-		EnviarLink($destino,$asunto,$mensaje);
+		$resp = EnviarLink($destino,$asunto,$mensaje);
+
+		return $resp;
 	}catch(Exception $e){
 		//JSON(false,'El correo ya esta registrado');
 	}	
@@ -107,11 +105,13 @@ function EnviarLink($destinatarios,$asunto,$mensaje){
 	$mail->Body    = '<div><b>Mi Consultor MX</b></div><br>'.$mensaje;
 	
 	//comprobamos si el mail se envio correctamente y devolvemos la respuesta al servidor
-	if(!$mail->send()) {
-		return false;
-	} else {
-		return true;
-	} 
+	if(!$mail->send()) { 
+		$array = [1, $mail->ErrorInfo];
+		return $array;
+	}else{ 
+		$array = [0, 'Mensaje Enviado Correctamente'];
+		return $array;
+	}  
 
 }
 
@@ -135,11 +135,13 @@ function CompartirLinks($destinatarios, $mensaje){
 	$mail->Body = '<div><b>¡Archivos Compartidos!</b></div><br>'.$mensaje;
 	
 	//comprobamos si el mail se envio correctamente y devolvemos la respuesta al servidor
-	if(!$mail->send()) {
-		return false;
-	} else {
-		return true;
-	} 
+	if(!$mail->send()) { 
+		$array = [1, $mail->ErrorInfo];
+		return $array;
+	}else{ 
+		$array = [0, 'Mensaje Enviado Correctamente'];
+		return $array;
+	} 	
 }
 
 
@@ -154,7 +156,7 @@ function CorreoValidacion(){
 	try{		
 		$destino = $usuario['correo'];
 
-		$celular = $usuario['cel'];
+		//$celular = $usuario['cel'];
 
 		$asunto = 'Confirma tu Cuenta';
 
@@ -171,9 +173,9 @@ function CorreoValidacion(){
 			$mensaje = 'Estimado usuario, su codigo de confirmacion ha sido generado correctamente.<br><br>Codigo de Confirmacion: '.$usuario["identificador"];
 		}
 
-		EnviarMail($destino,$asunto,$mensaje,$identificador,$celular);
+		$resp = EnviarMail($destino,$asunto,$mensaje,$identificador);
 
-	
+		return $resp;
 
 	}catch(Exception $e){
 		//JSON(false,'El correo ya esta registrado');
@@ -181,7 +183,7 @@ function CorreoValidacion(){
 }
 
 
-function EnviarMail($destinatarios,$asunto,$mensaje,$identificador,$celular){
+function EnviarMail($destinatarios,$asunto,$mensaje,$identificador){
 
 	//EnviarSMS($celular,$identificador);
 	global $mail;
@@ -194,20 +196,13 @@ function EnviarMail($destinatarios,$asunto,$mensaje,$identificador,$celular){
 	$mail->Body    = '<div><b>Correo Enviado Exitosamente!</b></div><br><br>'.$mensaje;
 	
 	//comprobamos si el mail se envio correctamente y devolvemos la respuesta al servidor
-/*	if(!$mail->send()) {
-		return false;
-	} else {
-		return true;
-	} */
 
 	if(!$mail->send()) { 
-		echo 'Message could not be sent.'; 
-		echo 'Mailer Error: ' . $mail->ErrorInfo; 
-		return false;
-
-	} else { 
-		echo 'Message has been sent'; 
-		return true;
+		$array = [1, $mail->ErrorInfo];
+		return $array;
+	}else{ 
+		$array = [0, 'Mensaje Enviado Correctamente'];
+		return $array;
 	} 	
 
 }

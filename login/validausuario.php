@@ -64,7 +64,6 @@
         if(ident == ""){
             passwd = "default";
             passwd2 = "default";
-            console.log("entra");
         }else{
             flag = 1;
         }

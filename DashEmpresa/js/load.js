@@ -317,10 +317,13 @@ function CompartirLinks(destinatarios, mensaje) {
         type: 'POST',
         data: { destinatarios: correos, mensaje: mensaje },
         success: function(response) {
-            var respuesta = response;
-            //console.log(respuesta);
-            swal("Compartidos", "Archivos compartidos correctamente.", "success");
-            $("#CompartirLinks").modal("hide");
+            var resp = JSON.parse(response);
+            if(resp[0] == 0){               
+                swal("Compartidos", "Archivos compartidos correctamente.", "success");
+                $("#CompartirLinks").modal("hide");
+            }else{
+                swal("Compartidos", "No fue posible compartir los archivos, comunicarse a sistemas.", "error");
+            }
         }
     });
 

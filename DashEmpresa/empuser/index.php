@@ -82,8 +82,8 @@ session_start();
     <link href="../lib/Ionicons/css/ionicons.css" rel="stylesheet">
     <link href="../lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
     <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
-    <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
-    <link href="../lib/chartist/chartist.css" rel="stylesheet"> 
+    <!--<link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
+    <link href="../lib/chartist/chartist.css" rel="stylesheet"> -->
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="../css/bracket.css">
@@ -627,10 +627,10 @@ session_start();
     <script src="../lib/jquery-ui/jquery-ui.js"></script>
     <script src="../lib/jquery-switchbutton/jquery.switchButton.js"></script>
     <script src="../lib/peity/jquery.peity.js"></script>
-    <script src="../lib/chartist/chartist.js"></script>
+    <!--<script src="../lib/chartist/chartist.js"></script>-->
     <script src="../lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
     <script src="../lib/d3/d3.js"></script>
-    <script src="../lib/rickshaw/rickshaw.min.js"></script>
+    <!--<script src="../lib/rickshaw/rickshaw.min.js"></script>-->
 
     <!-- NOTIFICACIONES MODAL -->
     <!--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>-->
@@ -638,7 +638,7 @@ session_start();
 
     <script src="../js/bracket.js"></script>
     <script src="../js/ResizeSensor.js"></script>
-    <script src="../js/dashboard.js"></script>
+    <!--<script src="../js/dashboard.js"></script>-->
     <script src="../js/load.js"></script>
     <script src="../js/globales.js"></script>
     <script src="../js/paginador.js"></script>

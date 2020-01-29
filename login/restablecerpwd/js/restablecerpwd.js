@@ -130,21 +130,29 @@ function EnviarCorreo_Res(email,idusuario,nombre,apellidop){
         type: 'POST',
         url: '../validarcorreo/valida.php',            
         success:function(response){
-            //alert("Se ha enviado un link a su correo para restablecer su contraseña.");
-            swal({
-              title: "¡Correo Enviado!",
-              text: "Se ha enviado un link a su correo para restablecer su contraseña.",
-              icon: "success",  
-              buttons: false,                
-              timer: 4500,
-            })
-            .then((value) => {
-              switch (value) {                 
-                default:
-                  window.location='../';
-              }
-            });                       
-
+            var resp = JSON.parse(response);
+            if(resp[0] == 0){
+              swal({
+                title: "¡Correo Enviado!",
+                text: "Se ha enviado un link a su correo para restablecer su contraseña.",
+                icon: "success",  
+                buttons: false,                
+                timer: 4500,
+              })
+              .then((value) => {
+                switch (value) {                 
+                  default:
+                    window.location='../';
+                }
+              });                       
+            }else{
+              swal({
+                title: "¡Correo Enviado!",
+                text: "Se ha enviado un link a su correo para restablecer su contraseña.",
+                icon: "error",  
+                buttons: false,                
+              });
+            }
             
         }
     });      
@@ -158,40 +166,53 @@ function ReenviarCorreo(email,idusuario,identificador){
                 'identificador': identificador},
         type: 'POST',
         url: '../validarcorreo/valida.php',            
-        success:function(response){            
-            if(encript == true){                        
-                //alert("Codigo de verificacion reenviado correctamente, es necesario establecer una contraseña nueva.");
-                swal({
-                  title: "Verificacion de cuenta!",
-                  text: "Su codigo de verificacion ha sido reenviado, es necesario establecer una nueva contraseña.",
-                  icon: "success",  
-                  buttons: true,                  
-                })
-                .then((value) => {
-                  switch (value) {                 
-                    default:
-                      window.location.replace("../?&id="+identificador);
-                  }
-                });
-
-                
+        success:function(response){   
+            var resp = JSON.parse(response);
+            if(resp[0] == 0){
+              if(encript == true){                        
+                  swal({
+                    title: "Verificacion de cuenta!",
+                    text: "Su codigo de verificacion ha sido reenviado, es necesario establecer una nueva contraseña.",
+                    icon: "success",  
+                    buttons: true,                  
+                  })
+                  .then((value) => {
+                    switch (value) {                 
+                      default:
+                        window.location.replace("../?&id="+identificador);
+                    }
+                  });                  
+              }else{
+                  swal({
+                    title: "Verificacion de cuenta!",
+                    text: "Su codigo de verificacion ha sido reenviado correctamente.",
+                    icon: "success",  
+                    buttons: true,                  
+                  })
+                  .then((value) => {
+                    switch (value) {                 
+                      default:
+                          document.getElementById('Titulo').innerHTML ='¡Cuenta de usuario no verificada!';
+                          $("#validacion").load("validacodigoreenviado.php");                    
+                    }
+                  });                
+              }              
             }else{
                 swal({
-                  title: "Verificacion de cuenta!",
-                  text: "Su codigo de verificacion ha sido reenviado correctamente.",
-                  icon: "success",  
+                  title: "Envio de Correo!",
+                  text: "Hubo un error y no se pudo enviar el correo, comunicarse a sistemas.",
+                  icon: "error",  
                   buttons: true,                  
                 })
                 .then((value) => {
                   switch (value) {                 
                     default:
-                        document.getElementById('Titulo').innerHTML ='¡Cuenta de usuario no verificada!';
-                        $("#validacion").load("validacodigoreenviado.php");                    
+                      window.location.replace("../");
                   }
-                });                
-//                alert("Codigo de verificacion reenviado correctamente.");
-
+                });
             }
+
+
         }
     });
         

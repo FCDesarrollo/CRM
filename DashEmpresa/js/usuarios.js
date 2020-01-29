@@ -56,17 +56,29 @@ function EnviarCorreo(form){
         data: form,
         type: 'POST',
         url: '../../login/validarcorreo/valida.php',            
-        success:function(response){		
-            $("#loading").addClass('d-none');	
-            swal({
-			  title: "Usuario Registrado",
-			  text: "El Codigo de verificacion ha sido enviado correctamente.",
-			  icon: "success",
-			})			
-			.then((value) => {
-			    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
-                
-			});
+        success:function(response){	
+            var resp = JSON.parse(response);
+            $("#loading").addClass('d-none');
+            if(resp[0] == 0){	                	
+                swal({
+    			  title: "Usuario Registrado",
+    			  text: "El Codigo de verificacion ha sido enviado correctamente.",
+    			  icon: "success",
+    			})			
+    			.then((value) => {
+    			    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                    
+    			});
+            }else{
+                swal({
+                  title: "Codigo de verificacion",
+                  text: "El codigo de verificacion no pudo ser enviado, comunicarse a sistemas.",
+                  icon: "error",
+                })          
+                .then((value) => {
+                    $('#divdinamico').load('../divsadministrar/divadmusuarios.php');                    
+                });
+            }
         }
     });      
 
@@ -110,15 +122,27 @@ function VinculaUsuario(){
                                     url: '../../login/validarcorreo/valida.php',            
                                     success:function(response){     
                                         $("#loading").addClass('d-none');   
-                                        swal({
-                                          title: "Vincula Usuario",
-                                          text: "El usuario "+usuario[0].nombre+" "+usuario[0].apellidop+" ha sido vinculado correctamente.",
-                                          icon: "success",
-                                        })          
-                                        .then((value) => {
-                                            $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
-                                            
-                                        });
+                                        var resp = JSON.parse(response);
+                                        if(resp[0] == 0){                                        
+                                            swal({
+                                              title: "Vincula Usuario",
+                                              text: "El usuario "+usuario[0].nombre+" "+usuario[0].apellidop+" ha sido vinculado correctamente.",
+                                              icon: "success",
+                                            })          
+                                            .then((value) => {
+                                                $('#divdinamico').load('../divsadministrar/divadmusuarios.php');
+                                                
+                                            });
+                                        }else{
+                                            swal({
+                                              title: "",
+                                              text: "El usuario ha sido vinculado correctamente, pero hubo un problema al enviar la notificacion al usuario. Comunicarse a sistemas.",
+                                              icon: "error",
+                                            })          
+                                            .then((value) => {
+                                                $('#divdinamico').load('../divsadministrar/divadmusuarios.php');                                                
+                                            });                                            
+                                        }
                                     }
                                 }); 
 

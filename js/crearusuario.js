@@ -38,10 +38,15 @@ function EnviarCorreo(form){
         type: 'POST',
         url: 'validarcorreo/valida.php',            
         success:function(response){
-            swal("Usuario Registrado Correctamente.!", "El Codigo de verificacion ha sido enviado a su correo.", "success");
-            //alert("Usuario Registrado Correctamente. El Codigo de verificacion ha sido enviado a su correo.");
-            $('#RegistroModal').modal('hide');
-            $('#recargable').load('validausuario.php');
+            var resp = JSON.parse(response);
+            if(resp[0] == 0){            
+                swal("Usuario Registrado Correctamente.!", "El Codigo de verificacion ha sido enviado a su correo.", "success");
+                //alert("Usuario Registrado Correctamente. El Codigo de verificacion ha sido enviado a su correo.");
+                $('#RegistroModal').modal('hide');
+                $('#recargable').load('validausuario.php');
+            }else{
+                swal("ERROR!", "No se pudo enviar el correo de autenticacion, comunicarse a sistemas.", "error");
+            }
             
         }
     });      
