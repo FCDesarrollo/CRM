@@ -55,8 +55,9 @@ if($_POST){
 		$resp =  CorreoVinculacion($datos['usuario'], $datos['empresa'], $datos['correo']);
 	}
 
+	$resp = json_encode($resp, JSON_UNESCAPED_UNICODE);
 	print_r($resp);
-	return json_encode($resp, JSON_UNESCAPED_UNICODE);
+	return $resp;
 }
 
 //CORREO DE NOTIFICACION PARA LA EMPRESA, CUANDO SE VINCULA UN USUARIO NUEVO
