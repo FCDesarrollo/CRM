@@ -3,6 +3,13 @@ var per;
 var _NombresSubM;
 var _NombresMenus;
 
+
+$(document).ready(function(){
+    $('.nav-link').click(function(event) {
+        $('body').addClass('collapsed-menu');
+    });
+});
+
 async function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
     var idmod = 0;
     var idmen = 0;
@@ -44,14 +51,14 @@ async function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
          document.getElementById('nUsuario_per').innerText = perfil;
     });     
  
-    if(url_p.includes("mod")==true){
+    if(url_p.includes("mod")==true && url_p.includes("men")==true){
         idmod = url.searchParams.get("mod");
-        if(url_p.includes("men")==true){
+        //if(url_p.includes("men")==true){
             idmen = url.searchParams.get("men");
             if(url_p.includes("sub")==true){
                 idsub = url.searchParams.get("sub");
             }                        
-        }
+        //}
 
         var parametros = { "mod" : idmod, "men" : idmen, "sub" : idsub };
 
@@ -65,7 +72,10 @@ async function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
                 var mod = respuesta["mod"];
                 var men = respuesta["men"];
                 var sub = respuesta["sub"];
-                loadDiv(ruta,mod,men,sub);
+                if(men != 0){
+                    loadDiv(ruta,mod,men,sub);
+                }
+
                 $("#precarga").fadeOut(1000);
             }
         });                            

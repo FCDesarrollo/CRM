@@ -48,7 +48,6 @@
             $archivo = "almacendigitalexpedientes.php";
             break;            
     	default:
-    		
     		break;
     }
 
@@ -62,9 +61,12 @@
 		    }
     	}else{
     		$men = 0;
+            $sub = 0;
     	}
     }else{
-		$mod = 0;    	
+		$mod = 0;
+        $men = 0;
+        $sub = 0;
     }
 
    	if($archivo != ""){

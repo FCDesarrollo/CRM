@@ -142,6 +142,8 @@ function loadDiv(lNameForm, IDMod, IDMenu, IDSubM){
                 url = url + "&sub=" + idsubmenuglobal; 
             }
             history.pushState(dash, "", url);
+        }else{
+            history.pushState(dash, "", url);
         }  
     }else{
         history.pushState(null, "", "index.php");
