@@ -244,6 +244,12 @@ function CountArc(){
     var archivos = $('#archivos')[0].files;
     document.getElementById("numero_archivos").innerHTML = archivos.length;
 
+    if(archivos.length > 20){
+        swal("Archivos","Seleccionar 20 archivos como maximo por carga.","info");
+        document.getElementById("numero_archivos").innerHTML = 0;
+        document.getElementById("archivos").value = '';
+    }
+
 }
 
 
@@ -481,6 +487,11 @@ function cargarArchivos(){
                                         archivos[j].link = resp[i]["link"];
                                         archivos[j].status = resp[i]["error"];
                                         archivos[j].error = resp[i]["detalle"];
+                                        if(resp[i]["error"] != 0){
+                                            console.log(resp[i]["error"]);
+                                            console.log(resp[i]["info"]);
+                                            console.log(resp[i]["archivo"]);                                            
+                                        }
                                         j= j + 1;
                                     }             
 
