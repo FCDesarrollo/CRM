@@ -63,6 +63,7 @@ async function CargaDatosEmpresa(idusuario, idempresalog, idperfil, pwd) {
         var parametros = { "mod" : idmod, "men" : idmen, "sub" : idsub };
 
         $.ajax({
+            async: false,
             data:  parametros,
             url: '../empuser/redireccionamiento.php',
             type:  'post', //método de envio

@@ -107,7 +107,7 @@
             </div>
 
             <div class="modal-footer">
-                  <button type="button" onclick="cargarArchivos()" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Continuar</button>
+                  <button type="button" onclick="CargaArchivoCloud()" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Continuar</button>
                   <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Cerrar</button>
             </div>
 

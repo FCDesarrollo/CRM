@@ -9,15 +9,9 @@
   
 ?>
 
-<!--<div class="btn-group hidden-xs-down">-->
-
-
 <div class="br-pagebody pd-x-0">
     
   <div id="expalm"> <!--Expediente Almacen-->
-    
-          <!--<a href="#" class="btn btn-outline-info" onclick="CompartirArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Compartir</a>
-          <a href="#" class="btn btn-outline-info" onclick="DescargarArchivos('<?php echo $_SESSION['RFCEmpresa']; ?>')">Descargar</a>-->
       <div class="row pd-b-20">
         <div class="col-6">            
             <h5 id="tittle-sub" class="tx-16 tx-uppercase tx-inverse tx-semibold tx-spacing-1"></h5>
@@ -150,5 +144,7 @@
 </div>
 
 <script>
-  SubMenu_Tittle();
+  if(idsubmenuglobal != 0){
+    SubMenu_Tittle();
+  }
 </script>

@@ -7,21 +7,17 @@ async function ExpDigitales(idmodulo, idmenu, idsubmenu, RFCEmpresa){
     menu = idmenu;
     submenu = idsubmenu;
 
-    idmoduloglobal = idmodulo;
+    idmoduloglobal = idmodulo; 
     idmenuglobal = idmenu;
-    //idsubmenuglobal = idsubmenu;
+
+	$('#loading').removeClass('d-none');
+	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
     
     URL_Asigna_SubM(idsubmenu); //AGREGA EL ID DEL SUBMENU POSICIONADO A LA URL
 
-	$('#loading').removeClass('d-none');
-
-	$('#divdinamico').load('../submenus/alm_expedientesdigitales.php');
-
-    //$("#t-ExpDigitales tbody").children().remove();    
-
     await $.get(ws + "DatosAlmacen", {rfcempresa: datosuser.rfcempresa, idmenu: idmenu, idsubmenu: idsubmenu}, function(data){
         var datos = JSON.parse(data);
-        
+
         if(datos.length > 0){            
             var n = 0;
             for (var i = 0; i < (datos.length > lotes_x_pag ? lotes_x_pag : datos.length); i++) {
@@ -244,11 +240,11 @@ function CountArc(){
     var archivos = $('#archivos')[0].files;
     document.getElementById("numero_archivos").innerHTML = archivos.length;
 
-    if(archivos.length > 20){
+    /*if(archivos.length > 20){
         swal("Archivos","Seleccionar 20 archivos como maximo por carga.","info");
         document.getElementById("numero_archivos").innerHTML = 0;
         document.getElementById("archivos").value = '';
-    }
+    }*/
 
 }
 
@@ -350,61 +346,112 @@ $("#datepicker").mouseenter(function(evento){
     Calendario();
 }); 
 
-function CargaArchivoPrueba(){
-    var datos = new FormData();
+function CargaArchivoCloud(){
+    var archivos = $('#archivos')[0].files;
+    var rfc = $('#txtRFC').val();          
+    var contador = archivos.length;       
+    var observaciones = document.getElementById("comentarios").value;
     var fechadocto = document.getElementById("datepicker").value;
     var s = document.getElementById("selectSucursales");
     var sucursal = s.options[s.selectedIndex].text;
-    var observaciones = document.getElementById("comentarios").value;
+    
 
-    if(fechadocto != ""){
+    if(contador > 0){
+        if(fechadocto != ""){
+            if(sucursal != ""){    
 
-        var n = 0;                                             
-        jQuery.each(jQuery('#archivos')[0].files, function(i, file) {  
-            i++;
-            datos.append(n, file);        
-            n= n + 1;
-        });
-        datos.append('rfcempresa', datosuser.rfcempresa); 
-        datos.append('usuario', datosuser.usuario); 
-        datos.append('pwd', datosuser.pwd); 
-        datos.append('idmenu', idmenuglobal); 
-        datos.append('idsubmenu', idsubmenuglobal); 
-        datos.append('fechadocto', fechadocto);
-        datos.append('sucursal', sucursal);
-        datos.append('observaciones', observaciones);
+                $('#SubirArchivosInbox').modal('hide');
+                $("#loading").removeClass('d-none');
 
-        $.ajax({
-            url: ws + 'AlmacenCargado',
-            type: 'post',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data:datos,
-            success: function(response){
-                console.log(response);
+                var n = 0;    
+                var result = new Array();  
+                var status = true;   
+                var resp;                                    
+                // if(archivos.length > 20){
+                    var repeticiones = Math.ceil(archivos.length / 20);
+                    for (var i = 0; i < repeticiones; i++) {
+                        ini = n;
+                        max = ((ini+19) > archivos.length ? archivos.length : ini + 19);
+                        var datos = new FormData();
+                        datos.append('rfcempresa', datosuser.rfcempresa); 
+                        datos.append('usuario', datosuser.usuario); 
+                        datos.append('pwd', datosuser.pwd); 
+                        datos.append('idmenu', idmenuglobal); 
+                        datos.append('idsubmenu', idsubmenuglobal); 
+                        datos.append('fechadocto', fechadocto);
+                        datos.append('sucursal', sucursal);
+                        datos.append('observaciones', observaciones);
+                        
+                        for (var j = ini; j < max; j++) {
+                            file = archivos.item(j);
+                            file = archivos[j];
+                            datos.append(n, file);
+                            n = n + 1;
+                        }
+                        
+                        $.ajax({
+                            async: false,
+                            url: ws + 'AlmacenCargado',
+                            type: 'post',
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data:datos,
+                            success: function(response){
+                                resp = JSON.parse(response);
+                                if(resp["error"]==0){
+                                    result[i] = resp["archivos"];
+                                }else{                                                                        
+                                    i = repeticiones; //Para salir del For
+                                    status = false;
+                                }
+                            }
+                        });                        
+                    }
+
+                    if(status == true){
+                        ImprimeDetalle(result);                        
+                        $("#loading").addClass('d-none');
+                        swal("Proceso de Carga de Expedientes Digitales Finalizado.", { 
+                            icon: "success",
+                            buttons: false,
+                            timer: 3000,
+                        });
+                    }else{
+                        $("#loading").addClass('d-none');
+                        $('#SubirArchivosInbox').modal('show');                         
+                        if(resp["error"] == 1){
+                            swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
+                        }else if(resp["error"] == 2){
+                            swal("¡Hubo un error!", "El correo del usuario no existe.","info");                
+                        }else if(resp["error"] == 3){
+                            swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
+                        }else if(resp["error"] == 4){
+                            swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
+                        }                        
+                    }
+
+            }else{
+                swal("¡Sucursal!", "Seleccione una sucursal.","info");
             }
-        });
-
+         }else{
+             swal("Fecha de Documento","Debe ingresar la fecha del documento (Formato: YYYY-MM-DD)","info");
+         }
     }else{
-        swal("Fecha de Documento","Debe ingresar la fecha del documento (Formato: YYYY-MM-DD)","error");
-    }
+        swal("¡Archivo!", "Seleccione un archivo.","info");
+    }       
+
     
 
 
 }
 
 function cargarArchivos(){  
-    var nomArchivos = [];
     var archivos = $('#archivos')[0].files;
     var rfc = $('#txtRFC').val();          
     var contador = archivos.length;       
-    //var idUsuario = document.getElementById("idUsuarioArch").value;
     var observaciones = document.getElementById("comentarios").value;
     var fechadocto = document.getElementById("datepicker").value;
-
-//    var e = document.getElementById("selectRubros");
-//    var Rubro = e.options[e.selectedIndex].value;
     var s = document.getElementById("selectSucursales");
     var sucursal = s.options[s.selectedIndex].text;
 
@@ -420,7 +467,7 @@ function cargarArchivos(){
             var menu = _NombresMenus[j]["nombre_carpeta"];
             break;
         }
-    }    
+    }
 
     if(contador > 0){
         if(fechadocto != ""){
@@ -545,42 +592,40 @@ function cargarArchivos(){
 }
 
 function ImprimeDetalle(arcSubidos){
-    var mensaje = "";
-    var detalle = "";
 
     $("#expalm").addClass('d-none');
     $("#DivArchivoDetalle").removeClass('d-none');
     $("#t-ArchivoDetalle tbody").children().remove(); 
     
-
-    for (var i = 0; i < arcSubidos.length; i++) {
-        if(arcSubidos[i].status == 0){
-            cargado = "Si";
-            detalle = arcSubidos[i].detalle;
-            //detalle = "Cargado Correctamente.";
-//        }else if(arcSubidos[i].status == 1 || arcSubidos[i].status == 2 || arcSubidos[i].status == 3){
-        }else{
-            cargado = "No";
-            detalle = arcSubidos[i].detalle;
+    for (var x = 0; x < arcSubidos.length; x++) {
+        datos = arcSubidos[x];
+        var mensaje = "";
+        var detalle = "";
+        for (var i = 0; i < datos.length; i++) {
+            if(datos[i].status == 0){
+                cargado = "Si";
+                detalle = datos[i].detalle;
+            }else{
+                cargado = "No";
+                detalle = datos[i].detalle;
+            }
+            if(datos[i].status == 0){
+                document.getElementById("t-ArchivoDetalle").innerHTML +=
+                "<tr> \
+                    <td><a href='"+datos[i].link+"' target='_blank'>"+datos[i].archivo+"</a></td> \
+                    <td>"+cargado+"</td> \
+                    <td>"+detalle+"</td> \
+                </tr>";            
+            }else{
+                document.getElementById("t-ArchivoDetalle").innerHTML +=
+                "<tr class='bg-danger'> \
+                    <td class='tx-black'>"+datos[i].archivo+"</td> \
+                    <td class='tx-black'>"+cargado+"</td> \
+                    <td class='tx-black'>"+detalle+"</td> \
+                </tr>";                        
+            }
         }
-
-        if(arcSubidos[i].status == 0){
-            document.getElementById("t-ArchivoDetalle").innerHTML +=
-            "<tr> \
-                <td><a href='"+arcSubidos[i].link+"' target='_blank'>"+arcSubidos[i].archivo+"</a></td> \
-                <td>"+cargado+"</td> \
-                <td>"+detalle+"</td> \
-            </tr>";            
-        }else{
-            document.getElementById("t-ArchivoDetalle").innerHTML +=
-            "<tr class='bg-danger'> \
-                <td class='tx-black'>"+arcSubidos[i].archivo+"</td> \
-                <td class='tx-black'>"+cargado+"</td> \
-                <td class='tx-black'>"+detalle+"</td> \
-            </tr>";                        
-        }
-
-
+    
     }
 
     btnregresar = 2;
