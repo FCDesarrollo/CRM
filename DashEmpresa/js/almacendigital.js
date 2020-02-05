@@ -360,7 +360,7 @@ function CargaArchivoCloud(){
         if(fechadocto != ""){
             if(sucursal != ""){    
 
-                $('#SubirArchivosInbox').modal('hide');
+                $("#SubirArchivosInbox").modal('hide');
                 $("#loading").removeClass('d-none');
 
                 var n = 0;    
@@ -419,7 +419,7 @@ function CargaArchivoCloud(){
                         });
                     }else{
                         $("#loading").addClass('d-none');
-                        $('#SubirArchivosInbox').modal('show');                         
+                        $("#SubirArchivosInbox").modal('show');                         
                         if(resp["error"] == 1){
                             swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
                         }else if(resp["error"] == 2){
