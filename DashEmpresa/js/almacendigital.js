@@ -240,11 +240,11 @@ function CountArc(){
     var archivos = $('#archivos')[0].files;
     document.getElementById("numero_archivos").innerHTML = archivos.length;
 
-    /*if(archivos.length > 20){
+    if(archivos.length > 20){
         swal("Archivos","Seleccionar 20 archivos como maximo por carga.","info");
         document.getElementById("numero_archivos").innerHTML = 0;
         document.getElementById("archivos").value = '';
-    }*/
+    }
 
 }
 
@@ -346,7 +346,7 @@ $("#datepicker").mouseenter(function(evento){
     Calendario();
 }); 
 
-function CargaArchivoCloud(){
+async function CargaArchivoCloud(){
     var fileInput = document.getElementById('archivos');
     var archivos = $('#archivos')[0].files;
     var rfc = $('#txtRFC').val();          
@@ -390,7 +390,8 @@ function CargaArchivoCloud(){
                         datos.append(n, file);
                         n = n + 1;
                     }
-                    
+
+               
 
                     var request = new XMLHttpRequest();
                     request.open("POST", ws + "AlmacenCargado", false);
@@ -405,7 +406,9 @@ function CargaArchivoCloud(){
                         }                        
                     }
 
-                    /*await $.post(ws + "AlmacenCargado",{datos}, function(response){
+                
+
+                    /*await $.post(ws + "AlmacenCargado", {datos}, function(response){
                         resp = JSON.parse(response);
                         if(resp["error"]==0){
                             result[i] = resp["archivos"];
@@ -414,14 +417,15 @@ function CargaArchivoCloud(){
                             status = false;
                         }    
                     });*/
-                    //result[i] = AjaxCloud(datos);
 
-                    //if(result[i] == false){
-                      //  i = repeticiones; //Para salir del For
-                     //   status = false;
-                    //}
+                    /*result[i] = AjaxCloud(datos);
+
+                    if(result[i] == false){
+                        i = repeticiones; //Para salir del For
+                        status = false;
+                    }*/
                        
-                }
+                }                
 
                 if(status == true){
                     ImprimeDetalle(result);                        
