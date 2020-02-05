@@ -347,6 +347,7 @@ $("#datepicker").mouseenter(function(evento){
 }); 
 
 function CargaArchivoCloud(){
+    var fileInput = document.getElementById('archivos');
     var archivos = $('#archivos')[0].files;
     var rfc = $('#txtRFC').val();          
     var contador = archivos.length;       
@@ -354,15 +355,16 @@ function CargaArchivoCloud(){
     var fechadocto = document.getElementById("datepicker").value;
     var s = document.getElementById("selectSucursales");
     var sucursal = s.options[s.selectedIndex].text;
-    
+
+    document.getElementById("btnCargaCloud").disabled = true;
+    document.getElementById("btnCargaCloud").innerHTML = "Procesando..";
 
     if(contador > 0){
         if(fechadocto != ""){
             if(sucursal != ""){    
 
                 $("#loading").removeClass('d-none');
-                $("#SubirArchivosInbox").modal('hide');
-                
+                $("#SubirArchivosInbox").modal('hide');                
 
                 var n = 0;    
                 var result = new Array();  
@@ -417,6 +419,10 @@ function CargaArchivoCloud(){
                         buttons: false,
                         timer: 3000,
                     });
+                    fileInput.value = "";
+                    document.getElementById("btnCargaCloud").disabled = false;
+                    document.getElementById("btnCargaCloud").innerHTML = "Continuar";
+
                 }else{
                     $("#loading").addClass('d-none');
                     $("#SubirArchivosInbox").modal('show');                         
@@ -428,17 +434,25 @@ function CargaArchivoCloud(){
                         swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
                     }else if(resp["error"] == 4){
                         swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
-                    }                        
+                    }   
+                    document.getElementById("btnCargaCloud").disabled = false;
+                    document.getElementById("btnCargaCloud").innerHTML = "Continuar";                                         
                 }
 
             }else{
                 swal("¡Sucursal!", "Seleccione una sucursal.","info");
+                document.getElementById("btnCargaCloud").disabled = false;
+                document.getElementById("btnCargaCloud").innerHTML = "Continuar";
             }
          }else{
-             swal("Fecha de Documento","Debe ingresar la fecha del documento (Formato: YYYY-MM-DD)","info");
+            swal("Fecha de Documento","Debe ingresar la fecha del documento (Formato: YYYY-MM-DD)","info");
+            document.getElementById("btnCargaCloud").disabled = false;
+            document.getElementById("btnCargaCloud").innerHTML = "Continuar";             
          }
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
+        document.getElementById("btnCargaCloud").disabled = false;
+        document.getElementById("btnCargaCloud").innerHTML = "Continuar";        
     }   
 
 }
