@@ -360,76 +360,76 @@ function CargaArchivoCloud(){
         if(fechadocto != ""){
             if(sucursal != ""){    
 
-                $("#SubirArchivosInbox").modal('hide');
                 $("#loading").removeClass('d-none');
+                $("#SubirArchivosInbox").modal('hide');
+                
 
                 var n = 0;    
                 var result = new Array();  
                 var status = true;   
                 var resp;                                    
-                // if(archivos.length > 20){
-                    var repeticiones = Math.ceil(archivos.length / 20);
-                    for (var i = 0; i < repeticiones; i++) {
-                        ini = n;
-                        max = ((ini+19) > archivos.length ? archivos.length : ini + 19);
-                        var datos = new FormData();
-                        datos.append('rfcempresa', datosuser.rfcempresa); 
-                        datos.append('usuario', datosuser.usuario); 
-                        datos.append('pwd', datosuser.pwd); 
-                        datos.append('idmenu', idmenuglobal); 
-                        datos.append('idsubmenu', idsubmenuglobal); 
-                        datos.append('fechadocto', fechadocto);
-                        datos.append('sucursal', sucursal);
-                        datos.append('observaciones', observaciones);
-                        
-                        for (var j = ini; j < max; j++) {
-                            file = archivos.item(j);
-                            file = archivos[j];
-                            datos.append(n, file);
-                            n = n + 1;
-                        }
-                        
-                        $.ajax({
-                            async: false,
-                            url: ws + 'AlmacenCargado',
-                            type: 'post',
-                            cache: false,
-                            contentType: false,
-                            processData: false,
-                            data:datos,
-                            success: function(response){
-                                resp = JSON.parse(response);
-                                if(resp["error"]==0){
-                                    result[i] = resp["archivos"];
-                                }else{                                                                        
-                                    i = repeticiones; //Para salir del For
-                                    status = false;
-                                }
+                var repeticiones = Math.ceil(archivos.length / 20);
+                for (var i = 0; i < repeticiones; i++) {
+                    ini = n;
+                    max = ((ini+19) > archivos.length ? archivos.length : ini + 19);
+                    var datos = new FormData();
+                    datos.append('rfcempresa', datosuser.rfcempresa); 
+                    datos.append('usuario', datosuser.usuario); 
+                    datos.append('pwd', datosuser.pwd); 
+                    datos.append('idmenu', idmenuglobal); 
+                    datos.append('idsubmenu', idsubmenuglobal); 
+                    datos.append('fechadocto', fechadocto);
+                    datos.append('sucursal', sucursal);
+                    datos.append('observaciones', observaciones);
+                    
+                    for (var j = ini; j < max; j++) {
+                        file = archivos.item(j);
+                        file = archivos[j];
+                        datos.append(n, file);
+                        n = n + 1;
+                    }
+                    
+                    $.ajax({
+                        async: false,
+                        url: ws + 'AlmacenCargado',
+                        type: 'post',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        data:datos,
+                        success: function(response){
+                            resp = JSON.parse(response);
+                            if(resp["error"]==0){
+                                result[i] = resp["archivos"];
+                            }else{                                                                        
+                                i = repeticiones; //Para salir del For
+                                status = false;
                             }
-                        });                        
-                    }
+                        }
+                    });                        
+                }
 
-                    if(status == true){
-                        ImprimeDetalle(result);                        
-                        $("#loading").addClass('d-none');
-                        swal("Proceso de Carga de Expedientes Digitales Finalizado.", { 
-                            icon: "success",
-                            buttons: false,
-                            timer: 3000,
-                        });
-                    }else{
-                        $("#loading").addClass('d-none');
-                        $("#SubirArchivosInbox").modal('show');                         
-                        if(resp["error"] == 1){
-                            swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
-                        }else if(resp["error"] == 2){
-                            swal("¡Hubo un error!", "El correo del usuario no existe.","info");                
-                        }else if(resp["error"] == 3){
-                            swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
-                        }else if(resp["error"] == 4){
-                            swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
-                        }                        
-                    }
+                if(status == true){
+                    ImprimeDetalle(result);                        
+                    $("#loading").addClass('d-none');
+                    swal("Proceso de Carga de Expedientes Digitales Finalizado.", { 
+                        icon: "success",
+                        buttons: false,
+                        timer: 3000,
+                    });
+                }else{
+                    $("#loading").addClass('d-none');
+                    $("#SubirArchivosInbox").modal('show');                         
+                    if(resp["error"] == 1){
+                        swal("¡Hubo un error!", "El RFC de la empresa es incorrecto.","info");                
+                    }else if(resp["error"] == 2){
+                        swal("¡Hubo un error!", "El correo del usuario no existe.","info");                
+                    }else if(resp["error"] == 3){
+                        swal("¡Hubo un error!", "La contraseña es incorrecta.","info");                
+                    }else if(resp["error"] == 4){
+                        swal("¡Hubo un error!", "El usuario no cuenta con los permisos suficientes.","info");                
+                    }                        
+                }
 
             }else{
                 swal("¡Sucursal!", "Seleccione una sucursal.","info");
@@ -439,10 +439,7 @@ function CargaArchivoCloud(){
          }
     }else{
         swal("¡Archivo!", "Seleccione un archivo.","info");
-    }       
-
-    
-
+    }   
 
 }
 
