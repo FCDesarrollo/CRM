@@ -391,12 +391,35 @@ function CargaArchivoCloud(){
                         n = n + 1;
                     }
                     
-                    result[i] = AjaxCloud(datos);
 
-                    if(result[i] == false){
-                        i = repeticiones; //Para salir del For
-                        status = false;
+                    var request = new XMLHttpRequest();
+                    request.open("POST", ws + "AlmacenCargado", false);
+                    request.send(datos);
+                    if(request.status == 200){
+                        resp = JSON.parse(request.responseText);
+                        if(resp["error"]==0){
+                            result[i] = resp["archivos"];
+                        }else{
+                            i = repeticiones; //Para salir del For
+                            status = false;
+                        }                        
                     }
+
+                    /*await $.post(ws + "AlmacenCargado",{datos}, function(response){
+                        resp = JSON.parse(response);
+                        if(resp["error"]==0){
+                            result[i] = resp["archivos"];
+                        }else{
+                            i = repeticiones; //Para salir del For
+                            status = false;
+                        }    
+                    });*/
+                    //result[i] = AjaxCloud(datos);
+
+                    //if(result[i] == false){
+                      //  i = repeticiones; //Para salir del For
+                     //   status = false;
+                    //}
                        
                 }
 
@@ -450,7 +473,7 @@ function AjaxCloud(datos){
     var status = true;
     var respuesta;
     $.ajax({
-        async: false,
+        //async: false,
         url: ws + 'AlmacenCargado',
         type: 'post',
         cache: false,
