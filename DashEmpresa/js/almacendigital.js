@@ -391,24 +391,13 @@ function CargaArchivoCloud(){
                         n = n + 1;
                     }
                     
-                    $.ajax({
-                        async: false,
-                        url: ws + 'AlmacenCargado',
-                        type: 'post',
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        data:datos,
-                        success: function(response){
-                            resp = JSON.parse(response);
-                            if(resp["error"]==0){
-                                result[i] = resp["archivos"];
-                            }else{                                                                        
-                                i = repeticiones; //Para salir del For
-                                status = false;
-                            }
-                        }
-                    });                        
+                    result[i] = AjaxCloud(datos);
+
+                    if(result[i] == false){
+                        i = repeticiones; //Para salir del For
+                        status = false;
+                    }
+                       
                 }
 
                 if(status == true){
@@ -454,6 +443,33 @@ function CargaArchivoCloud(){
         document.getElementById("btnCargaCloud").disabled = false;
         document.getElementById("btnCargaCloud").innerHTML = "Continuar";        
     }   
+
+}
+
+function AjaxCloud(datos){
+    var status = true;
+    var respuesta;
+    $.ajax({
+        async: false,
+        url: ws + 'AlmacenCargado',
+        type: 'post',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data:datos,
+        success: function(response){
+            var resp = JSON.parse(response);
+            if(resp["error"]==0){
+                //result[i] = resp["archivos"];
+                respuesta = resp["archivos"];
+            }else{                                                                        
+                //i = repeticiones; //Para salir del For
+                respuesta = false;
+            }
+        }
+    });
+
+    return respuesta;
 
 }
 
