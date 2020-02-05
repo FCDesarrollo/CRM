@@ -645,7 +645,7 @@ function cargarArchivos(){
     }
 }
 
-function ImprimeDetalle(arcSubidos){
+function ImprimeDetallePrueba(arcSubidos){
 
     $("#expalm").addClass('d-none');
     $("#DivArchivoDetalle").removeClass('d-none');
@@ -681,6 +681,45 @@ function ImprimeDetalle(arcSubidos){
         }
     
     }
+
+    btnregresar = 2;
+
+}
+
+function ImprimeDetalle(arcSubidos){
+
+    $("#expalm").addClass('d-none');
+    $("#DivArchivoDetalle").removeClass('d-none');
+    $("#t-ArchivoDetalle tbody").children().remove(); 
+    
+    var mensaje = "";
+    var detalle = "";
+    for (var i = 0; i < arcSubidos.length; i++) {
+        if(arcSubidos[i].status == 0){
+            cargado = "Si";
+            detalle = arcSubidos[i].detalle;
+        }else{
+            cargado = "No";
+            detalle = arcSubidos[i].detalle;
+        }
+        if(arcSubidos[i].status == 0){
+            document.getElementById("t-ArchivoDetalle").innerHTML +=
+            "<tr> \
+                <td><a href='"+arcSubidos[i].link+"' target='_blank'>"+arcSubidos[i].archivo+"</a></td> \
+                <td>"+cargado+"</td> \
+                <td>"+detalle+"</td> \
+            </tr>";            
+        }else{
+            document.getElementById("t-ArchivoDetalle").innerHTML +=
+            "<tr class='bg-danger'> \
+                <td class='tx-black'>"+arcSubidos[i].archivo+"</td> \
+                <td class='tx-black'>"+cargado+"</td> \
+                <td class='tx-black'>"+detalle+"</td> \
+            </tr>";                        
+        }
+    }
+    
+    
 
     btnregresar = 2;
 
