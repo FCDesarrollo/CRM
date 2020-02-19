@@ -52,6 +52,7 @@ const SubProveedores = 35;
 const SubConstitucion = 36;
 const SubActivos = 37;
 const SubPublicaciones = 38;
+const SubImpuestos = 67;
 
 
 var datosuser;

@@ -21,32 +21,37 @@
     	<p class="mg-b-30"></p>	
 
 		<div class="row">
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10 act_title" <?= ($perMod->SubMenu_Permiso(SubMen_Gobierno)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubGobierno, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Gobierno</button>
 			</div>
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Bancos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubBancos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Bancos</button>
 			</div>
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_RecursosHumanos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubRecursosHumanos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Recursos Humanos</button>
-			</div>
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
-	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Clientes)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubClientes, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Clientes</button>
 			</div>
 		</div>
 		<div class="row justify-content-around">
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Clientes)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubClientes, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Clientes</button>
+			</div>			
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Proveedores)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubProveedores, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Proveedores</button>
 			</div>									
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Constitucion)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubConstitucion, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Constitucion</button>
-			</div>			
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+			</div>								
+		</div>
+		<div class="row justify-content-around">
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Activos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubActivos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Activos</button>
 			</div>
-	        <div class="col-sm-3 mg-t-20 mg-sm-t-0">	          
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
 	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Publicaciones)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubPublicaciones, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Publicaciones</button>
-			</div>						
+			</div>	
+	        <div class="col-sm-4 mg-t-20 mg-sm-t-0">	          
+	            <button class="btn btn-outline-primary btn-block mg-b-10" <?= ($perMod->SubMenu_Permiso(SubMen_Impuestos)==0) ? 'disabled' : ''; ?> onclick="ExpDigitales(ModBandejaEntrada, MenuAlmacenDigitalExp, SubImpuestos, '<?php echo $_SESSION['RFCEmpresa']; ?>')">Impuestos</button>
+			</div>				
 		</div>
 
 	</div>

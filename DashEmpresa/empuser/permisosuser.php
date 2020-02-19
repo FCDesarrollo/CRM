@@ -72,6 +72,7 @@ const Men_AlmacenDigitalExp = 10;
     const SubMen_Constitucion = 36;
     const SubMen_Activos = 37;
     const SubMen_Publicaciones = 38;
+    const SubMen_Impuestos = 67;
 
 
 class PermisosUsuario
